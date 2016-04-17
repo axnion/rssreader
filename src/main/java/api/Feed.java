@@ -39,6 +39,19 @@ public class Feed
     }
 
     /**
+     * Constructor
+     * @param url The URL to the XML file
+     */
+    public Feed(String url)
+    {
+        title = "";
+        link = "";
+        description = "";
+        items = new Item[10000000];         //CHANGE THIS!!!!!
+        urlToXML = url;
+    }
+
+    /**
      * @return A String containing the title of the feed
      */
     public String getTitle()
@@ -73,7 +86,7 @@ public class Feed
     /**
      * @return A String containging the url to the XML file
      */
-    public String geturlToXML()
+    public String getUrlToXML()
     {
         return urlToXML;
     }
@@ -118,17 +131,23 @@ public class Feed
      * Sets the path to the XML file we got the feed to the new one in the argument
      * @param urlToXML A String containing the URL to the XML file.
      */
-    public void seturlToXML(String urlToXML)
+    public void setUrlToXML(String urlToXML)
     {
         this.urlToXML = urlToXML;
     }
 
     public void update()
     {
-        throw new RuntimeException("update() not impemented");
+        Feed feed = getXml();
+
+        setTitle(feed.getTitle());
+        setLink(feed.getLink());
+        setDescription(feed.getDescription());
+
+        setItems(feed.getItems());
     }
 
-    private void getXml()
+    private Feed getXml()
     {
         DocumentBuilderFactory factory;
         DocumentBuilder builder;
@@ -148,11 +167,12 @@ public class Feed
 
         Feed feed = new Feed();
         feed.setTitle(document.getElementsByTagName("title").item(0).getFirstChild().getNodeValue());
-        feed.setDescription(document.getElementsByTagName("description").item(0).getFirstChild().getNodeValue());
         feed.setLink(document.getElementsByTagName("link").item(0).getFirstChild().getNodeValue());
+        feed.setDescription(document.getElementsByTagName("description").item(0).getFirstChild().getNodeValue());
 
         NodeList items = document.getElementsByTagName("item");
-        Element item = null;
+        Item item = new Item();
+        Element itemElement = null;
         String itemTitle = "";
         String itemLink = "";
         String itemDescription = "";
@@ -163,11 +183,11 @@ public class Feed
             itemLink = "";
             itemDescription = "";
             itemId = "";
-            item = (Element) items.item(i);
+            itemElement = (Element) items.item(i);
 
             try
             {
-                itemTitle = item.getElementsByTagName("title").item(0).getFirstChild().getNodeValue();
+                itemTitle = itemElement.getElementsByTagName("title").item(0).getFirstChild().getNodeValue();
             }
             catch(NullPointerException err)
             {
@@ -176,7 +196,7 @@ public class Feed
 
             try
             {
-                itemDescription = item.getElementsByTagName("description").item(0).getFirstChild().getNodeValue();
+                itemDescription = itemElement.getElementsByTagName("description").item(0).getFirstChild().getNodeValue();
             }
             catch(NullPointerException err)
             {
@@ -185,7 +205,7 @@ public class Feed
 
             try
             {
-                itemLink = item.getElementsByTagName("link").item(0).getFirstChild().getNodeValue();
+                itemLink = itemElement.getElementsByTagName("link").item(0).getFirstChild().getNodeValue();
             }
             catch(NullPointerException err)
             {
@@ -194,14 +214,17 @@ public class Feed
 
             try
             {
-                itemId = item.getElementsByTagName("GUID").item(0).getFirstChild().getNodeValue();
+                itemId = itemElement.getElementsByTagName("guid").item(0).getFirstChild().getNodeValue();
             }
             catch(NullPointerException err)
             {
                 err.printStackTrace();
             }
+
+            feed.addItem(new Item(itemTitle, itemLink, itemDescription, itemId, false, false));
         }
-        addItem(new Item(itemTitle, itemLink, itemDescription, itemId, false, false));
+
+        return feed;
     }
 
     private void addItem(Item newItem)
