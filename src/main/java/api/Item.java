@@ -99,6 +99,36 @@ public class Item
     {
         return starred;
     }
+
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
+
+    public void setLink(String link)
+    {
+        this.link = link;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+
+    public void setVisited(boolean visited)
+    {
+        this.visited = visited;
+    }
+
+    public void setStarred(boolean starred)
+    {
+        this.starred = starred;
+    }
 }
 
 // Created: 2016-04-17

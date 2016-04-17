@@ -6,6 +6,7 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.util.ArrayList;
 
 /**
  * Class Feed
@@ -23,7 +24,7 @@ public class Feed
     private String title;
     private String link;
     private String description;
-    private Item[] items;
+    private ArrayList<Item> items;
     private String urlToXML;
 
     /**
@@ -34,7 +35,7 @@ public class Feed
         title = "";
         link = "";
         description = "";
-        items = new Item[10000000];         //CHANGE THIS!!!!!
+        items = new ArrayList<>();
         urlToXML = "";
     }
 
@@ -47,7 +48,7 @@ public class Feed
         title = "";
         link = "";
         description = "";
-        items = new Item[10000000];         //CHANGE THIS!!!!!
+        items = new ArrayList<>();
         urlToXML = url;
     }
 
@@ -76,9 +77,9 @@ public class Feed
     }
 
     /**
-     * @return An array of Item objects that represents the items in the feed
+     * @return An ArrayList of Item objects that represents the items in the feed
      */
-    public Item[] getItems()
+    public ArrayList<Item> getItems()
     {
         return items;
     }
@@ -120,9 +121,9 @@ public class Feed
 
     /**
      * Sets a new refrence to the items array from the items argument
-     * @param items A refrence to an array of Item objects
+     * @param items A ArrayListof Item objects
      */
-    public void setItems(Item[] items)
+    public void setItems(ArrayList<Item> items)
     {
         this.items = items;
     }
@@ -136,107 +137,120 @@ public class Feed
         this.urlToXML = urlToXML;
     }
 
+    /**
+     * Updates the object by checking the XML file for new items and syncing them to the object
+     */
     public void update()
     {
-        Feed feed = getXml();
-
-        setTitle(feed.getTitle());
-        setLink(feed.getLink());
-        setDescription(feed.getDescription());
-
-        setItems(feed.getItems());
+        ArrayList<Item> upToDateItems = getXml();
+        syncItems(upToDateItems);
     }
 
-    private Feed getXml()
+    /**
+     * Takes the URL to the XML file and downloads the document. Then the title, link and
+     * description is updated. Then an array of Item objects are created from the data in the XML
+     * file.
+     * @return An ArrayList of Item objects from the XML file
+     */
+    private ArrayList<Item> getXml()
     {
-        DocumentBuilderFactory factory;
-        DocumentBuilder builder;
-        Document document = null;
-
+        ArrayList<Item> itemsArray = new ArrayList<>();
         try
         {
-            factory = DocumentBuilderFactory.newInstance();
-            builder = factory.newDocumentBuilder();
-            document = builder.parse(urlToXML);
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(urlToXML);
             document.getDocumentElement().normalize();
+
+            setTitle(document.getElementsByTagName("title").item(0).getFirstChild().getNodeValue());
+            setLink(document.getElementsByTagName("link").item(0).getFirstChild().getNodeValue());
+            setDescription(document.getElementsByTagName("description").item(0).getFirstChild().getNodeValue());
+
+            NodeList itemsList = document.getElementsByTagName("item");
+            Element itemElement;
+            for(int i = 0; i < itemsList.getLength(); i++)
+            {
+                itemElement = (Element) itemsList.item(i);
+                Item item = new Item();
+
+                try
+                {
+                    item.setTitle(itemElement.getElementsByTagName("title").item(0).getFirstChild().getNodeValue());
+                }
+                catch(NullPointerException err)
+                {
+                    err.printStackTrace();
+                }
+
+                try
+                {
+                    item.setDescription(itemElement.getElementsByTagName("description").item(0).getFirstChild().getNodeValue());
+                }
+                catch(NullPointerException err)
+                {
+                    err.printStackTrace();
+                }
+
+                try
+                {
+                    item.setLink(itemElement.getElementsByTagName("link").item(0).getFirstChild().getNodeValue());
+                }
+                catch(NullPointerException err)
+                {
+                    err.printStackTrace();
+                }
+
+                try
+                {
+                    item.setId(itemElement.getElementsByTagName("guid").item(0).getFirstChild().getNodeValue());
+                }
+                catch(NullPointerException err)
+                {
+                    err.printStackTrace();
+                }
+
+                itemsArray.add(item);
+            }
         }
         catch(Exception err)
         {
             err.printStackTrace();
         }
 
-        Feed feed = new Feed();
-        feed.setTitle(document.getElementsByTagName("title").item(0).getFirstChild().getNodeValue());
-        feed.setLink(document.getElementsByTagName("link").item(0).getFirstChild().getNodeValue());
-        feed.setDescription(document.getElementsByTagName("description").item(0).getFirstChild().getNodeValue());
-
-        NodeList items = document.getElementsByTagName("item");
-        Item item = new Item();
-        Element itemElement = null;
-        String itemTitle = "";
-        String itemLink = "";
-        String itemDescription = "";
-        String itemId = "";
-        for(int i = 0; i < items.getLength(); i++)
-        {
-            itemTitle = "";
-            itemLink = "";
-            itemDescription = "";
-            itemId = "";
-            itemElement = (Element) items.item(i);
-
-            try
-            {
-                itemTitle = itemElement.getElementsByTagName("title").item(0).getFirstChild().getNodeValue();
-            }
-            catch(NullPointerException err)
-            {
-                err.printStackTrace();
-            }
-
-            try
-            {
-                itemDescription = itemElement.getElementsByTagName("description").item(0).getFirstChild().getNodeValue();
-            }
-            catch(NullPointerException err)
-            {
-                err.printStackTrace();
-            }
-
-            try
-            {
-                itemLink = itemElement.getElementsByTagName("link").item(0).getFirstChild().getNodeValue();
-            }
-            catch(NullPointerException err)
-            {
-                err.printStackTrace();
-            }
-
-            try
-            {
-                itemId = itemElement.getElementsByTagName("guid").item(0).getFirstChild().getNodeValue();
-            }
-            catch(NullPointerException err)
-            {
-                err.printStackTrace();
-            }
-
-            feed.addItem(new Item(itemTitle, itemLink, itemDescription, itemId, false, false));
-        }
-
-        return feed;
+        return itemsArray;
     }
 
-    private void addItem(Item newItem)
+    /**
+     * Takes an array of Item object and compares it to the objects array of Item objects. We want
+     * all new object in the correct order in the beginning, but still maintain the old objects with
+     * their fields untouched.
+     * @param upToDateItems An ArrayList containing an up to date list of Item object
+     */
+    private void syncItems(ArrayList<Item> upToDateItems)
     {
-        for(int i = 0; i < items.length; i++)
+        ArrayList<Item> itemList = new ArrayList<Item>();
+        int counter = 0;
+
+        if(items.size() == 0)
         {
-            if(items[i] == null)
+            itemList = upToDateItems;
+        }
+        else
+        {
+            while(upToDateItems.get(counter).equals(items.get(0)))
             {
-                items[i] = newItem;
-                break;
+                itemList.add(upToDateItems.get(counter));
+                counter++;
             }
         }
+
+        for(int i = 0; i < items.size(); i++)
+        {
+            System.out.println("MJAU");
+            itemList.add(items.get(i));
+        }
+
+        setItems(itemList);
     }
 }
 

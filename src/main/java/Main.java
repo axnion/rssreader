@@ -1,6 +1,7 @@
 import api.Feed;
 import api.Item;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -13,11 +14,11 @@ public class Main
 {
     public static void main(String[] args)
     {
-        System.out.print("URL TO RSS FEED: ");
-        Scanner scan = new Scanner(System.in);
-        String url = scan.nextLine();
+//        System.out.print("URL TO RSS FEED: ");
+//        Scanner scan = new Scanner(System.in);
+//        String url = scan.nextLine();
 
-        Feed feed = new Feed(url);
+        Feed feed = new Feed("http://feeds.feedburner.com/sakerhetspodcasten");
         feed.update();
 
         System.out.println("TITLE: " + feed.getTitle());
@@ -26,7 +27,7 @@ public class Main
         System.out.println("URLTOXML: " + feed.getUrlToXML());
         System.out.println("");
 
-        Item[] items = feed.getItems();
+        ArrayList<Item> items = feed.getItems();
 
         for(Item item : items)
         {
@@ -38,6 +39,9 @@ public class Main
             System.out.println("DESCRIPTION: " + item.getDescription());
             System.out.println("ID: " + item.getId());
         }
+
+//        System.out.print("Press any key to quit...");
+//        scan.nextLine();
     }
 }
 
