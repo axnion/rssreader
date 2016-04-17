@@ -1,5 +1,12 @@
 package api;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 /**
  * Class Feed
  *
@@ -17,7 +24,7 @@ public class Feed
     private String link;
     private String description;
     private Item[] items;
-    private String pathToXML;
+    private String urlToXML;
 
     /**
      * Constructor
@@ -27,8 +34,8 @@ public class Feed
         title = "";
         link = "";
         description = "";
-        items = null;
-        pathToXML = "";
+        items = new Item[10000000];         //CHANGE THIS!!!!!
+        urlToXML = "";
     }
 
     /**
@@ -66,9 +73,9 @@ public class Feed
     /**
      * @return A String containging the url to the XML file
      */
-    public String getPathToXML()
+    public String geturlToXML()
     {
-        return pathToXML;
+        return urlToXML;
     }
 
     /**
@@ -109,11 +116,11 @@ public class Feed
 
     /**
      * Sets the path to the XML file we got the feed to the new one in the argument
-     * @param pathToXML A String containing the URL to the XML file.
+     * @param urlToXML A String containing the URL to the XML file.
      */
-    public void setPathToXML(String pathToXML)
+    public void seturlToXML(String urlToXML)
     {
-        this.pathToXML = pathToXML;
+        this.urlToXML = urlToXML;
     }
 
     public void update()
@@ -123,7 +130,90 @@ public class Feed
 
     private void getXml()
     {
-        throw new RuntimeException("getXml() not impemented");
+        DocumentBuilderFactory factory;
+        DocumentBuilder builder;
+        Document document = null;
+
+        try
+        {
+            factory = DocumentBuilderFactory.newInstance();
+            builder = factory.newDocumentBuilder();
+            document = builder.parse(urlToXML);
+            document.getDocumentElement().normalize();
+        }
+        catch(Exception err)
+        {
+            err.printStackTrace();
+        }
+
+        Feed feed = new Feed();
+        feed.setTitle(document.getElementsByTagName("title").item(0).getFirstChild().getNodeValue());
+        feed.setDescription(document.getElementsByTagName("description").item(0).getFirstChild().getNodeValue());
+        feed.setLink(document.getElementsByTagName("link").item(0).getFirstChild().getNodeValue());
+
+        NodeList items = document.getElementsByTagName("item");
+        Element item = null;
+        String itemTitle = "";
+        String itemLink = "";
+        String itemDescription = "";
+        String itemId = "";
+        for(int i = 0; i < items.getLength(); i++)
+        {
+            itemTitle = "";
+            itemLink = "";
+            itemDescription = "";
+            itemId = "";
+            item = (Element) items.item(i);
+
+            try
+            {
+                itemTitle = item.getElementsByTagName("title").item(0).getFirstChild().getNodeValue();
+            }
+            catch(NullPointerException err)
+            {
+                err.printStackTrace();
+            }
+
+            try
+            {
+                itemDescription = item.getElementsByTagName("description").item(0).getFirstChild().getNodeValue();
+            }
+            catch(NullPointerException err)
+            {
+                err.printStackTrace();
+            }
+
+            try
+            {
+                itemLink = item.getElementsByTagName("link").item(0).getFirstChild().getNodeValue();
+            }
+            catch(NullPointerException err)
+            {
+                err.printStackTrace();
+            }
+
+            try
+            {
+                itemId = item.getElementsByTagName("GUID").item(0).getFirstChild().getNodeValue();
+            }
+            catch(NullPointerException err)
+            {
+                err.printStackTrace();
+            }
+        }
+        addItem(new Item(itemTitle, itemLink, itemDescription, itemId, false, false));
+    }
+
+    private void addItem(Item newItem)
+    {
+        for(int i = 0; i < items.length; i++)
+        {
+            if(items[i] == null)
+            {
+                items[i] = newItem;
+                break;
+            }
+        }
     }
 }
 
