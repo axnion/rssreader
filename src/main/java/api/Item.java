@@ -45,6 +45,7 @@ public class Item
     public Item(String title, String link, String description, String id, boolean visited, boolean starred)
     {
         this.title = title;
+        this.link = link;
         this.description = description;
         this.id = id;
         this.visited = visited;
@@ -60,7 +61,15 @@ public class Item
     }
 
     /**
-     * @return A String containing the description of the item
+     * @return A String containing the URL to the content of the item
+     */
+    public String getLink()
+    {
+        return link;
+    }
+
+    /**
+     * @return A String containing a description of the item
      */
     public String getDescription()
     {
@@ -68,7 +77,7 @@ public class Item
     }
 
     /**
-     * @return A String containing the ID of the item
+     * @return A String containing the unique ID of the item
      */
     public String getId()
     {
