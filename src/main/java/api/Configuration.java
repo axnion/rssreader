@@ -16,6 +16,12 @@ public class Configuration
     private Feed[] feeds;
     private File configFile;
 
+    public Configuration()
+    {
+        feeds = null;
+        configFile = null;
+    }
+
     public Configuration(String pathToConfig)
     {
         configFile = new File(pathToConfig);
@@ -30,6 +36,12 @@ public class Configuration
                 System.out.println("Could not create configuration file");
             }
         }
+    }
+
+    public void update()
+    {
+        // Check Feed for updates, returns true if found something new, if not false.
+        // If previous was true then update itemList, if false do not update.
     }
 
     public void saveConfigurationFile()
@@ -50,13 +62,19 @@ public class Configuration
         ObjectMapper mapper = new ObjectMapper();
         try
         {
-            mapper.readValue(configFile, Configuration.class);
+            Configuration config = mapper.readValue(configFile, Configuration.class);
+            feeds = config.feeds;
+            configFile = config.configFile;
         }
         catch(IOException err)
         {
             err.printStackTrace();
         }
     }
+
+    /*
+    ------------------------------- ACCESSORS AND MUTATORS -----------------------------------------
+    */
 
     public Feed[] getFeeds()
     {

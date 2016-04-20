@@ -52,6 +52,10 @@ public class Item
         this.starred = starred;
     }
 
+    /*
+    ------------------------------- ACCESSORS AND MUTATORS -----------------------------------------
+    */
+
     /**
      * @return A String containing the title of the item
      */
