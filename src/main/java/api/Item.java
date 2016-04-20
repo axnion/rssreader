@@ -12,11 +12,11 @@ package api;
  */
 public class Item
 {
-    private String title;
-    private String link;
-    private String description;
-    private String id;
-    private boolean visited;
+    private String title;           // The title of the item
+    private String link;            // The link to the content of the item
+    private String description;     // A descriptive text about the item
+    private String id;              // A unique ID for this item
+    private boolean visited;        // True if user has visited the
     private boolean starred;
 
     /**

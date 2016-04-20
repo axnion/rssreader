@@ -4,6 +4,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.ArrayList;
@@ -21,11 +22,11 @@ import java.util.ArrayList;
  */
 public class Feed
 {
-    private String title;
-    private String link;
-    private String description;
-    private ArrayList<Item> items;
-    private String urlToXML;
+    private String title;           // The title of the feed
+    private String link;            // Link to the feeds website
+    private String description;     // A description about the feed
+    private Item[] items;           // An array holding the items in the feed
+    private String urlToXML;        // The URL to the XML file, used when updating the feed
 
     /**
      * Constructor
@@ -35,7 +36,7 @@ public class Feed
         title = "";
         link = "";
         description = "";
-        items = new ArrayList<>();
+        items = new Item[0];
         urlToXML = "";
     }
 
@@ -48,7 +49,7 @@ public class Feed
         title = "";
         link = "";
         description = "";
-        items = new ArrayList<>();
+        items = new Item[0];
         urlToXML = url;
     }
 
@@ -79,7 +80,7 @@ public class Feed
     /**
      * @return An ArrayList of Item objects that represents the items in the feed
      */
-    public ArrayList<Item> getItems()
+    public Item[] getItems()
     {
         return items;
     }
@@ -123,7 +124,7 @@ public class Feed
      * Sets a new refrence to the items array from the items argument
      * @param items A ArrayListof Item objects
      */
-    public void setItems(ArrayList<Item> items)
+    public void setItems(Item[]items)
     {
         this.items = items;
     }
@@ -228,29 +229,33 @@ public class Feed
      */
     private void syncItems(ArrayList<Item> upToDateItems)
     {
+        ArrayList<Item> oldItems = new ArrayList<>();
         ArrayList<Item> itemList = new ArrayList<Item>();
+        Item[] newItemsList;
         int counter = 0;
 
-        if(items.size() == 0)
-        {
+        for(int i = 0; i < items.length; i++)
+            oldItems.add(items[i]);
+
+        if(oldItems.size() == 0)
             itemList = upToDateItems;
-        }
         else
         {
-            while(upToDateItems.get(counter).equals(items.get(0)))
+            while(upToDateItems.get(counter).equals(oldItems.get(0)))
             {
                 itemList.add(upToDateItems.get(counter));
                 counter++;
             }
         }
 
-        for(int i = 0; i < items.size(); i++)
-        {
-            System.out.println("MJAU");
-            itemList.add(items.get(i));
-        }
+        for(int i = 0; i < oldItems.size(); i++)
+            itemList.add(oldItems.get(i));
 
-        setItems(itemList);
+        newItemsList = new Item[itemList.size()];
+        for(int i = 0; i < itemList.size(); i++)
+            newItemsList[i] = itemList.get(i);
+
+        setItems(newItemsList);
     }
 }
 
