@@ -2,7 +2,8 @@ group 'tech.axelnilsson'
 version '0.1'
 
 apply plugin: 'java'
-apply plugin: 'application'
+apply plugin: 'jacoco'
+apply from: 'http://dl.bintray.com/content/shemnon/javafx-gradle/8.1.1/javafx.plugin'
 
 sourceCompatibility = 8
 
@@ -15,13 +16,41 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.0.1'
     testCompile "org.mockito:mockito-core:1.+"
+    compile 'org.bitbucket.shemnon.javafxplugin:gradle-javafx-plugin:8.1.1'
 }
 
 jar.from configurations.compile.collect {zipTree it}
 
 jar.manifest {
-
-    attributes "Main-Class": "Main"
+    attributes 'Main-Class': 'Main'
 }
 
-mainClassName = "Main"
+javafx {
+    appID 'RSSReader'
+    appName 'RSSReader'
+    mainClass 'Main'
+
+    jvmArgs = ['-XX:+AggressiveOpts', '-XX:CompileThreshold=1']
+    systemProperties = [ 'prism.disableRegionCaching':'true' ]
+    arguments = ['-l', '--fast']
+
+    embedLauncher = true
+
+    // deploy/info attributes
+    category = 'Application'
+    copyright = 'Copyright (c) 2016 Axnion'
+    description = 'This si just a test'
+    licenseType = 'Apache 2.0'
+    vendor = 'Axnion'
+    installSystemWide = true
+    menu = true
+    shortcut = true
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled true
+        html.destination "${buildDir}/jacocoHtml"
+    }
+}
