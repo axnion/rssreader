@@ -14,11 +14,13 @@ import java.io.IOException;
 public class Configuration
 {
     private Feed[] feeds;
+    private ItemList itemList;
     private File configFile;
 
     public Configuration()
     {
         feeds = null;
+        itemList = null;
         configFile = null;
     }
 
