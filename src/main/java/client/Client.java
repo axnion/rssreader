@@ -3,7 +3,9 @@ package client;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -21,13 +23,27 @@ public class Client extends Application
 
     public void start(Stage primaryStage)
     {
-        primaryStage.setTitle("Hello World!");
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
+        primaryStage.setTitle("RSSReader");
 
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        primaryStage.setScene(new Scene(root, 300, 250));
+        VBox root = new VBox();
+        HBox urlInputArea = new HBox();
+        VBox feedList = new VBox();
+        VBox itemList = new VBox();
+
+        // urlInputArea
+        TextField urlInput = new TextField();
+        urlInput.setMinWidth(300);
+        Button btn = new Button();
+        btn.setText("Add");
+        urlInputArea.getChildren().addAll(urlInput, btn);
+        btn.setOnAction((event) ->
+        {
+
+        });
+
+        root.getChildren().addAll(urlInputArea, feedList, itemList);
+
+        primaryStage.setScene(new Scene(root, 500, 1000));
         primaryStage.show();
     }
 }
