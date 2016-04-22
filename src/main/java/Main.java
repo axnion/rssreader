@@ -2,6 +2,7 @@
 import api.Configuration;
 import api.Feed;
 import api.Item;
+import client.Client;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,59 +17,43 @@ import javafx.stage.Stage;
  */
 public class Main
 {
+
     public static void main(String[] args)
     {
-        Configuration config = new Configuration("C:\\Development\\1DV430\\test.json");
-        config.loadConfigurationFile();
-
-        Feed[] feeds = config.getFeeds();
-
-        for(Feed feed : feeds)
-        {
-            System.out.println("TITLE: " + feed.getTitle());
-            System.out.println("LINK: " + feed.getLink());
-            System.out.println("DESCRIPTION: " + feed.getDescription());
-            System.out.println("URLTOXML: " + feed.getUrlToXML());
-            System.out.println("");
-
-            Item[] items = feed.getItems();
-
-            for(Item item : items)
-            {
-                if(item == null)
-                    break;
-
-                System.out.println("TITLE: " + item.getTitle());
-                System.out.println("LINK: " + item.getLink());
-                System.out.println("DESCRIPTION: " + item.getDescription());
-                System.out.println("ID: " + item.getId());
-            }
-        }
+        Client client = new Client();
+        client.launchJavaFX();
     }
-
-
-
 
 
 //    public static void main(String[] args)
 //    {
-//        launch(args);
-//    }
+//        Configuration config = new Configuration("C:\\Development\\1DV430\\test.json");
+//        config.loadConfigurationFile();
 //
-//    public void start(Stage primaryStage)
-//    {
-//        primaryStage.setTitle("Hello World!");
-//        Button btn = new Button();
-//        btn.setText("Say 'Hello World'");
+//        Feed[] feeds = config.getFeeds();
 //
-//        StackPane root = new StackPane();
-//        root.getChildren().add(btn);
-//        primaryStage.setScene(new Scene(root, 300, 250));
-//        primaryStage.show();
+//        for(Feed feed : feeds)
+//        {
+//            System.out.println("TITLE: " + feed.getTitle());
+//            System.out.println("LINK: " + feed.getLink());
+//            System.out.println("DESCRIPTION: " + feed.getDescription());
+//            System.out.println("URLTOXML: " + feed.getUrlToXML());
+//            System.out.println("");
+//
+//            Item[] items = feed.getItems();
+//
+//            for(Item item : items)
+//            {
+//                if(item == null)
+//                    break;
+//
+//                System.out.println("TITLE: " + item.getTitle());
+//                System.out.println("LINK: " + item.getLink());
+//                System.out.println("DESCRIPTION: " + item.getDescription());
+//                System.out.println("ID: " + item.getId());
+//            }
+//        }
 //    }
-
-
-
 
 //    public static void main(String[] args)
 //    {
