@@ -1,6 +1,5 @@
 package client;
 
-import api.Feed;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
@@ -12,10 +11,10 @@ import javafx.scene.text.Text;
  */
 public class FeedBox extends HBox
 {
-    public FeedBox(Feed feed)
+    public FeedBox()
     {
         Text text = new Text();
-        text.setText(feed.getTitle());
+        text.setText("Not implemented");
         this.getChildren().add(text);
     }
 }

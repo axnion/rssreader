@@ -12,10 +12,10 @@ import javafx.scene.text.Text;
  */
 public class ItemBox extends HBox
 {
-    public ItemBox(Item item)
+    public ItemBox()
     {
         Text text = new Text();
-        text.setText(item.getTitle());
+        text.setText("Not implemented");
         this.getChildren().add(text);
     }
 }
