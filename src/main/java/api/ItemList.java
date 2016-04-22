@@ -17,7 +17,7 @@ public class ItemList
 
     private Item[] items;
 
-    public ItemList()
+    ItemList()
     {
         name = "";
         sorting = "";
@@ -25,7 +25,7 @@ public class ItemList
         items = null;
     }
 
-    public ItemList(String name)
+    ItemList(String name)
     {
         this.name = name;
         sorting = "";
@@ -33,7 +33,7 @@ public class ItemList
         items = null;
     }
 
-    public void addFeed(String feedUrl)
+    void addFeed(String feedUrl)
     {
         String[] newFeedUrlList = new String[feedUrls.length + 1];
         int i;
@@ -51,7 +51,7 @@ public class ItemList
         setFeedUrls(newFeedUrlList);
     }
 
-    public void removeFeed(String feedUrl)
+    void removeFeed(String feedUrl)
     {
         String[] newFeedUrlList = new String[feedUrls.length - 1];
         boolean exists = false;
@@ -70,7 +70,7 @@ public class ItemList
             setFeedUrls(newFeedUrlList);
     }
 
-    public void update(Feed[] feeds)
+    void update(Feed[] feeds)
     {
         Item[] newList = null;
 
@@ -122,17 +122,17 @@ public class ItemList
         return feedUrls;
     }
 
-    public void setName(String name)
+    void setName(String name)
     {
         this.name = name;
     }
 
-    public void setSorting(String sorting)
+    void setSorting(String sorting)
     {
         this.sorting = sorting;
     }
 
-    public void setFeedUrls(String[] feedUrls)
+    void setFeedUrls(String[] feedUrls)
     {
         this.feedUrls = feedUrls;
     }

@@ -22,7 +22,7 @@ public class Item
     /**
      * Constructor
      */
-    public Item()
+    Item()
     {
         title = "";
         link = "";
@@ -42,7 +42,7 @@ public class Item
      * @param visited       True if the user has visited the item, if not then false
      * @param starred       True if the user has starred this item, if not then false.
      */
-    public Item(String title, String link, String description, String id, boolean visited, boolean starred)
+    Item(String title, String link, String description, String id, boolean visited, boolean starred)
     {
         this.title = title;
         this.link = link;
@@ -104,32 +104,32 @@ public class Item
         return starred;
     }
 
-    public void setTitle(String title)
+    void setTitle(String title)
     {
         this.title = title;
     }
 
-    public void setLink(String link)
+    void setLink(String link)
     {
         this.link = link;
     }
 
-    public void setDescription(String description)
+    void setDescription(String description)
     {
         this.description = description;
     }
 
-    public void setId(String id)
+    void setId(String id)
     {
         this.id = id;
     }
 
-    public void setVisited(boolean visited)
+    void setVisited(boolean visited)
     {
         this.visited = visited;
     }
 
-    public void setStarred(boolean starred)
+    void setStarred(boolean starred)
     {
         this.starred = starred;
     }

@@ -31,12 +31,12 @@ public class Feed
     /**
      * Constructor
      */
-    public Feed()
+    Feed()
     {
         title = "";
         link = "";
         description = "";
-        items = new Item[0];
+        items = null;
         urlToXML = "";
     }
 
@@ -44,19 +44,19 @@ public class Feed
      * Constructor
      * @param url The URL to the XML file
      */
-    public Feed(String url)
+    Feed(String url)
     {
         title = "";
         link = "";
         description = "";
-        items = new Item[0];
         urlToXML = url;
+        update();
     }
 
     /**
      * Updates the object by checking the XML file for new items and syncing them to the object
      */
-    public void update()
+    void update()
     {
         ArrayList<Item> upToDateItems = getXml();
         syncItems(upToDateItems);
@@ -68,7 +68,7 @@ public class Feed
      * file.
      * @return An ArrayList of Item objects from the XML file
      */
-    private ArrayList<Item> getXml()
+    ArrayList<Item> getXml()
     {
         ArrayList<Item> itemsArray = new ArrayList<>();
         try
@@ -142,7 +142,7 @@ public class Feed
      * their fields untouched.
      * @param upToDateItems An ArrayList containing an up to date list of Item object
      */
-    private void syncItems(ArrayList<Item> upToDateItems)
+    void syncItems(ArrayList<Item> upToDateItems)
     {
         ArrayList<Item> oldItems = new ArrayList<>();
         ArrayList<Item> itemList = new ArrayList<Item>();
@@ -222,7 +222,7 @@ public class Feed
      * Sets the title of the feed to the content of title argument.
      * @param title A String containing the title we want to set the feeds title to.
      */
-    public void setTitle(String title)
+    void setTitle(String title)
     {
         this.title = title;
     }
@@ -231,7 +231,7 @@ public class Feed
      * Sets the link of the feed to the content of the link argument
      * @param link A String containing a the link to the base website for this feed
      */
-    public void setLink(String link)
+    void setLink(String link)
     {
         this.link = link;
     }
@@ -240,7 +240,7 @@ public class Feed
      * Sets the description of the feed to the content of the description argument.
      * @param description A String containing a descriptive text about the feed
      */
-    public void setDescription(String description)
+    void setDescription(String description)
     {
         this.description = description;
     }
@@ -249,7 +249,7 @@ public class Feed
      * Sets a new refrence to the items array from the items argument
      * @param items A ArrayListof Item objects
      */
-    public void setItems(Item[]items)
+    void setItems(Item[]items)
     {
         this.items = items;
     }
@@ -258,7 +258,7 @@ public class Feed
      * Sets the path to the XML file we got the feed to the new one in the argument
      * @param urlToXML A String containing the URL to the XML file.
      */
-    public void setUrlToXML(String urlToXML)
+    void setUrlToXML(String urlToXML)
     {
         this.urlToXML = urlToXML;
     }
