@@ -33,14 +33,41 @@ public class ItemList
         items = null;
     }
 
-    public void add(String feedTitle)
+    public void addFeed(String feedUrl)
     {
+        String[] newFeedUrlList = new String[feedUrls.length + 1];
+        int i;
 
+        for(i = 0; i < items.length; i++)
+        {
+            if(feedUrls[i].equals(feedUrl))
+                return;
+
+            newFeedUrlList[i] = feedUrls[i];
+        }
+
+
+        newFeedUrlList[i] = feedUrl;
+        setFeedUrls(newFeedUrlList);
     }
 
-    public void remove(String feedTitle)
+    public void removeFeed(String feedUrl)
     {
+        String[] newFeedUrlList = new String[feedUrls.length - 1];
+        boolean exists = false;
 
+        for(int i = 0; i < feedUrls.length; i++)
+        {
+            if(!feedUrls[i].equals(feedUrl) && !exists)
+                newFeedUrlList[i] = feedUrls[i];
+            else if(!feedUrls[i].equals(feedUrl) && exists)
+                newFeedUrlList[i - 1] = feedUrls[i];
+            else
+                exists = true;
+        }
+
+        if(exists)
+            setFeedUrls(newFeedUrlList);
     }
 
     public void update(Feed[] feeds)
