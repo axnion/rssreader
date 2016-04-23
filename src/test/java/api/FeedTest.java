@@ -1,5 +1,10 @@
 package api;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+import org.mockito.Mockito.*;
+
 /**
  * Test Class FeedTest
  *

@@ -47,6 +47,48 @@ public class ItemTest
         assertTrue(testItem.isVisited());
         assertTrue(testItem.isStarred());
     }
+
+    /**
+     * Testing the accessors and mutators so we can determine if they are setting the correct values
+     * and returning the same values.
+     */
+    @Test
+    public void accessorsAndMutators()
+    {
+        Item testItem = new Item();
+
+        // Using mutators to set a value to every fields
+        testItem.setTitle("A Title");
+        testItem.setLink("https://www.google.se");
+        testItem.setDescription("This is a test");
+        testItem.setId("a_title");
+        testItem.setVisited(true);
+        testItem.setStarred(true);
+
+        // Using accessors to get the values of each field.
+        assertEquals(testItem.getTitle(), "A Title");
+        assertEquals(testItem.getLink(), "https://www.google.se");
+        assertEquals(testItem.getDescription(), "This is a test");
+        assertEquals(testItem.getId(), "a_title");
+        assertTrue(testItem.isVisited());
+        assertTrue(testItem.isStarred());
+
+        // Using mutators to edit each fields
+        testItem.setTitle("B Title");
+        testItem.setLink("https://www.bing.se");
+        testItem.setDescription("This is another test");
+        testItem.setId("b_title");
+        testItem.setVisited(false);
+        testItem.setStarred(false);
+
+        // Using accessors to get the values of each field.
+        assertEquals(testItem.getTitle(), "B Title");
+        assertEquals(testItem.getLink(), "https://www.bing.se");
+        assertEquals(testItem.getDescription(), "This is another test");
+        assertEquals(testItem.getId(), "b_title");
+        assertFalse(testItem.isVisited());
+        assertFalse(testItem.isStarred());
+    }
 }
 
 // Created: 2016-04-17
