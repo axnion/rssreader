@@ -28,23 +28,23 @@ dependencies {
     compile 'de.dynamicfiles.projects.gradle.plugins:javafx-gradle-plugin:8.4.1'
 }
 
-jar.from configurations.compile.collect {zipTree it}
-
-jar.manifest {
-    attributes 'Main-Class': 'Main'
-}
+//jar.from configurations.compile.collect {zipTree it}
+//
+//jar.manifest {
+//    attributes 'Main-Class': 'Main'
+//}
 
 jfx {
-    verbose = true
+    verbose = false
     mainClass = "Main"
-    jfxAppOutputDir = "build/bin/app"
+    jfxAppOutputDir = "build/bin/app/RSSReader"
     jfxMainAppJarName = "RSSReader.jar"
     deployDir = "src/main/deploy"
 
     // gradle jfxJar
     css2bin = false
     preLoader = null
-    updateExistingJar = false
+    updateExistingJar = true
     allPermissions = false
     manifestAttributes = null // Map<String, String>
     addPackagerJar = true
@@ -71,25 +71,25 @@ jfx {
     fileAssociations = null // List<Map<String, Object>>
     noBlobSigning = false // when using bundler "jnlp", you can choose to NOT use blob signing
 
-    skipNativeLauncherWorkaround124 = false
-    skipNativeLauncherWorkaround167 = false
-    skipJNLPRessourcePathWorkaround182 = false
-    skipSigningJarFilesJNLP185 = false
-    skipSizeRecalculationForJNLP185 = false
-
-    // gradle jfxGenerateKeyStore
-    keyStore = "src/main/deploy/keystore.jks"
-    keyStoreAlias = "myalias"
-    keyStorePassword = "password"
-    keyPassword = null // will default to keyStorePassword
-    keyStoreType = "jks"
-    overwriteKeyStore = false
-
-    certDomain = null // required
-    certOrgUnit = null // defaults to "none"
-    certOrg = null // required
-    certState = null // required
-    certCountry = null // required
+//    skipNativeLauncherWorkaround124 = false
+//    skipNativeLauncherWorkaround167 = false
+//    skipJNLPRessourcePathWorkaround182 = false
+//    skipSigningJarFilesJNLP185 = false
+//    skipSizeRecalculationForJNLP185 = false
+//
+//    //gradle jfxGenerateKeyStore
+//    keyStore = "src/main/deploy/keystore.jks"
+//    keyStoreAlias = "myalias"
+//    keyStorePassword = "password"
+//    keyPassword = null // will default to keyStorePassword
+//    keyStoreType = "jks"
+//    overwriteKeyStore = false
+//
+//    certDomain = null // required
+//    certOrgUnit = null // defaults to "none"
+//    certOrg = null // required
+//    certState = null // required
+//    certCountry = null // required
 }
 
 jacocoTestReport {
