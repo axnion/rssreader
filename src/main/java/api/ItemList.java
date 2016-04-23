@@ -35,17 +35,24 @@ public class ItemList
 
     void addFeed(String feedUrl)
     {
-        String[] newFeedUrlList = new String[feedUrls.length + 1];
-        int i;
-
-        for(i = 0; i < items.length; i++)
+        String[] newFeedUrlList;
+        int i = 0;
+        if(feedUrls == null)
         {
-            if(feedUrls[i].equals(feedUrl))
-                return;
-
-            newFeedUrlList[i] = feedUrls[i];
+            newFeedUrlList = new String[1];
         }
+        else
+        {
+            newFeedUrlList = new String[feedUrls.length + 1];
 
+            for(i = 0; i < feedUrls.length; i++)
+            {
+                if(feedUrls[i].equals(feedUrl))
+                    return;
+
+                newFeedUrlList[i] = feedUrls[i];
+            }
+        }
 
         newFeedUrlList[i] = feedUrl;
         setFeedUrls(newFeedUrlList);
@@ -76,7 +83,7 @@ public class ItemList
 
         for(int i = 0; i < feeds.length; i++)
         {
-            for(int j = 0; j < feedUrls.length; i++)
+            for(int j = 0; j < feedUrls.length; j++)
             {
                 if(feeds[i].getUrlToXML().equals(feedUrls[j]))
                 {
@@ -120,6 +127,11 @@ public class ItemList
     public String[] getFeedUrls()
     {
         return feedUrls;
+    }
+
+    public Item[] getItems()
+    {
+        return items;
     }
 
     void setName(String name)

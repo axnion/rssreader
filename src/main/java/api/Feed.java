@@ -149,22 +149,27 @@ public class Feed
         Item[] newItemsList;
         int counter = 0;
 
-        for(int i = 0; i < items.length; i++)
-            oldItems.add(items[i]);
-
-        if(oldItems.size() == 0)
+        if(items == null)
             itemList = upToDateItems;
         else
         {
-            while(upToDateItems.get(counter).equals(oldItems.get(0)))
-            {
-                itemList.add(upToDateItems.get(counter));
-                counter++;
-            }
-        }
+            for(int i = 0; i < items.length; i++)
+                oldItems.add(items[i]);
 
-        for(int i = 0; i < oldItems.size(); i++)
-            itemList.add(oldItems.get(i));
+            if(oldItems.size() == 0)
+                itemList = upToDateItems;
+            else
+            {
+                while(upToDateItems.get(counter).equals(oldItems.get(0)))
+                {
+                    itemList.add(upToDateItems.get(counter));
+                    counter++;
+                }
+            }
+
+            for(int i = 0; i < oldItems.size(); i++)
+                itemList.add(oldItems.get(i));
+        }
 
         newItemsList = new Item[itemList.size()];
         for(int i = 0; i < itemList.size(); i++)

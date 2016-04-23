@@ -37,7 +37,12 @@ public class Controller
             int i;
 
             for(i = 0; i < feeds.length; i++)
-                newFeedList[i] = feeds[i];
+            {
+                if(feeds[i].getUrlToXML().equals(url))
+                    throw new RuntimeException("Feed already exists");
+                else
+                    newFeedList[i] = feeds[i];
+            }
 
             newFeedList[i] = newFeed;
         }
@@ -66,6 +71,48 @@ public class Controller
 
         if(exists)
             configuration.setFeeds(newFeedList);
+    }
+
+    public void createItemList(String name)
+    {
+        ItemList newItemList = new ItemList(name);
+        ItemList[] oldList = configuration.getItemList();
+        ItemList[] newList;
+
+        if(oldList == null)
+        {
+            newList = new ItemList[1];
+            newList[0] = newItemList;
+        }
+        else
+        {
+            newList = new ItemList[oldList.length + 1];
+            int i;
+
+            for(i = 0; i < oldList.length; i++)
+            {
+                if(oldList[i].getName().equals(name))
+                    throw new RuntimeException("A list with that name already exists");
+                else
+                    newList[i] = oldList[i];
+            }
+
+            newList[i] = newItemList;
+        }
+
+        configuration.setItemList(newList);
+    }
+
+    public void removeImteList()
+    {
+
+    }
+
+    public void addFeedToItemList(int index, String url)
+    {
+        ItemList[] list = configuration.getItemList();
+        list[index].addFeed(url);
+        configuration.setItemList(list);
     }
 
     public void update()
