@@ -1,8 +1,12 @@
 package client;
 
+import api.Controller;
+import api.Feed;
+import api.ItemList;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -16,6 +20,19 @@ import javafx.stage.Stage;
  */
 public class Client extends Application
 {
+    private Controller api;
+    private VBox root;
+    private HBox urlInputArea;
+    private VBox feedList;
+    private VBox itemList;
+    private ScrollPane itemContainer;
+
+    public Client()
+    {
+        api = new Controller();
+        api.createItemList("List");
+    }
+
     public void launchJavaFX()
     {
         launch();
@@ -25,10 +42,12 @@ public class Client extends Application
     {
         primaryStage.setTitle("RSSReader");
 
-        VBox root = new VBox();
-        HBox urlInputArea = new HBox();
-        VBox feedList = new VBox();
-        VBox itemList = new VBox();
+        root = new VBox();
+        urlInputArea = new HBox();
+        feedList = new VBox();
+        itemList = new VBox();
+        itemContainer = new ScrollPane(itemList);
+
 
         // urlInputArea
         TextField urlInput = new TextField();
@@ -38,13 +57,45 @@ public class Client extends Application
         urlInputArea.getChildren().addAll(urlInput, btn);
         btn.setOnAction((event) ->
         {
-
+            api.addFeed(urlInput.getText());
+            api.addFeedToItemList(0, urlInput.getText());
+            urlInput.setText("");
+            api.update();
+            updateFeeds(api.getFeeds());
+            updateItems(api.getItemList()[0]);
         });
 
-        root.getChildren().addAll(urlInputArea, feedList, itemList);
+        feedList.getChildren().add(new FeedBox());
+        feedList.getChildren().add(new FeedBox());
+        feedList.getChildren().add(new FeedBox());
+        itemList.getChildren().add(new ItemBox());
+        itemList.getChildren().add(new ItemBox());
+        itemList.getChildren().add(new ItemBox());
+
+        root.getChildren().addAll(urlInputArea, feedList, itemContainer);
 
         primaryStage.setScene(new Scene(root, 500, 1000));
         primaryStage.show();
+    }
+
+    private void updateFeeds(Feed[] feeds)
+    {
+        feedList.getChildren().clear();
+
+        for(int i = 0; i < feeds.length; i++)
+        {
+            feedList.getChildren().add(new FeedBox(feeds[i]));
+        }
+    }
+
+    private void updateItems(ItemList items)
+    {
+        itemList.getChildren().clear();
+
+        for(int i = 0; i < items.getItems().length; i++)
+        {
+            itemList.getChildren().add(new ItemBox(items.getItems()[i]));
+        }
     }
 }
 
