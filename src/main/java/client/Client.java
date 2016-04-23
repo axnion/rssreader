@@ -6,11 +6,16 @@ import api.ItemList;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.awt.*;
 
 /**
  * Class Client
@@ -65,12 +70,8 @@ public class Client extends Application
             updateItems(api.getItemList()[0]);
         });
 
-        feedList.getChildren().add(new FeedBox());
-        feedList.getChildren().add(new FeedBox());
-        feedList.getChildren().add(new FeedBox());
-        itemList.getChildren().add(new ItemBox());
-        itemList.getChildren().add(new ItemBox());
-        itemList.getChildren().add(new ItemBox());
+        feedList.getChildren().add(new Label("Feeds"));
+        itemList.getChildren().add(new Label("ItemList"));
 
         root.getChildren().addAll(urlInputArea, feedList, itemContainer);
 
@@ -81,6 +82,7 @@ public class Client extends Application
     private void updateFeeds(Feed[] feeds)
     {
         feedList.getChildren().clear();
+        feedList.getChildren().add(new Label("Feeds"));
 
         for(int i = 0; i < feeds.length; i++)
         {
@@ -91,10 +93,19 @@ public class Client extends Application
     private void updateItems(ItemList items)
     {
         itemList.getChildren().clear();
+        itemList.getChildren().add(new Label("ItemList"));
 
         for(int i = 0; i < items.getItems().length; i++)
         {
-            itemList.getChildren().add(new ItemBox(items.getItems()[i]));
+            itemList.getChildren().add(new ItemBox(items.getItems()[i], new BrowserControl()));
+        }
+    }
+
+    class BrowserControl
+    {
+        void openLink(String url)
+        {
+            getHostServices().showDocument(url);
         }
     }
 }

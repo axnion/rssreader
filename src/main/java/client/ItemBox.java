@@ -1,8 +1,9 @@
 package client;
 
 import api.Item;
+import javafx.application.Application;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 
 /**
  * Class ItemBox
@@ -12,18 +13,17 @@ import javafx.scene.text.Text;
  */
 public class ItemBox extends HBox
 {
-    public ItemBox(Item item)
+    public ItemBox(Item item, Client.BrowserControl bc)
     {
-        Text text = new Text();
-        text.setText(item.getTitle());
-        this.getChildren().add(text);
-    }
+        Hyperlink link = new Hyperlink();
+        link.setText(item.getTitle());
 
-    public ItemBox()
-    {
-        Text text = new Text();
-        text.setText("ITEMLIST");
-        this.getChildren().add(text);
+        link.setOnAction(event ->
+        {
+            bc.openLink(item.getLink());
+        });
+
+        this.getChildren().add(link);
     }
 }
 
