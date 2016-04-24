@@ -53,7 +53,7 @@ jfx {
     identifier = null // setting this for windows-bundlers makes it possible to generate upgradeable installers (using same GUID)
     vendor = "Axel Nilsson"
     nativeOutputDir = "build/bin/native"
-    bundler = "ALL" // set this to some specific, if your don't want all bundlers running, examples "windows.app", "jnlp", ...
+    bundler = "windows.app" // set this to some specific, if your don't want all bundlers running, examples "windows.app", "jnlp", ...
     jvmProperties = [
             'prism.disableRegionCaching':'true'
     ] // Map<String, String>
