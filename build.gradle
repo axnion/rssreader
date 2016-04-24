@@ -35,7 +35,7 @@ dependencies {
 //}
 
 jfx {
-    verbose = false
+    verbose = true
     mainClass = "Main"
     jfxAppOutputDir = "build/bin/app/RSSReader"
     jfxMainAppJarName = "RSSReader.jar"
@@ -45,7 +45,7 @@ jfx {
     css2bin = false
     preLoader = null
     updateExistingJar = true
-    allPermissions = false
+    allPermissions = true
     manifestAttributes = null // Map<String, String>
     addPackagerJar = true
 
@@ -54,42 +54,43 @@ jfx {
     vendor = "Axel Nilsson"
     nativeOutputDir = "build/bin/native"
     bundler = "ALL" // set this to some specific, if your don't want all bundlers running, examples "windows.app", "jnlp", ...
-    jvmProperties = null // Map<String, String>
-    jvmArgs = null // List<String>
+    jvmProperties = [
+            'prism.disableRegionCaching':'true'
+    ] // Map<String, String>
+    jvmArgs = [
+            '-XX:+AggressiveOpts', '-XX:CompileThreshold=1'
+    ] // List<String>
     userJvmArgs = null // Map<String, String>
     launcherArguments = null // List<String>
     nativeReleaseVersion = "0.1"
     needShortcut = false
     needMenu = false
-    bundleArguments = [
-            // dont bundle JRE (not recommended, but increases build-size/-speed)
-            runtime: null
-    ]
+    bundleArguments = null
     appName = "RSSReader" // this is used for files below "src/main/deploy", e.g. "src/main/deploy/windows/project.ico"
     additionalAppResources = null // path to some additional resources when creating application-bundle
     secondaryLaunchers = null
     fileAssociations = null // List<Map<String, Object>>
     noBlobSigning = false // when using bundler "jnlp", you can choose to NOT use blob signing
 
-//    skipNativeLauncherWorkaround124 = false
-//    skipNativeLauncherWorkaround167 = false
-//    skipJNLPRessourcePathWorkaround182 = false
-//    skipSigningJarFilesJNLP185 = false
-//    skipSizeRecalculationForJNLP185 = false
-//
-//    //gradle jfxGenerateKeyStore
-//    keyStore = "src/main/deploy/keystore.jks"
-//    keyStoreAlias = "myalias"
-//    keyStorePassword = "password"
-//    keyPassword = null // will default to keyStorePassword
-//    keyStoreType = "jks"
-//    overwriteKeyStore = false
-//
-//    certDomain = null // required
-//    certOrgUnit = null // defaults to "none"
-//    certOrg = null // required
-//    certState = null // required
-//    certCountry = null // required
+    skipNativeLauncherWorkaround124 = false
+    skipNativeLauncherWorkaround167 = false
+    skipJNLPRessourcePathWorkaround182 = false
+    skipSigningJarFilesJNLP185 = false
+    skipSizeRecalculationForJNLP185 = false
+
+    //gradle jfxGenerateKeyStore
+    keyStore = "src/main/deploy/keystore.jks"
+    keyStoreAlias = "myalias"
+    keyStorePassword = "password"
+    keyPassword = null // will default to keyStorePassword
+    keyStoreType = "jks"
+    overwriteKeyStore = false
+
+    certDomain = null // required
+    certOrgUnit = null // defaults to "none"
+    certOrg = null // required
+    certState = null // required
+    certCountry = null // required
 }
 
 jacocoTestReport {
