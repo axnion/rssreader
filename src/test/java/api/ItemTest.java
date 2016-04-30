@@ -3,8 +3,6 @@ package api;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import org.mockito.Mockito.*;
-
 /**
  * Class ItemTest
  *
@@ -14,9 +12,9 @@ import org.mockito.Mockito.*;
 public class ItemTest
 {
     /**
+     * Test Case: 1
      * Testing the constructor without parameters and compare the values of the fields to the
      * expected results using the accessors.
-     *
      */
     @Test
     public void createWithoutParam()
@@ -32,6 +30,7 @@ public class ItemTest
     }
 
     /**
+     * Test Case: 2
      * Testing the constructor without parameters and compare the values of the fields to the
      * expected results using the accessors.
      */
@@ -49,6 +48,7 @@ public class ItemTest
     }
 
     /**
+     * Test Case: 3
      * Testing the accessors and mutators so we can determine if they are setting the correct values
      * and returning the same values.
      */
