@@ -1,0 +1,19 @@
+<rss>
+    <channel>
+        <title>Example Feed 1</title>
+        <description>This is a description for example feed 1</description>
+        <link>http://examplefeed1.com/</link>
+        <item>
+            <title>Example Item 1</title>
+            <description>This is an item description</description>
+            <link>http://www.google.com</link>
+            <guid>example-id-1</guid>
+        </item>
+        <item>
+            <title>Example Item 2</title>
+            <description>This is an item description</description>
+            <link>http://www.google.com</link>
+            <guid>example-id-2</guid>
+        </item>
+    </channel>
+</rss>
