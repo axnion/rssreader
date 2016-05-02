@@ -7,7 +7,9 @@ import org.w3c.dom.NodeList;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Class Feed
@@ -25,8 +27,8 @@ public class Feed
     private String title;           // The title of the feed
     private String link;            // Link to the feeds website
     private String description;     // A description about the feed
-    private Item[] items;           // An array holding the items in the feed
     private String urlToXML;        // The URL to the XML file, used when updating the feed
+    private Item[] items;           // An array holding the items in the feed
 
     /**
      * Constructor
@@ -68,69 +70,45 @@ public class Feed
      * file.
      * @return An ArrayList of Item objects from the XML file
      */
-    ArrayList<Item> getXml()
+    private ArrayList<Item> getXml()
     {
         ArrayList<Item> itemsArray = new ArrayList<>();
+        Document document;
+
         try
         {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(urlToXML);
+            document = builder.parse(urlToXML);
             document.getDocumentElement().normalize();
-
-            setTitle(document.getElementsByTagName("title").item(0).getFirstChild().getNodeValue());
-            setLink(document.getElementsByTagName("link").item(0).getFirstChild().getNodeValue());
-            setDescription(document.getElementsByTagName("description").item(0).getFirstChild().getNodeValue());
-
-            NodeList itemsList = document.getElementsByTagName("item");
-            Element itemElement;
-            for(int i = 0; i < itemsList.getLength(); i++)
-            {
-                itemElement = (Element) itemsList.item(i);
-                Item item = new Item();
-
-                try
-                {
-                    item.setTitle(itemElement.getElementsByTagName("title").item(0).getFirstChild().getNodeValue());
-                }
-                catch(NullPointerException err)
-                {
-                    err.printStackTrace();
-                }
-
-                try
-                {
-                    item.setDescription(itemElement.getElementsByTagName("description").item(0).getFirstChild().getNodeValue());
-                }
-                catch(NullPointerException err)
-                {
-                    err.printStackTrace();
-                }
-
-                try
-                {
-                    item.setLink(itemElement.getElementsByTagName("link").item(0).getFirstChild().getNodeValue());
-                }
-                catch(NullPointerException err)
-                {
-                    err.printStackTrace();
-                }
-
-                try
-                {
-                    item.setId(itemElement.getElementsByTagName("guid").item(0).getFirstChild().getNodeValue());
-                }
-                catch(NullPointerException err)
-                {
-                    err.printStackTrace();
-                }
-
-                itemsArray.add(item);
-            }
         }
         catch(Exception err)
         {
-            err.printStackTrace();
+            throw new RuntimeException("Could not read file at " + urlToXML);
+        }
+
+        setTitle(document.getElementsByTagName("title").item(0).getFirstChild().getNodeValue());
+        setLink(document.getElementsByTagName("link").item(0).getFirstChild().getNodeValue());
+        setDescription(document.getElementsByTagName("description").item(0).getFirstChild()
+                .getNodeValue());
+
+        NodeList itemsList = document.getElementsByTagName("item");
+        Element itemElement;
+
+        for(int i = 0; i < itemsList.getLength(); i++)
+        {
+            itemElement = (Element) itemsList.item(i);
+            Item item = new Item();
+            item.setId(itemElement.getElementsByTagName("guid").item(0).getFirstChild()
+                    .getNodeValue());
+            item.setTitle(itemElement.getElementsByTagName("title").item(0).getFirstChild()
+                    .getNodeValue());
+            item.setLink(itemElement.getElementsByTagName("link").item(0).getFirstChild()
+                    .getNodeValue());
+            item.setDescription(itemElement.getElementsByTagName("description").item(0)
+                    .getFirstChild().getNodeValue());
+
+            itemsArray.add(item);
         }
 
         return itemsArray;
@@ -142,7 +120,7 @@ public class Feed
      * their fields untouched.
      * @param upToDateItems An ArrayList containing an up to date list of Item object
      */
-    void syncItems(ArrayList<Item> upToDateItems)
+    private void syncItems(ArrayList<Item> upToDateItems)
     {
         ArrayList<Item> oldItems = new ArrayList<>();
         ArrayList<Item> itemList = new ArrayList<Item>();
@@ -153,22 +131,15 @@ public class Feed
             itemList = upToDateItems;
         else
         {
-            for(int i = 0; i < items.length; i++)
-                oldItems.add(items[i]);
+            oldItems.addAll(Arrays.asList(items));
 
-            if(oldItems.size() == 0)
-                itemList = upToDateItems;
-            else
+            while(upToDateItems.get(counter).equals(oldItems.get(0)))
             {
-                while(upToDateItems.get(counter).equals(oldItems.get(0)))
-                {
-                    itemList.add(upToDateItems.get(counter));
-                    counter++;
-                }
+                itemList.add(upToDateItems.get(counter));
+                counter++;
             }
 
-            for(int i = 0; i < oldItems.size(); i++)
-                itemList.add(oldItems.get(i));
+            itemList.addAll(oldItems);
         }
 
         newItemsList = new Item[itemList.size()];

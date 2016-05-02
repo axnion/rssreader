@@ -67,7 +67,7 @@ public class Client extends Application
             urlInput.setText("");
             api.update();
             updateFeeds(api.getFeeds());
-            updateItems(api.getItemList()[0]);
+            updateItems(api.getItemLists()[0]);
         });
 
         feedList.getChildren().add(new Label("Feeds"));
