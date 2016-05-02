@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -29,12 +28,167 @@ public class ControllerTest
     }
 
     @Test
+    public void accessorsAndMutators()
+    {
+        Configuration configuration = createMockConfiguration();
+
+        controller.setConfiguration(configuration);
+
+        assertEquals("Example Feed 1", controller.getFeeds()[0].getTitle());
+        assertEquals("http://examplefeed1.com/", controller.getFeeds()[0].getLink());
+        assertEquals("This is a description for example feed 1", controller.getFeeds()[0]
+                .getDescription());
+        assertEquals("http://examplefeed1.com/feed.xml", controller.getFeeds()[0].getUrlToXML());
+        assertEquals("Example Item 1", controller.getFeeds()[0].getItems()[0].getTitle());
+        assertEquals("http://www.google.com", controller.getFeeds()[0].getItems()[0].getLink());
+        assertEquals("This is an item description", controller.getFeeds()[0].getItems()[0]
+                .getDescription());
+        assertEquals("example-id-1", controller.getFeeds()[0].getItems()[0].getId());
+
+        assertEquals("ItemList 1", controller.getItemLists()[0].getName());
+        assertEquals("DATE_ASC", controller.getItemLists()[0].getSorting());
+        assertEquals("URL11", controller.getItemLists()[0].getFeedUrls()[0]);
+
+        assertTrue(configuration.equals(controller.getConfiguration()));
+    }
+
+    @Test
+    public void addFeedToEmptyConfig()
+    {
+        String url = ControllerTest.class.getResource("../../../resources/test/xml/exampleFeed1.xml")
+                .getPath();
+        controller.addFeed(url);
+        Configuration config = controller.getConfiguration();
+
+        assertEquals(1, config.getFeeds().length);
+        assertEquals(url, config.getFeeds()[0].getUrlToXML());
+    }
+
+    @Test
+    public void addFeedToNonEmptyConfig()
+    {
+        String url = ControllerTest.class.getResource("../../../resources/test/xml/exampleFeed1.xml")
+                .getPath();
+        controller.setConfiguration(createMockConfiguration());
+        controller.addFeed(url);
+        Configuration config = controller.getConfiguration();
+
+        assertEquals(3, config.getFeeds().length);
+        assertEquals(url, config.getFeeds()[2].getUrlToXML());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void addExistingFeedToConfig()
+    {
+        String url = ControllerTest.class.getResource("../../../resources/test/xml/exampleFeed2.xml")
+                .getPath();
+        controller.setConfiguration(createMockConfiguration());
+        controller.addFeed(url);
+    }
+
+    @Test
+    public void removeExistingFeed()
+    {
+        controller.setConfiguration(createMockConfiguration());
+        controller.removeFeed("http://examplefeed1.com/feed.xml");
+        Configuration config = controller.getConfiguration();
+
+        assertEquals(1, config.getFeeds().length);
+        assertNotEquals("http://examplefeed1.com/feed.xml", config.getFeeds()[0].getUrlToXML());
+    }
+
+    @Test
+    public void removeNonExistingFeed()
+    {
+        controller.setConfiguration(createMockConfiguration());
+        controller.removeFeed("http://examplefeed400.com/feed.xml");
+        Configuration config = controller.getConfiguration();
+
+        assertEquals(2, config.getFeeds().length);
+        assertNotEquals("http://examplefeed400.com/feed.xml", config.getFeeds()[0].getUrlToXML());
+        assertNotEquals("http://examplefeed400.com/feed.xml", config.getFeeds()[1].getUrlToXML());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void removeOnEmptyFeedArray()
+    {
+        controller.removeFeed("http://examplefeed1.com/feed.xml");
+    }
+
+    @Test
+    public void removeLastFeed()
+    {
+        controller.setConfiguration(createMockConfiguration());
+        controller.removeFeed("http://examplefeed1.com/feed.xml");
+        controller.removeFeed(ControllerTest.class
+                .getResource("../../../resources/test/xml/exampleFeed2.xml").getPath());
+
+        assertNull(controller.getFeeds());
+    }
+
+    @Test
+    public void createItemListInEmptyArray()
+    {
+        controller.createItemList("TestItemList");
+        Configuration config = controller.getConfiguration();
+
+        assertEquals(1, config.getItemLists().length);
+        assertEquals("TestItemList", config.getItemLists()[0].getName());
+    }
+
+    @Test
+    public void createItemListInNonEmptyArray()
+    {
+        controller.setConfiguration(createMockConfiguration());
+        controller.createItemList("TestItemList");
+        Configuration config = controller.getConfiguration();
+
+        assertEquals(3, config.getItemLists().length);
+        assertEquals("TestItemList", config.getItemLists()[2].getName());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void createItemListWithExistingName()
+    {
+        controller.setConfiguration(createMockConfiguration());
+        controller.createItemList("ItemList 1");
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void removeItemList()
+    {
+        controller.removeItemList("");
+    }
+
+    @Test
+    public void updateTest()
+    {
+        Configuration config = createMockConfiguration();
+
+        controller.setConfiguration(config);
+        controller.update();
+
+        verify(config.getFeeds()[0]).update();
+        verify(config.getFeeds()[1]).update();
+        verify(config.getItemLists()[0]).update(any());
+        verify(config.getItemLists()[1]).update(any());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void updateOnEmpty()
+    {
+        controller.update();
+    }
+
+    @Test
     public void loadExistingConfiguration_Feeds()
     {
         controller.loadConfig(ControllerTest.class
-                .getResource("../../../resources/test/configuration/exampleConfig1.json").getPath());
+                .getResource("../../../resources/test/configuration/exampleConfig1.json")
+                .getPath());
 
-        Feed[] feeds = controller.getFeeds();
+        Configuration config = controller.getConfiguration();
+        Feed[] feeds = config.getFeeds();
 
         assertEquals(2, feeds.length);
         assertEquals(2, feeds[0].getItems().length);
@@ -69,8 +223,11 @@ public class ControllerTest
     public void loadExistingConfiguration_ItemLists()
     {
         controller.loadConfig(ControllerTest.class
-                .getResource("../../../resources/test/configuration/exampleConfig1.json").getPath());
-        ItemList[] itemLists = controller.getItemLists();
+                .getResource("../../../resources/test/configuration/exampleConfig1.json")
+                .getPath());
+
+        Configuration config = controller.getConfiguration();
+        ItemList[] itemLists = config.getItemLists();
 
         assertEquals(2, itemLists.length);
         assertEquals(3, itemLists[0].getFeedUrls().length);
@@ -87,6 +244,12 @@ public class ControllerTest
         assertEquals("URL21", itemLists[1].getFeedUrls()[0]);
         assertEquals("URL22", itemLists[1].getFeedUrls()[1]);
         assertEquals("URL23", itemLists[1].getFeedUrls()[2]);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void loadNonexistentConfiguration()
+    {
+        controller.loadConfig("ThisFileShouldNotExistAndIfItDoesYouAreAnIdiot.json");
     }
 
     @Test
@@ -223,11 +386,12 @@ public class ControllerTest
         when(feeds[0].getUrlToXML()).thenReturn("http://examplefeed1.com/feed.xml");
         when(feeds[0].getItems()).thenReturn(items1);
 
-        when(feeds[0].getTitle()).thenReturn("Example Feed 2");
-        when(feeds[0].getLink()).thenReturn("http://examplefeed2.com/");
-        when(feeds[0].getDescription()).thenReturn("This is a description for example feed 2");
-        when(feeds[0].getUrlToXML()).thenReturn("http://examplefeed2.com/feed.xml");
-        when(feeds[0].getItems()).thenReturn(items2);
+        when(feeds[1].getTitle()).thenReturn("Example Feed 2");
+        when(feeds[1].getLink()).thenReturn("http://examplefeed2.com/");
+        when(feeds[1].getDescription()).thenReturn("This is a description for example feed 2");
+        when(feeds[1].getUrlToXML()).thenReturn(ControllerTest.class
+                .getResource("../../../resources/test/xml/exampleFeed2.xml").getPath());
+        when(feeds[1].getItems()).thenReturn(items2);
 
         return feeds;
     }
