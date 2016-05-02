@@ -2,6 +2,12 @@ package api;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+
 import static org.junit.Assert.*;
 
 import static org.mockito.Mockito.*;
@@ -86,8 +92,76 @@ public class ControllerTest
     @Test
     public void saveConfiguration()
     {
-        controller.setConfiguration(createMockConfiguration());
-        controller.saveConfig(ControllerTest.class.getResource("../../../resources/test/configuration/savedConfig.json").getPath());
+        controller.setConfiguration(createConfiguration());
+        controller.saveConfig(ControllerTest.class
+                .getResource("../../../resources/test/configuration/savedConfig.json").getPath());
+        String str = null;
+        String comp = null;
+
+        try
+        {
+            File file = new File(ControllerTest.class
+                    .getResource("../../../resources/test/configuration/savedConfig.json")
+                    .getPath());
+            Scanner scan = new Scanner(file);
+
+            while(scan.hasNext())
+                str += scan.next();
+
+            file = new File(ControllerTest.class
+                    .getResource("../../../resources/test/configuration/savedConfigCompare.json")
+                    .getPath());
+            scan = new Scanner(file);
+
+            while(scan.hasNext())
+                comp += scan.next();
+        }
+        catch(IOException err)
+        {
+            err.printStackTrace();
+        }
+
+        assertNotNull(str);
+        assertNotNull(comp);
+        assertEquals(0, str.compareTo(comp));
+
+    }
+
+    private Configuration createConfiguration()
+    {
+        Configuration config = new Configuration();
+
+        Feed[] feeds = new Feed[1];
+        ItemList[] itemLists = new ItemList[1];
+        Item[] items = new Item[1];
+        String[] urls = new String[1];
+
+        items[0] = new Item();
+        items[0].setTitle("Example Item");
+        items[0].setLink("http://examplefeed.net/exampleItem");
+        items[0].setDescription("This is an item description");
+        items[0].setId("exItem");
+        items[0].setVisited(false);
+        items[0].setStarred(true);
+
+        feeds[0] = new Feed();
+        feeds[0].setTitle("Example Feed");
+        feeds[0].setLink("http://examplefeed.net");
+        feeds[0].setDescription("This is a description for example feed");
+        feeds[0].setUrlToXML("http://examplefeed.net/feed.xml");
+        feeds[0].setItems(items);
+
+        urls[0] = "http://examplefeed.net/feed.xml";
+
+        itemLists[0] = new ItemList();
+        itemLists[0].setName("Example ItemList");
+        itemLists[0].setSorting("DATE_DEC");
+        itemLists[0].setFeedUrls(urls);
+
+        config.setFeeds(feeds);
+        config.setItemLists(itemLists);
+
+        return config;
     }
 
     private Configuration createMockConfiguration()
