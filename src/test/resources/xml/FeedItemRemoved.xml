@@ -3,5 +3,11 @@
         <title>Test title</title>
         <description>This is a feed description</description>
         <link>http://www.google.com</link>
+        <item>
+            <title>Item title</title>
+            <description>This is an item description</description>
+            <link>http://www.google.com</link>
+            <guid>test-id-1</guid>
+        </item>
     </channel>
 </rss>

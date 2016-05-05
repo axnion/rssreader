@@ -7,7 +7,13 @@
             <title>Item title</title>
             <description>This is an item description</description>
             <link>http://www.google.com</link>
-            <guid>test-id</guid>
+            <guid>test-id-1</guid>
+        </item>
+        <item>
+            <title>Item title 2</title>
+            <description>This is a second item description</description>
+            <link>http://www.google.se</link>
+            <guid>test-id-2</guid>
         </item>
     </channel>
 </rss>
