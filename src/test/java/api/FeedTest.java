@@ -54,7 +54,7 @@ public class FeedTest
 
         // Check the Item object inside the Feed object so we know the read works.
         Item[] items = feed.getItems();
-        assertEquals(1, items.length);
+        assertEquals(2, items.length);
         assertEquals("Item title", items[0].getTitle());
         assertEquals("http://www.google.com", items[0].getLink());
         assertEquals("This is an item description", items[0].getDescription());
@@ -122,18 +122,24 @@ public class FeedTest
         assertEquals("Item title", feedItems[0].getTitle());
         assertEquals("http://www.google.com", feedItems[0].getLink());
         assertEquals("This is an item description", feedItems[0].getDescription());
-        assertEquals("test-id", feedItems[0].getId());
+        assertEquals("test-id-1", feedItems[0].getId());
+
         assertEquals("Item title 2", feedItems[1].getTitle());
         assertEquals("http://www.google.se", feedItems[1].getLink());
         assertEquals("This is a second item description", feedItems[1].getDescription());
-        assertEquals("test-id2", feedItems[1].getId());
+        assertEquals("test-id-2", feedItems[1].getId());
+
+        assertEquals("Item title 3", feedItems[2].getTitle());
+        assertEquals("http://www.google.org", feedItems[2].getLink());
+        assertEquals("This is a third item description", feedItems[2].getDescription());
+        assertEquals("test-id-3", feedItems[2].getId());
     }
 
     /**
      * Test Case: 9
      */
     @Test
-    public void syncingWithXmlRemoveditem()
+    public void syncingWithXmlRemovedItem()
     {
         String url = "../../../resources/test/xml/FeedBasic.xml";
         feed.setUrlToXML(FeedTest.class.getResource(url).getPath());
@@ -141,6 +147,34 @@ public class FeedTest
 
         //Change URL to new XML to simulate an update to the Feed XML file
         url = "../../../resources/test/xml/FeedItemRemoved.xml";
+        feed.setUrlToXML(FeedTest.class.getResource(url).getPath());
+        feed.update();
+
+        // Checking the Feed data
+        assertEquals("Test title", feed.getTitle());
+        assertEquals("This is a feed description", feed.getDescription());
+        assertEquals("http://www.google.com", feed.getLink());
+
+        // Checking the items
+        Item[] feedItems = feed.getItems();
+        assertEquals("Item title", feedItems[0].getTitle());
+        assertEquals("http://www.google.com", feedItems[0].getLink());
+        assertEquals("This is an item description", feedItems[0].getDescription());
+        assertEquals("test-id-1", feedItems[0].getId());
+    }
+
+    /**
+     * Test Case: 41
+     */
+    @Test
+    public void syncingWithXmlRemovedLastItem()
+    {
+        String url = "../../../resources/test/xml/FeedBasic.xml";
+        feed.setUrlToXML(FeedTest.class.getResource(url).getPath());
+        feed.update();
+
+        //Change URL to new XML to simulate an update to the Feed XML file
+        url = "../../../resources/test/xml/FeedLastItemRemoved.xml";
         feed.setUrlToXML(FeedTest.class.getResource(url).getPath());
         feed.update();
 

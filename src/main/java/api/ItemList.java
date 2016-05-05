@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * array.
  *
  * @author Axel Nilsson (axnion)
- * @version 0.1
+ * @version 0.1.1
  */
 @JsonIgnoreProperties({"items"})
 public class ItemList
@@ -82,20 +82,31 @@ public class ItemList
      */
     void removeFeed(String feedUrl)
     {
-        String[] newFeedUrlList = new String[feedUrls.length - 1];
-        boolean exists = false;
+        String[] newFeedUrlList = null;
+        boolean exists = true;
 
-        for(int i = 0; i < feedUrls.length; i++)
+        if(feedUrls == null)
+            throw new RuntimeException("There are no feeds to remove in this ItemList");
+        else if(feedUrls.length != 1)
         {
-            if(!feedUrls[i].equals(feedUrl) && !exists)
-                newFeedUrlList[i] = feedUrls[i];
-            else if(!feedUrls[i].equals(feedUrl) && exists)
-                newFeedUrlList[i - 1] = feedUrls[i];
-            else
-                exists = true;
+            newFeedUrlList = new String[feedUrls.length - 1];
+            exists = false;
+
+            for(int i = 0; i < feedUrls.length; i++)
+            {
+                if(feedUrls[i].equals(feedUrl) && !exists)
+                    exists = true;
+                else if(i == newFeedUrlList.length && !exists)
+                        break;
+                else if(!exists)
+                    newFeedUrlList[i] = feedUrls[i];
+                else
+                    newFeedUrlList[i - 1] = feedUrls[i];
+            }
         }
 
-        setFeedUrls(newFeedUrlList);
+        if(exists)
+            setFeedUrls(newFeedUrlList);
     }
 
     /**

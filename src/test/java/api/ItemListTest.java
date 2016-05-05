@@ -25,6 +25,9 @@ public class ItemListTest
         itemList = new ItemList();
     }
 
+    /**
+     * Test Case: 10
+     */
     @Test
     public void createUnnamedObject()
     {
@@ -34,6 +37,9 @@ public class ItemListTest
         assertNull(itemList.getItems());
     }
 
+    /**
+     * Test Case: 11
+     */
     @Test
     public void createNamedObject()
     {
@@ -44,6 +50,9 @@ public class ItemListTest
         assertNull(itemList.getItems());
     }
 
+    /**
+     * Test Case: 12
+     */
     @Test
     public void accessorsAndMutators()
     {
@@ -62,6 +71,9 @@ public class ItemListTest
         assertEquals("URL2", itemList.getFeedUrls()[1]);
     }
 
+    /**
+     * Test Case: 13
+     */
     @Test
     public void addFeedTest()
     {
@@ -75,6 +87,9 @@ public class ItemListTest
         assertEquals(feed2, itemList.getFeedUrls()[1]);
     }
 
+    /**
+     * Test Case: 14
+     */
     @Test
     public void addExistingFeed()
     {
@@ -89,6 +104,9 @@ public class ItemListTest
         assertEquals(feed1, itemList.getFeedUrls()[0]);
     }
 
+    /**
+     * Test Case: 15
+     */
     @Test
     public void removeFirstInFeedArray()
     {
@@ -100,6 +118,9 @@ public class ItemListTest
         assertEquals(feed3, itemList.getFeedUrls()[1]);
     }
 
+    /**
+     * Test Case: 16
+     */
     @Test
     public void removeMiddleInFeedArray()
     {
@@ -111,6 +132,9 @@ public class ItemListTest
         assertEquals(feed3, itemList.getFeedUrls()[1]);
     }
 
+    /**
+     * Test Case: 17
+     */
     @Test
     public void removeLastInFeedArray()
     {
@@ -122,12 +146,18 @@ public class ItemListTest
         assertEquals(feed2, itemList.getFeedUrls()[1]);
     }
 
-    @Test(expected = NullPointerException.class)
+    /**
+     * Test Case: 18
+     */
+    @Test(expected = RuntimeException.class)
     public void removeOnEmptyFeedArray()
     {
         itemList.removeFeed(feed1);
     }
 
+    /**
+     * Test Case: 19
+     */
     @Test
     public void removeNonexistentFeed()
     {
@@ -140,6 +170,9 @@ public class ItemListTest
         assertEquals(feed3, itemList.getFeedUrls()[2]);
     }
 
+    /**
+     * Test Case: 20
+     */
     @Test
     public void removingLastFeed()
     {
@@ -149,6 +182,34 @@ public class ItemListTest
         assertNull(itemList.getFeedUrls());
     }
 
+    /**
+     * Test Case: 42
+     */
+    @Test
+    public void removingFeedWhenMoreThanOneInItemList()
+    {
+        String[] feeds = new String[5];
+        feeds[0] = feed1;
+        feeds[1] = feed1;
+        feeds[2] = feed2;
+        feeds[3] = feed3;
+        feeds[4] = feed1;
+
+        itemList.setFeedUrls(feeds);
+        itemList.removeFeed(feed1);
+
+        feeds = itemList.getFeedUrls();
+
+        assertEquals(4, feeds.length);
+        assertEquals(feed1, feeds[0]);
+        assertEquals(feed2, feeds[1]);
+        assertEquals(feed3, feeds[2]);
+        assertEquals(feed1, feeds[3]);
+    }
+
+    /**
+     * Test Case: 21
+     */
     @Test
     public void updateTest()
     {

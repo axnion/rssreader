@@ -20,7 +20,7 @@ import java.util.Arrays;
  * able to update.
  *
  * @author Axel Nilsson (axnion)
- * @version 0.1
+ * @version 0.1.1
  */
 public class Feed
 {
@@ -122,31 +122,74 @@ public class Feed
      */
     private void syncItems(ArrayList<Item> upToDateItems)
     {
-        ArrayList<Item> oldItems = new ArrayList<>();
-        ArrayList<Item> itemList = new ArrayList<Item>();
-        Item[] newItemsList;
-        int counter = 0;
+        ArrayList<Item> newItemList = new ArrayList<>();
+        Item[] newItems;
 
         if(items == null)
-            itemList = upToDateItems;
+            newItemList = upToDateItems;
         else
         {
-            oldItems.addAll(Arrays.asList(items));
+            ArrayList<Item> oldItems = new ArrayList<>(Arrays.asList(items));
+            boolean match;
 
-            while(upToDateItems.get(counter).equals(oldItems.get(0)))
+            for(Item upToDateItem : upToDateItems)
             {
-                itemList.add(upToDateItems.get(counter));
-                counter++;
-            }
+                match = false;
 
-            itemList.addAll(oldItems);
+                for(Item oldItem : oldItems)
+                {
+                    if(oldItem.getId().equals(upToDateItem.getId()))
+                    {
+                        newItemList.add(oldItem);
+                        match = true;
+                        break;
+                    }
+                }
+
+                if(!match)
+                    newItemList.add(upToDateItem);
+            }
         }
 
-        newItemsList = new Item[itemList.size()];
-        for(int i = 0; i < itemList.size(); i++)
-            newItemsList[i] = itemList.get(i);
+        if(upToDateItems.size() == 0)
+            newItems = null;
+        else
+        {
+            newItems = new Item[newItemList.size()];
+            for(int i = 0; i < newItems.length; i++)
+                newItems[i] = newItemList.get(i);
+        }
 
-        setItems(newItemsList);
+        setItems(newItems);
+
+
+
+
+//        ArrayList<Item> oldItems = new ArrayList<>();
+//        ArrayList<Item> itemList = new ArrayList<>();
+//        Item[] newItemsList;
+//        int counter = 0;
+//
+//        if(items == null)
+//            itemList = upToDateItems;
+//        else
+//        {
+//            oldItems.addAll(Arrays.asList(items));
+//
+//            while(!upToDateItems.get(counter).equals(oldItems.get(0)))
+//            {
+//                itemList.add(upToDateItems.get(counter));
+//                counter++;
+//            }
+//
+//            itemList.addAll(oldItems);
+//        }
+//
+//        newItemsList = new Item[itemList.size()];
+//        for(int i = 0; i < itemList.size(); i++)
+//            newItemsList[i] = itemList.get(i);
+//
+//        setItems(newItemsList);
     }
 
 
