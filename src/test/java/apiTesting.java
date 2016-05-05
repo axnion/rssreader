@@ -1,5 +1,4 @@
-package api;
-
+import api.*;
 import org.junit.Before;
 
 import java.io.File;
