@@ -16,7 +16,7 @@ import java.io.IOException;
  * Java object version of the configuration json file.
  *
  * @author Axel Nilsson (axnion)
- * @version 0.1
+ * @version 0.2
  */
 public class Configuration
 {
@@ -38,7 +38,7 @@ public class Configuration
      * @param url A String containing the URL to the new feeds XML file
      * @throws RuntimeException Is thrown if a Feed with an identical URL already exists
      */
-    public void addFeed(String url)
+    public void addFeedToConfiguration(String url)
     {
         Feed newFeed = new Feed(url);
         Feed[] feeds = getFeeds();
@@ -72,7 +72,7 @@ public class Configuration
      * Removes a Feed with an identical URL as the one specified in the url argument.
      * @param url A String containing a URL identical to the URL of the feed to be removed.
      */
-    public void removeFeed(String url)
+    public void removeFeedFromConfiguration(String url)
     {
         Feed[] feeds = getFeeds();
         Feed[] newFeedList = null;
@@ -87,7 +87,7 @@ public class Configuration
 
             for(int i = 0; i < feeds.length; i++)
             {
-                if(feeds[i].getUrlToXML().equals(url))
+                if(feeds[i].getUrlToXML().equals(url) && !exists)
                     exists = true;
                 else if(i == newFeedList.length && !exists)
                     break;
@@ -112,7 +112,7 @@ public class Configuration
      * @param name A String containing a unique name for the ItemList to be created.
      * @throws RuntimeException Is thrown if an ItemList with an identical name already exists
      */
-    public void addItemList(String name)
+    public void addItemListToConfiguration(String name)
     {
         ItemList newItemList = new ItemList(name);
         ItemList[] oldList = getItemLists();
@@ -146,25 +146,55 @@ public class Configuration
      * NOT IMPLEMENTED! NOT IMPLEMENTED! NOT IMPLEMENTED! NOT IMPLEMENTED! NOT IMPLEMENTED!
      * @param name A String containing an identical name to the ItemList to be removed
      */
-    public void removeItemList(String name)
+    public void removeItemListFromConfiguration(String name)
     {
         throw new RuntimeException("removeItemList() is not implemented");
     }
 
     /**
-     * Adds a Feed to an ItemList. The correct ItemList is identified by it's index in the itemList
-     * in the current Configuration. When the correct itemList is found we call on the addFeed
-     * method on the itemList object which adds the url to the itemLists url list.
-     * @param index An integer containing the index of the itemList object we are looking for in the
-     *              itemList array in the Configuration
+     * Adds a Feed to an ItemList. The correct ItemList is identified by it's name. When the correct
+     * itemList is found we call on the addFeed method on the itemList object which adds the url to
+     * the itemLists url list.
+     * @param name A String containing the name of the ItemList we want the url to be added to.
      * @param url   A String containing the URL to the XML file for the feed we want to add to the
      *              itemList
+     * @throws RuntimeException If there is no ItemList with the correct name
      */
-    public void addFeedToItemList(int index, String url)
+    public void addFeedToItemList(String name, String url)
     {
-        ItemList[] list = getItemLists();
-        list[index].addFeed(url);
-        setItemLists(list);
+        for(ItemList itemList : itemLists)
+        {
+            if(itemList.getName().equals(name))
+            {
+                itemList.addFeed(url);
+                return;
+            }
+        }
+
+        throw new RuntimeException("There where no itemLists with that name");
+    }
+
+    /**
+     * Removed the Feed with the argument URL from the ItemList with the argument name. When the
+     * correct itemList is found it call the removeFeed method on that ItemList with the url as an
+     * argument.
+     * @param name  A String containing the name of the ItemList we want the Feed to be removed from
+     * @param url   A String containing the URL to the XML file of the Feed we want removed from the
+     *              ItemList
+     * @throws RuntimeException If there is no ItemList with the correct name
+     */
+    public void removeFeedFromItemList(String name, String url)
+    {
+        for(ItemList itemList : itemLists)
+        {
+            if(itemList.getName().equals(name))
+            {
+                itemList.removeFeed(url);
+                return;
+            }
+        }
+
+        throw new RuntimeException("There where no itemLists with that name");
     }
 
     /**

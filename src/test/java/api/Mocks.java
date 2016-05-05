@@ -10,7 +10,7 @@ import static org.mockito.Mockito.*;
  */
 public class Mocks
 {
-    static Feed createMockFeed(String title, String link, String desc, String url)
+    public static Feed createMockFeed(String title, String link, String desc, String url)
     {
         Feed feed = mock(Feed.class);
 
@@ -22,7 +22,7 @@ public class Mocks
         return feed;
     }
 
-    static Item createMockItem(String title, String link, String desc, String id,
+    public static Item createMockItem(String title, String link, String desc, String id,
                                 boolean isVisited, boolean isStarred)
     {
         Item item = mock(Item.class);
@@ -37,7 +37,7 @@ public class Mocks
         return item;
     }
 
-    static ItemList createMockItemList(String name, String sorting)
+    public static ItemList createMockItemList(String name, String sorting)
     {
         ItemList itemList = mock(ItemList.class);
 

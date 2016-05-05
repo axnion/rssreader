@@ -3,10 +3,6 @@ package api;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Scanner;
-
 import static org.junit.Assert.*;
 
 import static org.mockito.Mockito.*;
@@ -15,7 +11,7 @@ import static org.mockito.Mockito.*;
  * Test Class ConfigurationTest
  *
  * @author Axel Nilsson (axnion)
- * @version 0.1
+ * @version 0.2
  */
 public class ConfigurationTest
 {
@@ -70,7 +66,7 @@ public class ConfigurationTest
         // Adding Feed to Configuration
         String url = ConfigurationTest.class
                 .getResource("../../../resources/test/xml/exampleFeed1.xml").getPath();
-        config.addFeed(url);
+        config.addFeedToConfiguration(url);
 
         // Checks the results
         assertEquals(1, config.getFeeds().length);
@@ -97,7 +93,7 @@ public class ConfigurationTest
         config.setFeeds(feeds);
 
         // Adds a new Feed to Configuration
-        config.addFeed(url);
+        config.addFeedToConfiguration(url);
 
         // Checks if the Feed array has the correct values.
         assertEquals(3, config.getFeeds().length);
@@ -126,7 +122,7 @@ public class ConfigurationTest
         config.setFeeds(feeds);
 
         // Adds the identical Feed to the Configuration
-        config.addFeed(url);
+        config.addFeedToConfiguration(url);
     }
 
     /**
@@ -146,7 +142,7 @@ public class ConfigurationTest
         config.setFeeds(feeds);
 
         // Removes an existing Feed
-        config.removeFeed("http://examplefeed1.com/feed.xml");
+        config.removeFeedFromConfiguration("http://examplefeed1.com/feed.xml");
 
         // Check the remaining feed so the correct one is removed
         assertEquals(1, config.getFeeds().length);
@@ -170,7 +166,7 @@ public class ConfigurationTest
         config.setFeeds(feeds);
 
         // Removes an nonexistent Feed
-        config.removeFeed("http://examplefeed404.com/feed.xml");
+        config.removeFeedFromConfiguration("http://examplefeed404.com/feed.xml");
 
         // Checks the Feed array
         assertEquals(2, config.getFeeds().length);
@@ -186,7 +182,7 @@ public class ConfigurationTest
     @Test(expected = RuntimeException.class)
     public void removeOnEmptyFeedArray()
     {
-        config.removeFeed("http://examplefeed1.com/feed.xml");
+        config.removeFeedFromConfiguration("http://examplefeed1.com/feed.xml");
         assertNull(config.getFeeds());
     }
 
@@ -205,19 +201,51 @@ public class ConfigurationTest
         config.setFeeds(feeds);
 
         // Removes the last Feed
-        config.removeFeed("http://examplefeed1.com/feed.xml");
+        config.removeFeedFromConfiguration("http://examplefeed1.com/feed.xml");
 
         // Checks the array, it should be null.
         assertNull(config.getFeeds());
     }
 
     /**
+     * Test Case: 43
+     * Tries to remove a Feed that exist in several elements in the array. It should only remove the
+     * first one and the rest of the array should be intact.
+     */
+    @Test
+    public void removingFeedWhenMoreThanOneInItemList()
+    {
+        // Creates Feed mocks
+        Feed[] feeds = new Feed[5];
+        feeds[0] = Mocks.createMockFeed("Example Feed 1", "http://examplefeed.com/",
+                "This is a description for example feed 1", "http://examplefeed1.com/feed.xml");
+        feeds[1] = Mocks.createMockFeed("Example Feed 2", "http://examplefeed2.com/",
+                "This is a description for example feed 2", "http://examplefeed2.com/feed.xml");
+        feeds[2] = Mocks.createMockFeed("Example Feed 3", "http://examplefeed3.com/",
+                "This is a description for example feed 3", "http://examplefeed3.com/feed.xml");
+        feeds[3] = Mocks.createMockFeed("Example Feed 1", "http://examplefeed.com/",
+                "This is a description for example feed 1", "http://examplefeed1.com/feed.xml");
+        feeds[4] = Mocks.createMockFeed("Example Feed 1", "http://examplefeed.com/",
+                "This is a description for example feed 1", "http://examplefeed1.com/feed.xml");
+        config.setFeeds(feeds);
+
+        // Removes the last Feed
+        config.removeFeedFromConfiguration("http://examplefeed1.com/feed.xml");
+
+        assertEquals(4, config.getFeeds().length);
+        assertEquals("http://examplefeed2.com/feed.xml", config.getFeeds()[0].getUrlToXML());
+        assertEquals("http://examplefeed3.com/feed.xml", config.getFeeds()[1].getUrlToXML());
+        assertEquals("http://examplefeed1.com/feed.xml", config.getFeeds()[2].getUrlToXML());
+        assertEquals("http://examplefeed1.com/feed.xml", config.getFeeds()[3].getUrlToXML());
+    }
+
+    /**
      * Test Case: 31
      */
     @Test
-    public void createItemListInEmptyArray()
+    public void addItemListInEmptyConfiguration()
     {
-        config.addItemList("TestItemList");
+        config.addItemListToConfiguration("TestItemList");
 
         assertEquals(1, config.getItemLists().length);
         assertEquals("TestItemList", config.getItemLists()[0].getName());
@@ -227,7 +255,7 @@ public class ConfigurationTest
      * Test Case: 32
      */
     @Test
-    public void createItemListInNonEmptyArray()
+    public void addItemListInNonEmptyConfiguration()
     {
         // Creates ItemList mocks
         ItemList[] itemLists = new ItemList[2];
@@ -236,7 +264,7 @@ public class ConfigurationTest
         config.setItemLists(itemLists);
 
         // Adds a new ItemList
-        config.addItemList("ItemList 3");
+        config.addItemListToConfiguration("ItemList 3");
 
         // Validates the objects in the array
         assertEquals(3, config.getItemLists().length);
@@ -249,7 +277,7 @@ public class ConfigurationTest
      * Test Case: 33
      */
     @Test(expected = RuntimeException.class)
-    public void createItemListWithExistingName()
+    public void addItemListWithExistingName()
     {
         // Creates ItemList mocks
         ItemList[] itemLists = new ItemList[2];
@@ -258,7 +286,7 @@ public class ConfigurationTest
         config.setItemLists(itemLists);
 
         // Adds a new ItemList
-        config.addItemList("ItemList 1");
+        config.addItemListToConfiguration("ItemList 1");
 
         // Validates the objects in the array
         assertEquals(2, config.getItemLists().length);
@@ -272,7 +300,101 @@ public class ConfigurationTest
     @Test(expected = RuntimeException.class)
     public void removeItemList()
     {
-        config.removeItemList("");
+        config.removeItemListFromConfiguration("");
+    }
+
+    /**
+     * Test Case: 44
+     * Tries to add a Feed to an existing ItemList. Uses verify method to verify that the addFeed
+     * method is called.
+     */
+    @Test
+    public void addFeedToExistingItemList()
+    {
+        // Creates ItemList mocks
+        ItemList[] itemLists = new ItemList[3];
+        itemLists[0] = Mocks.createMockItemList("ItemList 1", "DATE_ASC");
+        itemLists[1] = Mocks.createMockItemList("ItemList 2", "NAME_DEC");
+        itemLists[2] = Mocks.createMockItemList("ItemList 3", "NAME_ASC");
+        config.setItemLists(itemLists);
+
+        config.addFeedToItemList("ItemList 2", "http://examplefeed.net/feed.xml");
+
+        verify(itemLists[0], never()).addFeed("http://examplefeed.net/feed.xml");
+        verify(itemLists[1], times(1)).addFeed("http://examplefeed.net/feed.xml");
+        verify(itemLists[2], never()).addFeed("http://examplefeed.net/feed.xml");
+    }
+
+    /**
+     * Test Case: 45
+     * Tries to add a Feed to an ItemList that does not exist. This will result in a
+     * RuntimeException.
+     */
+    @Test(expected = RuntimeException.class)
+    public void addFeedToNonExistingItemList()
+    {
+        // Creates ItemList mocks
+        ItemList[] itemLists = new ItemList[2];
+        itemLists[0] = Mocks.createMockItemList("ItemList 1", "DATE_ASC");
+        config.setItemLists(itemLists);
+
+        config.addFeedToItemList("ItemList 2", "http://examplefeed.net/feed.xml");
+    }
+
+    /**
+     * Test Case: 46
+     * Tries to add Feed to an ItemList when the array of ItemLists is empty. Should throw
+     * RuntimeException.
+     */
+    @Test(expected = RuntimeException.class)
+    public void addFeedToEmptyItemList()
+    {
+        config.addFeedToItemList("ItemList 1", "http://examplefeed.net/feed.xml");
+    }
+
+    /**
+     * Test Case: 47
+     * Removes a Feed that exist in the ItemList. The test then verifies that the removeFeed was
+     * called on the correct ItemList.
+     */
+    @Test
+    public void removeFeedFromExistingItemList()
+    {
+        // Creates ItemList mocks
+        ItemList[] itemLists = new ItemList[3];
+        itemLists[0] = Mocks.createMockItemList("ItemList 1", "DATE_ASC");
+        itemLists[1] = Mocks.createMockItemList("ItemList 2", "NAME_DEC");
+        itemLists[2] = Mocks.createMockItemList("ItemList 3", "NAME_ASC");
+        config.setItemLists(itemLists);
+
+        config.removeFeedFromItemList("ItemList 2", "http://examplefeed.net/feed.xml");
+
+        verify(itemLists[0], never()).removeFeed("http://examplefeed.net/feed.xml");
+        verify(itemLists[1], times(1)).removeFeed("http://examplefeed.net/feed.xml");
+        verify(itemLists[2], never()).removeFeed("http://examplefeed.net/feed.xml");
+    }
+
+    /**
+     * Test Case: 48
+     */
+    @Test(expected = RuntimeException.class)
+    public void removeFeedFromNonExistantItemList()
+    {
+        // Creates ItemList mocks
+        ItemList[] itemLists = new ItemList[2];
+        itemLists[0] = Mocks.createMockItemList("ItemList 1", "DATE_ASC");
+        config.setItemLists(itemLists);
+
+        config.removeFeedFromItemList("ItemList 2", "http://examplefeed.net/feed.xml");
+    }
+
+    /**
+     * Test Case: 49
+     */
+    @Test(expected = RuntimeException.class)
+    public void removeFeedFromEmptyItemList()
+    {
+        config.removeFeedFromItemList("ItemList 1", "http://examplefeed.net/feed.xml");
     }
 
     /**
