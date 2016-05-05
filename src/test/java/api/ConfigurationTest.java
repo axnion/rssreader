@@ -295,12 +295,75 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 34
+     * Test Case: 50
+     * Removes an ItemList that exists in the Configuration. The correct one should be removed and
+     * there should be only one left afterwards.
+     */
+    @Test
+    public void removeExistingItemList()
+    {
+        // Creates ItemList mocks
+        ItemList[] itemLists = new ItemList[2];
+        itemLists[0] = Mocks.createMockItemList("ItemList 1", "DATE_ASC");
+        itemLists[1] = Mocks.createMockItemList("ItemList 2", "NAME_DEC");
+        config.setItemLists(itemLists);
+
+        // Removes an existing ItemList
+        config.removeItemListFromConfiguration("ItemList 1");
+
+        // Check the remaining ItemList so the correct one is removed
+        assertEquals(1, config.getItemLists().length);
+        assertEquals("ItemList 2", config.getItemLists()[0].getName());
+    }
+
+    /**
+     * Test Case: 51
+     * Tries to remove an ItemList that already
      */
     @Test(expected = RuntimeException.class)
-    public void removeItemList()
+    public void removeNonExistingItemList()
     {
-        config.removeItemListFromConfiguration("");
+        // Creates ItemList mocks
+        ItemList[] itemLists = new ItemList[2];
+        itemLists[0] = Mocks.createMockItemList("ItemList 1", "DATE_ASC");
+        itemLists[1] = Mocks.createMockItemList("ItemList 2", "NAME_DEC");
+        config.setItemLists(itemLists);
+
+        // Removes an existing ItemList
+        config.removeItemListFromConfiguration("ItemList 3");
+
+        // Check the remaining ItemList so nothing is removed
+        assertEquals(2, config.getItemLists().length);
+        assertEquals("ItemList 1", config.getItemLists()[0].getName());
+        assertEquals("ItemList 2", config.getItemLists()[1].getName());
+    }
+
+    /**
+     * Test Case: 52
+     */
+    @Test(expected = RuntimeException.class)
+    public void removeOnEmptyItemListArray()
+    {
+        config.removeItemListFromConfiguration("ItemList 1");
+        assertNull(config.getItemLists());
+    }
+
+    /**
+     * Test Case: 53
+     */
+    @Test
+    public void removeLastItemList()
+    {
+        // Creates ItemList mocks
+        ItemList[] itemLists = new ItemList[1];
+        itemLists[0] = Mocks.createMockItemList("ItemList 1", "DATE_ASC");
+        config.setItemLists(itemLists);
+
+        // Removes an existing ItemList
+        config.removeItemListFromConfiguration("ItemList 1");
+
+        // Checks the array, it should be null.
+        assertNull(config.getItemLists());
     }
 
     /**
@@ -334,7 +397,7 @@ public class ConfigurationTest
     public void addFeedToNonExistingItemList()
     {
         // Creates ItemList mocks
-        ItemList[] itemLists = new ItemList[2];
+        ItemList[] itemLists = new ItemList[1];
         itemLists[0] = Mocks.createMockItemList("ItemList 1", "DATE_ASC");
         config.setItemLists(itemLists);
 
@@ -383,7 +446,7 @@ public class ConfigurationTest
     public void removeFeedFromNonExistantItemList()
     {
         // Creates ItemList mocks
-        ItemList[] itemLists = new ItemList[2];
+        ItemList[] itemLists = new ItemList[1];
         itemLists[0] = Mocks.createMockItemList("ItemList 1", "DATE_ASC");
         config.setItemLists(itemLists);
 

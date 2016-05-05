@@ -41,7 +41,6 @@ public class Configuration
     public void addFeedToConfiguration(String url)
     {
         Feed newFeed = new Feed(url);
-        Feed[] feeds = getFeeds();
         Feed[] newFeedList;
 
         if(feeds == null)
@@ -74,7 +73,6 @@ public class Configuration
      */
     public void removeFeedFromConfiguration(String url)
     {
-        Feed[] feeds = getFeeds();
         Feed[] newFeedList = null;
         boolean exists = true;
 
@@ -115,25 +113,24 @@ public class Configuration
     public void addItemListToConfiguration(String name)
     {
         ItemList newItemList = new ItemList(name);
-        ItemList[] oldList = getItemLists();
         ItemList[] newList;
 
-        if(oldList == null)
+        if(itemLists == null)
         {
             newList = new ItemList[1];
             newList[0] = newItemList;
         }
         else
         {
-            newList = new ItemList[oldList.length + 1];
+            newList = new ItemList[itemLists.length + 1];
             int i;
 
-            for(i = 0; i < oldList.length; i++)
+            for(i = 0; i < itemLists.length; i++)
             {
-                if(oldList[i].getName().equals(name))
+                if(itemLists[i].getName().equals(name))
                     throw new RuntimeException("A list with that name already exists");
                 else
-                    newList[i] = oldList[i];
+                    newList[i] = itemLists[i];
             }
 
             newList[i] = newItemList;
@@ -143,12 +140,42 @@ public class Configuration
     }
 
     /**
-     * NOT IMPLEMENTED! NOT IMPLEMENTED! NOT IMPLEMENTED! NOT IMPLEMENTED! NOT IMPLEMENTED!
-     * @param name A String containing an identical name to the ItemList to be removed
+     * Removes one ItemList whose name is the same String as the argument name. If there are no
+     * ItemLists or the method can't find a match, then a RuntimeException is thrown. The method
+     * goes though the array of ItemLists and copies all elements exept the first one that matches
+     * the argument name.
+     * @param name
      */
     public void removeItemListFromConfiguration(String name)
     {
-        throw new RuntimeException("removeItemList() is not implemented");
+        ItemList[] newItemLists = null;
+        boolean exists = true;
+
+        if(itemLists == null)
+            throw new RuntimeException("There are no ItemLists to remove in this Configuration");
+        else if(itemLists.length != 1)
+        {
+            newItemLists = new ItemList[itemLists.length - 1];
+            exists = false;
+
+            for(int i = 0; i < itemLists.length; i++)
+            {
+                if(itemLists[i].getName().equals(name))
+                    exists = true;
+                else if(i == newItemLists.length && !exists)
+                    break;
+                else if(!exists)
+                    newItemLists[i] = itemLists[i];
+                else
+                    newItemLists[i - 1] = itemLists[i];
+            }
+        }
+
+        if(exists)
+            setItemLists(newItemLists);
+        else
+            throw new RuntimeException("There is no ItemList with name \"" + name + "\" to remove " +
+                    "in this Configuration");
     }
 
     /**

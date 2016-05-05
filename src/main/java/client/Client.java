@@ -32,7 +32,7 @@ public class Client extends Application
     public Client()
     {
         api = new Configuration();
-        api.addItemList("List");
+        api.addItemListToConfiguration("List");
     }
 
     public void launchJavaFX()
@@ -59,8 +59,8 @@ public class Client extends Application
         urlInputArea.getChildren().addAll(urlInput, btn);
         btn.setOnAction((event) ->
         {
-            api.addFeed(urlInput.getText());
-            api.addFeedToItemList(0, urlInput.getText());
+            api.addFeedToConfiguration(urlInput.getText());
+            api.addFeedToItemList("List", urlInput.getText());
             urlInput.setText("");
             api.update();
             updateFeeds(api.getFeeds());
