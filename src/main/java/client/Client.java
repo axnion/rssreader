@@ -1,21 +1,18 @@
 package client;
 
-import api.Controller;
+import api.Configuration;
 import api.Feed;
 import api.ItemList;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.awt.*;
 
 /**
  * Class Client
@@ -25,7 +22,7 @@ import java.awt.*;
  */
 public class Client extends Application
 {
-    private Controller api;
+    private Configuration api;
     private VBox root;
     private HBox urlInputArea;
     private VBox feedList;
@@ -34,8 +31,8 @@ public class Client extends Application
 
     public Client()
     {
-        api = new Controller();
-        api.createItemList("List");
+        api = new Configuration();
+        api.addItemList("List");
     }
 
     public void launchJavaFX()
