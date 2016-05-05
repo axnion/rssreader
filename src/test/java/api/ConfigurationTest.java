@@ -376,6 +376,8 @@ public class ConfigurationTest
 
     /**
      * Test Case: 48
+     * Tries to remove a Feed from an ItemList that does not exist. This should produce a
+     * RuntimeException.
      */
     @Test(expected = RuntimeException.class)
     public void removeFeedFromNonExistantItemList()
@@ -390,6 +392,8 @@ public class ConfigurationTest
 
     /**
      * Test Case: 49
+     * Tries to remove a Feed from an ItemList that does not exist, because there are no ItemList at
+     * all. Should produce a RuntimeException.
      */
     @Test(expected = RuntimeException.class)
     public void removeFeedFromEmptyItemList()
