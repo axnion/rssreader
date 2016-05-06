@@ -161,35 +161,6 @@ public class Feed
         }
 
         setItems(newItems);
-
-
-
-
-//        ArrayList<Item> oldItems = new ArrayList<>();
-//        ArrayList<Item> itemList = new ArrayList<>();
-//        Item[] newItemsList;
-//        int counter = 0;
-//
-//        if(items == null)
-//            itemList = upToDateItems;
-//        else
-//        {
-//            oldItems.addAll(Arrays.asList(items));
-//
-//            while(!upToDateItems.get(counter).equals(oldItems.get(0)))
-//            {
-//                itemList.add(upToDateItems.get(counter));
-//                counter++;
-//            }
-//
-//            itemList.addAll(oldItems);
-//        }
-//
-//        newItemsList = new Item[itemList.size()];
-//        for(int i = 0; i < itemList.size(); i++)
-//            newItemsList[i] = itemList.get(i);
-//
-//        setItems(newItemsList);
     }
 
 
