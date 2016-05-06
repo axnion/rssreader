@@ -10,9 +10,9 @@ import javafx.scene.text.Text;
  * @author Axel Nilsson (axnion)
  * @version 0.1
  */
-public class FeedBox extends HBox
+class FeedBox extends HBox
 {
-    public FeedBox(Feed feed)
+    FeedBox(Feed feed)
     {
         Text text = new Text();
         text.setText(feed.getTitle());

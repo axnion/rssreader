@@ -11,9 +11,9 @@ import javafx.scene.layout.HBox;
  * @author Axel Nilsson (axnion)
  * @version 0.1
  */
-public class ItemBox extends HBox
+class ItemBox extends HBox
 {
-    public ItemBox(Item item, Client.BrowserControl bc)
+    ItemBox(Item item, Client.BrowserControl bc)
     {
         Hyperlink link = new Hyperlink();
         link.setText(item.getTitle());

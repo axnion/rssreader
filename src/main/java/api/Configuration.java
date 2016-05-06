@@ -225,16 +225,30 @@ public class Configuration
     }
 
     /**
+     * NOT TESTED
+     */
+    public ItemList getItemList(String name)
+    {
+        if(itemLists == null)
+            throw new RuntimeException("There are no ItemLists");
+
+        for(ItemList itemList : itemLists)
+        {
+            if(itemList.getName().equals(name))
+                return itemList;
+        }
+
+        throw new RuntimeException("There is no ItemList with that name");
+    }
+
+    /**
      * This is the main update method. It calls on the other update methods in both the Feed objects
      * and the itemList objects. So it will go though every Feed object and check for updates and
      * update them, and the go though every itemList and update them.
      */
     public void update()
     {
-        Feed[] feeds = getFeeds();
-        ItemList[] itemLists = getItemLists();
-
-        if(feeds == null)
+        if(feeds == null || itemLists == null)
             throw new RuntimeException("There is nothing to be updated");
 
         for(Feed feed : feeds)

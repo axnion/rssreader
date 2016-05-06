@@ -209,6 +209,8 @@ public class ItemListTest
 
     /**
      * Test Case: 21
+     * Adds a feed url to the ItemList, then it updates the ItemList with a Feed containing the feed
+     * url. Then adds another feed and updates again. Checks results both times.
      */
     @Test
     public void updateTest()
@@ -231,6 +233,33 @@ public class ItemListTest
         assertEquals("item01", items[1].getTitle());
         assertEquals("item10", items[2].getTitle());
         assertEquals("item11", items[3].getTitle());
+    }
+
+    /**
+     * Test Case: 50
+     * Tries to update an ItemList with no feed urls. Should produce RuntimeException.
+     */
+    @Test
+    public void updateTestNoFeedUrls()
+    {
+        Feed[] feeds = createFeedArrayMock();
+        itemList.update(feeds);
+
+        assertNull(itemList.getItems());
+    }
+
+    /**
+     * Test Case: 51
+     * Tries to update an ItemList with null as an argument. Should produce RuntimeException.
+     */
+    @Test(expected = RuntimeException.class)
+    public void updateTestNoFeeds()
+    {
+        Feed[] feeds = createFeedArrayMock();
+        itemList.addFeed(feed1);
+        itemList.update(null);
+
+        assertNull(itemList.getItems());
     }
 
     private Feed[] createFeedArrayMock()

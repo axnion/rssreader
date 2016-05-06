@@ -117,20 +117,27 @@ public class ItemList
     {
         Item[] newList = null;
 
-        for(int i = 0; i < feeds.length; i++)
+        if(feeds == null)
+            throw new RuntimeException("No Feeds to update the ItemList");
+
+        if(feedUrls != null)
         {
-            for(int j = 0; j < feedUrls.length; j++)
+            for(int i = 0; i < feeds.length; i++)
             {
-                if(feeds[i].getUrlToXML().equals(feedUrls[j]))
+                for(int j = 0; j < feedUrls.length; j++)
                 {
-                    if(newList == null)
-                        newList = feeds[i].getItems();
-                    else
-                        newList = combineItemArrays(newList, feeds[i].getItems());
-                    break;
+                    if(feeds[i].getUrlToXML().equals(feedUrls[j]))
+                    {
+                        if(newList == null)
+                            newList = feeds[i].getItems();
+                        else
+                            newList = combineItemArrays(newList, feeds[i].getItems());
+                        break;
+                    }
                 }
             }
         }
+
         items = newList;
     }
 
