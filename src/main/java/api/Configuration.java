@@ -248,13 +248,17 @@ public class Configuration
      */
     public void update()
     {
-        if(feeds == null || itemLists == null)
-            throw new RuntimeException("There is nothing to be updated");
+        if(feeds != null)
+        {
+            for(Feed feed : feeds)
+                feed.update();
+        }
 
-        for(Feed feed : feeds)
-            feed.update();
-        for(ItemList itemList : itemLists)
-            itemList.update(feeds);
+        if(itemLists != null)
+        {
+            for(ItemList itemList : itemLists)
+                itemList.update(feeds);
+        }
     }
 
     /**
@@ -272,7 +276,7 @@ public class Configuration
         }
         catch(IOException err)
         {
-            err.printStackTrace();
+            throw new RuntimeException("Could not save that file to " + path);
         }
     }
 
@@ -292,7 +296,7 @@ public class Configuration
         }
         catch(IOException err)
         {
-            throw new RuntimeException();
+            throw new RuntimeException("Could not load that file from" + path);
         }
     }
 

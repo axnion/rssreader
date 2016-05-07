@@ -1,5 +1,6 @@
 import api.*;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,7 +9,6 @@ import java.util.Scanner;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.when;
 
 /**
  * Class apiTesting
@@ -27,11 +27,11 @@ public class apiTesting
     }
 
     /**
-     * OBS! SHOULD BE MOVED TO INTEGRATION TESTING
-     *
      * Test Case: 37
+     * Loads an existing file and checks all the values in the Feeds so they are what they should
+     * be.
      */
-    //@Test
+    @Test
     public void loadExistingConfiguration_Feeds()
     {
         config.loadConfig(apiTesting.class
@@ -70,11 +70,11 @@ public class apiTesting
     }
 
     /**
-     * OBS! SHOULD BE MOVED TO INTEGRATION TESTING
-     *
      * Test Case: 38
+     * Loads an existing file and checks all the values in the ItemLists so they are what they
+     * should be.
      */
-    //@Test
+    @Test
     public void loadExistingConfiguration_ItemLists()
     {
         config.loadConfig(apiTesting.class
@@ -101,67 +101,72 @@ public class apiTesting
     }
 
     /**
-     * OBS! SHOULD BE MOVED TO INTEGRATION TESTING
-     *
      * Test Case: 39
+     * Tries to load a file that does not exist, this should produce a RuntimeExcpetion.
      */
-    //@Test(expected = RuntimeException.class)
+    @Test(expected = RuntimeException.class)
     public void loadNonexistentConfiguration()
     {
         config.loadConfig("ThisFileShouldNotExistAndIfItDoesYouAreAnIdiot.json");
     }
 
     /**
-     * OBS! SHOULD BE MOVED TO INTEGRATION TESTING
-     *
      * Test Case: 40
+     * Adds Feeds and creates ItemLists to create a configuration. Then it saves the Configuration
+     * to a file. Then the test read the file and compares the content to what it should be that's
+     * saved in a String variable.
      */
-    //@Test
+    @Test
     public void saveConfiguration()
     {
-        // Creates Item mocks
-        Item[] items = new Item[1];
-        items[0] = Mocks.createMockItem("Example Item", "http://examplefeed.net/exampleItem",
-                "This is an item description", "exItem", false, true);
+        // Adding Feeds to the Configuration
+        config.addFeedToConfiguration(apiTesting.class
+                .getResource("../../resources/test/xml/exampleFeed1.xml").getPath());
+        config.addFeedToConfiguration(apiTesting.class
+                .getResource("../../resources/test/xml/exampleFeed2.xml").getPath());
 
-        // Creates Feed mocks
-        Feed[] feeds = new Feed[1];
-        feeds[0] = Mocks.createMockFeed("Example Feed", "http://examplefeed.net",
-                "This is a description for example feed", "http://examplefeed.net/feed.xml");
-        when(feeds[0].getItems()).thenReturn(items);
-        config.setFeeds(feeds);
+        // Adding ItemLists to the Configuration
+        config.addItemListToConfiguration("Test1");
+        config.addItemListToConfiguration("Test2");
 
-        String[] urls = new String[1];
-        urls[0] = "http://examplefeed.net/feed.xml";
+        // Adding Feed to an ItemList
+        config.addFeedToItemList("Test2", apiTesting.class
+                .getResource("../../resources/test/xml/exampleFeed2.xml").getPath());
 
-        // Creates ItemList mocks
-        ItemList[] itemList = new ItemList[1];
-        itemList[0] = Mocks.createMockItemList("Example ItemList", "DATE_DEC");
-        when(itemList[0].getFeedUrls()).thenReturn(urls);
-        config.setItemLists(itemList);
-
+        // Saves configuration
         config.saveConfig(apiTesting.class
                 .getResource("../../resources/test/configuration/savedConfig.json").getPath());
-        String str = null;
-        String comp = null;
+
+        String str = "";
+        String comp = "{\"feeds\":[{\"title\":\"Example Feed 1\",\"link\":\"" +
+                "http://examplefeed1.com/\",\"description\":\"This is a description for example" +
+                " feed 1\",\"urlToXML\":\""+ apiTesting.class
+                .getResource("../../resources/test/xml/exampleFeed1.xml").getPath() +"\",\"" +
+                "items\":[{\"title\":\"Example Item 1\",\"link\":\"http://www.google.com\",\"" +
+                "description\":\"This is an item description\",\"id\":\"example-id-1\",\"" +
+                "visited\":false,\"starred\":false},{\"title\":\"Example Item 2\",\"link\":\"" +
+                "http://www.google.com\",\"description\":\"This is an item description\",\"id\"" +
+                ":\"example-id-2\",\"visited\":false,\"starred\":false}]},{\"title\":\"" +
+                "Example Feed 2\",\"link\":\"http://examplefeed2.com/\",\"description\":\"" +
+                "This is a description for example feed 2\",\"urlToXML\":\"" + apiTesting.class
+                .getResource("../../resources/test/xml/exampleFeed2.xml").getPath() + "\",\"" +
+                "items\":[{\"title\":\"Example Item 21\",\"link\":\"http://www.google.com\",\"" +
+                "description\":\"This is an item description\",\"id\":\"example-id-21\",\"" +
+                "visited\":false,\"starred\":false},{\"title\":\"Example Item 22\",\"link\":\"" +
+                "http://www.google.com\",\"description\":\"This is an item description\",\"id\"" +
+                ":\"example-id-22\",\"visited\":false,\"starred\":false}]}],\"itemLists\":[{\"" +
+                "name\":\"Test1\",\"sorting\":\"\",\"feedUrls\":null},{\"name\":\"Test2\",\"" +
+                "sorting\":\"\",\"feedUrls\":[\"" + apiTesting.class
+                .getResource("../../resources/test/xml/exampleFeed2.xml").getPath() + "\"]}]}";
 
         try
         {
             File file = new File(apiTesting.class
-                    .getResource("../../resources/test/configuration/savedConfig.json")
-                    .getPath());
+                    .getResource("../../resources/test/configuration/savedConfig.json").getPath());
             Scanner scan = new Scanner(file);
 
-            while(scan.hasNext())
-                str += scan.next();
-
-            file = new File(apiTesting.class
-                    .getResource("../../resources/test/configuration/savedConfigCompare.json")
-                    .getPath());
-            scan = new Scanner(file);
-
-            while(scan.hasNext())
-                comp += scan.next();
+            while(scan.hasNextLine())
+                str += scan.nextLine();
         }
         catch(IOException err)
         {
@@ -169,8 +174,18 @@ public class apiTesting
         }
 
         assertNotNull(str);
-        assertNotNull(comp);
         assertEquals(0, str.compareTo(comp));
+    }
+
+    /**
+     * Test Case: 52
+     * Tries to save the configuration to a directory. Should produce a RuntimeException.
+     */
+    @Test(expected = RuntimeException.class)
+    public void savingToADirectory()
+    {
+        config.saveConfig(apiTesting.class
+                .getResource("../../resources/test/configuration/").getPath());
     }
 }
 

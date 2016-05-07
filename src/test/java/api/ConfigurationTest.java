@@ -464,6 +464,41 @@ public class ConfigurationTest
         config.removeFeedFromItemList("ItemList 1", "http://examplefeed.net/feed.xml");
     }
 
+    @Test
+    public void getExistingItemList()
+    {
+        // Creates ItemList mocks
+        ItemList[] itemLists = new ItemList[3];
+        itemLists[0] = Mocks.createMockItemList("ItemList 1", "DATE_ASC");
+        itemLists[1] = Mocks.createMockItemList("ItemList 2", "NAME_DEC");
+        itemLists[2] = Mocks.createMockItemList("ItemList 3", "NAME_ASC");
+        config.setItemLists(itemLists);
+
+        ItemList returnValue = config.getItemList("ItemList 2");
+
+        assertEquals("ItemList 2", returnValue.getName());
+        assertEquals("NAME_DEC", returnValue.getSorting());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void getNonExistingItemList()
+    {
+        // Creates ItemList mocks
+        ItemList[] itemLists = new ItemList[3];
+        itemLists[0] = Mocks.createMockItemList("ItemList 1", "DATE_ASC");
+        itemLists[1] = Mocks.createMockItemList("ItemList 2", "NAME_DEC");
+        itemLists[2] = Mocks.createMockItemList("ItemList 3", "NAME_ASC");
+        config.setItemLists(itemLists);
+
+        ItemList returnValue = config.getItemList("itemList 4");
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void getItemListFromEmptyList()
+    {
+        ItemList returnValue = config.getItemList("itemList 4");
+    }
+
     /**
      * Test Case: 35
      */
@@ -499,11 +534,15 @@ public class ConfigurationTest
 
     /**
      * Test Case: 36
+     * Tries to update the the feeds and the item lists but both are null. Should just ignore and not
+     * call update on the feeds or item lists and they should remain null.
      */
-    @Test(expected = RuntimeException.class)
+    @Test
     public void updateOnEmpty()
     {
         config.update();
+        assertNull(config.getFeeds());
+        assertNull(config.getItemLists());
     }
 }
 

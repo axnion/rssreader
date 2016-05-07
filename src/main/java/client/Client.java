@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Class Client
  *
  * @author Axel Nilsson (axnion)
- * @version 0.1
+ * @version 0.2
  */
 public class Client extends Application
 {
