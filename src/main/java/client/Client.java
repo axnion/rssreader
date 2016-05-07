@@ -4,12 +4,15 @@ import api.Configuration;
 import api.Feed;
 
 
+import api.ItemList;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 /**
  * Class Client
@@ -19,12 +22,11 @@ import javafx.stage.Stage;
  */
 public class Client extends Application
 {
-    Configuration api;
     private VBox root;
-    //private HBox saveAndLoadArea;
-    private HBox urlInputArea;
+    private Configuration api;
     private VBox feedList;
-    private ItemListBox[] itemListBoxes;
+    private ArrayList<ItemListBox> itemListBoxes;
+    HBox itemListContainer;
 
     public Client()
     {
@@ -41,45 +43,57 @@ public class Client extends Application
         primaryStage.setTitle("RSSReader");
 
         root = new VBox();
-        urlInputArea = new HBox();
         feedList = new VBox();
-        api.addItemListToConfiguration("List");
-        itemListBoxes = new ItemListBox[1];
-        itemListBoxes[0] = new ItemListBox("List", api, new BrowserControl());
+        itemListContainer = new HBox();
+        itemListBoxes = new ArrayList<>();
 
-        // urlInputArea
-        TextField urlInput = new TextField();
-        urlInput.setMinWidth(300);
-        Button btn = new Button();
-        btn.setText("Add");
-        urlInputArea.getChildren().addAll(urlInput, btn);
-        btn.setOnAction((event) ->
+        // addMenu
+        VBox addMenu = new VBox();
+        HBox saveAndLoadArea = new HBox();
+        HBox feedAddArea = new HBox();
+        HBox itemListAddArea = new HBox();
+        addMenu.getChildren().addAll(saveAndLoadArea, feedAddArea, itemListAddArea);
+
+        // saveAndLoadArea
+        TextField saveFileInput = new TextField();
+        saveFileInput.setMinWidth(300);
+        Button saveConfigBtn = new Button();
+        saveConfigBtn.setText("Save");
+        Button loadConfigBtn = new Button();
+        loadConfigBtn.setText("Load");
+        saveAndLoadArea.getChildren().addAll(saveFileInput, saveConfigBtn, loadConfigBtn);
+        saveConfigBtn.setOnAction((event) -> saveConfiguration(saveFileInput.getText()));
+        loadConfigBtn.setOnAction((event) -> loadConfiguration(saveFileInput.getText()));
+
+        // feedAddArea
+        TextField feedInput = new TextField();
+        feedInput.setMinWidth(300);
+        Button addFeedBtn = new Button();
+        addFeedBtn.setText("Add Feed");
+        feedAddArea.getChildren().addAll(feedInput, addFeedBtn);
+        addFeedBtn.setOnAction((event) ->
         {
-            api.addFeedToConfiguration(urlInput.getText());
-            urlInput.setText("");
+            addFeed(feedInput.getText(), true);
+            feedInput.setText("");
+        });
 
-            try
-            {
-                api.update();
-            }
-            catch(RuntimeException err)
-            {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle(err.getLocalizedMessage());
-                alert.setHeaderText("Look, an Information Dialog");
-                alert.setContentText(err.getMessage());
-                alert.showAndWait();
-            }
-
-            updateFeeds(api.getFeeds());
+        // itemListAddArea
+        TextField itemListNameInput = new TextField();
+        itemListNameInput.setMinWidth(300);
+        Button addItemListBtn = new Button();
+        addItemListBtn.setText("Add Item List");
+        itemListAddArea.getChildren().addAll(itemListNameInput, addItemListBtn);
+        addItemListBtn.setOnAction((event) ->
+        {
+            addItemList(itemListNameInput.getText(), true);
+            itemListNameInput.setText("");
         });
 
         feedList.getChildren().add(new Label("Feeds"));
 
-        root.getChildren().add(urlInputArea);
+        root.getChildren().add(addMenu);
         root.getChildren().add(feedList);
-        for(ItemListBox itemListBox : itemListBoxes)
-            root.getChildren().add(itemListBox);
+        root.getChildren().add(itemListContainer);
 
         primaryStage.setScene(new Scene(root, 500, 1000));
         primaryStage.show();
@@ -98,6 +112,120 @@ public class Client extends Application
 
         for(ItemListBox itemListBox : itemListBoxes)
             itemListBox.updateMenu(feeds);
+    }
+
+    private void addFeed(String url, boolean addToConfig)
+    {
+        if(url.equals(""))
+            return;
+
+        if(addToConfig)
+            api.addFeedToConfiguration(url);
+
+        try
+        {
+            api.update();
+        }
+        catch(RuntimeException err)
+        {
+            displayErrorMessage(err.getMessage());
+            err.printStackTrace();
+        }
+
+        updateFeeds(api.getFeeds());
+    }
+
+    private void addItemList(String name, boolean addToConfig)
+    {
+        if(name.equals(""))
+            return;
+
+        try
+        {
+            Button removeBtn = new Button();
+            removeBtn.setText("Remove");
+            removeBtn.setOnAction((event) -> removeItemList(name));
+
+            if(addToConfig)
+                api.addItemListToConfiguration(name);
+
+            itemListBoxes.add(new ItemListBox(name, api, new BrowserControl(), removeBtn));
+
+            itemListContainer.getChildren().removeAll(itemListBoxes);
+
+            for(ItemListBox itemListBox : itemListBoxes)
+                itemListContainer.getChildren().add(itemListBox);
+        }
+        catch(RuntimeException err)
+        {
+            displayErrorMessage(err.getMessage());
+            err.printStackTrace();
+        }
+    }
+
+    private void removeItemList(String name)
+    {
+        if(name.equals(""))
+            return;
+
+        try
+        {
+            api.removeItemListFromConfiguration(name);
+
+            int i;
+            for(i = 0; i < itemListBoxes.size(); i++)
+            {
+                if(itemListBoxes.get(i).getName().equals(name))
+                    break;
+            }
+
+            itemListContainer.getChildren().removeAll(itemListBoxes);
+
+            itemListBoxes.remove(i);
+            for(ItemListBox itemListBox : itemListBoxes)
+                itemListContainer.getChildren().add(itemListBox);
+        }
+        catch(RuntimeException err)
+        {
+            displayErrorMessage(err.getMessage());
+            err.printStackTrace();
+        }
+    }
+
+    private void loadConfiguration(String path)
+    {
+        api.loadConfig(path);
+
+        root.getChildren().removeAll(feedList);
+        root.getChildren().removeAll(itemListContainer);
+        feedList = new VBox();
+        itemListContainer = new HBox();
+        root.getChildren().add(feedList);
+        root.getChildren().add(itemListContainer);
+        itemListBoxes.clear();
+
+        Feed[] feeds = api.getFeeds();
+        ItemList[] itemLists = api.getItemLists();
+
+        for(Feed feed : feeds)
+            addFeed(feed.getUrlToXML(), false);
+
+        for(ItemList itemList : itemLists)
+            addItemList(itemList.getName(), false);
+    }
+
+    private void saveConfiguration(String path)
+    {
+        api.saveConfig(path);
+    }
+
+    private void displayErrorMessage(String message)
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Something went wrong!");
+        alert.setHeaderText("Look, an Information Dialog");
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     class BrowserControl
