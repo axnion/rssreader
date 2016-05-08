@@ -72,13 +72,13 @@ jfx {
     fileAssociations = null // List<Map<String, Object>>
     noBlobSigning = false // when using bundler "jnlp", you can choose to NOT use blob signing
 
-    // Used when packaging on Linux
-    //bundleArguments = null
+//     Used when packaging on Linux
+    bundleArguments = null
 
-    // Used when packageing on Windows
-    bundleArguments = [
-            runtime: null
-    ]
+//     Used when packageing on Windows
+//    bundleArguments = [
+//            runtime: null
+//    ]
 
     skipNativeLauncherWorkaround124 = false
     skipNativeLauncherWorkaround167 = false
