@@ -10,6 +10,14 @@ import static org.mockito.Mockito.*;
  */
 public class Mocks
 {
+    /**
+     *
+     * @param title
+     * @param link
+     * @param desc
+     * @param url
+     * @return
+     */
     public static Feed createMockFeed(String title, String link, String desc, String url)
     {
         Feed feed = mock(Feed.class);
@@ -22,6 +30,16 @@ public class Mocks
         return feed;
     }
 
+    /**
+     *
+     * @param title
+     * @param link
+     * @param desc
+     * @param id
+     * @param isVisited
+     * @param isStarred
+     * @return
+     */
     public static Item createMockItem(String title, String link, String desc, String id,
                                 boolean isVisited, boolean isStarred)
     {
@@ -37,6 +55,12 @@ public class Mocks
         return item;
     }
 
+    /**
+     *
+     * @param name
+     * @param sorting
+     * @return
+     */
     public static ItemList createMockItemList(String name, String sorting)
     {
         ItemList itemList = mock(ItemList.class);

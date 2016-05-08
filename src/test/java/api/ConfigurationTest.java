@@ -24,7 +24,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 22
+     * Unit test case: 22
      * Testing the accessor and mutator methods in the Configuration class. Use the setters to set
      * the fields to mocked objects and then use the getters and check the validity of the returned
      * objects
@@ -56,7 +56,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 24
+     * Unit test case: 24
      * Adds one Feed to the Configuration when it contains no Feeds. Then checks so there is only
      * that one Feed in the Configuration.
      */
@@ -74,7 +74,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 25
+     * Unit test case: 25
      * Adds a Feed to a Configuration already containing Feeds. Then checks so there is now three
      * Feeds instead of the previous two and also checks the order and the validity.
      */
@@ -103,7 +103,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 26
+     * Unit test case: 26
      * Tries to add a Feed with an identical urlToXML. Since that url is the identifier of Feed a
      * RuntimeException is thrown because we can't have duplicates.
      */
@@ -126,7 +126,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 27
+     * Unit test case: 27
      * Removes a Feed that exists in the Configuration. This Feed should then not be present in the
      * Feed array afterwards.
      */
@@ -150,7 +150,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 28
+     * Unit test case: 28
      * Tries to remove a Feed from the Configuration that does not exist. This should produce
      * RuntimeException. The tests also checks so the Feed array was untouched.
      */
@@ -175,7 +175,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 29
+     * Unit test case: 29
      * Tries to remove a Feed from an empty Feed array. This should produce a RuntimeException. The
      * Feed array should also be pointing to null.
      */
@@ -187,7 +187,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 30
+     * Unit test case: 30
      * Removes the last remaining Feed in the Feed array. The Feed array should be pointing at null
      * afterwards.
      */
@@ -208,7 +208,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 43
+     * Unit test case: 43
      * Tries to remove a Feed that exist in several elements in the array. It should only remove the
      * first one and the rest of the array should be intact.
      */
@@ -240,7 +240,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 31
+     * Unit test case: 31
      */
     @Test
     public void addItemListInEmptyConfiguration()
@@ -252,7 +252,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 32
+     * Unit test case: 32
      */
     @Test
     public void addItemListInNonEmptyConfiguration()
@@ -274,7 +274,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 33
+     * Unit test case: 33
      */
     @Test(expected = RuntimeException.class)
     public void addItemListWithExistingName()
@@ -295,7 +295,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 50
+     * Unit test case: 50
      * Removes an ItemList that exists in the Configuration. The correct one should be removed and
      * there should be only one left afterwards.
      */
@@ -317,7 +317,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 51
+     * Unit test case: 51
      * Tries to remove an ItemList that already
      */
     @Test(expected = RuntimeException.class)
@@ -339,7 +339,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 52
+     * Unit test case: 52
      */
     @Test(expected = RuntimeException.class)
     public void removeOnEmptyItemListArray()
@@ -349,7 +349,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 53
+     * Unit test case: 53
      */
     @Test
     public void removeLastItemList()
@@ -367,7 +367,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 44
+     * Unit test case: 44
      * Tries to add a Feed to an existing ItemList. Uses verify method to verify that the addFeed
      * method is called.
      */
@@ -389,7 +389,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 45
+     * Unit test case: 45
      * Tries to add a Feed to an ItemList that does not exist. This will result in a
      * RuntimeException.
      */
@@ -405,7 +405,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 46
+     * Unit test case: 46
      * Tries to add Feed to an ItemList when the array of ItemLists is empty. Should throw
      * RuntimeException.
      */
@@ -416,7 +416,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 47
+     * Unit test case: 47
      * Removes a Feed that exist in the ItemList. The test then verifies that the removeFeed was
      * called on the correct ItemList.
      */
@@ -438,7 +438,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 48
+     * Unit test case: 48
      * Tries to remove a Feed from an ItemList that does not exist. This should produce a
      * RuntimeException.
      */
@@ -454,7 +454,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 49
+     * Unit test case: 49
      * Tries to remove a Feed from an ItemList that does not exist, because there are no ItemList at
      * all. Should produce a RuntimeException.
      */
@@ -464,6 +464,9 @@ public class ConfigurationTest
         config.removeFeedFromItemList("ItemList 1", "http://examplefeed.net/feed.xml");
     }
 
+    /**
+     * Unit test case: 62
+     */
     @Test
     public void getExistingItemList()
     {
@@ -480,6 +483,9 @@ public class ConfigurationTest
         assertEquals("NAME_DEC", returnValue.getSorting());
     }
 
+    /**
+     * Unit test case: 63
+     */
     @Test(expected = RuntimeException.class)
     public void getNonExistingItemList()
     {
@@ -493,6 +499,9 @@ public class ConfigurationTest
         ItemList returnValue = config.getItemList("itemList 4");
     }
 
+    /**
+     * Unit test case: 64
+     */
     @Test(expected = RuntimeException.class)
     public void getItemListFromEmptyList()
     {
@@ -500,7 +509,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 35
+     * Unit test case: 35
      */
     @Test
     public void updateTest()
@@ -533,7 +542,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Test Case: 36
+     * Unit test case: 36
      * Tries to update the the feeds and the item lists but both are null. Should just ignore and not
      * call update on the feeds or item lists and they should remain null.
      */

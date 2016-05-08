@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 public class ItemTest
 {
     /**
-     * Test Case: 1
+     * Unit test case: 1
      * Testing the constructor without parameters and compare the values of the fields to the
      * expected results using the accessors.
      */
@@ -30,7 +30,7 @@ public class ItemTest
     }
 
     /**
-     * Test Case: 2
+     * Unit test case: 2
      * Testing the constructor without parameters and compare the values of the fields to the
      * expected results using the accessors.
      */
@@ -48,7 +48,7 @@ public class ItemTest
     }
 
     /**
-     * Test Case: 3
+     * Unit test case: 3
      * Testing the accessors and mutators so we can determine if they are setting the correct values
      * and returning the same values.
      */

@@ -23,7 +23,7 @@ public class FeedTest
     }
 
     /**
-     * Test Case: 4
+     * Unit test case: 4
      */
     @Test
     public void createObjectWithoutUrl()
@@ -36,7 +36,7 @@ public class FeedTest
     }
 
     /**
-     * Test Case: 5
+     * Unit test case: 5
      */
     @Test
     public void createObjectWithUrl()
@@ -63,7 +63,7 @@ public class FeedTest
     }
 
     /**
-     * Test Case: 6
+     * Unit test case: 6
      */
     @Test
     public void accessorsAndMutators()
@@ -88,7 +88,7 @@ public class FeedTest
     }
 
     /**
-     * Test Case: 7
+     * Unit test case: 7
      */
     @Test(expected = RuntimeException.class)
     public void readingNonexistingFile()
@@ -98,7 +98,7 @@ public class FeedTest
     }
 
     /**
-     * Test Case: 8
+     * Unit test case: 8
      */
     @Test
     public void syncingWithXmlAddedItem()
@@ -136,7 +136,7 @@ public class FeedTest
     }
 
     /**
-     * Test Case: 9
+     * Unit test case: 9
      */
     @Test
     public void syncingWithXmlRemovedItem()
@@ -164,7 +164,7 @@ public class FeedTest
     }
 
     /**
-     * Test Case: 41
+     * Unit test case: 41
      */
     @Test
     public void syncingWithXmlRemovedLastItem()

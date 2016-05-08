@@ -26,7 +26,7 @@ public class ItemListTest
     }
 
     /**
-     * Test Case: 10
+     * Unit test case: 10
      */
     @Test
     public void createUnnamedObject()
@@ -38,7 +38,7 @@ public class ItemListTest
     }
 
     /**
-     * Test Case: 11
+     * Unit test case: 11
      */
     @Test
     public void createNamedObject()
@@ -51,7 +51,7 @@ public class ItemListTest
     }
 
     /**
-     * Test Case: 12
+     * Unit test case: 12
      */
     @Test
     public void accessorsAndMutators()
@@ -72,7 +72,7 @@ public class ItemListTest
     }
 
     /**
-     * Test Case: 13
+     * Unit test case: 13
      */
     @Test
     public void addFeedTest()
@@ -88,7 +88,7 @@ public class ItemListTest
     }
 
     /**
-     * Test Case: 14
+     * Unit test case: 14
      */
     @Test
     public void addExistingFeed()
@@ -105,7 +105,7 @@ public class ItemListTest
     }
 
     /**
-     * Test Case: 15
+     * Unit test case: 15
      */
     @Test
     public void removeFirstInFeedArray()
@@ -119,7 +119,7 @@ public class ItemListTest
     }
 
     /**
-     * Test Case: 16
+     * Unit test case: 16
      */
     @Test
     public void removeMiddleInFeedArray()
@@ -133,7 +133,7 @@ public class ItemListTest
     }
 
     /**
-     * Test Case: 17
+     * Unit test case: 17
      */
     @Test
     public void removeLastInFeedArray()
@@ -147,7 +147,7 @@ public class ItemListTest
     }
 
     /**
-     * Test Case: 18
+     * Unit test case: 18
      */
     @Test(expected = RuntimeException.class)
     public void removeOnEmptyFeedArray()
@@ -156,7 +156,7 @@ public class ItemListTest
     }
 
     /**
-     * Test Case: 19
+     * Unit test case: 19
      */
     @Test
     public void removeNonexistentFeed()
@@ -171,7 +171,7 @@ public class ItemListTest
     }
 
     /**
-     * Test Case: 20
+     * Unit test case: 20
      */
     @Test
     public void removingLastFeed()
@@ -183,7 +183,7 @@ public class ItemListTest
     }
 
     /**
-     * Test Case: 42
+     * Unit test case: 42
      */
     @Test
     public void removingFeedWhenMoreThanOneInItemList()
@@ -208,7 +208,7 @@ public class ItemListTest
     }
 
     /**
-     * Test Case: 21
+     * Unit test case: 21
      * Adds a feed url to the ItemList, then it updates the ItemList with a Feed containing the feed
      * url. Then adds another feed and updates again. Checks results both times.
      */
@@ -236,7 +236,7 @@ public class ItemListTest
     }
 
     /**
-     * Test Case: 50
+     * Unit test case: 50
      * Tries to update an ItemList with no feed urls. Should produce RuntimeException.
      */
     @Test
@@ -249,7 +249,7 @@ public class ItemListTest
     }
 
     /**
-     * Test Case: 51
+     * Unit test case: 51
      * Tries to update an ItemList with null as an argument. Should produce RuntimeException.
      */
     @Test(expected = RuntimeException.class)
