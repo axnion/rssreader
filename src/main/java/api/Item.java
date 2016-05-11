@@ -16,8 +16,9 @@ public class Item
     private String link;            // The link to the content of the item
     private String description;     // A descriptive text about the item
     private String id;              // A unique ID for this item
-    private boolean visited;        // True if user has visited the
-    private boolean starred;
+    private String date;            // The date the item was released
+    private boolean visited;        // True if user has visited the item
+    private boolean starred;        // True if user has starred the item
 
     /**
      * Constructor
@@ -28,6 +29,7 @@ public class Item
         link = "";
         description = "";
         id = "";
+        date = "";
         visited = false;
         starred = false;
     }
@@ -39,15 +41,17 @@ public class Item
      * @param link          The URL to the items content
      * @param description   A descriptive text about the item
      * @param id            A unique ID to easily identify the item
+     * @param date          A String containing the date and time of the items release
      * @param visited       True if the user has visited the item, if not then false
      * @param starred       True if the user has starred this item, if not then false.
      */
-    Item(String title, String link, String description, String id, boolean visited, boolean starred)
+    Item(String title, String link, String description, String id, String date, boolean visited, boolean starred)
     {
         this.title = title;
         this.link = link;
         this.description = description;
         this.id = id;
+        this.date = date;
         this.visited = visited;
         this.starred = starred;
     }
@@ -89,6 +93,14 @@ public class Item
     }
 
     /**
+     * @return A Date object containing the date and time of this items release
+     */
+    public String getDate()
+    {
+        return date;
+    }
+
+    /**
      * @return True if the user has visited the item, if not then false.
      */
     public boolean isVisited()
@@ -122,6 +134,11 @@ public class Item
     void setId(String id)
     {
         this.id = id;
+    }
+
+    void setDate(String date)
+    {
+        this.date = date;
     }
 
     void setVisited(boolean visited)

@@ -4,10 +4,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -105,6 +103,8 @@ public class Feed
                     .getNodeValue());
             item.setLink(itemElement.getElementsByTagName("link").item(0).getFirstChild()
                     .getNodeValue());
+            item.setDate(itemElement.getElementsByTagName("pubDate").item(0).getFirstChild()
+                    .getNodeValue());
             item.setDescription(itemElement.getElementsByTagName("description").item(0)
                     .getFirstChild().getNodeValue());
 
@@ -162,7 +162,6 @@ public class Feed
 
         setItems(newItems);
     }
-
 
     /*
     ------------------------------- ACCESSORS AND MUTATORS -----------------------------------------
