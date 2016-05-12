@@ -1,0 +1,44 @@
+<rss>
+    <channel>
+        <title>Test title</title>
+        <description>This is a feed description</description>
+        <link>http://www.feed-link.com</link>
+        <item>
+            <title>Item title 1</title>
+            <description>This is an item 1 description</description>
+            <link>http://www.test-link-1.net</link>
+            <pubDate>Mon, 01 Jan 2016 00:00:00 +0000</pubDate>
+            <guid>test-id-1</guid>
+        </item>
+        <item>
+            <description>This is an item 2 description</description>
+            <link>http://www.test-link-2.net</link>
+            <pubDate>Tue, 02 Jan 2016 00:00:00 +0000</pubDate>
+            <guid>test-id-2</guid>
+        </item>
+        <item>
+            <title>Item title 3</title>
+            <link>http://www.test-link-3.net</link>
+            <pubDate>Wen, 03 Jan 2016 00:00:00 +0000</pubDate>
+            <guid>test-id-3</guid>
+        </item>
+        <item>
+            <title>Item title 4</title>
+            <description>This is an item 4 description</description>
+            <pubDate>Thu, 04 Jan 2016 00:00:00 +0000</pubDate>
+            <guid>test-id-4</guid>
+        </item>
+        <item>
+            <title>Item title 5</title>
+            <description>This is an item 5 description</description>
+            <link>http://www.test-link-5.net</link>
+            <guid>test-id-5</guid>
+        </item>
+        <item>
+            <title>Item title 6</title>
+            <description>This is an item 6 description</description>
+            <link>http://www.test-link-6.net</link>
+            <pubDate>Fri, 06 Jan 2016 00:00:00 +0000</pubDate>
+        </item>
+    </channel>
+</rss>

@@ -97,6 +97,108 @@ public class FeedTest
         feed.update();
     }
 
+    @Test
+    public void readingFeedWithItemWithEverything()
+    {
+        String url = "../../../resources/test/xml/FeedBrokenItems.xml";
+        feed.setUrlToXML(FeedTest.class.getResource(url).getPath());
+        feed.update();
+        Item[] items = feed.getItems();
+        assertEquals(5, items.length);
+
+        assertEquals("Item title 1", items[0].getTitle());
+        assertEquals("http://www.test-link-1.net", items[0].getLink());
+        assertEquals("This is an item 1 description", items[0].getDescription());
+        assertEquals("Mon, 01 Jan 2016 00:00:00 +0000", items[0].getDate());
+        assertEquals("test-id-1", items[0].getId());
+    }
+
+    @Test
+    public void readingFeedWithItemWithoutTitle()
+    {
+        String url = "../../../resources/test/xml/FeedBrokenItems.xml";
+        feed.setUrlToXML(FeedTest.class.getResource(url).getPath());
+        feed.update();
+        Item[] items = feed.getItems();
+        assertEquals(5, items.length);
+
+        assertEquals("Item title 1", items[0].getTitle());
+        assertEquals("http://www.test-link-1.net", items[0].getLink());
+        assertEquals("This is an item 1 description", items[0].getDescription());
+        assertEquals("Mon, 01 Jan 2016 00:00:00 +0000", items[0].getDate());
+        assertEquals("test-id-1", items[0].getId());
+
+        assertEquals("Untitled", items[1].getTitle());
+        assertEquals("http://www.test-link-2.net", items[1].getLink());
+        assertEquals("This is an item 2 description", items[1].getDescription());
+        assertEquals("Tue, 02 Jan 2016 00:00:00 +0000", items[1].getDate());
+        assertEquals("test-id-2", items[1].getId());
+    }
+
+    @Test
+    public void readingFeedWithItemWithoutDescription()
+    {
+        String url = "../../../resources/test/xml/FeedBrokenItems.xml";
+        feed.setUrlToXML(FeedTest.class.getResource(url).getPath());
+        feed.update();
+        Item[] items = feed.getItems();
+        assertEquals(5, items.length);
+
+        assertEquals("Item title 3", items[2].getTitle());
+        assertEquals("http://www.test-link-3.net", items[2].getLink());
+        assertEquals("", items[2].getDescription());
+        assertEquals("Sat, 01 Jan 0001 00:00:00 +0000", items[2].getDate());
+        assertEquals("test-id-3", items[2].getId());
+    }
+
+    @Test
+    public void readingFeedWithItemWithoutLink()
+    {
+        String url = "../../../resources/test/xml/FeedBrokenItems.xml";
+        feed.setUrlToXML(FeedTest.class.getResource(url).getPath());
+        feed.update();
+        Item[] items = feed.getItems();
+        assertEquals(5, items.length);
+
+        for(Item item : items)
+            assertNotEquals("Item title 4", item.getTitle());
+    }
+
+    @Test
+    public void readingFeedWithItemWithoutDate()
+    {
+        String url = "../../../resources/test/xml/FeedBrokenItems.xml";
+        feed.setUrlToXML(FeedTest.class.getResource(url).getPath());
+        feed.update();
+
+        assertEquals("Test title", feed.getTitle());
+        assertEquals("http://www.feed-link.com", feed.getLink());
+        assertEquals("This is a feed description", feed.getDescription());
+        assertEquals(FeedTest.class.getResource(url).getPath(), feed.getUrlToXML());
+
+        Item[] items = feed.getItems();
+        assertEquals(5, items.length);
+
+        assertEquals("Item title 5", items[3].getTitle());
+        assertEquals("http://www.test-link-5.net", items[3].getLink());
+        assertEquals("This is an item 5 description", items[3].getDescription());
+        assertEquals("Mon, 01 Jan 2016 00:00:00 +0000", items[3].getDate());
+        assertEquals("test-id-5", items[3].getId());
+    }
+
+    @Test
+    public void readingFeedWithItemWithoutId()
+    {
+        String url = "../../../resources/test/xml/FeedBrokenItems.xml";
+        feed.setUrlToXML(FeedTest.class.getResource(url).getPath());
+        feed.update();
+        Item[] items = feed.getItems();
+        assertEquals(5, items.length);
+
+        for(Item item : items)
+            assertNotEquals("Item title 6", item.getTitle());
+    }
+
     /**
      * Unit test case: 8
      */
