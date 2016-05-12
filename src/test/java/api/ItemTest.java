@@ -25,6 +25,7 @@ public class ItemTest
         assertEquals(testItem.getLink(), "");
         assertEquals(testItem.getDescription(), "");
         assertEquals(testItem.getId(), "");
+        assertEquals(testItem.getDate(), "");
         assertFalse(testItem.isVisited());
         assertFalse(testItem.isStarred());
     }
@@ -44,6 +45,7 @@ public class ItemTest
         assertEquals(testItem.getLink(), "https://www.google.se");
         assertEquals(testItem.getDescription(), "This is a test");
         assertEquals(testItem.getId(), "a_title");
+        assertEquals(testItem.getDate(), "Mon, 01 Jan 2016 12:00:00 +0000");
         assertTrue(testItem.isVisited());
         assertTrue(testItem.isStarred());
     }
@@ -63,6 +65,7 @@ public class ItemTest
         testItem.setLink("https://www.google.se");
         testItem.setDescription("This is a test");
         testItem.setId("a_title");
+        testItem.setDate("Mon, 01 Jan 2016 12:00:00 +0000");
         testItem.setVisited(true);
         testItem.setStarred(true);
 
@@ -71,6 +74,7 @@ public class ItemTest
         assertEquals(testItem.getLink(), "https://www.google.se");
         assertEquals(testItem.getDescription(), "This is a test");
         assertEquals(testItem.getId(), "a_title");
+        assertEquals(testItem.getDate(), "Mon, 01 Jan 2016 12:00:00 +0000");
         assertTrue(testItem.isVisited());
         assertTrue(testItem.isStarred());
 
@@ -79,6 +83,7 @@ public class ItemTest
         testItem.setLink("https://www.bing.se");
         testItem.setDescription("This is another test");
         testItem.setId("b_title");
+        testItem.setDate("Mon, 01 Jan 2016 12:00:00 +0000");
         testItem.setVisited(false);
         testItem.setStarred(false);
 
@@ -87,6 +92,7 @@ public class ItemTest
         assertEquals(testItem.getLink(), "https://www.bing.se");
         assertEquals(testItem.getDescription(), "This is another test");
         assertEquals(testItem.getId(), "b_title");
+        assertEquals(testItem.getDate(), "Mon, 01 Jan 2016 12:00:00 +0000");
         assertFalse(testItem.isVisited());
         assertFalse(testItem.isStarred());
     }
