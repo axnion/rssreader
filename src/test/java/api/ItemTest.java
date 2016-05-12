@@ -37,7 +37,8 @@ public class ItemTest
     @Test
     public void createWithParam()
     {
-        Item testItem = new Item("A Title", "https://www.google.se", "This is a test", "a_title", true, true);
+        Item testItem = new Item("A Title", "https://www.google.se", "This is a test", "a_title",
+                "Mon, 01 Jan 2016 12:00:00 +0000", true, true);
 
         assertEquals(testItem.getTitle(), "A Title");
         assertEquals(testItem.getLink(), "https://www.google.se");
