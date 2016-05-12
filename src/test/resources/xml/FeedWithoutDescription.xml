@@ -1,0 +1,13 @@
+<rss>
+    <channel>
+        <title>Test title</title>
+        <link>http://www.feed-link.com</link>
+        <item>
+            <title>Item title</title>
+            <description>This is an item description</description>
+            <link>http://www.test-link.net</link>
+            <pubDate>Mon, 01 Jan 2016 00:00:00 +0000</pubDate>
+            <guid>test-id</guid>
+        </item>
+    </channel>
+</rss>

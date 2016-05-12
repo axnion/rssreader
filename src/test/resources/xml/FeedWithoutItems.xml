@@ -1,0 +1,7 @@
+<rss>
+    <channel>
+        <title>Test title</title>
+        <description>This is a feed description</description>
+        <link>http://www.feed-link.com</link>
+    </channel>
+</rss>
