@@ -9,6 +9,7 @@
       "link":"http://www.google.com",
       "description":"This is an item description",
       "id":"example-id-1",
+      "date":"Mon, 01 Jan 2016 12:00:00 +0000",
       "visited":false,
       "starred":false
     }, {
@@ -16,6 +17,7 @@
       "link":"http://www.google.com",
       "description":"This is an item description",
       "id":"example-id-2",
+      "date":"Tue, 02 Jan 2016 20:30:15 +0000",
       "visited":true,
       "starred":true
     }]
@@ -29,6 +31,7 @@
       "link":"http://www.google.com",
       "description":"This is an item description",
       "id":"example-id-21",
+      "date":"Wen, 11 Feb 2016 21:15:15 +0000",
       "visited":true,
       "starred":false
     }, {
@@ -36,6 +39,7 @@
       "link":"http://www.google.com",
       "description":"This is an item description",
       "id":"example-id-22",
+      "date":"Thu, 12 Feb 2016 23:45:20 +0000",
       "visited":false,
       "starred":true
     }]
