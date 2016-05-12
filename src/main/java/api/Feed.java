@@ -72,6 +72,11 @@ public class Feed
     {
         ArrayList<Item> itemsArray = new ArrayList<>();
         Document document;
+        NodeList channel;
+
+        String newTitle = "Untitled";
+        String newDescription = "";
+        String newLink = "";
 
         try
         {
@@ -79,37 +84,90 @@ public class Feed
             DocumentBuilder builder = factory.newDocumentBuilder();
             document = builder.parse(urlToXML);
             document.getDocumentElement().normalize();
+
+            channel = document.getElementsByTagName("channel").item(0).getChildNodes();
         }
         catch(Exception err)
         {
             throw new RuntimeException("Could not read file at " + urlToXML);
         }
 
-        setTitle(document.getElementsByTagName("title").item(0).getFirstChild().getNodeValue());
-        setLink(document.getElementsByTagName("link").item(0).getFirstChild().getNodeValue());
-        setDescription(document.getElementsByTagName("description").item(0).getFirstChild()
-                .getNodeValue());
-
-        NodeList itemsList = document.getElementsByTagName("item");
-        Element itemElement;
-
-        for(int i = 0; i < itemsList.getLength(); i++)
+        for(int i = 0; i < channel.getLength(); i++)
         {
-            itemElement = (Element) itemsList.item(i);
-            Item item = new Item();
-            item.setId(itemElement.getElementsByTagName("guid").item(0).getFirstChild()
-                    .getNodeValue());
-            item.setTitle(itemElement.getElementsByTagName("title").item(0).getFirstChild()
-                    .getNodeValue());
-            item.setLink(itemElement.getElementsByTagName("link").item(0).getFirstChild()
-                    .getNodeValue());
-            item.setDate(itemElement.getElementsByTagName("pubDate").item(0).getFirstChild()
-                    .getNodeValue());
-            item.setDescription(itemElement.getElementsByTagName("description").item(0)
-                    .getFirstChild().getNodeValue());
+            if(channel.item(i).getNodeName().equals("title"))
+            {
+                newTitle = channel.item(i).getTextContent();
+            }
+            else if(channel.item(i).getNodeName().equals("description"))
+            {
+                newDescription = channel.item(i).getTextContent();
+            }
+            else if(channel.item(i).getNodeName().equals("link"))
+            {
+                newLink = channel.item(i).getTextContent();
+            }
+            else if(channel.item(i).getNodeName().equals("item"))
+            {
+                Element itemElement = (Element) channel.item(i);
+                Item item = new Item();
 
-            itemsArray.add(item);
+                try
+                {
+                    item.setId(itemElement.getElementsByTagName("guid").item(0).getFirstChild()
+                            .getNodeValue());
+                }
+                catch(RuntimeException err)
+                {
+                    throw new RuntimeException("Item has to ID");
+                }
+
+                try
+                {
+                    item.setTitle(itemElement.getElementsByTagName("title").item(0).getFirstChild()
+                            .getNodeValue());
+                }
+                catch(RuntimeException err)
+                {
+                    item.setTitle("Untitled");
+                }
+
+                try
+                {
+                    item.setLink(itemElement.getElementsByTagName("link").item(0).getFirstChild()
+                            .getNodeValue());
+                }
+                catch(RuntimeException err)
+                {
+                    throw new RuntimeException("Item has to link");
+                }
+
+                try
+                {
+                    item.setDate(itemElement.getElementsByTagName("pubDate").item(0).getFirstChild()
+                            .getNodeValue());
+                }
+                catch(RuntimeException err)
+                {
+                    item.setDate("Mon, 01 Jan 0001 00:00:00 +0000");
+                }
+
+                try
+                {
+                    item.setDescription(itemElement.getElementsByTagName("description").item(0)
+                            .getFirstChild().getNodeValue());
+                }
+                catch(RuntimeException err)
+                {
+                    item.setDescription("");
+                }
+
+                itemsArray.add(item);
+            }
         }
+
+        setTitle(newTitle);
+        setLink(newLink);
+        setDescription(newDescription);
 
         return itemsArray;
     }
