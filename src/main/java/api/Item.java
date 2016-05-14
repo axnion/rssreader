@@ -66,7 +66,7 @@ public class Item
      */
     int compareTitle(Item other)
     {
-        return this.getTitle().compareTo(other.getTitle());
+        return this.getTitle().toLowerCase().compareTo(other.getTitle().toLowerCase());
     }
 
     /**

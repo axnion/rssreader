@@ -255,11 +255,85 @@ public class ItemListTest
     @Test(expected = RuntimeException.class)
     public void updateTestNoFeeds()
     {
-        Feed[] feeds = createFeedArrayMock();
         itemList.addFeed(feed1);
         itemList.update(null);
 
         assertNull(itemList.getItems());
+    }
+
+    @Test
+    public void sortByTitleAscending()
+    {
+        Feed[] feeds = createFeedArrayForSorting();
+        itemList.addFeed(feed1);
+        itemList.addFeed(feed2);
+        itemList.update(feeds);
+
+        itemList.setSorting("TITLE_ASC");
+        itemList.sort();
+
+        Item[] items = itemList.getItems();
+
+        assertEquals("A Item", items[0].getTitle());
+        assertEquals("B Item", items[1].getTitle());
+        assertEquals("C Item", items[2].getTitle());
+        assertEquals("D Item", items[3].getTitle());
+        assertEquals("E Item", items[4].getTitle());
+        assertEquals("F Item", items[5].getTitle());
+        assertEquals("G Item", items[6].getTitle());
+        assertEquals("H Item", items[7].getTitle());
+        assertEquals("I Item", items[8].getTitle());
+        assertEquals("J Item", items[9].getTitle());
+    }
+
+    @Test
+    public void sortByTitleDecending()
+    {
+        Feed[] feeds = createFeedArrayForSorting();
+        itemList.addFeed(feed1);
+        itemList.addFeed(feed2);
+        itemList.update(feeds);
+
+        itemList.setSorting("TITLE_DEC");
+        itemList.sort();
+
+        Item[] items = itemList.getItems();
+
+        assertEquals("J Item", items[0].getTitle());
+        assertEquals("I Item", items[1].getTitle());
+        assertEquals("H Item", items[2].getTitle());
+        assertEquals("G Item", items[3].getTitle());
+        assertEquals("F Item", items[4].getTitle());
+        assertEquals("E Item", items[5].getTitle());
+        assertEquals("D Item", items[6].getTitle());
+        assertEquals("C Item", items[7].getTitle());
+        assertEquals("B Item", items[8].getTitle());
+        assertEquals("A Item", items[9].getTitle());
+    }
+
+    @Test
+    public void sortByDateAscending()
+    {
+//        Feed[] feeds = createFeedArrayForSorting();
+//        itemList.addFeed(feed1);
+//        itemList.addFeed(feed2);
+//        itemList.update(feeds);
+//
+//        itemList.setSorting("TITLE_ASC");
+//        itemList.sort();
+//
+//        Item[] items = itemList.getItems();
+//
+//        assertEquals("A Item", items[9].getTitle());
+//        assertEquals("B Item", items[8].getTitle());
+//        assertEquals("C Item", items[7].getTitle());
+//        assertEquals("D Item", items[6].getTitle());
+//        assertEquals("E Item", items[5].getTitle());
+//        assertEquals("F Item", items[4].getTitle());
+//        assertEquals("G Item", items[3].getTitle());
+//        assertEquals("H Item", items[2].getTitle());
+//        assertEquals("I Item", items[1].getTitle());
+//        assertEquals("J Item", items[0].getTitle());
     }
 
     private Feed[] createFeedArrayMock()
@@ -275,6 +349,79 @@ public class ItemListTest
         itemArr1[1] = mock(Item.class);
         when(itemArr1[0].getTitle()).thenReturn("item10");
         when(itemArr1[1].getTitle()).thenReturn("item11");
+
+        Feed[] feedArr = new Feed[2];
+        feedArr[0] = mock(Feed.class);
+        feedArr[1] = mock(Feed.class);
+        when(feedArr[0].getUrlToXML()).thenReturn("feed1");
+        when(feedArr[1].getUrlToXML()).thenReturn("feed2");
+        when(feedArr[0].getItems()).thenReturn(itemArr0);
+        when(feedArr[1].getItems()).thenReturn(itemArr1);
+
+        return feedArr;
+    }
+
+    private Feed[] createFeedArrayForSorting()
+    {
+        Item[] itemArr0 = new Item[5];
+        itemArr0[0] = mock(Item.class);
+        itemArr0[1] = mock(Item.class);
+        itemArr0[2] = mock(Item.class);
+        itemArr0[3] = mock(Item.class);
+        itemArr0[4] = mock(Item.class);
+        when(itemArr0[0].getTitle()).thenReturn("C Item");
+        when(itemArr0[1].getTitle()).thenReturn("J Item");
+        when(itemArr0[2].getTitle()).thenReturn("A Item");
+        when(itemArr0[3].getTitle()).thenReturn("H Item");
+        when(itemArr0[4].getTitle()).thenReturn("E Item");
+
+        when(itemArr0[0].getDate()).thenReturn("Mon, 01 Jan 2016 12:00:00 +0000");
+        when(itemArr0[1].getDate()).thenReturn("Tus, 09 Jan 2016 12:00:00 +0000");
+        when(itemArr0[2].getDate()).thenReturn("Mon, 01 Jan 2013 12:00:00 +0000");
+        when(itemArr0[3].getDate()).thenReturn("Mon, 05 Sep 2016 12:00:00 +0000");
+        when(itemArr0[4].getDate()).thenReturn("Wen, 24 Aug 2016 12:00:00 +0000");
+
+        when(itemArr0[0].compareTitle(any())).thenCallRealMethod();
+        when(itemArr0[1].compareTitle(any())).thenCallRealMethod();
+        when(itemArr0[2].compareTitle(any())).thenCallRealMethod();
+        when(itemArr0[3].compareTitle(any())).thenCallRealMethod();
+        when(itemArr0[4].compareTitle(any())).thenCallRealMethod();
+
+        when(itemArr0[0].compareDate(any())).thenCallRealMethod();
+        when(itemArr0[1].compareDate(any())).thenCallRealMethod();
+        when(itemArr0[2].compareDate(any())).thenCallRealMethod();
+        when(itemArr0[3].compareDate(any())).thenCallRealMethod();
+        when(itemArr0[4].compareDate(any())).thenCallRealMethod();
+
+        Item[] itemArr1 = new Item[5];
+        itemArr1[0] = mock(Item.class);
+        itemArr1[1] = mock(Item.class);
+        itemArr1[2] = mock(Item.class);
+        itemArr1[3] = mock(Item.class);
+        itemArr1[4] = mock(Item.class);
+        when(itemArr1[0].getTitle()).thenReturn("D Item");
+        when(itemArr1[1].getTitle()).thenReturn("B Item");
+        when(itemArr1[2].getTitle()).thenReturn("G Item");
+        when(itemArr1[3].getTitle()).thenReturn("I Item");
+        when(itemArr1[4].getTitle()).thenReturn("F Item");
+
+        when(itemArr1[0].getDate()).thenReturn("Mon, 01 Jan 2015 12:00:00 +0000");
+        when(itemArr1[1].getDate()).thenReturn("Mon, 01 Mar 2016 12:00:00 +0000");
+        when(itemArr1[2].getDate()).thenReturn("Fri, 01 Jan 2016 12:00:00 +0000");
+        when(itemArr1[3].getDate()).thenReturn("Mon, 01 Jan 2014 12:00:00 +0000");
+        when(itemArr1[4].getDate()).thenReturn("Sun, 01 Sep 2016 12:00:00 +0000");
+
+        when(itemArr1[0].compareTitle(any())).thenCallRealMethod();
+        when(itemArr1[1].compareTitle(any())).thenCallRealMethod();
+        when(itemArr1[2].compareTitle(any())).thenCallRealMethod();
+        when(itemArr1[3].compareTitle(any())).thenCallRealMethod();
+        when(itemArr1[4].compareTitle(any())).thenCallRealMethod();
+
+        when(itemArr1[0].compareDate(any())).thenCallRealMethod();
+        when(itemArr1[1].compareDate(any())).thenCallRealMethod();
+        when(itemArr1[2].compareDate(any())).thenCallRealMethod();
+        when(itemArr1[3].compareDate(any())).thenCallRealMethod();
+        when(itemArr1[4].compareDate(any())).thenCallRealMethod();
 
         Feed[] feedArr = new Feed[2];
         feedArr[0] = mock(Feed.class);

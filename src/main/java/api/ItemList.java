@@ -141,6 +141,130 @@ public class ItemList
         items = newList;
     }
 
+    void sort()
+    {
+        Item[] sortedItems = getItems();
+
+        switch (getSorting())
+        {
+            case "TITLE_ASC": sortedItems = insertionSort(sortedItems, "TITLE", "ASC");
+            case "TITLE_DEC": sortedItems = insertionSort(sortedItems, "TITLE", "DEC");
+            case "DATE_ASC": sortedItems = insertionSort(sortedItems, "DATE", "ASC");
+            case "DATE_DEC": sortedItems = insertionSort(sortedItems, "DATE", "DEC");
+        }
+
+        setItems(sortedItems);
+    }
+
+    private Item[] mergeSort(Item[] items, String sortingPoint, String direction)
+    {
+        if(items.length == 1)
+            return items;
+
+        int i;
+        int iLeft = 0;
+        int iRight = 0;
+        Item[] out = new Item[items.length];
+        Item[] left = new Item[items.length / 2];
+        Item[] right = new Item[items.length - left.length];
+
+        for(i = 0; i < items.length; i++)
+        {
+            if(i < items.length / 2)
+                left[i] = items[i];
+            else
+                right[i - items.length / 2] = items[i];
+        }
+
+        left = mergeSort(left, sortingPoint, direction);
+        right = mergeSort(right, sortingPoint, direction);
+
+        for(i = 0; i < out.length; i++)
+        {
+            if(iLeft == left.length)
+            {
+                out[i] = right[iRight];
+                iRight++;
+            }
+            else if(iRight == right.length)
+            {
+                out[i] = left[iLeft];
+                iLeft++;
+            }
+            else if(sortingPoint.equals("TITLE") && left[iLeft].compareTitle(right[iRight]) < 0)
+            {
+                out[i] = left[iLeft];
+                iLeft++;
+            }
+            else if(sortingPoint.equals("DATE") && left[iLeft].compareDate(right[iRight]) < 0)
+            {
+                out[i] = left[iLeft];
+                iLeft++;
+            }
+            else
+            {
+                out[i] = right[iRight];
+                iRight++;
+            }
+        }
+
+        return out;
+    }
+
+    private Item[] insertionSort(Item[] items, String sortingPoint, String direction)
+    {
+        boolean sorted;
+        int pos;
+        Item temp;
+        Item[] out = new Item[items.length];
+        out[0] = items[0];
+
+        for(int i = 0; i < items.length; i++)
+        {
+            sorted = false;
+            pos = i;
+            out[i] = items[i];
+
+            while(!sorted)
+            {
+                if(direction.equals("ASC"))
+                {
+                    if(pos == 0)
+                        sorted = true;
+                    else if(sortingPoint.equals("TITLE") && out[pos-1].compareTitle(out[pos]) <= 0)
+                        sorted = true;
+                    else if(sortingPoint.equals("DATE") && out[pos-1].compareDate(out[pos]) <= 0)
+                        sorted = true;
+                    else
+                    {
+                        temp = out[pos];
+                        out[pos] = out[pos-1];
+                        out[pos-1] = temp;
+                    }
+                }
+                else
+                {
+                    if(pos == 0)
+                        sorted = true;
+                    else if(sortingPoint.equals("TITLE") && out[pos-1].compareTitle(out[pos]) > 0)
+                        sorted = true;
+                    else if(sortingPoint.equals("DATE") && out[pos-1].compareDate(out[pos]) > 0)
+                        sorted = true;
+                    else
+                    {
+                        temp = out[pos];
+                        out[pos] = out[pos-1];
+                        out[pos-1] = temp;
+                    }
+                }
+
+                pos--;
+            }
+        }
+
+        return out;
+    }
+
     /**
      * Used to concatenate two arrays into one. So all Item objects from a and b is copied over to
      * an array that is the same length as the combined of a and b. The new array is then returned.
@@ -226,6 +350,11 @@ public class ItemList
     void setFeedUrls(String[] feedUrls)
     {
         this.feedUrls = feedUrls;
+    }
+
+    private void setItems(Item[] items)
+    {
+        this.items = items;
     }
 }
 
