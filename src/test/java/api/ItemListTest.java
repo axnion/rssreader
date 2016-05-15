@@ -261,6 +261,38 @@ public class ItemListTest
         assertNull(itemList.getItems());
     }
 
+    /**
+     * Tests what happens when the sorting method is called but how the items should be sorted has
+     * not been specified.
+     */
+    @Test
+    public void sortWithoutSettingSorting()
+    {
+        Feed[] feeds = createFeedArrayForSorting();
+        itemList.addFeed(feed1);
+        itemList.addFeed(feed2);
+        itemList.update(feeds);
+
+        itemList.sort();
+
+        Item[] items = itemList.getItems();
+
+        assertEquals("F Item", items[0].getTitle());
+        assertEquals("I Item", items[1].getTitle());
+        assertEquals("G Item", items[2].getTitle());
+        assertEquals("B Item", items[3].getTitle());
+        assertEquals("D Item", items[4].getTitle());
+        assertEquals("E Item", items[5].getTitle());
+        assertEquals("H Item", items[6].getTitle());
+        assertEquals("A Item", items[7].getTitle());
+        assertEquals("J Item", items[8].getTitle());
+        assertEquals("C Item", items[9].getTitle());
+    }
+
+    /**
+     * Tries to sort the itemList by title in an ascending order. After being sorted the array of
+     * Item objects should be in alphabetical order.
+     */
     @Test
     public void sortByTitleAscending()
     {
@@ -286,6 +318,10 @@ public class ItemListTest
         assertEquals("J Item", items[9].getTitle());
     }
 
+    /**
+     * Tries to sort the itemList by title in a descending order. After being sorted the array of
+     * Item objects should be in reversed alphabetical order.
+     */
     @Test
     public void sortByTitleDecending()
     {
@@ -311,31 +347,71 @@ public class ItemListTest
         assertEquals("A Item", items[9].getTitle());
     }
 
+    /**
+     * Tries to sort the itemList by date in an ascending order. After being sorted the array of
+     * Item objects should have the oldest object first and newest last, and all other objects
+     * should follow the same pattern.
+     */
     @Test
     public void sortByDateAscending()
     {
-//        Feed[] feeds = createFeedArrayForSorting();
-//        itemList.addFeed(feed1);
-//        itemList.addFeed(feed2);
-//        itemList.update(feeds);
-//
-//        itemList.setSorting("TITLE_ASC");
-//        itemList.sort();
-//
-//        Item[] items = itemList.getItems();
-//
-//        assertEquals("A Item", items[9].getTitle());
-//        assertEquals("B Item", items[8].getTitle());
-//        assertEquals("C Item", items[7].getTitle());
-//        assertEquals("D Item", items[6].getTitle());
-//        assertEquals("E Item", items[5].getTitle());
-//        assertEquals("F Item", items[4].getTitle());
-//        assertEquals("G Item", items[3].getTitle());
-//        assertEquals("H Item", items[2].getTitle());
-//        assertEquals("I Item", items[1].getTitle());
-//        assertEquals("J Item", items[0].getTitle());
+        Feed[] feeds = createFeedArrayForSorting();
+        itemList.addFeed(feed1);
+        itemList.addFeed(feed2);
+        itemList.update(feeds);
+
+        itemList.setSorting("DATE_ASC");
+        itemList.sort();
+
+        Item[] items = itemList.getItems();
+
+        assertEquals("Mon, 01 Jan 2013 12:00:00 +0000", items[0].getDate());
+        assertEquals("Mon, 01 Jan 2014 12:00:00 +0000", items[1].getDate());
+        assertEquals("Mon, 01 Jan 2015 12:00:00 +0000", items[2].getDate());
+        assertEquals("Mon, 01 Jan 2016 12:00:00 +0000", items[3].getDate());
+        assertEquals("Fri, 02 Jan 2016 12:00:00 +0000", items[4].getDate());
+        assertEquals("Tus, 09 Jan 2016 12:00:00 +0000", items[5].getDate());
+        assertEquals("Mon, 01 Mar 2016 12:00:00 +0000", items[6].getDate());
+        assertEquals("Wen, 24 Aug 2016 12:00:00 +0000", items[7].getDate());
+        assertEquals("Sun, 01 Sep 2016 12:00:00 +0000", items[8].getDate());
+        assertEquals("Mon, 05 Sep 2016 12:00:00 +0000", items[9].getDate());
     }
 
+    /**
+     * Tries to sort the itemList by date in a descending order. After being sorted the array of
+     * Item objects should have the newest object first and oldest last, and all other objects
+     * should follow the same pattern.
+     */
+    @Test
+    public void sortByDateDecending()
+    {
+        Feed[] feeds = createFeedArrayForSorting();
+        itemList.addFeed(feed1);
+        itemList.addFeed(feed2);
+        itemList.update(feeds);
+
+        itemList.setSorting("DATE_DEC");
+        itemList.sort();
+
+        Item[] items = itemList.getItems();
+
+        assertEquals("Mon, 05 Sep 2016 12:00:00 +0000", items[0].getDate());
+        assertEquals("Sun, 01 Sep 2016 12:00:00 +0000", items[1].getDate());
+        assertEquals("Wen, 24 Aug 2016 12:00:00 +0000", items[2].getDate());
+        assertEquals("Mon, 01 Mar 2016 12:00:00 +0000", items[3].getDate());
+        assertEquals("Tus, 09 Jan 2016 12:00:00 +0000", items[4].getDate());
+        assertEquals("Fri, 02 Jan 2016 12:00:00 +0000", items[5].getDate());
+        assertEquals("Mon, 01 Jan 2016 12:00:00 +0000", items[6].getDate());
+        assertEquals("Mon, 01 Jan 2015 12:00:00 +0000", items[7].getDate());
+        assertEquals("Mon, 01 Jan 2014 12:00:00 +0000", items[8].getDate());
+        assertEquals("Mon, 01 Jan 2013 12:00:00 +0000", items[9].getDate());
+    }
+
+    /**
+     * This method creates and returns an array of mocked Feed objects containing mocked Item
+     * objects.
+     * @return  An array of Feed objects to be used in some itemList tests.
+     */
     private Feed[] createFeedArrayMock()
     {
         Item[] itemArr0 = new Item[2];
@@ -361,6 +437,11 @@ public class ItemListTest
         return feedArr;
     }
 
+    /**
+     * This method creates two Feed objects containing Item objects that will be used in the testing
+     * of the sorting method of the ItemList class.
+     * @return  An array of Feed objects to be used in testing sorting.
+     */
     private Feed[] createFeedArrayForSorting()
     {
         Item[] itemArr0 = new Item[5];
@@ -407,7 +488,7 @@ public class ItemListTest
 
         when(itemArr1[0].getDate()).thenReturn("Mon, 01 Jan 2015 12:00:00 +0000");
         when(itemArr1[1].getDate()).thenReturn("Mon, 01 Mar 2016 12:00:00 +0000");
-        when(itemArr1[2].getDate()).thenReturn("Fri, 01 Jan 2016 12:00:00 +0000");
+        when(itemArr1[2].getDate()).thenReturn("Fri, 02 Jan 2016 12:00:00 +0000");
         when(itemArr1[3].getDate()).thenReturn("Mon, 01 Jan 2014 12:00:00 +0000");
         when(itemArr1[4].getDate()).thenReturn("Sun, 01 Sep 2016 12:00:00 +0000");
 
@@ -434,6 +515,9 @@ public class ItemListTest
         return feedArr;
     }
 
+    /**
+     * Adds dummy feeds to the itemList field.
+     */
     private void addDummyFeedsToItemList()
     {
         itemList.addFeed(feed1);

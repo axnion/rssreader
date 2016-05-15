@@ -141,22 +141,31 @@ public class ItemList
         items = newList;
     }
 
+    /**
+     * The method that is called when the items array should be sorted according to the sorting
+     * field.
+     */
     void sort()
     {
         Item[] sortedItems = getItems();
 
-        switch (getSorting())
-        {
-            case "TITLE_ASC": sortedItems = insertionSort(sortedItems, "TITLE", "ASC");
-            case "TITLE_DEC": sortedItems = insertionSort(sortedItems, "TITLE", "DEC");
-            case "DATE_ASC": sortedItems = insertionSort(sortedItems, "DATE", "ASC");
-            case "DATE_DEC": sortedItems = insertionSort(sortedItems, "DATE", "DEC");
-        }
+        String[] sortingMethod = getSorting().split("_");
+        sortedItems = mergeSort(sortedItems, sortingMethod);
 
         setItems(sortedItems);
     }
 
-    private Item[] mergeSort(Item[] items, String sortingPoint, String direction)
+    /**
+     * This is a method that uses the merge sort algorithm to sort the array of Item objects. What
+     * it is sorted by and with what direction is set with the method parameter. It has two
+     * element, the first one is "TITLE" or "DATE" which states what the items will be sorted by,
+     * and the second one can be "ASC" or "DEC" which states the direction the sorting should go,
+     * ascending or descending.
+     * @param items     An array of Item objects that will be sorted
+     * @param method    An array of two strings that tells the method how the items are to be sorted
+     * @return          A sorted array containing all items from the items parameter.
+     */
+    private Item[] mergeSort(Item[] items, String[] method)
     {
         if(items.length == 1)
             return items;
@@ -168,6 +177,11 @@ public class ItemList
         Item[] left = new Item[items.length / 2];
         Item[] right = new Item[items.length - left.length];
 
+        boolean titleAsc;
+        boolean titleDec;
+        boolean dateAsc;
+        boolean dateDec;
+
         for(i = 0; i < items.length; i++)
         {
             if(i < items.length / 2)
@@ -176,8 +190,8 @@ public class ItemList
                 right[i - items.length / 2] = items[i];
         }
 
-        left = mergeSort(left, sortingPoint, direction);
-        right = mergeSort(right, sortingPoint, direction);
+        left = mergeSort(left, method);
+        right = mergeSort(right, method);
 
         for(i = 0; i < out.length; i++)
         {
@@ -185,18 +199,21 @@ public class ItemList
             {
                 out[i] = right[iRight];
                 iRight++;
+                continue;
             }
             else if(iRight == right.length)
             {
                 out[i] = left[iLeft];
                 iLeft++;
+                continue;
             }
-            else if(sortingPoint.equals("TITLE") && left[iLeft].compareTitle(right[iRight]) < 0)
-            {
-                out[i] = left[iLeft];
-                iLeft++;
-            }
-            else if(sortingPoint.equals("DATE") && left[iLeft].compareDate(right[iRight]) < 0)
+
+            titleAsc = method[0].equals("TITLE") && method[1].equals("ASC") && left[iLeft].compareTitle(right[iRight]) <= 0;
+            titleDec = method[0].equals("TITLE") && method[1].equals("DEC") && left[iLeft].compareTitle(right[iRight]) > 0;
+            dateAsc = method[0].equals("DATE") && method[1].equals("ASC") && left[iLeft].compareDate(right[iRight]) <= 0;
+            dateDec = method[0].equals("DATE") && method[1].equals("DEC") && left[iLeft].compareDate(right[iRight]) > 0;
+
+            if(titleAsc || titleDec || dateAsc || dateDec)
             {
                 out[i] = left[iLeft];
                 iLeft++;
@@ -205,60 +222,6 @@ public class ItemList
             {
                 out[i] = right[iRight];
                 iRight++;
-            }
-        }
-
-        return out;
-    }
-
-    private Item[] insertionSort(Item[] items, String sortingPoint, String direction)
-    {
-        boolean sorted;
-        int pos;
-        Item temp;
-        Item[] out = new Item[items.length];
-        out[0] = items[0];
-
-        for(int i = 0; i < items.length; i++)
-        {
-            sorted = false;
-            pos = i;
-            out[i] = items[i];
-
-            while(!sorted)
-            {
-                if(direction.equals("ASC"))
-                {
-                    if(pos == 0)
-                        sorted = true;
-                    else if(sortingPoint.equals("TITLE") && out[pos-1].compareTitle(out[pos]) <= 0)
-                        sorted = true;
-                    else if(sortingPoint.equals("DATE") && out[pos-1].compareDate(out[pos]) <= 0)
-                        sorted = true;
-                    else
-                    {
-                        temp = out[pos];
-                        out[pos] = out[pos-1];
-                        out[pos-1] = temp;
-                    }
-                }
-                else
-                {
-                    if(pos == 0)
-                        sorted = true;
-                    else if(sortingPoint.equals("TITLE") && out[pos-1].compareTitle(out[pos]) > 0)
-                        sorted = true;
-                    else if(sortingPoint.equals("DATE") && out[pos-1].compareDate(out[pos]) > 0)
-                        sorted = true;
-                    else
-                    {
-                        temp = out[pos];
-                        out[pos] = out[pos-1];
-                        out[pos-1] = temp;
-                    }
-                }
-
-                pos--;
             }
         }
 

@@ -66,7 +66,11 @@ public class Item
      */
     int compareTitle(Item other)
     {
-        return this.getTitle().toLowerCase().compareTo(other.getTitle().toLowerCase());
+        String title1 = this.getTitle().toLowerCase();
+        String title2 = other.getTitle().toLowerCase();
+        int result = title1.compareTo(title2);
+
+        return result;
     }
 
     /**
