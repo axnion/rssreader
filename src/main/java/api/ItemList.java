@@ -315,7 +315,7 @@ public class ItemList
         this.feedUrls = feedUrls;
     }
 
-    private void setItems(Item[] items)
+    void setItems(Item[] items)
     {
         this.items = items;
     }

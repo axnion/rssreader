@@ -316,7 +316,73 @@ public class Configuration
 
         getItemList(itemListName).setSorting(sorting);
         getItemList(itemListName).sort();
+    }
 
+
+
+    public void setStarred(boolean starred, String itemListName, String itemId)
+    {
+        //getItemList(itemListName).getItem(itemId).setStarred(starred);
+
+        Item modifiedItem = getItem(itemListName, itemId);
+        modifiedItem.setStarred(starred);
+        updateItem(itemListName, modifiedItem);
+    }
+
+    private Item getItem(String itemListName, String id)
+    {
+        Item[] items = getItemList(itemListName).getItems();
+
+        for(Item item : items)
+        {
+            if(item.getId().equals(id))
+                return item;
+        }
+
+        throw new RuntimeException("There is no item with that ID");
+    }
+
+    private void updateItem(String itemListName, Item item)
+    {
+        ItemList[] modifiedItemLists = getItemLists();
+        ItemList modifiedItemList = null;
+        int modifiedItemListIndex = 0;
+
+        for(int i = 0; i < modifiedItemLists.length; i++)
+        {
+            if(modifiedItemLists[i].getName().equals(itemListName))
+            {
+                modifiedItemList = modifiedItemLists[i];
+                modifiedItemListIndex = i;
+                break;
+            }
+        }
+
+        if(modifiedItemList == null)
+            throw new RuntimeException("No itemList with name \"" + itemListName + "\" exists");
+
+        Item[] modifiedItems = modifiedItemList.getItems();
+        boolean found = false;
+
+        for(int i = 0; i < modifiedItems.length; i++)
+        {
+            if(modifiedItems[i].getId().equals(item.getId()))
+            {
+                found = true;
+                modifiedItems[i] = item;
+                break;
+            }
+        }
+
+        if(!found)
+        {
+            throw new RuntimeException("No item with id \"" + item.getId() + "\" exists in " +
+                    itemListName);
+        }
+
+        modifiedItemList.setItems(modifiedItems);
+        modifiedItemLists[modifiedItemListIndex] = modifiedItemList;
+        setItemLists(modifiedItemLists);
     }
 
     /*

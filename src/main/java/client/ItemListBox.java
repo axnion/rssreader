@@ -152,7 +152,7 @@ class ItemListBox extends ScrollPane
         if(items.getItems() != null)
         {
             for(int i = 0; i < items.getItems().length; i++)
-                itemList.getChildren().add(new ItemBox(items.getItems()[i], browserControl));
+                itemList.getChildren().add(new ItemBox(items.getItems()[i], name, api, browserControl));
         }
     }
 

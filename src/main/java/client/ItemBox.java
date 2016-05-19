@@ -1,5 +1,6 @@
 package client;
 
+import api.Configuration;
 import api.Item;
 import javafx.application.Application;
 import javafx.scene.control.Hyperlink;
@@ -16,10 +17,16 @@ import javafx.scene.layout.VBox;
  */
 class ItemBox extends HBox
 {
-    ItemBox(Item item, Client.BrowserControl bc)
-    {
-        Hyperlink link = new Hyperlink();
+    private Configuration api;
+    private Item item;
+    private String itemListName;
 
+    ItemBox(Item item, String itemListName, Configuration api, Client.BrowserControl bc)
+    {
+        this.api = api;
+        this.item = item;
+        this.itemListName = itemListName;
+        Hyperlink link = new Hyperlink();
 
         link.setOnAction(event ->
         {
@@ -31,12 +38,12 @@ class ItemBox extends HBox
 
         if(item.isStarred())
         {
-            imageView = new ImageView(new Image("img/star_border.png"));
+            imageView = new ImageView(new Image("file:img/star_border.png"));
             imageView.setUserData("border");
         }
         else
         {
-            imageView = new ImageView(new Image("img/star_solid.png"));
+            imageView = new ImageView(new Image("file:img/star_solid.png"));
             imageView.setUserData("solid");
         }
 
@@ -58,7 +65,10 @@ class ItemBox extends HBox
         else if(imageView.getUserData().toString().equals("border"))
             imageView.setUserData("solid");
 
-        imageView.setImage(new Image("img/star_" + imageView.getUserData().toString() + ".png"));
+        imageView.setImage(new Image("file:img/star_" + imageView.getUserData().toString() + ".png"));
+
+        api.setStarred(imageView.getUserData().toString().equals("solid"), itemListName,
+                item.getId());
     }
 }
 

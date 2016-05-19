@@ -1,5 +1,5 @@
 group 'tech.axelnilsson'
-version '0.1'
+version '0.2'
 
 buildscript {
     dependencies {
@@ -36,11 +36,11 @@ dependencies {
 //}
 
 jfx {
-    verbose = true
+    verbose = false
     mainClass = "Main"
     jfxAppOutputDir = "build/bin/app/RSSReader"
     jfxMainAppJarName = "RSSReader.jar"
-    deployDir = "src/main/deploy"
+    deployDir = "src/deploy/"
 
     // gradle jfxJar
     css2bin = false
@@ -51,34 +51,23 @@ jfx {
     addPackagerJar = true
 
     // gradle jfxNative
-    identifier = null // setting this for windows-bundlers makes it possible to generate upgradeable installers (using same GUID)
+    identifier = 0.2 // setting this for windows-bundlers makes it possible to generate upgradeable installers (using same GUID)
     vendor = "Axel Nilsson"
     nativeOutputDir = "build/bin/native"
     bundler = "ALL" // set this to some specific, if your don't want all bundlers running, examples "windows.app", "jnlp", ...
-    jvmProperties = [
-            'prism.disableRegionCaching':'true'
-    ] // Map<String, String>
-    jvmArgs = [
-            '-XX:+AggressiveOpts', '-XX:CompileThreshold=1'
-    ] // List<String>
+    jvmProperties = null // Map<String, String>
+    jvmArgs = null // List<String>
     userJvmArgs = null // Map<String, String>
     launcherArguments = null // List<String>
     nativeReleaseVersion = "0.2"
     needShortcut = false
     needMenu = false
     appName = "RSSReader" // this is used for files below "src/main/deploy", e.g. "src/main/deploy/windows/project.ico"
-    additionalAppResources = null // path to some additional resources when creating application-bundle
+    additionalAppResources = "src/deploy/resources" // path to some additional resources when creating application-bundle
     secondaryLaunchers = null
     fileAssociations = null // List<Map<String, Object>>
     noBlobSigning = false // when using bundler "jnlp", you can choose to NOT use blob signing
-
-//     Used when packaging on Linux
     bundleArguments = null
-
-//     Used when packageing on Windows
-//    bundleArguments = [
-//            runtime: null
-//    ]
 
     skipNativeLauncherWorkaround124 = false
     skipNativeLauncherWorkaround167 = false
@@ -87,18 +76,18 @@ jfx {
     skipSizeRecalculationForJNLP185 = false
 
     //gradle jfxGenerateKeyStore
-    keyStore = "src/main/deploy/keystore.jks"
-    keyStoreAlias = "myalias"
-    keyStorePassword = "password"
-    keyPassword = null // will default to keyStorePassword
-    keyStoreType = "jks"
-    overwriteKeyStore = false
-
-    certDomain = null // required
-    certOrgUnit = null // defaults to "none"
-    certOrg = null // required
-    certState = null // required
-    certCountry = null // required
+//    keyStore = "src/main/deploy/keystore.jks"
+//    keyStoreAlias = "myalias"
+//    keyStorePassword = "password"
+//    keyPassword = null // will default to keyStorePassword
+//    keyStoreType = "jks"
+//    overwriteKeyStore = false
+//
+//    certDomain = null // required
+//    certOrgUnit = null // defaults to "none"
+//    certOrg = null // required
+//    certState = null // required
+//    certCountry = null // required
 }
 
 jacocoTestReport {

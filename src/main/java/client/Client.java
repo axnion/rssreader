@@ -14,6 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -44,8 +45,7 @@ public class Client extends Application
     {
         primaryStage.setTitle("RSSReader");
 
-
-        primaryStage.getIcons().add(new Image("app/img/star_solid.png"));
+        primaryStage.getIcons().add(new Image("file:RSSReader.ico"));
 
         root = new VBox();
         feedList = new VBox();
