@@ -26,7 +26,7 @@ public class ItemListTest
     }
 
     /**
-     * Unit test case: 10
+     * Test case: 10
      */
     @Test
     public void createUnnamedObject()
@@ -38,7 +38,7 @@ public class ItemListTest
     }
 
     /**
-     * Unit test case: 11
+     * Test case: 11
      */
     @Test
     public void createNamedObject()
@@ -51,7 +51,7 @@ public class ItemListTest
     }
 
     /**
-     * Unit test case: 12
+     * Test case: 12
      */
     @Test
     public void accessorsAndMutators()
@@ -72,7 +72,7 @@ public class ItemListTest
     }
 
     /**
-     * Unit test case: 13
+     * Test case: 13
      */
     @Test
     public void addFeedTest()
@@ -88,7 +88,7 @@ public class ItemListTest
     }
 
     /**
-     * Unit test case: 14
+     * Test case: 14
      */
     @Test
     public void addExistingFeed()
@@ -105,7 +105,7 @@ public class ItemListTest
     }
 
     /**
-     * Unit test case: 15
+     * Test case: 15
      */
     @Test
     public void removeFirstInFeedArray()
@@ -119,7 +119,7 @@ public class ItemListTest
     }
 
     /**
-     * Unit test case: 16
+     * Test case: 16
      */
     @Test
     public void removeMiddleInFeedArray()
@@ -133,7 +133,7 @@ public class ItemListTest
     }
 
     /**
-     * Unit test case: 17
+     * Test case: 17
      */
     @Test
     public void removeLastInFeedArray()
@@ -147,7 +147,7 @@ public class ItemListTest
     }
 
     /**
-     * Unit test case: 18
+     * Test case: 18
      */
     @Test(expected = RuntimeException.class)
     public void removeOnEmptyFeedArray()
@@ -156,7 +156,7 @@ public class ItemListTest
     }
 
     /**
-     * Unit test case: 19
+     * Test case: 19
      */
     @Test
     public void removeNonexistentFeed()
@@ -171,7 +171,7 @@ public class ItemListTest
     }
 
     /**
-     * Unit test case: 20
+     * Test case: 20
      */
     @Test
     public void removingLastFeed()
@@ -183,7 +183,7 @@ public class ItemListTest
     }
 
     /**
-     * Unit test case: 42
+     * Test case: 42
      */
     @Test
     public void removingFeedWhenMoreThanOneInItemList()
@@ -208,7 +208,7 @@ public class ItemListTest
     }
 
     /**
-     * Unit test case: 21
+     * Test case: 21
      * Adds a feed url to the ItemList, then it updates the ItemList with a Feed containing the feed
      * url. Then adds another feed and updates again. Checks results both times.
      */
@@ -236,7 +236,7 @@ public class ItemListTest
     }
 
     /**
-     * Unit test case: 50
+     * Test case: 50
      * Tries to update an ItemList with no feed urls. Should produce RuntimeException.
      */
     @Test
@@ -249,7 +249,7 @@ public class ItemListTest
     }
 
     /**
-     * Unit test case: 51
+     * Test case: 51
      * Tries to update an ItemList with null as an argument. Should produce RuntimeException.
      */
     @Test(expected = RuntimeException.class)
@@ -262,6 +262,7 @@ public class ItemListTest
     }
 
     /**
+     * Test case: 88
      * Tests what happens when the sorting method is called but how the items should be sorted has
      * not been specified.
      */
@@ -290,6 +291,7 @@ public class ItemListTest
     }
 
     /**
+     * Test case: 89
      * Tries to sort the itemList by title in an ascending order. After being sorted the array of
      * Item objects should be in alphabetical order.
      */
@@ -319,6 +321,7 @@ public class ItemListTest
     }
 
     /**
+     * Test case: 90
      * Tries to sort the itemList by title in a descending order. After being sorted the array of
      * Item objects should be in reversed alphabetical order.
      */
@@ -348,6 +351,7 @@ public class ItemListTest
     }
 
     /**
+     * Test case: 91
      * Tries to sort the itemList by date in an ascending order. After being sorted the array of
      * Item objects should have the oldest object first and newest last, and all other objects
      * should follow the same pattern.
@@ -378,6 +382,7 @@ public class ItemListTest
     }
 
     /**
+     * Test case: 92
      * Tries to sort the itemList by date in a descending order. After being sorted the array of
      * Item objects should have the newest object first and oldest last, and all other objects
      * should follow the same pattern.

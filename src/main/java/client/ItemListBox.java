@@ -4,9 +4,9 @@ import api.Configuration;
 import api.Feed;
 import api.ItemList;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
@@ -19,7 +19,6 @@ class ItemListBox extends ScrollPane
 {
     private String name;
     private VBox itemList;
-    private VBox container;
     private MenuFeed[] checkboxes;
     private VBox checkBoxContainer;
     private Client.BrowserControl browserControl;
@@ -30,18 +29,60 @@ class ItemListBox extends ScrollPane
         this.name = name;
         this.api = api;
         itemList = new VBox();
-        container = new VBox();
+        VBox container = new VBox();
         browserControl = bc;
         checkboxes = null;
         checkBoxContainer = new VBox();
 
-        container.getChildren().add(removeButton);
-        container.getChildren().add(new Label(name));
-        container.getChildren().add(checkBoxContainer);
-        container.getChildren().add(itemList);
+        container.getChildren().addAll(removeButton, new Label(name), createSortSettings(), checkBoxContainer, itemList);
         setContent(container);
 
         updateMenu(api.getFeeds());
+    }
+
+    private HBox createSortSettings()
+    {
+        HBox sortContainer = new HBox();
+        VBox sortTargetContainer = new VBox();
+        VBox sortDirectionContainer = new VBox();
+
+        ToggleGroup target = new ToggleGroup();
+        ToggleGroup direction = new ToggleGroup();
+
+        RadioButton radioTitle = new RadioButton("Title");
+        RadioButton radioDate = new RadioButton("Date");
+        radioTitle.setUserData("TITLE");
+        radioDate.setUserData("DATE");
+        radioTitle.setToggleGroup(target);
+        radioDate.setToggleGroup(target);
+        radioTitle.setSelected(true);
+        sortTargetContainer.getChildren().addAll(radioTitle, radioDate);
+
+        RadioButton radioAsc = new RadioButton("Ascending");
+        RadioButton radioDec = new RadioButton("Descending");
+        radioAsc.setUserData("ASC");
+        radioDec.setUserData("DEC");
+        radioAsc.setToggleGroup(direction);
+        radioDec.setToggleGroup(direction);
+        radioDec.setSelected(true);
+        sortDirectionContainer.getChildren().addAll(radioAsc, radioDec);
+
+        sortContainer.getChildren().addAll(sortTargetContainer, sortDirectionContainer);
+
+        target.selectedToggleProperty().addListener((event) -> updateSorting(target, direction));
+        direction.selectedToggleProperty().addListener((event) -> updateSorting(target, direction));
+
+        return sortContainer;
+    }
+
+    private void updateSorting(ToggleGroup target, ToggleGroup direction)
+    {
+        String str = target.getSelectedToggle().getUserData().toString();
+        str += "_";
+        str += direction.getSelectedToggle().getUserData().toString();
+
+        api.setSorting(str, getName());
+        updateItems(api.getItemList(getName()));
     }
 
     void updateMenu(Feed[] feeds)

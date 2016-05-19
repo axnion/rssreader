@@ -118,7 +118,7 @@ public class Feed
                 }
                 catch(RuntimeException err)
                 {
-                    throw new RuntimeException("Item has to ID");
+                    continue;
                 }
 
                 try
@@ -138,7 +138,7 @@ public class Feed
                 }
                 catch(RuntimeException err)
                 {
-                    throw new RuntimeException("Item has to link");
+                    continue;
                 }
 
                 try

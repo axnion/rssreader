@@ -170,9 +170,9 @@ public class FeedTest
     /**
      * Test case: 68
      * Tries to read a Feed XML file that contains an item without a link. The item should be
-     * ignored and a RuntimeException should be thrown.
+     * ignored.
      */
-    @Test(expected = RuntimeException.class)
+    @Test
     public void readingFeedWithItemWithoutLink()
     {
         String url = "../../../resources/test/xml/FeedItemWithoutLink.xml";
@@ -212,9 +212,9 @@ public class FeedTest
     /**
      * Test case: 70
      * Tries to read a Feed XML file that contains an item without a guid. The item should be
-     * ignored and a RuntimeException should be thrown.
+     * ignored.
      */
-    @Test(expected = RuntimeException.class)
+    @Test
     public void readingFeedWithItemWithoutId()
     {
         String url = "../../../resources/test/xml/FeedItemWithoutId.xml";
@@ -231,7 +231,7 @@ public class FeedTest
      * should still be added. Only the first and third item should be added and the one missing an
      * id should be ignored.
      */
-    @Test(expected = RuntimeException.class)
+    @Test
     public void readingFileWithPartiallyBrokenFeed()
     {
         String url = "../../../resources/test/xml/FeedPartiallyBroken.xml";
@@ -246,14 +246,14 @@ public class FeedTest
         assertEquals(2, items.length);
 
         assertEquals("Item title 1", items[0].getTitle());
-        assertEquals("This is an item 1 description", items[0].getLink());
-        assertEquals("http://www.test-link-1.net", items[0].getDescription());
+        assertEquals("http://www.test-link-1.net", items[0].getLink());
+        assertEquals("This is an item 1 description", items[0].getDescription());
         assertEquals("Mon, 01 Jan 2016 00:00:00 +0000", items[0].getDate());
         assertEquals("test-id-1", items[0].getId());
 
         assertEquals("Untitled", items[1].getTitle());
-        assertEquals("This is an item 3 description", items[1].getLink());
-        assertEquals("http://www.test-link-3.net", items[1].getDescription());
+        assertEquals("http://www.test-link-3.net", items[1].getLink());
+        assertEquals("This is an item 3 description", items[1].getDescription());
         assertEquals("Wen, 03 Jan 2016 00:00:00 +0000", items[1].getDate());
         assertEquals("test-id-3", items[1].getId());
     }

@@ -225,7 +225,11 @@ public class Configuration
     }
 
     /**
-     * NOT TESTED
+     * This method returns an ItemList with a specific name. If it does exist it will be returned,
+     * but if there is no ItemList that has that name a RuntimeExcpetion is thrown, and the same
+     * will happen if there are no ItemLists at all.
+     * @param name  The name of the itemList we are looking for
+     * @return      An ItemList with an identical name as the name parameter.
      */
     public ItemList getItemList(String name)
     {
@@ -300,6 +304,21 @@ public class Configuration
         }
     }
 
+    public void setSorting(String sorting, String itemListName)
+    {
+        if(!sorting.equals("TITLE_ASC") && !sorting.equals("TITLE_DEC") && !sorting.equals("DATE_ASC") && !sorting.equals("DATE_DEC"))
+        {
+            throw new RuntimeException( "\"" + sorting + "\"" + " is not a valid sorting method");
+        }
+
+        if(getItemList(itemListName).getSorting().equals(sorting))
+            return;
+
+        getItemList(itemListName).setSorting(sorting);
+        getItemList(itemListName).sort();
+
+    }
+
     /*
     ------------------------------- ACCESSORS AND MUTATORS -----------------------------------------
     */
@@ -326,7 +345,7 @@ public class Configuration
      * Sets the Feed array of this Configuration
      * @param feeds An array of Feed objects we want to be used in this Configuration
      */
-    public void setFeeds(Feed[] feeds)
+    void setFeeds(Feed[] feeds)
     {
         this.feeds = feeds;
     }
@@ -335,7 +354,7 @@ public class Configuration
      * Sets the ItemList array of this Configuration.
      * @param itemList An array of ItemList objects to be used in this Configuration
      */
-    public void setItemLists(ItemList[] itemList)
+    void setItemLists(ItemList[] itemList)
     {
         this.itemLists = itemList;
     }
