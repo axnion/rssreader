@@ -8,6 +8,8 @@ import api.ItemList;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -41,6 +43,9 @@ public class Client extends Application
     public void start(Stage primaryStage)
     {
         primaryStage.setTitle("RSSReader");
+
+
+        primaryStage.getIcons().add(new Image("app/img/star_solid.png"));
 
         root = new VBox();
         feedList = new VBox();
