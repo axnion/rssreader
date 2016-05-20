@@ -139,6 +139,7 @@ public class ItemList
         }
 
         items = newList;
+        sort();
     }
 
     /**
@@ -167,7 +168,7 @@ public class ItemList
      */
     private Item[] mergeSort(Item[] items, String[] method)
     {
-        if(items.length == 1)
+        if(items == null || items.length == 1)
             return items;
 
         int i;

@@ -304,9 +304,19 @@ public class Configuration
         }
     }
 
+    /**
+     * This method is called when the client wants to set what the list should be sorted after and
+     * in what order. A sorting string containing the information about how the list should be
+     * sorted and the name of the ItemList is provided. If the sorting String is not one of the four
+     * alternatives a RuntimeException is thrown. This method also calls the sorting method for that
+     * ItemList to apply the new sorting.
+     * @param sorting       A String containing data on how the list should be sorted.
+     * @param itemListName  A String containing the name of the ItemList we want to modify sort.
+     */
     public void setSorting(String sorting, String itemListName)
     {
-        if(!sorting.equals("TITLE_ASC") && !sorting.equals("TITLE_DEC") && !sorting.equals("DATE_ASC") && !sorting.equals("DATE_DEC"))
+        if(!sorting.equals("TITLE_ASC") && !sorting.equals("TITLE_DEC") &&
+                !sorting.equals("DATE_ASC") && !sorting.equals("DATE_DEC"))
         {
             throw new RuntimeException( "\"" + sorting + "\"" + " is not a valid sorting method");
         }
@@ -318,12 +328,14 @@ public class Configuration
         getItemList(itemListName).sort();
     }
 
-
-
+    /**
+     * This method changes the starred status of an Item object. To find the Item
+     * @param starred
+     * @param itemListName
+     * @param itemId
+     */
     public void setStarred(boolean starred, String itemListName, String itemId)
     {
-        //getItemList(itemListName).getItem(itemId).setStarred(starred);
-
         Item modifiedItem = getItem(itemListName, itemId);
         modifiedItem.setStarred(starred);
         updateItem(itemListName, modifiedItem);

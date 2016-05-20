@@ -221,18 +221,18 @@ public class ItemListTest
 
         Item[] items = itemList.getItems();
         assertEquals(2, items.length);
-        assertEquals("item00", items[0].getTitle());
-        assertEquals("item01", items[1].getTitle());
+        assertEquals("item01", items[0].getTitle());
+        assertEquals("item00", items[1].getTitle());
 
         itemList.addFeed(feed2);
         itemList.update(feeds);
 
         items = itemList.getItems();
         assertEquals(4, items.length);
-        assertEquals("item00", items[0].getTitle());
-        assertEquals("item01", items[1].getTitle());
-        assertEquals("item10", items[2].getTitle());
-        assertEquals("item11", items[3].getTitle());
+        assertEquals("item11", items[0].getTitle());
+        assertEquals("item10", items[1].getTitle());
+        assertEquals("item01", items[2].getTitle());
+        assertEquals("item00", items[3].getTitle());
     }
 
     /**
@@ -273,8 +273,6 @@ public class ItemListTest
         itemList.addFeed(feed1);
         itemList.addFeed(feed2);
         itemList.update(feeds);
-
-        itemList.sort();
 
         Item[] items = itemList.getItems();
 

@@ -55,7 +55,6 @@ class ItemListBox extends ScrollPane
         radioDate.setUserData("DATE");
         radioTitle.setToggleGroup(target);
         radioDate.setToggleGroup(target);
-        radioTitle.setSelected(true);
         sortTargetContainer.getChildren().addAll(radioTitle, radioDate);
 
         RadioButton radioAsc = new RadioButton("Ascending");
@@ -64,11 +63,33 @@ class ItemListBox extends ScrollPane
         radioDec.setUserData("DEC");
         radioAsc.setToggleGroup(direction);
         radioDec.setToggleGroup(direction);
-        radioDec.setSelected(true);
+
+
+        String sorting = api.getItemList(name).getSorting();
+
+        if(sorting.equals("TITLE_ASC"))
+        {
+            radioTitle.setSelected(true);
+            radioAsc.setSelected(true);
+        }
+        else if(sorting.equals("TITLE_DEC"))
+        {
+            radioTitle.setSelected(true);
+            radioDec.setSelected(true);
+        }
+        else if(sorting.equals("DATE_ASC"))
+        {
+            radioDate.setSelected(true);
+            radioAsc.setSelected(true);
+        }
+        else
+        {
+            radioDate.setSelected(true);
+            radioDec.setSelected(true);
+        }
+
         sortDirectionContainer.getChildren().addAll(radioAsc, radioDec);
-
         sortContainer.getChildren().addAll(sortTargetContainer, sortDirectionContainer);
-
         target.selectedToggleProperty().addListener((event) -> updateSorting(target, direction));
         direction.selectedToggleProperty().addListener((event) -> updateSorting(target, direction));
 
