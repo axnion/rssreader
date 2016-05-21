@@ -2,7 +2,6 @@ package client;
 
 import api.Configuration;
 import api.Item;
-import javafx.application.Application;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,6 +26,11 @@ class ItemBox extends HBox
         this.item = item;
         this.itemListName = itemListName;
         Hyperlink link = new Hyperlink();
+
+        if(!item.isVisited())
+            this.setStyle("-fx-background-color: #ff9a10");
+        else
+            this.setStyle("-fx-background-color: #fff");
 
         link.setOnAction(event ->
         {

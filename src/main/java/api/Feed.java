@@ -184,7 +184,13 @@ public class Feed
         Item[] newItems;
 
         if(items == null)
+        {
             newItemList = upToDateItems;
+            for(Item item : newItemList)
+            {
+                item.setVisited(true);
+            }
+        }
         else
         {
             ArrayList<Item> oldItems = new ArrayList<>(Arrays.asList(items));

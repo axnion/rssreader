@@ -57,7 +57,8 @@ public class Client extends Application
         HBox saveAndLoadArea = new HBox();
         HBox feedAddArea = new HBox();
         HBox itemListAddArea = new HBox();
-        addMenu.getChildren().addAll(saveAndLoadArea, feedAddArea, itemListAddArea);
+        Button updateBtn = new Button();
+        addMenu.getChildren().addAll(saveAndLoadArea, feedAddArea, itemListAddArea, updateBtn);
 
         // saveAndLoadArea
         TextField saveFileInput = new TextField();
@@ -93,6 +94,9 @@ public class Client extends Application
             addItemList(itemListNameInput.getText(), true);
             itemListNameInput.setText("");
         });
+
+        updateBtn.setText("Update");
+        updateBtn.setOnAction(event -> checkForUpdates());
 
         feedList.getChildren().add(new Label("Feeds"));
 
@@ -195,6 +199,14 @@ public class Client extends Application
             displayErrorMessage(err.getMessage());
             err.printStackTrace();
         }
+    }
+
+    private void checkForUpdates()
+    {
+        api.update();
+
+        for(ItemListBox itemListBox : itemListBoxes)
+            itemListBox.updateMenu(api.getFeeds());
     }
 
     private void loadConfiguration(String path)
