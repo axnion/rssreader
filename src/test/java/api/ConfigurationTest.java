@@ -672,6 +672,9 @@ public class ConfigurationTest
 
     /**
      * Test case: 100
+     * This test is testing the scenario to set starred status where there are both Feeds and Items
+     * in all these Feeds. The correct item we are looking for also exists in these Feeds. So it
+     * tests the method by observing what methods are called and which are not called.
      */
     @Test
     public void setStarredWithExistingItem()
@@ -716,6 +719,8 @@ public class ConfigurationTest
 
     /**
      * Test case: 101
+     * This tests a scenario to set starred status where there are no Feed objects. RuntimeException
+     * is expected.
      */
     @Test(expected = RuntimeException.class)
     public void setStarredFeedsNull()
@@ -725,14 +730,26 @@ public class ConfigurationTest
 
     /**
      * Test case: 102
+     * This tests the scenario to set starred status where the Item array in a Feed is null. The
+     * expected Item still exists in the second Feed. No excpetion should be thrown, but getItems()
+     * should only be called once in the whole method on the Feed with null Items.
      */
-    @Test(expected = RuntimeException.class)
+    @Test
     public void setStarredItemsNull()
     {
-        Feed[] feeds = new Feed[1];
-        feeds[0] = Mocks.createMockFeed("Example Feed", "http://examplefeed.net",
-                "This is a description for example feed", "http://examplefeed.net/feed.xml");
+        // Creates Item mocks
+        Item[] items = new Item[1];
+        items[0] = Mocks.createMockItem("Example Item", "http://examplefeed.net/exampleItem",
+                "This is an item description", "exItem", false, false);
+
+        Feed[] feeds = new Feed[2];
+        feeds[0] = Mocks.createMockFeed("Example Feed 1", "http://examplefeed1.net",
+                "This is a description for example feed", "http://examplefeed1.net/feed.xml");
+        feeds[1] = Mocks.createMockFeed("Example Feed 2", "http://examplefeed2.net",
+                "This is a description for example feed", "http://examplefeed2.net/feed.xml");
         when(feeds[0].getItems()).thenReturn(null);
+        when(feeds[1].getItems()).thenReturn(items);
+        config.setFeeds(feeds);
 
         config.setStarred(true, "exItem");
         verify(feeds[0], times(1)).getItems();
@@ -740,6 +757,8 @@ public class ConfigurationTest
 
     /**
      * Test case: 103
+     * Tests a scenario to set starred status where there are Feeds and they all have Items. But
+     * none of the Feeds contain the Item we are looking for. A RuntimeException should be thrown.
      */
     @Test(expected = RuntimeException.class)
     public void setStarredNonExistentItem()
@@ -771,6 +790,128 @@ public class ConfigurationTest
         config.setFeeds(feeds);
 
         config.setStarred(true, "NonExistantID");
+    }
+
+    /**
+     * Test case: 105
+     * This test is testing the scenario to set visited status where there are both Feeds and Items
+     * in all these Feeds. The correct item we are looking for also exists in these Feeds. So it
+     * tests the method by observing what methods are called and which are not called.
+     */
+    @Test
+    public void setVisitedWithExistingItem()
+    {
+        // Creates Item mocks
+        Item[] items = new Item[3];
+        items[0] = Mocks.createMockItem("Example Item 1", "http://examplefeed1.net/exampleItem",
+                "This is an item description", "exItem1", false, false);
+        items[1] = Mocks.createMockItem("Example Item 2", "http://examplefeed2.net/exampleItem",
+                "This is an item description", "exItem2", false, false);
+        items[2] = Mocks.createMockItem("Example Item 3", "http://examplefeed3.net/exampleItem",
+                "This is an item description", "exItem3", false, false);
+
+        Item[] otherItems = new Item[1];
+        otherItems[0] = Mocks.createMockItem("Other item", "http://examplefeed1.net/exampleItem",
+                "This is an item description", "otherItem", false, false);
+
+        // Creates Feed mocks
+        Feed[] feeds = new Feed[3];
+        feeds[0] = Mocks.createMockFeed("Example Feed", "http://examplefeed.net",
+                "This is a description for example feed", "http://examplefeed.net/feed.xml");
+        feeds[1] = Mocks.createMockFeed("Example Feed", "http://examplefeed.net",
+                "This is a description for example feed", "http://examplefeed.net/feed.xml");
+        feeds[2] = Mocks.createMockFeed("Example Feed", "http://examplefeed.net",
+                "This is a description for example feed", "http://examplefeed.net/feed.xml");
+        when(feeds[0].getItems()).thenReturn(otherItems);
+        when(feeds[1].getItems()).thenReturn(items);
+        when(feeds[2].getItems()).thenReturn(otherItems);
+        config.setFeeds(feeds);
+
+        config.setVisited(true, "exItem2");
+
+        verify(feeds[0], atLeastOnce()).getItems();
+        verify(feeds[1], atLeastOnce()).getItems();
+        verify(feeds[2], never()).getItems();
+
+        verify(items[0], never()).setVisited(anyBoolean());
+        verify(items[1], times(1)).setVisited(true);
+        verify(items[2], never()).setVisited(anyBoolean());
+        verify(otherItems[0], never()).setVisited(anyBoolean());
+    }
+
+    /**
+     * Test case: 106
+     * This tests a scenario to set visited status where there are no Feed objects. RuntimeException
+     * is expected.
+     */
+    @Test(expected = RuntimeException.class)
+    public void setVisitedFeedsNull()
+    {
+        config.setVisited(true, "exItem");
+    }
+
+    /**
+     * Test case: 107
+     * This tests the scenario to set visited status where the Item array in a Feed is null. The
+     * expected Item still exists in the second Feed. No exception should be thrown, but getItems()
+     * should only be called once in the whole method on the Feed with null Items.
+     */
+    @Test
+    public void setVisitedItemsNull()
+    {
+        // Creates Item mocks
+        Item[] items = new Item[1];
+        items[0] = Mocks.createMockItem("Example Item", "http://examplefeed.net/exampleItem",
+                "This is an item description", "exItem", false, false);
+
+        Feed[] feeds = new Feed[2];
+        feeds[0] = Mocks.createMockFeed("Example Feed 1", "http://examplefeed1.net",
+                "This is a description for example feed", "http://examplefeed1.net/feed.xml");
+        feeds[1] = Mocks.createMockFeed("Example Feed 2", "http://examplefeed2.net",
+                "This is a description for example feed", "http://examplefeed2.net/feed.xml");
+        when(feeds[0].getItems()).thenReturn(null);
+        when(feeds[1].getItems()).thenReturn(items);
+        config.setFeeds(feeds);
+
+        config.setVisited(true, "exItem");
+        verify(feeds[0], times(1)).getItems();
+    }
+
+    /**
+     * Test case: 108
+     * Tests a scenario to set visited status where there are Feeds and they all have Items. But
+     * none of the Feeds contain the Item we are looking for. A RuntimeException should be thrown.
+     */
+    @Test(expected = RuntimeException.class)
+    public void setVisitedNonExistentItem()
+    {
+        // Creates Item mocks
+        Item[] items = new Item[3];
+        items[0] = Mocks.createMockItem("Example Item 1", "http://examplefeed1.net/exampleItem",
+                "This is an item description", "exItem1", false, false);
+        items[1] = Mocks.createMockItem("Example Item 2", "http://examplefeed2.net/exampleItem",
+                "This is an item description", "exItem2", false, false);
+        items[2] = Mocks.createMockItem("Example Item 3", "http://examplefeed3.net/exampleItem",
+                "This is an item description", "exItem3", false, false);
+
+        Item[] otherItems = new Item[1];
+        otherItems[0] = Mocks.createMockItem("Other item", "http://examplefeed1.net/exampleItem",
+                "This is an item description", "otherItem", false, false);
+
+        // Creates Feed mocks
+        Feed[] feeds = new Feed[3];
+        feeds[0] = Mocks.createMockFeed("Example Feed", "http://examplefeed.net",
+                "This is a description for example feed", "http://examplefeed.net/feed.xml");
+        feeds[1] = Mocks.createMockFeed("Example Feed", "http://examplefeed.net",
+                "This is a description for example feed", "http://examplefeed.net/feed.xml");
+        feeds[2] = Mocks.createMockFeed("Example Feed", "http://examplefeed.net",
+                "This is a description for example feed", "http://examplefeed.net/feed.xml");
+        when(feeds[0].getItems()).thenReturn(otherItems);
+        when(feeds[1].getItems()).thenReturn(items);
+        when(feeds[2].getItems()).thenReturn(otherItems);
+        config.setFeeds(feeds);
+
+        config.setVisited(true, "NonExistantID");
     }
 }
 

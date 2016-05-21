@@ -62,7 +62,7 @@ public class FeedTest
         assertEquals("Item title", items[0].getTitle());
         assertEquals("http://www.google.com", items[0].getLink());
         assertEquals("This is an item description", items[0].getDescription());
-        assertFalse(items[0].isVisited());
+        assertTrue(items[0].isVisited());
         assertFalse(items[0].isStarred());
     }
 

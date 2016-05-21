@@ -144,17 +144,17 @@ public class apiTesting
                 .getResource("../../resources/test/xml/exampleFeed1.xml").getPath() +"\",\"" +
                 "items\":[{\"title\":\"Example Item 1\",\"link\":\"http://www.google.com\",\"" +
                 "description\":\"This is an item description\",\"id\":\"example-id-1\",\"date\":\"Mon, 01 Jan 2016 12:00:00 +0000\"," +
-                "\"visited\":false,\"starred\":false},{\"title\":\"Example Item 2\",\"link\":\"" +
+                "\"visited\":true,\"starred\":false},{\"title\":\"Example Item 2\",\"link\":\"" +
                 "http://www.google.com\",\"description\":\"This is an item description\",\"id\"" +
-                ":\"example-id-2\",\"date\":\"Tue, 02 Jan 2016 20:30:15 +0000\",\"visited\":false,\"starred\":false}]},{\"title\":\"" +
+                ":\"example-id-2\",\"date\":\"Tue, 02 Jan 2016 20:30:15 +0000\",\"visited\":true,\"starred\":false}]},{\"title\":\"" +
                 "Example Feed 2\",\"link\":\"http://examplefeed2.com/\",\"description\":\"" +
                 "This is a description for example feed 2\",\"urlToXML\":\"" + apiTesting.class
                 .getResource("../../resources/test/xml/exampleFeed2.xml").getPath() + "\",\"" +
                 "items\":[{\"title\":\"Example Item 21\",\"link\":\"http://www.google.com\",\"" +
                 "description\":\"This is an item description\",\"id\":\"example-id-21\",\"date\":\"Wen, 11 Feb 2016 21:15:15 +0000\",\"" +
-                "visited\":false,\"starred\":false},{\"title\":\"Example Item 22\",\"link\":\"" +
+                "visited\":true,\"starred\":false},{\"title\":\"Example Item 22\",\"link\":\"" +
                 "http://www.google.com\",\"description\":\"This is an item description\",\"id\"" +
-                ":\"example-id-22\",\"date\":\"Thu, 12 Feb 2016 23:45:20 +0000\",\"visited\":false,\"starred\":false}]}],\"itemLists\":[{\"" +
+                ":\"example-id-22\",\"date\":\"Thu, 12 Feb 2016 23:45:20 +0000\",\"visited\":true,\"starred\":false}]}],\"itemLists\":[{\"" +
                 "name\":\"Test1\",\"sorting\":\"\",\"feedUrls\":null},{\"name\":\"Test2\",\"" +
                 "sorting\":\"\",\"feedUrls\":[\"" + apiTesting.class
                 .getResource("../../resources/test/xml/exampleFeed2.xml").getPath() + "\"]}]}";

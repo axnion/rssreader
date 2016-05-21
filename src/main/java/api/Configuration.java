@@ -370,6 +370,46 @@ public class Configuration
         throw new RuntimeException("There is Item with id \"" + itemId + "\"");
     }
 
+    /**
+     * This method is used when the client wants to change the visited status of a specific Item.
+     * The method first finds the correct item by looking though the feeds for an item with the
+     * correct name. When the item is found its status is changes and is inserted into the feed
+     * again. If there are no feeds or an Item with the correct name a RuntimeException is thrown.
+     * @param visited   The new visited status of the Item
+     * @param itemId    The ID of the Item is going to have it's visited status changed.
+     */
+    public void setVisited(boolean visited, String itemId)
+    {
+        Item modifiedItem = null;
+
+        if(feeds == null)
+            throw new RuntimeException("There are no Feed objects and there for no Item to visit");
+
+        for(int i = 0; i < feeds.length; i++)
+        {
+            if(feeds[i].getItems() == null)
+                continue;
+
+            for(int j = 0; j < feeds[i].getItems().length; j++)
+            {
+                if(feeds[i].getItems()[j].getId().equals(itemId))
+                {
+                    Item[] modifiedItems = feeds[i].getItems();
+                    modifiedItem = modifiedItems[j];
+
+                    modifiedItem.setVisited(visited);
+
+                    modifiedItems[j] = modifiedItem;
+                    feeds[i].setItems(modifiedItems);
+
+                    return;
+                }
+            }
+        }
+
+        throw new RuntimeException("There is Item with id \"" + itemId + "\"");
+    }
+
     /*
     ------------------------------- ACCESSORS AND MUTATORS -----------------------------------------
     */

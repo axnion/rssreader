@@ -34,6 +34,7 @@ class ItemBox extends HBox
 
         link.setOnAction(event ->
         {
+            changeVisited();
             bc.openLink(item.getLink());
         });
 
@@ -60,6 +61,12 @@ class ItemBox extends HBox
         link.setText(item.getTitle());
         this.getChildren().add(link);
         this.getChildren().add(starContainer);
+    }
+
+    private void changeVisited()
+    {
+        this.setStyle("-fx-background-color: #fff");
+        api.setVisited(true, item.getId());
     }
 
     private void changeStar(ImageView imageView)
