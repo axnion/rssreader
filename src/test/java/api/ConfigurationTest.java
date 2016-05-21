@@ -24,7 +24,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 22
+     * Test case: 22
      * Testing the accessor and mutator methods in the Configuration class. Use the setters to set
      * the fields to mocked objects and then use the getters and check the validity of the returned
      * objects
@@ -56,7 +56,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 24
+     * Test case: 24
      * Adds one Feed to the Configuration when it contains no Feeds. Then checks so there is only
      * that one Feed in the Configuration.
      */
@@ -74,7 +74,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 25
+     * Test case: 25
      * Adds a Feed to a Configuration already containing Feeds. Then checks so there is now three
      * Feeds instead of the previous two and also checks the order and the validity.
      */
@@ -103,7 +103,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 26
+     * Test case: 26
      * Tries to add a Feed with an identical urlToXML. Since that url is the identifier of Feed a
      * RuntimeException is thrown because we can't have duplicates.
      */
@@ -126,7 +126,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 27
+     * Test case: 27
      * Removes a Feed that exists in the Configuration. This Feed should then not be present in the
      * Feed array afterwards.
      */
@@ -150,7 +150,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 28
+     * Test case: 28
      * Tries to remove a Feed from the Configuration that does not exist. This should produce
      * RuntimeException. The tests also checks so the Feed array was untouched.
      */
@@ -175,7 +175,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 29
+     * Test case: 29
      * Tries to remove a Feed from an empty Feed array. This should produce a RuntimeException. The
      * Feed array should also be pointing to null.
      */
@@ -187,7 +187,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 30
+     * Test case: 30
      * Removes the last remaining Feed in the Feed array. The Feed array should be pointing at null
      * afterwards.
      */
@@ -208,7 +208,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 43
+     * Test case: 43
      * Tries to remove a Feed that exist in several elements in the array. It should only remove the
      * first one and the rest of the array should be intact.
      */
@@ -240,7 +240,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 31
+     * Test case: 31
      */
     @Test
     public void addItemListInEmptyConfiguration()
@@ -252,7 +252,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 32
+     * Test case: 32
      */
     @Test
     public void addItemListInNonEmptyConfiguration()
@@ -274,7 +274,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 33
+     * Test case: 33
      */
     @Test(expected = RuntimeException.class)
     public void addItemListWithExistingName()
@@ -295,7 +295,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 50
+     * Test case: 50
      * Removes an ItemList that exists in the Configuration. The correct one should be removed and
      * there should be only one left afterwards.
      */
@@ -317,7 +317,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 51
+     * Test case: 51
      * Tries to remove an ItemList that already
      */
     @Test(expected = RuntimeException.class)
@@ -339,7 +339,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 52
+     * Test case: 52
      */
     @Test(expected = RuntimeException.class)
     public void removeOnEmptyItemListArray()
@@ -349,7 +349,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 53
+     * Test case: 53
      */
     @Test
     public void removeLastItemList()
@@ -367,7 +367,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 44
+     * Test case: 44
      * Tries to add a Feed to an existing ItemList. Uses verify method to verify that the addFeed
      * method is called.
      */
@@ -389,7 +389,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 45
+     * Test case: 45
      * Tries to add a Feed to an ItemList that does not exist. This will result in a
      * RuntimeException.
      */
@@ -405,7 +405,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 46
+     * Test case: 46
      * Tries to add Feed to an ItemList when the array of ItemLists is empty. Should throw
      * RuntimeException.
      */
@@ -416,7 +416,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 47
+     * Test case: 47
      * Removes a Feed that exist in the ItemList. The test then verifies that the removeFeed was
      * called on the correct ItemList.
      */
@@ -438,7 +438,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 48
+     * Test case: 48
      * Tries to remove a Feed from an ItemList that does not exist. This should produce a
      * RuntimeException.
      */
@@ -454,7 +454,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 49
+     * Test case: 49
      * Tries to remove a Feed from an ItemList that does not exist, because there are no ItemList at
      * all. Should produce a RuntimeException.
      */
@@ -465,7 +465,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 62
+     * Test case: 62
      */
     @Test
     public void getExistingItemList()
@@ -484,7 +484,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 63
+     * Test case: 63
      */
     @Test(expected = RuntimeException.class)
     public void getNonExistingItemList()
@@ -496,20 +496,20 @@ public class ConfigurationTest
         itemLists[2] = Mocks.createMockItemList("ItemList 3", "NAME_ASC");
         config.setItemLists(itemLists);
 
-        ItemList returnValue = config.getItemList("itemList 4");
+        config.getItemList("itemList 4");
     }
 
     /**
-     * Unit test case: 64
+     * Test case: 64
      */
     @Test(expected = RuntimeException.class)
     public void getItemListFromEmptyList()
     {
-        ItemList returnValue = config.getItemList("itemList 4");
+        config.getItemList("itemList 4");
     }
 
     /**
-     * Unit test case: 35
+     * Test case: 35
      */
     @Test
     public void updateTest()
@@ -542,7 +542,7 @@ public class ConfigurationTest
     }
 
     /**
-     * Unit test case: 36
+     * Test case: 36
      * Tries to update the the feeds and the item lists but both are null. Should just ignore and not
      * call update on the feeds or item lists and they should remain null.
      */
@@ -552,6 +552,225 @@ public class ConfigurationTest
         config.update();
         assertNull(config.getFeeds());
         assertNull(config.getItemLists());
+    }
+
+    /**
+     * Test case: 94
+     * Tests when the method is called to set the sorting to TITLE_ASC. Checks so the setSorting
+     * method on the ItemList object is called and the sort method.
+     */
+    @Test
+    public void setSortingToTitleAsc()
+    {
+        // Creates ItemList mocks
+        ItemList[] itemList = new ItemList[1];
+        itemList[0] = Mocks.createMockItemList("testList", "");
+        config.setItemLists(itemList);
+
+        config.setSorting("TITLE_ASC", "testList");
+
+        verify(itemList[0]).setSorting("TITLE_ASC");
+        verify(itemList[0]).sort();
+    }
+
+    /**
+     * Test case: 95
+     * Tests when the method is called to set the sorting to TITLE_DEC. Checks so the setSorting
+     * method on the ItemList object is called and the sort method.
+     */
+    @Test
+    public void setSortingToTitleDec()
+    {
+        // Creates ItemList mocks
+        ItemList[] itemList = new ItemList[1];
+        itemList[0] = Mocks.createMockItemList("testList", "");
+        config.setItemLists(itemList);
+
+        config.setSorting("TITLE_DEC", "testList");
+
+        verify(itemList[0]).setSorting("TITLE_DEC");
+        verify(itemList[0]).sort();
+    }
+
+    /**
+     * Test case: 96
+     * Tests when the method is called to set the sorting to DATE_ASC. Checks so the setSorting
+     * method on the ItemList object is called and the sort method.
+     */
+    @Test
+    public void setSortingToDateAsc()
+    {
+        // Creates ItemList mocks
+        ItemList[] itemList = new ItemList[1];
+        itemList[0] = Mocks.createMockItemList("testList", "");
+        config.setItemLists(itemList);
+
+        config.setSorting("DATE_ASC", "testList");
+
+        verify(itemList[0]).setSorting("DATE_ASC");
+        verify(itemList[0]).sort();
+    }
+
+    /**
+     * Test case: 97
+     * Tests when the method is called to set the sorting to DATE_DEC. Checks so the setSorting
+     * method on the ItemList object is called and the sort method.
+     */
+    @Test
+    public void setSortingToDateDec()
+    {
+        // Creates ItemList mocks
+        ItemList[] itemList = new ItemList[1];
+        itemList[0] = Mocks.createMockItemList("testList", "");
+        config.setItemLists(itemList);
+
+        config.setSorting("DATE_DEC", "testList");
+
+        verify(itemList[0]).setSorting("DATE_DEC");
+        verify(itemList[0]).sort();
+    }
+
+    /**
+     * Test case: 98
+     * Tests when the method is called to set the sorting to an unkown method. The tests expects a
+     * RuntimeException to be thrown and the setSorting and sort methods on the itemList object
+     * should not be called.
+     */
+    @Test(expected = RuntimeException.class)
+    public void setSortingToUnknownMethod()
+    {
+        // Creates ItemList mocks
+        ItemList[] itemList = new ItemList[1];
+        itemList[0] = Mocks.createMockItemList("testList", "");
+        config.setItemLists(itemList);
+
+        config.setSorting("STARS_ASC", "testList");
+
+        verify(itemList[0], never()).setSorting("STARS_ASC");
+        verify(itemList[0], never()).sort();
+    }
+
+    /**
+     * Test case: 99
+     * Tests when the method is called to set the sorting to TITLE_ASC when the ItemList objects
+     * sorting is already set to TITLE_ASC. We expect no exception but the setSorting and sort
+     * methods should never be called.
+     */
+    @Test
+    public void setSortingToSameSorting()
+    {
+        // Creates ItemList mocks
+        ItemList[] itemList = new ItemList[1];
+        itemList[0] = Mocks.createMockItemList("testList", "TITLE_ASC");
+        config.setItemLists(itemList);
+
+        config.setSorting("TITLE_ASC", "testList");
+
+        verify(itemList[0], never()).setSorting(any());
+        verify(itemList[0], never()).sort();
+    }
+
+    /**
+     * Test case: 100
+     */
+    @Test
+    public void setStarredWithExistingItem()
+    {
+        // Creates Item mocks
+        Item[] items = new Item[3];
+        items[0] = Mocks.createMockItem("Example Item 1", "http://examplefeed1.net/exampleItem",
+                "This is an item description", "exItem1", false, false);
+        items[1] = Mocks.createMockItem("Example Item 2", "http://examplefeed2.net/exampleItem",
+                "This is an item description", "exItem2", false, false);
+        items[2] = Mocks.createMockItem("Example Item 3", "http://examplefeed3.net/exampleItem",
+                "This is an item description", "exItem3", false, false);
+
+        Item[] otherItems = new Item[1];
+        otherItems[0] = Mocks.createMockItem("Other item", "http://examplefeed1.net/exampleItem",
+                "This is an item description", "otherItem", false, false);
+
+        // Creates Feed mocks
+        Feed[] feeds = new Feed[3];
+        feeds[0] = Mocks.createMockFeed("Example Feed", "http://examplefeed.net",
+                "This is a description for example feed", "http://examplefeed.net/feed.xml");
+        feeds[1] = Mocks.createMockFeed("Example Feed", "http://examplefeed.net",
+                "This is a description for example feed", "http://examplefeed.net/feed.xml");
+        feeds[2] = Mocks.createMockFeed("Example Feed", "http://examplefeed.net",
+                "This is a description for example feed", "http://examplefeed.net/feed.xml");
+        when(feeds[0].getItems()).thenReturn(otherItems);
+        when(feeds[1].getItems()).thenReturn(items);
+        when(feeds[2].getItems()).thenReturn(otherItems);
+        config.setFeeds(feeds);
+
+        config.setStarred(true, "exItem2");
+
+        verify(feeds[0], atLeastOnce()).getItems();
+        verify(feeds[1], atLeastOnce()).getItems();
+        verify(feeds[2], never()).getItems();
+
+        verify(items[0], never()).setStarred(anyBoolean());
+        verify(items[1], times(1)).setStarred(true);
+        verify(items[2], never()).setStarred(anyBoolean());
+        verify(otherItems[0], never()).setStarred(anyBoolean());
+    }
+
+    /**
+     * Test case: 101
+     */
+    @Test(expected = RuntimeException.class)
+    public void setStarredFeedsNull()
+    {
+        config.setStarred(true, "exItem");
+    }
+
+    /**
+     * Test case: 102
+     */
+    @Test(expected = RuntimeException.class)
+    public void setStarredItemsNull()
+    {
+        Feed[] feeds = new Feed[1];
+        feeds[0] = Mocks.createMockFeed("Example Feed", "http://examplefeed.net",
+                "This is a description for example feed", "http://examplefeed.net/feed.xml");
+        when(feeds[0].getItems()).thenReturn(null);
+
+        config.setStarred(true, "exItem");
+        verify(feeds[0], times(1)).getItems();
+    }
+
+    /**
+     * Test case: 103
+     */
+    @Test(expected = RuntimeException.class)
+    public void setStarredNonExistentItem()
+    {
+        // Creates Item mocks
+        Item[] items = new Item[3];
+        items[0] = Mocks.createMockItem("Example Item 1", "http://examplefeed1.net/exampleItem",
+                "This is an item description", "exItem1", false, false);
+        items[1] = Mocks.createMockItem("Example Item 2", "http://examplefeed2.net/exampleItem",
+                "This is an item description", "exItem2", false, false);
+        items[2] = Mocks.createMockItem("Example Item 3", "http://examplefeed3.net/exampleItem",
+                "This is an item description", "exItem3", false, false);
+
+        Item[] otherItems = new Item[1];
+        otherItems[0] = Mocks.createMockItem("Other item", "http://examplefeed1.net/exampleItem",
+                "This is an item description", "otherItem", false, false);
+
+        // Creates Feed mocks
+        Feed[] feeds = new Feed[3];
+        feeds[0] = Mocks.createMockFeed("Example Feed", "http://examplefeed.net",
+                "This is a description for example feed", "http://examplefeed.net/feed.xml");
+        feeds[1] = Mocks.createMockFeed("Example Feed", "http://examplefeed.net",
+                "This is a description for example feed", "http://examplefeed.net/feed.xml");
+        feeds[2] = Mocks.createMockFeed("Example Feed", "http://examplefeed.net",
+                "This is a description for example feed", "http://examplefeed.net/feed.xml");
+        when(feeds[0].getItems()).thenReturn(otherItems);
+        when(feeds[1].getItems()).thenReturn(items);
+        when(feeds[2].getItems()).thenReturn(otherItems);
+        config.setFeeds(feeds);
+
+        config.setStarred(true, "NonExistantID");
     }
 }
 

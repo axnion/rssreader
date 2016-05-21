@@ -321,80 +321,53 @@ public class Configuration
             throw new RuntimeException( "\"" + sorting + "\"" + " is not a valid sorting method");
         }
 
-        if(getItemList(itemListName).getSorting().equals(sorting))
+        ItemList itemList = getItemList(itemListName);
+
+        if(itemList.getSorting().equals(sorting))
             return;
 
-        getItemList(itemListName).setSorting(sorting);
-        getItemList(itemListName).sort();
+        itemList.setSorting(sorting);
+        itemList.sort();
     }
 
     /**
-     * This method changes the starred status of an Item object. To find the Item
-     * @param starred
-     * @param itemListName
-     * @param itemId
+     * This method is used to find and update a particular Items starred status. The new starred
+     * status and the ID of the Item is passed as arguments. The method looks for the correct Item
+     * in the feeds field and then updates the Item. If there is no Item with that ID a
+     * RuntimException is thown.
+     * @param starred       True if the Item got starred, false if it got unstarred
+     * @param itemId        The ID of the Item that got starred or unstarred.
      */
-    public void setStarred(boolean starred, String itemListName, String itemId)
+    public void setStarred(boolean starred, String itemId)
     {
-        Item modifiedItem = getItem(itemListName, itemId);
-        modifiedItem.setStarred(starred);
-        updateItem(itemListName, modifiedItem);
-    }
+        Item modifiedItem = null;
 
-    private Item getItem(String itemListName, String id)
-    {
-        Item[] items = getItemList(itemListName).getItems();
+        if(feeds == null)
+            throw new RuntimeException("There are no Feed objects and there for no Item to star");
 
-        for(Item item : items)
+        for(int i = 0; i < feeds.length; i++)
         {
-            if(item.getId().equals(id))
-                return item;
-        }
+            if(feeds[i].getItems() == null)
+                continue;
 
-        throw new RuntimeException("There is no item with that ID");
-    }
-
-    private void updateItem(String itemListName, Item item)
-    {
-        ItemList[] modifiedItemLists = getItemLists();
-        ItemList modifiedItemList = null;
-        int modifiedItemListIndex = 0;
-
-        for(int i = 0; i < modifiedItemLists.length; i++)
-        {
-            if(modifiedItemLists[i].getName().equals(itemListName))
+            for(int j = 0; j < feeds[i].getItems().length; j++)
             {
-                modifiedItemList = modifiedItemLists[i];
-                modifiedItemListIndex = i;
-                break;
+                if(feeds[i].getItems()[j].getId().equals(itemId))
+                {
+                    Item[] modifiedItems = feeds[i].getItems();
+                    modifiedItem = modifiedItems[j];
+
+                    modifiedItem.setStarred(starred);
+
+                    modifiedItems[j] = modifiedItem;
+                    feeds[i].setItems(modifiedItems);
+
+                    return;
+                }
             }
         }
 
-        if(modifiedItemList == null)
-            throw new RuntimeException("No itemList with name \"" + itemListName + "\" exists");
-
-        Item[] modifiedItems = modifiedItemList.getItems();
-        boolean found = false;
-
-        for(int i = 0; i < modifiedItems.length; i++)
-        {
-            if(modifiedItems[i].getId().equals(item.getId()))
-            {
-                found = true;
-                modifiedItems[i] = item;
-                break;
-            }
-        }
-
-        if(!found)
-        {
-            throw new RuntimeException("No item with id \"" + item.getId() + "\" exists in " +
-                    itemListName);
-        }
-
-        modifiedItemList.setItems(modifiedItems);
-        modifiedItemLists[modifiedItemListIndex] = modifiedItemList;
-        setItemLists(modifiedItemLists);
+        throw new RuntimeException("There is Item with id \"" + itemId + "\"");
     }
 
     /*

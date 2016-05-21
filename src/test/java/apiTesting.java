@@ -173,9 +173,6 @@ public class apiTesting
             err.printStackTrace();
         }
 
-        System.err.println(str);
-        System.err.println(comp);
-
         assertNotNull(str);
         assertEquals(0, str.compareTo(comp));
     }

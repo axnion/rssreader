@@ -367,5 +367,76 @@ public class ItemTest
 
         assertTrue(testItem.compareDate(other) > 0);
     }
+
+    /**
+     * Test Case: 93
+     * Tests all the months so they have the correct values. It goes though all months and compare
+     * them to the next month.
+     */
+    @Test
+    public void compareMonths()
+    {
+        Item testItem = new Item();
+        Item other = new Item();
+
+        testItem.setDate("Mon, 01 Jan 2016 12:00:00 +0000");
+        other.setDate("Mon, 01 Feb 2016 12:00:00 +0000");
+        assertTrue(testItem.compareDate(other) < 0);
+
+        testItem.setDate("Mon, 01 Feb 2016 12:00:00 +0000");
+        other.setDate("Mon, 01 Mar 2016 12:00:00 +0000");
+        assertTrue(testItem.compareDate(other) < 0);
+
+        testItem.setDate("Mon, 01 Mar 2016 12:00:00 +0000");
+        other.setDate("Mon, 01 Apr 2016 12:00:00 +0000");
+        assertTrue(testItem.compareDate(other) < 0);
+
+        testItem.setDate("Mon, 01 Apr 2016 12:00:00 +0000");
+        other.setDate("Mon, 01 May 2016 12:00:00 +0000");
+        assertTrue(testItem.compareDate(other) < 0);
+
+        testItem.setDate("Mon, 01 May 2016 12:00:00 +0000");
+        other.setDate("Mon, 01 Jun 2016 12:00:00 +0000");
+        assertTrue(testItem.compareDate(other) < 0);
+
+        testItem.setDate("Mon, 01 Jun 2016 12:00:00 +0000");
+        other.setDate("Mon, 01 Jul 2016 12:00:00 +0000");
+        assertTrue(testItem.compareDate(other) < 0);
+
+        testItem.setDate("Mon, 01 Jul 2016 12:00:00 +0000");
+        other.setDate("Mon, 01 Aug 2016 12:00:00 +0000");
+        assertTrue(testItem.compareDate(other) < 0);
+
+        testItem.setDate("Mon, 01 Aug 2016 12:00:00 +0000");
+        other.setDate("Mon, 01 Sep 2016 12:00:00 +0000");
+        assertTrue(testItem.compareDate(other) < 0);
+
+        testItem.setDate("Mon, 01 Sep 2016 12:00:00 +0000");
+        other.setDate("Mon, 01 Oct 2016 12:00:00 +0000");
+        assertTrue(testItem.compareDate(other) < 0);
+
+        testItem.setDate("Mon, 01 Oct 2016 12:00:00 +0000");
+        other.setDate("Mon, 01 Nov 2016 12:00:00 +0000");
+        assertTrue(testItem.compareDate(other) < 0);
+
+        testItem.setDate("Mon, 01 Nov 2016 12:00:00 +0000");
+        other.setDate("Mon, 01 Dec 2016 12:00:00 +0000");
+        assertTrue(testItem.compareDate(other) < 0);
+    }
+
+    /**
+     * Test case: 104
+     */
+    @Test
+    public void compareNonexistentMonth()
+    {
+        Item testItem = new Item();
+        Item other = new Item();
+
+        testItem.setDate("Mon, 01 Bla 2016 12:00:00 +0000");
+        other.setDate("Mon, 01 Jan 2016 12:00:00 +0000");
+
+        assertTrue(testItem.compareDate(other) < 0);
+    }
 }
 // Created: 2016-04-17

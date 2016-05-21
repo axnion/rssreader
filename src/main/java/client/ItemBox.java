@@ -67,8 +67,7 @@ class ItemBox extends HBox
 
         imageView.setImage(new Image("file:img/star_" + imageView.getUserData().toString() + ".png"));
 
-        api.setStarred(imageView.getUserData().toString().equals("border"), itemListName,
-                item.getId());
+        api.setStarred(imageView.getUserData().toString().equals("border"), item.getId());
     }
 }
 
