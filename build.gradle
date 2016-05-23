@@ -43,7 +43,7 @@ jfx {
     deployDir = "src/deploy/"
 
     // gradle jfxJar
-    css2bin = false
+    css2bin = true
     preLoader = null
     updateExistingJar = true
     allPermissions = true

@@ -252,7 +252,7 @@ public class ItemListTest
      * Test case: 51
      * Tries to update an ItemList with null as an argument. Should produce RuntimeException.
      */
-    @Test(expected = RuntimeException.class)
+    @Test
     public void updateTestNoFeeds()
     {
         itemList.addFeed(feed1);

@@ -108,11 +108,11 @@ class ItemListBox extends ScrollPane
 
     void updateMenu(Feed[] feeds)
     {
-        if(feeds == null)
-            return;
-
         if(checkboxes != null)
             checkBoxContainer.getChildren().removeAll(checkboxes);
+
+        if(feeds == null)
+            return;
 
         checkboxes = new MenuFeed[feeds.length];
 

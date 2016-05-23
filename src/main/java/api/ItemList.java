@@ -118,7 +118,10 @@ public class ItemList
         Item[] newList = null;
 
         if(feeds == null)
-            throw new RuntimeException("No Feeds to update the ItemList");
+        {
+            items = null;
+            return;
+        }
 
         if(feedUrls != null)
         {
