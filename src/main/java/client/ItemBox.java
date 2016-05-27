@@ -16,15 +16,12 @@ import javafx.scene.layout.VBox;
  */
 class ItemBox extends HBox
 {
-    private Configuration api;
     private Item item;
-    private String itemListName;
 
-    ItemBox(Item item, String itemListName, Configuration api, Client.BrowserControl bc)
+    ItemBox(Item item)
     {
-        this.api = api;
+        //this.api = api;
         this.item = item;
-        this.itemListName = itemListName;
         Hyperlink link = new Hyperlink();
 
         if(!item.isVisited())
@@ -35,7 +32,7 @@ class ItemBox extends HBox
         link.setOnAction(event ->
         {
             changeVisited();
-            bc.openLink(item.getLink());
+            Client.bc.openLink(item.getLink());
         });
 
         VBox starContainer = new VBox();
@@ -66,7 +63,7 @@ class ItemBox extends HBox
     private void changeVisited()
     {
         this.setStyle("-fx-background-color: #fff");
-        api.setVisited(true, item.getId());
+        Client.api.setVisited(true, item.getId());
     }
 
     private void changeStar(ImageView imageView)
@@ -78,7 +75,7 @@ class ItemBox extends HBox
 
         imageView.setImage(new Image("file:img/star_" + imageView.getUserData().toString() + ".png"));
 
-        api.setStarred(imageView.getUserData().toString().equals("border"), item.getId());
+        Client.api.setStarred(imageView.getUserData().toString().equals("border"), item.getId());
     }
 }
 

@@ -21,23 +21,19 @@ class ItemListBox extends ScrollPane
     private VBox itemList;
     private MenuFeed[] checkboxes;
     private VBox checkBoxContainer;
-    private Client.BrowserControl browserControl;
-    private Configuration api;
 
-    ItemListBox(String name, Configuration api, Client.BrowserControl bc, Button removeButton)
+    ItemListBox(String name, Button removeButton)
     {
         this.name = name;
-        this.api = api;
         itemList = new VBox();
         VBox container = new VBox();
-        browserControl = bc;
         checkboxes = null;
         checkBoxContainer = new VBox();
 
         container.getChildren().addAll(removeButton, new Label(name), createSortSettings(), checkBoxContainer, itemList);
         setContent(container);
 
-        updateMenu(api.getFeeds());
+        updateMenu(Client.api.getFeeds());
     }
 
     private HBox createSortSettings()
@@ -65,7 +61,7 @@ class ItemListBox extends ScrollPane
         radioDec.setToggleGroup(direction);
 
 
-        String sorting = api.getItemList(name).getSorting();
+        String sorting = Client.api.getItemList(name).getSorting();
 
         if(sorting.equals("TITLE_ASC"))
         {
@@ -102,8 +98,8 @@ class ItemListBox extends ScrollPane
         str += "_";
         str += direction.getSelectedToggle().getUserData().toString();
 
-        api.setSorting(str, getName());
-        updateItems(api.getItemList(getName()));
+        Client.api.setSorting(str, getName());
+        updateItems(Client.api.getItemList(getName()));
     }
 
     void updateMenu(Feed[] feeds)
@@ -122,7 +118,7 @@ class ItemListBox extends ScrollPane
             checkboxes[i].setText(feeds[i].getTitle());
             checkboxes[i].setValue(feeds[i].getUrlToXML());
 
-            String[] urls = api.getItemList(name).getFeedUrls();
+            String[] urls = Client.api.getItemList(name).getFeedUrls();
 
             if(urls != null)
             {
@@ -132,7 +128,7 @@ class ItemListBox extends ScrollPane
                     {
                         checkboxes[i].setSelected(true);
                         checkboxes[i].setLastState(true);
-                        updateItems(api.getItemList(name));
+                        updateItems(Client.api.getItemList(name));
                         break;
                     }
                 }
@@ -147,19 +143,19 @@ class ItemListBox extends ScrollPane
                 {
                     if(checkboxes[i].isSelected() && !checkboxes[i].wasSelected())
                     {
-                        api.addFeedToItemList(name, checkbox.getValue());
-                        api.update();
+                        Client.api.addFeedToItemList(name, checkbox.getValue());
+                        Client.api.update();
                         checkboxes[i].setLastState(true);
                     }
                     else if(!checkboxes[i].isSelected() && checkboxes[i].wasSelected())
                     {
-                        api.removeFeedFromItemList(name, checkbox.getValue());
-                        api.update();
+                        Client.api.removeFeedFromItemList(name, checkbox.getValue());
+                        Client.api.update();
                         checkboxes[i].setLastState(false);
                     }
                 }
 
-                updateItems(api.getItemList(name));
+                updateItems(Client.api.getItemList(name));
             });
         }
 
@@ -173,7 +169,7 @@ class ItemListBox extends ScrollPane
         if(items.getItems() != null)
         {
             for(int i = 0; i < items.getItems().length; i++)
-                itemList.getChildren().add(new ItemBox(items.getItems()[i], name, api, browserControl));
+                itemList.getChildren().add(new ItemBox(items.getItems()[i]));
         }
     }
 
