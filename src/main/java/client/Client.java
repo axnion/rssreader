@@ -54,7 +54,6 @@ public class Client extends Application
         //primaryStage.getIcons().add(new Image("file:img/rss_icon.png"));
 
         root = new VBox();
-        //root.setStyle("-fx-background-color: grey");
         itemListContainer = new HBox();
         itemListBoxes = new ArrayList<>();
         currentLoadedFile = null;
@@ -81,9 +80,10 @@ public class Client extends Application
     {
         // Menubar
         MenuBar menuBar = new MenuBar();
-        Menu file = new Menu("File");
-        Menu add = new Menu("Add");
-        Menu settings = new Menu("Settings");
+        Menu fileMenu = new Menu("File");
+        Menu feedMenu = new Menu("Feed");
+        Menu listMenu = new Menu("List");
+        Menu settingsMenu = new Menu("Settings");
 
         //File Menu
         MenuItem newConfig = new MenuItem("New");
@@ -94,19 +94,25 @@ public class Client extends Application
         saveConfig.setOnAction(event -> fileChooserSave());
         MenuItem saveAsConfig = new MenuItem("Save As");
         saveAsConfig.setOnAction(event -> fileChooserSaveAs());
-        file.getItems().addAll(newConfig, loadConfig, saveConfig, saveAsConfig);
+        fileMenu.getItems().addAll(newConfig, loadConfig, saveConfig, saveAsConfig);
 
-        // Add Menu
+        // Feed Menu
         MenuItem addFeed = new MenuItem("Add Feed");
         addFeed.setOnAction(event -> openAddFeedWindow());
+        MenuItem showFeeds = new MenuItem("Show Feeds");
+        showFeeds.setOnAction(event -> openShowFeedsWindow());
+        feedMenu.getItems().addAll(addFeed, showFeeds);
+
+        // List Menu
         MenuItem addList = new MenuItem("Add List");
         addList.setOnAction(event -> openAddListWindow());
-        add.getItems().addAll(addFeed, addList);
+        MenuItem showList = new MenuItem("Show List");
+        listMenu.getItems().addAll(addList, showList);
 
         // Settings Menu
 
 
-        menuBar.getMenus().addAll(file, add, settings);
+        menuBar.getMenus().addAll(fileMenu, feedMenu, listMenu, settingsMenu);
         return menuBar;
     }
 
@@ -178,6 +184,26 @@ public class Client extends Application
             addItemList(textInput.getText(), true);
             stage.close();
         });
+    }
+
+    private void openShowFeedsWindow()
+    {
+        VBox sceneRoot = new VBox();
+        sceneRoot.setPadding(new Insets(10));
+
+        TextField textInput = new TextField();
+
+        Button submit = new Button();
+        submit.setText("Add");
+
+        sceneRoot.getChildren().addAll(text, textInput, submit);
+        sceneRoot.setAlignment(Pos.CENTER);
+
+        Stage stage = new Stage();
+        stage.setTitle("Add List");
+        stage.setResizable(false);
+        stage.setScene(new Scene(sceneRoot,400 , 100));
+        stage.show();
     }
 
     private void fileChooserNew()

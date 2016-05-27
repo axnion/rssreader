@@ -8,33 +8,33 @@ import javafx.scene.control.CheckBox;
  * @author Axel Nilsson (axnion)
  * @version 0.1
  */
-public class MenuFeed extends CheckBox
+class MenuFeed extends CheckBox
 {
     private String value;
     private boolean lastState;
 
-    public MenuFeed()
+    MenuFeed()
     {
         value = "";
         lastState = false;
     }
 
-    public String getValue()
+    String getValue()
     {
         return value;
     }
 
-    public void setValue(String value)
+    void setValue(String value)
     {
         this.value = value;
     }
 
-    public boolean wasSelected()
+    boolean wasSelected()
     {
         return lastState;
     }
 
-    public void setLastState(boolean newState)
+    void setLastState(boolean newState)
     {
         lastState = newState;
     }
