@@ -1,36 +1,55 @@
 package client;
 
-import api.Configuration;
 import api.Feed;
 import api.ItemList;
 
-import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * Class ItemListBox
+ * Class ListBox
  *
  * @author Axel Nilsson (axnion)
  * @version 0.1
  */
-class ItemListBox extends ScrollPane
+class ListBox extends ScrollPane
 {
+    private VBox container;
     private String name;
+    private BorderPane topBar;
     private VBox itemList;
+    private VBox settingsButton;
     private MenuFeed[] checkboxes;
     private VBox checkBoxContainer;
+    private boolean isSettingsOpen;
 
-    ItemListBox(String name, Button removeButton)
+    ListBox(String thisName)
     {
-        this.name = name;
-        itemList = new VBox();
-        VBox container = new VBox();
         checkboxes = null;
         checkBoxContainer = new VBox();
 
-        container.getChildren().addAll(removeButton, new Label(name), createSortSettings(), checkBoxContainer, itemList);
+        name = thisName;
+        itemList = new VBox();
+        container = new VBox();
+        topBar = new BorderPane();
+        settingsButton = new VBox();
+        isSettingsOpen = false;
+
+        ImageView settings = new ImageView(new Image("file:img/settings.png"));
+        settings.setFitHeight(20);
+        settings.setFitWidth(20);
+        settingsButton.getChildren().add(settings);
+
+        settingsButton.setOnMouseClicked(event -> switchMode());
+
+        topBar.setLeft(new Label(name));
+        topBar.setRight(settingsButton);
+
+        container.getChildren().addAll(topBar, itemList);
         setContent(container);
 
         updateMenu(Client.api.getFeeds());
@@ -171,6 +190,32 @@ class ItemListBox extends ScrollPane
             for(int i = 0; i < items.getItems().length; i++)
                 itemList.getChildren().add(new ItemBox(items.getItems()[i]));
         }
+    }
+
+    private void switchMode()
+    {
+        if(isSettingsOpen)
+        {
+            showList();
+            isSettingsOpen = false;
+        }
+        else
+        {
+            showSettings();
+            isSettingsOpen = true;
+        }
+    }
+
+    private void showSettings()
+    {
+        container.getChildren().clear();
+        container.getChildren().addAll(topBar, createSortSettings(), checkBoxContainer);
+    }
+
+    private void showList()
+    {
+        container.getChildren().clear();
+        container.getChildren().addAll(topBar, itemList);
     }
 
     String getName()

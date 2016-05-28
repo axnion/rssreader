@@ -1,18 +1,17 @@
 package client;
 
 import api.Configuration;
-import javafx.geometry.Insets;
+import api.Feed;
+import api.ItemList;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 import java.io.File;
-import java.util.ArrayList;
 
 /**
  * Class MainMenu
@@ -25,13 +24,12 @@ class MainMenu extends MenuBar
     MainMenu()
     {
         Menu fileMenu = new Menu("File");
-        Menu feedMenu = new Menu("Feed");
-        Menu listMenu = new Menu("List");
-        Menu settingsMenu = new Menu("Settings");
+        Menu feedsMenu = new Menu("Feeds");
+        Menu listsMenu = new Menu("Lists");
 
         //File Menu
         MenuItem newConfig = new MenuItem("New");
-        newConfig.setOnAction(event -> fileChooserNew());
+        newConfig.setOnAction(event -> Client.resetApplication());
         MenuItem loadConfig = new MenuItem("Load");
         loadConfig.setOnAction(event -> fileChooserLoad());
         MenuItem saveConfig = new MenuItem("Save");
@@ -44,120 +42,138 @@ class MainMenu extends MenuBar
         MenuItem addFeed = new MenuItem("Add Feed");
         addFeed.setOnAction(event -> openAddFeedWindow());
         MenuItem showFeeds = new MenuItem("Show Feeds");
-        //showFeeds.setOnAction(event -> openShowFeedsWindow());
-        feedMenu.getItems().addAll(addFeed, showFeeds);
+        showFeeds.setOnAction(event -> openShowFeedsWindow());
+        feedsMenu.getItems().addAll(addFeed, showFeeds);
 
         // List Menu
         MenuItem addList = new MenuItem("Add List");
         addList.setOnAction(event -> openAddListWindow());
-        MenuItem showList = new MenuItem("Show List");
-        listMenu.getItems().addAll(addList, showList);
+        MenuItem showList = new MenuItem("Show Lists");
+        showList.setOnAction(event -> openShowListsWindow());
+        listsMenu.getItems().addAll(addList, showList);
 
-        // Settings Menu
+        Client.root.setOnKeyPressed(event ->
+        {
+            if(event.getCode() == KeyCode.ESCAPE)
+            {
+                Client.settingsTopBox.getChildren().clear();
+                Client.settingsSideBox.getChildren().clear();
+            }
+        });
 
-        getMenus().addAll(fileMenu, feedMenu, listMenu, settingsMenu);
+        getMenus().addAll(fileMenu, feedsMenu, listsMenu);
     }
 
     private static void openAddFeedWindow()
     {
-        VBox sceneRoot = new VBox();
-        sceneRoot.setPadding(new Insets(10));
+        VBox container = new VBox();
+        container.setMaxWidth(500);
+        container.setAlignment(Pos.CENTER);
+
+        Client.settingsTopBox.getChildren().clear();
+        Client.settingsSideBox.getChildren().clear();
 
         Text text = new Text();
-        text.setText("Enter URL to feed XML file");
-
         TextField textInput = new TextField();
-
         Button submit = new Button();
-        submit.setText("Add");
+        text.setText("Enter URL to feed XML file");
+        submit.setText("Add Feed");
 
-        sceneRoot.getChildren().addAll(text, textInput, submit);
-        sceneRoot.setAlignment(Pos.CENTER);
+        container.getChildren().addAll(text, textInput, submit);
 
-        Stage stage = new Stage();
-        stage.setTitle("Add Feed");
-        stage.setResizable(false);
-        stage.setScene(new Scene(sceneRoot,400 , 100));
-        stage.show();
+        Client.settingsTopBox.getChildren().add(container);
 
         textInput.setOnAction(event ->
         {
             Client.addFeed(textInput.getText(), true);
-            stage.close();
+            Client.settingsTopBox.getChildren().clear();
         });
 
         submit.setOnAction(event ->
         {
             Client.addFeed(textInput.getText(), true);
-            stage.close();
+            Client.settingsTopBox.getChildren().clear();
         });
     }
 
     private static void openAddListWindow()
     {
-        VBox sceneRoot = new VBox();
-        sceneRoot.setPadding(new Insets(10));
+        VBox container = new VBox();
+        container.setMaxWidth(500);
+        container.setAlignment(Pos.CENTER);
+
+        Client.settingsTopBox.getChildren().clear();
+        Client.settingsSideBox.getChildren().clear();
 
         Text text = new Text();
-        text.setText("Enter the name of the new list");
-
         TextField textInput = new TextField();
-
         Button submit = new Button();
-        submit.setText("Add");
+        text.setText("Enter the name of the new list");
+        submit.setText("Add List");
 
-        sceneRoot.getChildren().addAll(text, textInput, submit);
-        sceneRoot.setAlignment(Pos.CENTER);
+        container.getChildren().addAll(text, textInput, submit);
 
-        Stage stage = new Stage();
-        stage.setTitle("Add List");
-        stage.setResizable(false);
-        stage.setScene(new Scene(sceneRoot,400 , 100));
-        stage.show();
+        Client.settingsTopBox.getChildren().add(container);
 
         textInput.setOnAction(event ->
         {
             Client.addItemList(textInput.getText(), true);
-            stage.close();
+            Client.settingsTopBox.getChildren().clear();
         });
 
         submit.setOnAction(event ->
         {
             Client.addItemList(textInput.getText(), true);
-            stage.close();
+            Client.settingsTopBox.getChildren().clear();
         });
     }
 
-//    private static void openShowFeedsWindow()
-//    {
-//        VBox sceneRoot = new VBox();
-//        sceneRoot.setPadding(new Insets(10));
-//
-//        TextField textInput = new TextField();
-//
-//        Button submit = new Button();
-//        submit.setText("Add");
-//
-//        sceneRoot.getChildren().addAll(text, textInput, submit);
-//        sceneRoot.setAlignment(Pos.CENTER);
-//
-//        Stage stage = new Stage();
-//        stage.setTitle("Add List");
-//        stage.setResizable(false);
-//        stage.setScene(new Scene(sceneRoot,400 , 100));
-//        stage.show();
-//    }
-
-    private static void fileChooserNew()
+    static void openShowFeedsWindow()
     {
-        Client.api = new Configuration();
-        Client.itemListContainer = new HBox();
-        Client.itemListBoxes = new ArrayList<>();
-        Client.currentLoadedFile = null;
+        VBox container = new VBox();
+        container.setMaxWidth(500);
+        container.setAlignment(Pos.CENTER);
+        VBox itemsContainer = new VBox();
 
-        Client.itemListContainer.getChildren().clear();
-        Client.itemListBoxes.clear();
-        Client.currentLoadedFile = null;
+        Client.settingsTopBox.getChildren().clear();
+        Client.settingsSideBox.getChildren().clear();
+
+        Feed[] feeds = Client.api.getFeeds();
+
+        if(feeds != null)
+        {
+            for(Feed feed : feeds)
+                itemsContainer.getChildren().add(new ShowMenuItem(feed));
+
+            ScrollPane scrollPane = new ScrollPane(itemsContainer);
+
+            container.getChildren().addAll(scrollPane);
+            Client.settingsSideBox.getChildren().add(container);
+        }
+    }
+
+    static void openShowListsWindow()
+    {
+        VBox container = new VBox();
+        container.setMaxWidth(500);
+        container.setAlignment(Pos.CENTER);
+        VBox itemsContainer = new VBox();
+
+        Client.settingsTopBox.getChildren().clear();
+        Client.settingsSideBox.getChildren().clear();
+
+        ItemList[] itemLists = Client.api.getItemLists();
+
+        if(itemLists != null)
+        {
+            for(ItemList itemList : itemLists)
+                itemsContainer.getChildren().add(new ShowMenuItem(itemList));
+
+            ScrollPane scrollPane = new ScrollPane(itemsContainer);
+
+            container.getChildren().addAll(scrollPane);
+            Client.settingsSideBox.getChildren().add(container);
+        }
     }
 
     private static void fileChooserLoad()
@@ -175,20 +191,23 @@ class MainMenu extends MenuBar
 
     private static void fileChooserSave()
     {
-        Client.saveConfiguration(Client.currentLoadedFile);
+        if(Client.currentLoadedFile != null)
+            Client.saveConfiguration(Client.currentLoadedFile);
+        else
+            fileChooserSaveAs();
     }
 
     private static void fileChooserSaveAs()
     {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Create new configuration");
-        fileChooser.setInitialDirectory(new File(Client.currentLoadedFile));
+        if(Client.currentLoadedFile != null)
+            fileChooser.setInitialDirectory(new File(new File(Client.currentLoadedFile).getParent()));
         File newFile = fileChooser.showSaveDialog(null);
 
         if(newFile != null)
         {
             Client.saveConfiguration(newFile.getPath());
-            Client.loadConfiguration(newFile.getPath());
             Client.currentLoadedFile = newFile.getPath();
         }
     }

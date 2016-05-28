@@ -8,6 +8,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -25,11 +26,13 @@ import java.util.ArrayList;
  */
 public class Client extends Application
 {
-    private static VBox root;
-
+    static VBox root;
+    static VBox settingsTopBox;
+    static VBox settingsSideBox;
     static HBox itemListContainer;
-    static ArrayList<ItemListBox> itemListBoxes;
+    static ArrayList<ListBox> itemListBoxes;
     static String currentLoadedFile;
+    static MainMenu menuBar;
     static BrowserControl bc;
     static Configuration api;
 
@@ -40,31 +43,40 @@ public class Client extends Application
 
     public void start(Stage primaryStage)
     {
-        primaryStage.setTitle("RSSReader");
         api = new Configuration();
-        bc = new BrowserControl();
-        //primaryStage.getIcons().add(new Image("file:img/rss_icon.png"));
-
         root = new VBox();
         itemListContainer = new HBox();
         itemListBoxes = new ArrayList<>();
+        settingsTopBox = new VBox();
+        settingsSideBox = new VBox();
         currentLoadedFile = null;
 
-        MenuBar menuBar = new MainMenu();
+        bc = new BrowserControl();
+        Scene primaryScene = new Scene(root, 960, 540);
 
-        // addMenu
-        VBox addMenu = new VBox();
-        HBox saveAndLoadArea = new HBox();
-        HBox feedAddArea = new HBox();
-        HBox itemListAddArea = new HBox();
-        addMenu.getChildren().addAll(menuBar, saveAndLoadArea, feedAddArea, itemListAddArea);
+        settingsTopBox.setStyle("-fx-background-color: #fff;");
+        settingsTopBox.setAlignment(Pos.CENTER);
+        settingsSideBox.setStyle("-fx-background-color: #fff;");
+        settingsSideBox.setAlignment(Pos.TOP_CENTER);
+        settingsSideBox.setMaxWidth(400);
 
+        itemListContainer.setPrefHeight(primaryScene.getHeight());
+        itemListContainer.setStyle("-fx-background-color: lightgrey;");
+        itemListContainer.getChildren().add(settingsSideBox);
+
+        primaryScene.heightProperty().addListener(e ->
+        {
+            settingsSideBox.setPrefHeight(primaryScene.getHeight());
+            itemListContainer.setPrefHeight(primaryScene.getHeight());
+        });
+
+        menuBar = new MainMenu();
         startFeedUpdater(1);
+        root.getChildren().addAll(menuBar, settingsTopBox, itemListContainer);
 
-        root.getChildren().add(addMenu);
-        root.getChildren().add(itemListContainer);
-
-        primaryStage.setScene(new Scene(root, 500, 1000));
+        primaryStage.setTitle("RSSReader");
+        //primaryStage.getIcons().add(new Image("file:img/rss_icon.png"));
+        primaryStage.setScene(primaryScene);
         primaryStage.show();
     }
 
@@ -125,11 +137,13 @@ public class Client extends Application
             err.printStackTrace();
         }
 
-        for(ItemListBox itemListBox : itemListBoxes)
+        for(ListBox itemListBox : itemListBoxes)
         {
             itemListBox.updateMenu(api.getFeeds());
             itemListBox.updateItems(api.getItemList(itemListBox.getName()));
         }
+
+        menuBar.openShowFeedsWindow();
     }
 
     static void addItemList(String name, boolean addToConfig)
@@ -139,18 +153,14 @@ public class Client extends Application
 
         try
         {
-            Button removeBtn = new Button();
-            removeBtn.setText("Remove");
-            removeBtn.setOnAction((event) -> removeItemList(name));
-
             if(addToConfig)
                 api.addItemListToConfiguration(name);
 
-            itemListBoxes.add(new ItemListBox(name, removeBtn));
+            itemListBoxes.add(new ListBox(name));
 
             itemListContainer.getChildren().removeAll(itemListBoxes);
 
-            for(ItemListBox itemListBox : itemListBoxes)
+            for(ListBox itemListBox : itemListBoxes)
                 itemListContainer.getChildren().add(itemListBox);
         }
         catch(RuntimeException err)
@@ -179,7 +189,7 @@ public class Client extends Application
             itemListContainer.getChildren().removeAll(itemListBoxes);
 
             itemListBoxes.remove(i);
-            for(ItemListBox itemListBox : itemListBoxes)
+            for(ListBox itemListBox : itemListBoxes)
                 itemListContainer.getChildren().add(itemListBox);
         }
         catch(RuntimeException err)
@@ -187,13 +197,15 @@ public class Client extends Application
             displayErrorMessage(err.getMessage());
             err.printStackTrace();
         }
+
+        menuBar.openShowListsWindow();
     }
 
     static void checkForUpdates()
     {
         api.update();
 
-        for(ItemListBox itemListBox : itemListBoxes)
+        for(ListBox itemListBox : itemListBoxes)
             itemListBox.updateMenu(api.getFeeds());
     }
 
@@ -209,16 +221,32 @@ public class Client extends Application
         Feed[] feeds = api.getFeeds();
         ItemList[] itemLists = api.getItemLists();
 
-        for(Feed feed : feeds)
-            addFeed(feed.getUrlToXML(), false);
+        if(feeds != null)
+        {
+            for(Feed feed : feeds)
+                addFeed(feed.getUrlToXML(), false);
+        }
 
-        for(ItemList itemList : itemLists)
-            addItemList(itemList.getName(), false);
+        if(itemLists != null)
+        {
+            for(ItemList itemList : itemLists)
+                addItemList(itemList.getName(), false);
+        }
     }
 
     static void saveConfiguration(String path)
     {
         api.saveConfig(path);
+    }
+
+    static void resetApplication()
+    {
+        api = new Configuration();
+        itemListContainer.getChildren().removeAll(itemListBoxes);
+        itemListBoxes.clear();
+        settingsTopBox.getChildren().clear();
+        settingsSideBox.getChildren().clear();
+        currentLoadedFile = null;
     }
 
     static void displayErrorMessage(String message)

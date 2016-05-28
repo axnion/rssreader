@@ -1,6 +1,5 @@
 package client;
 
-import api.Configuration;
 import api.Item;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
