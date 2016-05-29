@@ -18,7 +18,7 @@ import java.util.Arrays;
  * able to update.
  *
  * @author Axel Nilsson (axnion)
- * @version 0.1.1
+ * @version 1.0
  */
 public class Feed
 {

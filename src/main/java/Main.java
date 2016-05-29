@@ -5,7 +5,7 @@ import client.Client;
  * Class Main
  *
  * @author Axel Nilsson (axnion)
- * @version 0.1
+ * @version 1.0
  */
 public class Main
 {

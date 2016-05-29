@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * array.
  *
  * @author Axel Nilsson (axnion)
- * @version 0.1.1
+ * @version 1.0
  */
 @JsonIgnoreProperties({"items"})
 public class ItemList

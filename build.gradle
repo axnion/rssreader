@@ -1,5 +1,5 @@
 group 'tech.axelnilsson'
-version '0.2'
+version '1.0'
 
 buildscript {
     dependencies {
@@ -29,12 +29,6 @@ dependencies {
     compile 'org.controlsfx:controlsfx:8.0.5'
 }
 
-//jar.from configurations.compile.collect {zipTree it}
-//
-//jar.manifest {
-//    attributes 'Main-Class': 'Main'
-//}
-
 jfx {
     verbose = false
     mainClass = "Main"
@@ -51,7 +45,7 @@ jfx {
     addPackagerJar = true
 
     // gradle jfxNative
-    identifier = 0.2 // setting this for windows-bundlers makes it possible to generate upgradeable installers (using same GUID)
+    identifier = 1.0 // setting this for windows-bundlers makes it possible to generate upgradeable installers (using same GUID)
     vendor = "Axel Nilsson"
     nativeOutputDir = "build/bin/native"
     bundler = "ALL" // set this to some specific, if your don't want all bundlers running, examples "windows.app", "jnlp", ...
@@ -59,7 +53,7 @@ jfx {
     jvmArgs = null // List<String>
     userJvmArgs = null // Map<String, String>
     launcherArguments = null // List<String>
-    nativeReleaseVersion = "0.2"
+    nativeReleaseVersion = "1.0"
     needShortcut = false
     needMenu = false
     appName = "RSSReader" // this is used for files below "src/main/deploy", e.g. "src/main/deploy/windows/project.ico"
@@ -76,18 +70,18 @@ jfx {
     skipSizeRecalculationForJNLP185 = false
 
     //gradle jfxGenerateKeyStore
-//    keyStore = "src/main/deploy/keystore.jks"
-//    keyStoreAlias = "myalias"
-//    keyStorePassword = "password"
-//    keyPassword = null // will default to keyStorePassword
-//    keyStoreType = "jks"
-//    overwriteKeyStore = false
-//
-//    certDomain = null // required
-//    certOrgUnit = null // defaults to "none"
-//    certOrg = null // required
-//    certState = null // required
-//    certCountry = null // required
+    keyStore = "src/main/deploy/keystore.jks"
+    keyStoreAlias = "myalias"
+    keyStorePassword = "password"
+    keyPassword = null // will default to keyStorePassword
+    keyStoreType = "jks"
+    overwriteKeyStore = false
+
+    certDomain = null // required
+    certOrgUnit = null // defaults to "none"
+    certOrg = null // required
+    certState = null // required
+    certCountry = null // required
 }
 
 jacocoTestReport {
@@ -97,28 +91,3 @@ jacocoTestReport {
         html.destination "${buildDir}/jacocoHtml"
     }
 }
-
-
-//    jcenter()
-//compile 'org.bitbucket.shemnon.javafxplugin:gradle-javafx-plugin:8.1.1'
-//javafx {
-//    appID 'RSSReader'
-//    appName 'RSSReader'
-//    mainClass 'Main'
-//
-//    jvmArgs = ['-XX:+AggressiveOpts', '-XX:CompileThreshold=1']
-//    systemProperties = [ 'prism.disableRegionCaching':'true' ]
-//    arguments = ['-l', '--fast']
-//
-//    embedLauncher = false
-//
-//    // deploy/info attributes
-//    category = 'Application'
-//    copyright = 'Copyright (c) 2016 Axnion'
-//    description = 'This si just a test'
-//    licenseType = 'Apache 2.0'
-//    vendor = 'Axnion'
-//    installSystemWide = true
-//    menu = true
-//    shortcut = true
-//}

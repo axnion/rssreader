@@ -16,7 +16,7 @@ import java.io.IOException;
  * Java object version of the configuration json file.
  *
  * @author Axel Nilsson (axnion)
- * @version 0.2
+ * @version 1.0
  */
 public class Configuration
 {

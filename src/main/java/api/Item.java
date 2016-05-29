@@ -8,7 +8,7 @@ package api;
  * they are starred.
  *
  * @author Axel Nilsson (axnion)
- * @version 0.1
+ * @version 1.0
  */
 public class Item
 {
