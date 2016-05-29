@@ -1,12 +1,10 @@
 package client;
 
-import api.Configuration;
 import api.Feed;
 import api.ItemList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;

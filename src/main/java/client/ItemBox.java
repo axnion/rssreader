@@ -1,6 +1,7 @@
 package client;
 
 import api.Item;
+import javafx.geometry.Insets;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,7 +12,7 @@ import javafx.scene.layout.VBox;
  * Class ItemBox
  *
  * @author Axel Nilsson (axnion)
- * @version 0.1
+ * @version 1.0
  */
 class ItemBox extends BorderPane
 {
@@ -26,6 +27,8 @@ class ItemBox extends BorderPane
             this.setStyle("-fx-background-color: #ff9a10");
         else
             this.setStyle("-fx-background-color: #fff");
+
+        setPadding(new Insets(5));
 
         link.setOnAction(event ->
         {
@@ -52,7 +55,9 @@ class ItemBox extends BorderPane
 
         starContainer.setOnMouseClicked((event -> changeStar(imageView)));
         starContainer.getChildren().add(imageView);
+        starContainer.setPadding(new Insets(0, 20, 0, 0));
 
+        setMinWidth(400);
         link.setText(item.getTitle());
 
         Client.primaryScene.widthProperty().addListener(event ->

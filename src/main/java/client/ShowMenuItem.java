@@ -12,7 +12,7 @@ import javafx.scene.text.Text;
  * Class ShowMenuItem
  *
  * @author Axel Nilsson (axnion)
- * @version 0.1
+ * @version 1.0
  */
 class ShowMenuItem extends BorderPane
 {

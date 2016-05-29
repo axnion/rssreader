@@ -6,7 +6,7 @@ import javafx.scene.control.CheckBox;
  * Class MenuFeed
  *
  * @author Axel Nilsson (axnion)
- * @version 0.1
+ * @version 1.0
  */
 class MenuFeed extends CheckBox
 {

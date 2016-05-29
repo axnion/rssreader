@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * Class Client
  *
  * @author Axel Nilsson (axnion)
- * @version 0.2
+ * @version 1.0
  */
 public class Client extends Application
 {
@@ -76,7 +76,7 @@ public class Client extends Application
         primaryScene.widthProperty().addListener(e ->
         {
             for(ListBox listBox : listBoxes)
-                listBox.setPrefWidth((mainStage.getWidth() - 20) / listBoxes.size());
+                listBox.setListWidth((mainStage.getWidth() - 20) / listBoxes.size());
         });
 
         menuBar = new MainMenu();
@@ -176,7 +176,7 @@ public class Client extends Application
 
             for(ListBox listBox : listBoxes)
             {
-                listBox.setPrefWidth((mainStage.getWidth() - 20) / listBoxes.size());
+                listBox.setListWidth((mainStage.getWidth() - 20) / listBoxes.size());
                 itemListContainer.getChildren().add(listBox);
             }
         }
@@ -209,7 +209,7 @@ public class Client extends Application
 
             for(ListBox listBox : listBoxes)
             {
-                listBox.setPrefWidth((mainStage.getWidth() - 20) / listBoxes.size());
+                listBox.setListWidth((mainStage.getWidth() - 20) / listBoxes.size());
                 itemListContainer.getChildren().add(listBox);
             }
 
@@ -233,12 +233,8 @@ public class Client extends Application
 
     static void loadConfiguration(String path)
     {
+        Client.resetApplication();
         api.loadConfig(path);
-
-        root.getChildren().removeAll(itemListContainer);
-        itemListContainer = new HBox();
-        root.getChildren().add(itemListContainer);
-        listBoxes.clear();
 
         Feed[] feeds = api.getFeeds();
         ItemList[] itemLists = api.getItemLists();

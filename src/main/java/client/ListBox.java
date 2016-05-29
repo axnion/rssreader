@@ -3,6 +3,7 @@ package client;
 import api.Feed;
 import api.ItemList;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,7 +15,7 @@ import javafx.scene.layout.VBox;
  * Class ListBox
  *
  * @author Axel Nilsson (axnion)
- * @version 0.1
+ * @version 1.0
  */
 class ListBox extends ScrollPane
 {
@@ -41,12 +42,14 @@ class ListBox extends ScrollPane
         ImageView settings = new ImageView(new Image("file:img/settings.png"));
         settings.setFitHeight(30);
         settings.setFitWidth(30);
-        settingsButton.getChildren().add(settings);
 
+        settingsButton.getChildren().add(settings);
         settingsButton.setOnMouseClicked(event -> switchMode());
+        settingsButton.setPadding(new Insets(0, 10, 0, 0));
 
         topBar.setLeft(new Label(name));
         topBar.setRight(settingsButton);
+        topBar.setPadding(new Insets(10));
 
         container.getChildren().addAll(topBar, itemList);
         setContent(container);
@@ -55,8 +58,17 @@ class ListBox extends ScrollPane
         setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
 
         setMinWidth(400);
+        topBar.setMinWidth(400);
 
-//        topBar.setPrefWidth((Client.mainStage.getWidth() - 20) / Client.listBoxes.size() - 100);
+        if(Client.listBoxes.size() == 0)
+            topBar.setPrefWidth(Client.primaryScene.getWidth() - 20);
+        else
+            topBar.setPrefWidth((Client.primaryScene.getWidth() - 20) / Client.listBoxes.size());
+
+        Client.primaryScene.widthProperty().addListener(event ->
+        {
+            topBar.setPrefWidth((Client.primaryScene.getWidth() - 20) / Client.listBoxes.size());
+        });
 
         updateMenu(Client.api.getFeeds());
     }
@@ -196,6 +208,12 @@ class ListBox extends ScrollPane
             for(int i = 0; i < items.getItems().length; i++)
                 itemList.getChildren().add(new ItemBox(items.getItems()[i]));
         }
+    }
+
+    void setListWidth(double width)
+    {
+        setMaxWidth(width);
+        topBar.setMaxWidth(width);
     }
 
     private void switchMode()
