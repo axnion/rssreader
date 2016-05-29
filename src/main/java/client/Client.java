@@ -27,10 +27,12 @@ import java.util.ArrayList;
 public class Client extends Application
 {
     static VBox root;
+    static Stage mainStage;
+    static Scene primaryScene;
     static VBox settingsTopBox;
     static VBox settingsSideBox;
     static HBox itemListContainer;
-    static ArrayList<ListBox> itemListBoxes;
+    static ArrayList<ListBox> listBoxes;
     static String currentLoadedFile;
     static MainMenu menuBar;
     static BrowserControl bc;
@@ -44,15 +46,16 @@ public class Client extends Application
     public void start(Stage primaryStage)
     {
         api = new Configuration();
+        mainStage = primaryStage;
         root = new VBox();
         itemListContainer = new HBox();
-        itemListBoxes = new ArrayList<>();
+        listBoxes = new ArrayList<>();
         settingsTopBox = new VBox();
         settingsSideBox = new VBox();
         currentLoadedFile = null;
 
         bc = new BrowserControl();
-        Scene primaryScene = new Scene(root, 960, 540);
+        primaryScene = new Scene(root, 960, 540);
 
         settingsTopBox.setStyle("-fx-background-color: #fff;");
         settingsTopBox.setAlignment(Pos.CENTER);
@@ -70,14 +73,25 @@ public class Client extends Application
             itemListContainer.setPrefHeight(primaryScene.getHeight());
         });
 
+        primaryScene.widthProperty().addListener(e ->
+        {
+            for(ListBox listBox : listBoxes)
+                listBox.setPrefWidth((mainStage.getWidth() - 20) / listBoxes.size());
+        });
+
         menuBar = new MainMenu();
         startFeedUpdater(1);
-        root.getChildren().addAll(menuBar, settingsTopBox, itemListContainer);
 
-        primaryStage.setTitle("RSSReader");
-        //primaryStage.getIcons().add(new Image("file:img/rss_icon.png"));
-        primaryStage.setScene(primaryScene);
-        primaryStage.show();
+        ScrollPane listScroll = new ScrollPane(itemListContainer);
+        listScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        listScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+        root.getChildren().addAll(menuBar, settingsTopBox, listScroll);
+
+        mainStage.setTitle("RSSReader");
+        //mainStage.getIcons().add(new Image("file:img/rss_icon.png"));
+        mainStage.setScene(primaryScene);
+        mainStage.show();
     }
 
     private static void startFeedUpdater(int interval)
@@ -137,7 +151,7 @@ public class Client extends Application
             err.printStackTrace();
         }
 
-        for(ListBox itemListBox : itemListBoxes)
+        for(ListBox itemListBox : listBoxes)
         {
             itemListBox.updateMenu(api.getFeeds());
             itemListBox.updateItems(api.getItemList(itemListBox.getName()));
@@ -156,12 +170,15 @@ public class Client extends Application
             if(addToConfig)
                 api.addItemListToConfiguration(name);
 
-            itemListBoxes.add(new ListBox(name));
+            listBoxes.add(new ListBox(name));
 
-            itemListContainer.getChildren().removeAll(itemListBoxes);
+            itemListContainer.getChildren().removeAll(listBoxes);
 
-            for(ListBox itemListBox : itemListBoxes)
-                itemListContainer.getChildren().add(itemListBox);
+            for(ListBox listBox : listBoxes)
+            {
+                listBox.setPrefWidth((mainStage.getWidth() - 20) / listBoxes.size());
+                itemListContainer.getChildren().add(listBox);
+            }
         }
         catch(RuntimeException err)
         {
@@ -180,17 +197,22 @@ public class Client extends Application
             api.removeItemListFromConfiguration(name);
 
             int i;
-            for(i = 0; i < itemListBoxes.size(); i++)
+            for(i = 0; i < listBoxes.size(); i++)
             {
-                if(itemListBoxes.get(i).getName().equals(name))
+                if(listBoxes.get(i).getName().equals(name))
                     break;
             }
 
-            itemListContainer.getChildren().removeAll(itemListBoxes);
+            itemListContainer.getChildren().removeAll(listBoxes);
 
-            itemListBoxes.remove(i);
-            for(ListBox itemListBox : itemListBoxes)
-                itemListContainer.getChildren().add(itemListBox);
+            listBoxes.remove(i);
+
+            for(ListBox listBox : listBoxes)
+            {
+                listBox.setPrefWidth((mainStage.getWidth() - 20) / listBoxes.size());
+                itemListContainer.getChildren().add(listBox);
+            }
+
         }
         catch(RuntimeException err)
         {
@@ -205,7 +227,7 @@ public class Client extends Application
     {
         api.update();
 
-        for(ListBox itemListBox : itemListBoxes)
+        for(ListBox itemListBox : listBoxes)
             itemListBox.updateMenu(api.getFeeds());
     }
 
@@ -216,7 +238,7 @@ public class Client extends Application
         root.getChildren().removeAll(itemListContainer);
         itemListContainer = new HBox();
         root.getChildren().add(itemListContainer);
-        itemListBoxes.clear();
+        listBoxes.clear();
 
         Feed[] feeds = api.getFeeds();
         ItemList[] itemLists = api.getItemLists();
@@ -242,8 +264,8 @@ public class Client extends Application
     static void resetApplication()
     {
         api = new Configuration();
-        itemListContainer.getChildren().removeAll(itemListBoxes);
-        itemListBoxes.clear();
+        itemListContainer.getChildren().removeAll(listBoxes);
+        listBoxes.clear();
         settingsTopBox.getChildren().clear();
         settingsSideBox.getChildren().clear();
         currentLoadedFile = null;

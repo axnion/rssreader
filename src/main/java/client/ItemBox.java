@@ -4,7 +4,7 @@ import api.Item;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -13,13 +13,12 @@ import javafx.scene.layout.VBox;
  * @author Axel Nilsson (axnion)
  * @version 0.1
  */
-class ItemBox extends HBox
+class ItemBox extends BorderPane
 {
     private Item item;
 
     ItemBox(Item item)
     {
-        //this.api = api;
         this.item = item;
         Hyperlink link = new Hyperlink();
 
@@ -55,8 +54,14 @@ class ItemBox extends HBox
         starContainer.getChildren().add(imageView);
 
         link.setText(item.getTitle());
-        this.getChildren().add(link);
-        this.getChildren().add(starContainer);
+
+        Client.primaryScene.widthProperty().addListener(event ->
+        {
+            setPrefWidth((Client.mainStage.getWidth() - 20) / Client.listBoxes.size() - 40);
+        });
+
+        setLeft(link);
+        setRight(starContainer);
     }
 
     private void changeVisited()

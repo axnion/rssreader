@@ -29,19 +29,18 @@ class ListBox extends ScrollPane
 
     ListBox(String thisName)
     {
-        checkboxes = null;
-        checkBoxContainer = new VBox();
-
         name = thisName;
         itemList = new VBox();
         container = new VBox();
         topBar = new BorderPane();
         settingsButton = new VBox();
         isSettingsOpen = false;
+        checkBoxContainer = new VBox();
+        checkboxes = null;
 
         ImageView settings = new ImageView(new Image("file:img/settings.png"));
-        settings.setFitHeight(20);
-        settings.setFitWidth(20);
+        settings.setFitHeight(30);
+        settings.setFitWidth(30);
         settingsButton.getChildren().add(settings);
 
         settingsButton.setOnMouseClicked(event -> switchMode());
@@ -51,6 +50,13 @@ class ListBox extends ScrollPane
 
         container.getChildren().addAll(topBar, itemList);
         setContent(container);
+
+        setHbarPolicy(ScrollBarPolicy.NEVER);
+        setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+
+        setMinWidth(400);
+
+//        topBar.setPrefWidth((Client.mainStage.getWidth() - 20) / Client.listBoxes.size() - 100);
 
         updateMenu(Client.api.getFeeds());
     }
@@ -195,27 +201,24 @@ class ListBox extends ScrollPane
     private void switchMode()
     {
         if(isSettingsOpen)
-        {
             showList();
-            isSettingsOpen = false;
-        }
         else
-        {
             showSettings();
-            isSettingsOpen = true;
-        }
     }
 
     private void showSettings()
     {
+        updateMenu(Client.api.getFeeds());
         container.getChildren().clear();
         container.getChildren().addAll(topBar, createSortSettings(), checkBoxContainer);
+        isSettingsOpen = true;
     }
 
     private void showList()
     {
         container.getChildren().clear();
         container.getChildren().addAll(topBar, itemList);
+        isSettingsOpen = false;
     }
 
     String getName()
