@@ -56,12 +56,14 @@ jfx {
     nativeReleaseVersion = "1.0"
     needShortcut = false
     needMenu = false
+    bundleArguments = [
+            licenseFile: "MIT"
+    ]
     appName = "RSSReader" // this is used for files below "src/main/deploy", e.g. "src/main/deploy/windows/project.ico"
     additionalAppResources = "src/deploy/resources" // path to some additional resources when creating application-bundle
     secondaryLaunchers = null
     fileAssociations = null // List<Map<String, Object>>
     noBlobSigning = false // when using bundler "jnlp", you can choose to NOT use blob signing
-    bundleArguments = null
 
     skipNativeLauncherWorkaround124 = false
     skipNativeLauncherWorkaround167 = false
