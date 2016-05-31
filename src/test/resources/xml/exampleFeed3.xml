@@ -1,0 +1,42 @@
+<rss>
+    <channel>
+        <title>Example Feed 3</title>
+        <description>This is a description for example feed 2</description>
+        <link>http://examplefeed2.com/</link>
+        <item>
+            <title>Abstraction</title>
+            <description>This is an item description</description>
+            <link>http://www.google.com</link>
+            <pubDate>Mon, 01 Feb 2016 00:00:00 +0000</pubDate>
+            <guid>abstraction</guid>
+        </item>
+        <item>
+            <title>Applications</title>
+            <description>This is an item description</description>
+            <link>http://www.google.com</link>
+            <pubDate>Mon, 01 Jan 2016 00:00:00 +0000</pubDate>
+            <guid>applications</guid>
+        </item>
+        <item>
+            <title>Configurations</title>
+            <description>This is an item description</description>
+            <link>http://www.google.com</link>
+            <pubDate>Mon, 05 Jan 2016 10:00:00 +0000</pubDate>
+            <guid>configurations</guid>
+        </item>
+        <item>
+            <title>Calculations</title>
+            <description>This is an item description</description>
+            <link>http://www.google.com</link>
+            <pubDate>Mon, 05 Jan 2016 00:00:00 +0000</pubDate>
+            <guid>calculations</guid>
+        </item>
+        <item>
+            <title>Tested</title>
+            <description>This is an item description</description>
+            <link>http://www.google.com</link>
+            <pubDate>Mon, 01 Jan 2014 00:00:00 +0000</pubDate>
+            <guid>tested</guid>
+        </item>
+    </channel>
+</rss>
