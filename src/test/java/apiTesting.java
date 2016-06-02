@@ -14,7 +14,7 @@ import static org.junit.Assert.assertNotNull;
  * Class apiTesting
  *
  * @author Axel Nilsson (axnion)
- * @version 0.1
+ * @version 1.0
  */
 public class apiTesting
 {

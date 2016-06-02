@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
  * Class ItemTest
  *
  * @author Axel Nilsson (axnion)
- * @version 0.1.1
+ * @version 1.0
  */
 public class ItemTest
 {

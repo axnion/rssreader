@@ -10,7 +10,7 @@ import static org.mockito.Mockito.*;
  * Test Class ItemListTest
  *
  * @author Axel Nilsson (axnion)
- * @version 0.1.1
+ * @version 1.0
  */
 public class ItemListTest
 {

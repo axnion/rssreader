@@ -131,6 +131,9 @@ public class Client extends Application
         {
             for(ItemList itemList : api.getItemLists())
             {
+                if(itemList.getFeedUrls() == null)
+                    continue;
+
                 for(String feedUrl : itemList.getFeedUrls())
                 {
                     if(feedUrl.equals(url))

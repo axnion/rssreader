@@ -15,7 +15,7 @@ import java.io.File;
  * Class MainMenu
  *
  * @author Axel Nilsson (axnion)
- * @version 0.1
+ * @version 1.0
  */
 class MainMenu extends MenuBar
 {
