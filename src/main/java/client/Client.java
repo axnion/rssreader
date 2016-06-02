@@ -90,7 +90,7 @@ public class Client extends Application
         root.getChildren().addAll(menuBar, settingsTopBox, listScroll);
 
         mainStage.setTitle("RSSReader");
-        mainStage.getIcons().add(new Image("file:RSSReader.ico"));
+        mainStage.getIcons().add(new Image("file:img/rss_icon.png"));
         mainStage.setScene(primaryScene);
         mainStage.show();
     }
