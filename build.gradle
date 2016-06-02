@@ -1,5 +1,5 @@
 group 'tech.axelnilsson'
-version '1.0'
+version '1.0.1'
 
 buildscript {
     dependencies {
@@ -52,7 +52,7 @@ jfx {
     jvmArgs = null // List<String>
     userJvmArgs = null // Map<String, String>
     launcherArguments = null // List<String>
-    nativeReleaseVersion = "1.0"
+    nativeReleaseVersion = "1.0.1"
     needShortcut = false
     needMenu = false
     bundleArguments = null
