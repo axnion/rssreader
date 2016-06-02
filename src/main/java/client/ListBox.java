@@ -46,6 +46,9 @@ class ListBox extends ScrollPane
         settingsButton.getChildren().add(settings);
         settingsButton.setOnMouseClicked(event -> switchMode());
         settingsButton.setPadding(new Insets(0, 10, 0, 0));
+        settingsButton.setOpacity(1);
+        settingsButton.setOnMouseEntered(event -> settingsButton.setOpacity(0.6));
+        settingsButton.setOnMouseExited(event -> settingsButton.setOpacity(1));
 
         topBar.setLeft(new Label(name));
         topBar.setRight(settingsButton);

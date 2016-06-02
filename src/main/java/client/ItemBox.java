@@ -56,6 +56,9 @@ class ItemBox extends BorderPane
         starContainer.setOnMouseClicked((event -> changeStar(imageView)));
         starContainer.getChildren().add(imageView);
         starContainer.setPadding(new Insets(0, 20, 0, 0));
+        starContainer.setOpacity(1);
+        starContainer.setOnMouseEntered(event -> starContainer.setOpacity(0.6));
+        starContainer.setOnMouseExited(event -> starContainer.setOpacity(1));
 
         setMinWidth(400);
         link.setText(item.getTitle());

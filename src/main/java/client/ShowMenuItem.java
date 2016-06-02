@@ -35,6 +35,8 @@ class ShowMenuItem extends BorderPane
         remove.setFitWidth(20);
         buttonContainer.getChildren().add(remove);
         buttonContainer.setOnMouseClicked(event -> deleteItem());
+        buttonContainer.setOnMouseEntered(event -> buttonContainer.setStyle("-fx-background-color: grey;"));
+        buttonContainer.setOnMouseExited(event -> buttonContainer.setStyle(""));
 
         setMinWidth(250);
 
@@ -56,6 +58,8 @@ class ShowMenuItem extends BorderPane
         remove.setFitWidth(20);
         buttonContainer.getChildren().add(remove);
         buttonContainer.setOnMouseClicked(event -> deleteItem());
+        buttonContainer.setOnMouseEntered(event -> buttonContainer.setStyle("-fx-background-color: grey;"));
+        buttonContainer.setOnMouseExited(event -> buttonContainer.setStyle(""));
 
         setMinWidth(250);
 

@@ -11,6 +11,7 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -89,7 +90,7 @@ public class Client extends Application
         root.getChildren().addAll(menuBar, settingsTopBox, listScroll);
 
         mainStage.setTitle("RSSReader");
-        //mainStage.getIcons().add(new Image("file:img/rss_icon.png"));
+        mainStage.getIcons().add(new Image("file:RSSReader.ico"));
         mainStage.setScene(primaryScene);
         mainStage.show();
     }
