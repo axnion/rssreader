@@ -27,7 +27,7 @@ public class ItemList
     ItemList()
     {
         name = "";
-        sorting = "";
+        sorting = "DATE_DEC";
         feedUrls = null;
         items = null;
     }
@@ -39,7 +39,7 @@ public class ItemList
     ItemList(String name)
     {
         this.name = name;
-        sorting = "";
+        sorting = "DATE_DEC";
         feedUrls = null;
         items = null;
     }
@@ -73,6 +73,7 @@ public class ItemList
 
         newFeedUrlList[i] = feedUrl;
         setFeedUrls(newFeedUrlList);
+        sort();
     }
 
     /**

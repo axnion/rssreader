@@ -89,6 +89,8 @@ public class Client extends Application
 
         root.getChildren().addAll(menuBar, settingsTopBox, listScroll);
 
+        mainStage.setMinWidth(300);
+        mainStage.setMinHeight(300);
         mainStage.setTitle("RSSReader");
         mainStage.getIcons().add(new Image("file:img/rss_icon.png"));
         mainStage.setScene(primaryScene);
