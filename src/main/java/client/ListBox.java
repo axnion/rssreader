@@ -14,6 +14,8 @@ import javafx.scene.layout.VBox;
 /**
  * Class ListBox
  *
+ * This is the class used in the graphical client to represent the Lists.
+ *
  * @author Axel Nilsson (axnion)
  * @version 1.0
  */
@@ -28,6 +30,10 @@ class ListBox extends ScrollPane
     private VBox checkBoxContainer;
     private boolean isSettingsOpen;
 
+    /**
+     * Constructor
+     * @param thisName The name of the ItemList this ListBox is associated with.
+     */
     ListBox(String thisName)
     {
         name = thisName;
@@ -76,6 +82,10 @@ class ListBox extends ScrollPane
         updateMenu(Client.api.getFeeds());
     }
 
+    /**
+     * Updates the settings menu for the ListBox. Adds Feeds if there have been more added.
+     * @param feeds An array with all Feeds in the Configuration.
+     */
     void updateMenu(Feed[] feeds)
     {
         if(checkboxes != null)
@@ -136,6 +146,10 @@ class ListBox extends ScrollPane
         checkBoxContainer.getChildren().addAll(checkboxes);
     }
 
+    /**
+     * Updates all the Items in the ListBox.
+     * @param items The ItemList associated with this ListBox.
+     */
     void updateItems(ItemList items)
     {
         itemList.getChildren().clear();
@@ -147,12 +161,20 @@ class ListBox extends ScrollPane
         }
     }
 
+    /**
+     * Sets the width of the ListBox.
+     * @param width The width we want to set to the ListBox in pixels.
+     */
     void setListWidth(double width)
     {
         setMaxWidth(width);
         topBar.setMaxWidth(width);
     }
 
+    /**
+     * Creates the sort settings for the settings menu.
+     * @return An HBox containing the sort settings.
+     */
     private HBox createSortSettings()
     {
         HBox sortContainer = new HBox();
@@ -209,6 +231,11 @@ class ListBox extends ScrollPane
         return sortContainer;
     }
 
+    /**
+     * Updates sorting in the api if these has been any changes in the graphical interface.
+     * @param target    The ToggleGroup that decides the target, title or date.
+     * @param direction The ToggleGroup that decides direction, ascending or descending.
+     */
     private void updateSorting(ToggleGroup target, ToggleGroup direction)
     {
         String str = target.getSelectedToggle().getUserData().toString();
@@ -219,6 +246,9 @@ class ListBox extends ScrollPane
         updateItems(Client.api.getItemList(getName()));
     }
 
+    /**
+     * Switches between settings and list view.
+     */
     private void switchMode()
     {
         if(isSettingsOpen)
@@ -227,6 +257,9 @@ class ListBox extends ScrollPane
             showSettings();
     }
 
+    /**
+     * Puts the settings menu in the container.
+     */
     private void showSettings()
     {
         updateMenu(Client.api.getFeeds());
@@ -235,6 +268,9 @@ class ListBox extends ScrollPane
         isSettingsOpen = true;
     }
 
+    /**
+     * Puts the List in the container.
+     */
     private void showList()
     {
         container.getChildren().clear();
@@ -242,6 +278,10 @@ class ListBox extends ScrollPane
         isSettingsOpen = false;
     }
 
+    /**
+     * Returns the name set to this ListBox.
+     * @return Name associated with the ListBox.
+     */
     String getName()
     {
         return name;

@@ -11,6 +11,8 @@ import javafx.scene.layout.VBox;
 /**
  * Class ItemBox
  *
+ * This is the class used in the graphical client to represent the Items in the Lists.
+ *
  * @author Axel Nilsson (axnion)
  * @version 1.0
  */
@@ -18,6 +20,10 @@ class ItemBox extends BorderPane
 {
     private Item item;
 
+    /**
+     * Constructor
+     * @param item The Item we want this ItemBox to be associated with.
+     */
     ItemBox(Item item)
     {
         this.item = item;
@@ -72,12 +78,20 @@ class ItemBox extends BorderPane
         setRight(starContainer);
     }
 
+    /**
+     * Changes the visited status of this ItemBox. It will set the item to visited.
+     */
     private void changeVisited()
     {
         this.setStyle("-fx-background-color: #fff");
         Client.api.setVisited(true, item.getId());
     }
 
+    /**
+     * Changes the starred status of this ItemBox. If it was starred it will unstar and the other
+     * way around.
+     * @param imageView The ImageView which hold the star image.
+     */
     private void changeStar(ImageView imageView)
     {
         if(imageView.getUserData().toString().equals("solid"))

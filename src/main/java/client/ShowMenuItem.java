@@ -21,6 +21,10 @@ class ShowMenuItem extends BorderPane
     private Text text;
     private HBox buttonContainer;
 
+    /**
+     * Constructor
+     * @param itemList The ItemList associated with this menu item.
+     */
     ShowMenuItem(ItemList itemList)
     {
         type = "ItemList";
@@ -44,6 +48,10 @@ class ShowMenuItem extends BorderPane
         setRight(buttonContainer);
     }
 
+    /**
+     * Constructor
+     * @param feed The Feed associated with this menu item.
+     */
     ShowMenuItem(Feed feed)
     {
         type = "Feed";
@@ -67,6 +75,10 @@ class ShowMenuItem extends BorderPane
         setRight(buttonContainer);
     }
 
+    /**
+     * Adds text to the menu item.
+     * @param title The title that will be shown in the menu.
+     */
     private void addText(String title)
     {
         if(title.length() > 25)
@@ -75,6 +87,9 @@ class ShowMenuItem extends BorderPane
         text.setText(title);
     }
 
+    /**
+     * Deletes the Feed or ItemList associated with this menu item.
+     */
     private void deleteItem()
     {
         if(type.equals("Feed"))

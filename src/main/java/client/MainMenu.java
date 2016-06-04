@@ -17,11 +17,17 @@ import java.io.File;
 /**
  * Class MainMenu
  *
+ * This is the class used in the graphical client as the main menu. It extends MenuBar and contains
+ * all logic surrounding those menus.
+ *
  * @author Axel Nilsson (axnion)
  * @version 1.0
  */
 class MainMenu extends MenuBar
 {
+    /**
+     * Constructor
+     */
     MainMenu()
     {
         Menu fileMenu = new Menu("File");
@@ -65,6 +71,9 @@ class MainMenu extends MenuBar
         getMenus().addAll(fileMenu, feedsMenu, listsMenu);
     }
 
+    /**
+     * Opens the menu that shows all Feeds in the current Configuration.
+     */
     static void openShowFeedsWindow()
     {
         VBox container = new VBox();
@@ -93,6 +102,9 @@ class MainMenu extends MenuBar
         Client.settingsSideBox.getChildren().add(container);
     }
 
+    /**
+     * Opens the menu that shows all Lists in the current Configuration.
+     */
     static void openShowListsWindow()
     {
         VBox container = new VBox();
@@ -120,6 +132,9 @@ class MainMenu extends MenuBar
         Client.settingsSideBox.getChildren().add(container);
     }
 
+    /**
+     * Opens the menu where the user can add Feeds to the current Configuration
+     */
     private static void openAddFeedWindow()
     {
         VBox container = new VBox();
@@ -152,6 +167,9 @@ class MainMenu extends MenuBar
         });
     }
 
+    /**
+     * Opens the menu where the user can add Lists to the current Configuration
+     */
     private static void openAddListWindow()
     {
         VBox container = new VBox();
@@ -184,6 +202,9 @@ class MainMenu extends MenuBar
         });
     }
 
+    /**
+     * Opens FileChooser and lets the user select a file to load it.
+     */
     private static void fileChooserLoad()
     {
         FileChooser fileChooser = new FileChooser();
@@ -197,6 +218,10 @@ class MainMenu extends MenuBar
         }
     }
 
+    /**
+     * Saves the current Configuration to a known save file. If these is no known save file the
+     * fileChooseSaveAs method is called instead.
+     */
     private static void fileChooserSave()
     {
         if(Client.currentLoadedFile != null)
@@ -205,6 +230,9 @@ class MainMenu extends MenuBar
             fileChooserSaveAs();
     }
 
+    /**
+     * Opens FileChooser and lets the user save a file to the filesystem.
+     */
     private static void fileChooserSaveAs()
     {
         FileChooser fileChooser = new FileChooser();
@@ -220,6 +248,11 @@ class MainMenu extends MenuBar
         }
     }
 
+    /**
+     * Creates and returnes the X in all menues and add it's functionallity.
+     * @param parent    The container the X will be put in.
+     * @return          A BorderPane with a exit button in it.
+     */
     private static BorderPane exitContainer(VBox parent)
     {
         BorderPane barContainer = new BorderPane();
