@@ -155,8 +155,8 @@ public class apiTesting
                 "visited\":true,\"starred\":false},{\"title\":\"Example Item 22\",\"link\":\"" +
                 "http://www.google.com\",\"description\":\"This is an item description\",\"id\"" +
                 ":\"example-id-22\",\"date\":\"Thu, 12 Feb 2016 23:45:20 +0000\",\"visited\":true,\"starred\":false}]}],\"itemLists\":[{\"" +
-                "name\":\"Test1\",\"sorting\":\"\",\"feedUrls\":null},{\"name\":\"Test2\",\"" +
-                "sorting\":\"\",\"feedUrls\":[\"" + apiTesting.class
+                "name\":\"Test1\",\"sorting\":\"DATE_DEC\",\"feedUrls\":null},{\"name\":\"Test2\",\"" +
+                "sorting\":\"DATE_DEC\",\"feedUrls\":[\"" + apiTesting.class
                 .getResource("../../resources/test/xml/exampleFeed2.xml").getPath() + "\"]}]}";
 
         try
@@ -174,7 +174,7 @@ public class apiTesting
         }
 
         assertNotNull(str);
-        assertEquals(0, str.compareTo(comp));
+        assertEquals(str, comp);
     }
 
     /**

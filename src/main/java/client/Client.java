@@ -97,15 +97,6 @@ public class Client extends Application
         mainStage.show();
     }
 
-    private static void startFeedUpdater(int interval)
-    {
-        Timeline feedUpdater = new Timeline(new KeyFrame(Duration.minutes(interval),
-                event -> checkForUpdates()));
-
-        feedUpdater.setCycleCount(Animation.INDEFINITE);
-        feedUpdater.play();
-    }
-
     static void addFeed(String url, boolean addToConfig)
     {
         if(url.equals(""))
@@ -277,9 +268,17 @@ public class Client extends Application
     {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Something went wrong!");
-        alert.setHeaderText("Look, an Information Dialog");
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private static void startFeedUpdater(int interval)
+    {
+        Timeline feedUpdater = new Timeline(new KeyFrame(Duration.minutes(interval),
+                event -> checkForUpdates()));
+
+        feedUpdater.setCycleCount(Animation.INDEFINITE);
+        feedUpdater.play();
     }
 
     class BrowserControl

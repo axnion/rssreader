@@ -45,7 +45,7 @@ public class ItemListTest
     {
         itemList = new ItemList("TestList");
         assertEquals("TestList", itemList.getName());
-        assertEquals("", itemList.getSorting());
+        assertEquals("DATE_DEC", itemList.getSorting());
         assertNull(itemList.getFeedUrls());
         assertNull(itemList.getItems());
     }
@@ -264,7 +264,7 @@ public class ItemListTest
     /**
      * Test case: 88
      * Tests what happens when the sorting method is called but how the items should be sorted has
-     * not been specified.
+     * not been specified. The ItemList should be sorted by date descending.
      */
     @Test
     public void sortWithoutSettingSorting()
@@ -276,16 +276,16 @@ public class ItemListTest
 
         Item[] items = itemList.getItems();
 
-        assertEquals("F Item", items[0].getTitle());
-        assertEquals("I Item", items[1].getTitle());
-        assertEquals("G Item", items[2].getTitle());
-        assertEquals("B Item", items[3].getTitle());
-        assertEquals("D Item", items[4].getTitle());
-        assertEquals("E Item", items[5].getTitle());
-        assertEquals("H Item", items[6].getTitle());
-        assertEquals("A Item", items[7].getTitle());
-        assertEquals("J Item", items[8].getTitle());
-        assertEquals("C Item", items[9].getTitle());
+        assertEquals("Mon, 05 Sep 2016 12:00:00 +0000", items[0].getDate());
+        assertEquals("Sun, 01 Sep 2016 12:00:00 +0000", items[1].getDate());
+        assertEquals("Wen, 24 Aug 2016 12:00:00 +0000", items[2].getDate());
+        assertEquals("Mon, 01 Mar 2016 12:00:00 +0000", items[3].getDate());
+        assertEquals("Tus, 09 Jan 2016 12:00:00 +0000", items[4].getDate());
+        assertEquals("Fri, 02 Jan 2016 12:00:00 +0000", items[5].getDate());
+        assertEquals("Mon, 01 Jan 2016 12:00:00 +0000", items[6].getDate());
+        assertEquals("Mon, 01 Jan 2015 12:00:00 +0000", items[7].getDate());
+        assertEquals("Mon, 01 Jan 2014 12:00:00 +0000", items[8].getDate());
+        assertEquals("Mon, 01 Jan 2013 12:00:00 +0000", items[9].getDate());
     }
 
     /**

@@ -76,72 +76,6 @@ class ListBox extends ScrollPane
         updateMenu(Client.api.getFeeds());
     }
 
-    private HBox createSortSettings()
-    {
-        HBox sortContainer = new HBox();
-        VBox sortTargetContainer = new VBox();
-        VBox sortDirectionContainer = new VBox();
-
-        ToggleGroup target = new ToggleGroup();
-        ToggleGroup direction = new ToggleGroup();
-
-        RadioButton radioTitle = new RadioButton("Title");
-        RadioButton radioDate = new RadioButton("Date");
-        radioTitle.setUserData("TITLE");
-        radioDate.setUserData("DATE");
-        radioTitle.setToggleGroup(target);
-        radioDate.setToggleGroup(target);
-        sortTargetContainer.getChildren().addAll(radioTitle, radioDate);
-
-        RadioButton radioAsc = new RadioButton("Ascending");
-        RadioButton radioDec = new RadioButton("Descending");
-        radioAsc.setUserData("ASC");
-        radioDec.setUserData("DEC");
-        radioAsc.setToggleGroup(direction);
-        radioDec.setToggleGroup(direction);
-
-
-        String sorting = Client.api.getItemList(name).getSorting();
-
-        if(sorting.equals("TITLE_ASC"))
-        {
-            radioTitle.setSelected(true);
-            radioAsc.setSelected(true);
-        }
-        else if(sorting.equals("TITLE_DEC"))
-        {
-            radioTitle.setSelected(true);
-            radioDec.setSelected(true);
-        }
-        else if(sorting.equals("DATE_ASC"))
-        {
-            radioDate.setSelected(true);
-            radioAsc.setSelected(true);
-        }
-        else
-        {
-            radioDate.setSelected(true);
-            radioDec.setSelected(true);
-        }
-
-        sortDirectionContainer.getChildren().addAll(radioAsc, radioDec);
-        sortContainer.getChildren().addAll(sortTargetContainer, sortDirectionContainer);
-        target.selectedToggleProperty().addListener((event) -> updateSorting(target, direction));
-        direction.selectedToggleProperty().addListener((event) -> updateSorting(target, direction));
-
-        return sortContainer;
-    }
-
-    private void updateSorting(ToggleGroup target, ToggleGroup direction)
-    {
-        String str = target.getSelectedToggle().getUserData().toString();
-        str += "_";
-        str += direction.getSelectedToggle().getUserData().toString();
-
-        Client.api.setSorting(str, getName());
-        updateItems(Client.api.getItemList(getName()));
-    }
-
     void updateMenu(Feed[] feeds)
     {
         if(checkboxes != null)
@@ -217,6 +151,72 @@ class ListBox extends ScrollPane
     {
         setMaxWidth(width);
         topBar.setMaxWidth(width);
+    }
+
+    private HBox createSortSettings()
+    {
+        HBox sortContainer = new HBox();
+        VBox sortTargetContainer = new VBox();
+        VBox sortDirectionContainer = new VBox();
+
+        ToggleGroup target = new ToggleGroup();
+        ToggleGroup direction = new ToggleGroup();
+
+        RadioButton radioTitle = new RadioButton("Title");
+        RadioButton radioDate = new RadioButton("Date");
+        radioTitle.setUserData("TITLE");
+        radioDate.setUserData("DATE");
+        radioTitle.setToggleGroup(target);
+        radioDate.setToggleGroup(target);
+        sortTargetContainer.getChildren().addAll(radioTitle, radioDate);
+
+        RadioButton radioAsc = new RadioButton("Ascending");
+        RadioButton radioDec = new RadioButton("Descending");
+        radioAsc.setUserData("ASC");
+        radioDec.setUserData("DEC");
+        radioAsc.setToggleGroup(direction);
+        radioDec.setToggleGroup(direction);
+
+
+        String sorting = Client.api.getItemList(name).getSorting();
+
+        if(sorting.equals("TITLE_ASC"))
+        {
+            radioTitle.setSelected(true);
+            radioAsc.setSelected(true);
+        }
+        else if(sorting.equals("TITLE_DEC"))
+        {
+            radioTitle.setSelected(true);
+            radioDec.setSelected(true);
+        }
+        else if(sorting.equals("DATE_ASC"))
+        {
+            radioDate.setSelected(true);
+            radioAsc.setSelected(true);
+        }
+        else
+        {
+            radioDate.setSelected(true);
+            radioDec.setSelected(true);
+        }
+
+        sortDirectionContainer.getChildren().addAll(radioAsc, radioDec);
+        sortContainer.getChildren().addAll(sortTargetContainer, sortDirectionContainer);
+        target.selectedToggleProperty().addListener((event) -> updateSorting(target, direction));
+        direction.selectedToggleProperty().addListener((event) -> updateSorting(target, direction));
+
+        return sortContainer;
+    }
+
+    private void updateSorting(ToggleGroup target, ToggleGroup direction)
+    {
+        String str = target.getSelectedToggle().getUserData().toString();
+        str += "_";
+        str += direction.getSelectedToggle().getUserData().toString();
+
+        Client.api.setSorting(str, getName());
+        updateItems(Client.api.getItemList(getName()));
     }
 
     private void switchMode()

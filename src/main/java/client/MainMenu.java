@@ -65,6 +65,61 @@ class MainMenu extends MenuBar
         getMenus().addAll(fileMenu, feedsMenu, listsMenu);
     }
 
+    static void openShowFeedsWindow()
+    {
+        VBox container = new VBox();
+        container.setMaxWidth(500);
+        container.setMinWidth(250);
+        container.setAlignment(Pos.CENTER);
+        VBox itemsContainer = new VBox();
+
+        Client.settingsTopBox.getChildren().clear();
+        Client.settingsSideBox.getChildren().clear();
+
+        Feed[] feeds = Client.api.getFeeds();
+
+
+        container.getChildren().add(exitContainer(container));
+
+        if(feeds != null)
+        {
+            for(Feed feed : feeds)
+                itemsContainer.getChildren().add(new ShowMenuItem(feed));
+
+            ScrollPane scrollPane = new ScrollPane(itemsContainer);
+            container.getChildren().add(scrollPane);
+        }
+
+        Client.settingsSideBox.getChildren().add(container);
+    }
+
+    static void openShowListsWindow()
+    {
+        VBox container = new VBox();
+        container.setMaxWidth(500);
+        container.setMinWidth(250);
+        container.setAlignment(Pos.CENTER);
+        VBox itemsContainer = new VBox();
+
+        Client.settingsTopBox.getChildren().clear();
+        Client.settingsSideBox.getChildren().clear();
+
+        ItemList[] itemLists = Client.api.getItemLists();
+
+        container.getChildren().add(exitContainer(container));
+
+        if(itemLists != null)
+        {
+            for(ItemList itemList : itemLists)
+                itemsContainer.getChildren().add(new ShowMenuItem(itemList));
+
+            ScrollPane scrollPane = new ScrollPane(itemsContainer);
+            container.getChildren().add(scrollPane);
+        }
+
+        Client.settingsSideBox.getChildren().add(container);
+    }
+
     private static void openAddFeedWindow()
     {
         VBox container = new VBox();
@@ -127,61 +182,6 @@ class MainMenu extends MenuBar
             Client.addItemList(textInput.getText(), true);
             Client.settingsTopBox.getChildren().clear();
         });
-    }
-
-    static void openShowFeedsWindow()
-    {
-        VBox container = new VBox();
-        container.setMaxWidth(500);
-        container.setMinWidth(250);
-        container.setAlignment(Pos.CENTER);
-        VBox itemsContainer = new VBox();
-
-        Client.settingsTopBox.getChildren().clear();
-        Client.settingsSideBox.getChildren().clear();
-
-        Feed[] feeds = Client.api.getFeeds();
-
-
-        container.getChildren().add(exitContainer(container));
-
-        if(feeds != null)
-        {
-            for(Feed feed : feeds)
-                itemsContainer.getChildren().add(new ShowMenuItem(feed));
-
-            ScrollPane scrollPane = new ScrollPane(itemsContainer);
-            container.getChildren().add(scrollPane);
-        }
-
-        Client.settingsSideBox.getChildren().add(container);
-    }
-
-    static void openShowListsWindow()
-    {
-        VBox container = new VBox();
-        container.setMaxWidth(500);
-        container.setMinWidth(250);
-        container.setAlignment(Pos.CENTER);
-        VBox itemsContainer = new VBox();
-
-        Client.settingsTopBox.getChildren().clear();
-        Client.settingsSideBox.getChildren().clear();
-
-        ItemList[] itemLists = Client.api.getItemLists();
-
-        container.getChildren().add(exitContainer(container));
-
-        if(itemLists != null)
-        {
-            for(ItemList itemList : itemLists)
-                itemsContainer.getChildren().add(new ShowMenuItem(itemList));
-
-            ScrollPane scrollPane = new ScrollPane(itemsContainer);
-            container.getChildren().add(scrollPane);
-        }
-
-        Client.settingsSideBox.getChildren().add(container);
     }
 
     private static void fileChooserLoad()
