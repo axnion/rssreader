@@ -10,6 +10,8 @@ import static org.mockito.Mockito.*;
 /**
  * Test Class ConfigurationTest
  *
+ * This is the test suite with tests for the Configuration class.
+ *
  * @author Axel Nilsson (axnion)
  * @version 1.0
  */
@@ -241,6 +243,7 @@ public class ConfigurationTest
 
     /**
      * Test case: 31
+     * Tries to add an ItemList to an empty Configuration.
      */
     @Test
     public void addItemListInEmptyConfiguration()
@@ -253,6 +256,7 @@ public class ConfigurationTest
 
     /**
      * Test case: 32
+     * Tries to add an ItemList to a configuration already containing other ItemLists.
      */
     @Test
     public void addItemListInNonEmptyConfiguration()
@@ -275,6 +279,8 @@ public class ConfigurationTest
 
     /**
      * Test case: 33
+     * Tries to add an ItemList to a Configuration which already contains an ItemList with the same
+     * name. This should result in a RuntimeException.
      */
     @Test(expected = RuntimeException.class)
     public void addItemListWithExistingName()
@@ -318,7 +324,8 @@ public class ConfigurationTest
 
     /**
      * Test case: 51
-     * Tries to remove an ItemList that already
+     * Tries to remove an ItemList that does not exist in the Configuration. Should produce a
+     * RuntimeException.
      */
     @Test(expected = RuntimeException.class)
     public void removeNonExistingItemList()
@@ -340,6 +347,8 @@ public class ConfigurationTest
 
     /**
      * Test case: 52
+     * Tries to remove an ItemList from a Configuration without any ItemLists. Should produce a
+     * RuntimeException.
      */
     @Test(expected = RuntimeException.class)
     public void removeOnEmptyItemListArray()
@@ -350,6 +359,7 @@ public class ConfigurationTest
 
     /**
      * Test case: 53
+     * Removes the last itemList from the Configuration. The array should be null after.
      */
     @Test
     public void removeLastItemList()
@@ -466,6 +476,8 @@ public class ConfigurationTest
 
     /**
      * Test case: 62
+     * Tries to get an ItemList that does exist in the Configuration. Checks the values of the
+     * returned ItemList to identify that it's the correct one.
      */
     @Test
     public void getExistingItemList()
@@ -485,6 +497,8 @@ public class ConfigurationTest
 
     /**
      * Test case: 63
+     * Tires to get an ItemList that does not exist in the Configuration. This should result in a
+     * RuntimeException being thrown.
      */
     @Test(expected = RuntimeException.class)
     public void getNonExistingItemList()
@@ -501,6 +515,8 @@ public class ConfigurationTest
 
     /**
      * Test case: 64
+     * Tries to get an ItemList from a Configuration without any ItemLists. Should result in a
+     * RuntimeException being thrown.
      */
     @Test(expected = RuntimeException.class)
     public void getItemListFromEmptyList()
@@ -510,6 +526,8 @@ public class ConfigurationTest
 
     /**
      * Test case: 35
+     * Tests the functionality of updating an ItemList. The tests verifies that the correct methods
+     * are called.
      */
     @Test
     public void updateTest()

@@ -9,6 +9,8 @@ import static org.mockito.Mockito.*;
 /**
  * Test Class FeedTest
  *
+ * This is the test suite with tests for the Feed class.
+ *
  * @author Axel Nilsson (axnion)
  * @version 1.0
  */

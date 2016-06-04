@@ -6,6 +6,8 @@ import static org.junit.Assert.*;
 /**
  * Class ItemTest
  *
+ * This is the test suite with tests for the Item class.
+ *
  * @author Axel Nilsson (axnion)
  * @version 1.0
  */
@@ -426,6 +428,7 @@ public class ItemTest
 
     /**
      * Test case: 104
+     * Tries to set the date with a non existing month.
      */
     @Test
     public void compareNonexistentMonth()

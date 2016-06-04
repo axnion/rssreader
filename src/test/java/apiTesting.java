@@ -13,6 +13,8 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Class apiTesting
  *
+ * This is the test suite with integration tests for the api package.
+ *
  * @author Axel Nilsson (axnion)
  * @version 1.0
  */

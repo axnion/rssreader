@@ -9,6 +9,8 @@ import static org.mockito.Mockito.*;
 /**
  * Test Class ItemListTest
  *
+ * This is the test suite with tests for the ItemList class.
+ *
  * @author Axel Nilsson (axnion)
  * @version 1.0
  */
@@ -27,6 +29,7 @@ public class ItemListTest
 
     /**
      * Test case: 10
+     * Tries to create an ItemList without giving it a name. Then checks the field of the ItemList.
      */
     @Test
     public void createUnnamedObject()
@@ -39,6 +42,7 @@ public class ItemListTest
 
     /**
      * Test case: 11
+     * Tries to create an ItemList with a name. Then checks the fields of the ItemList.
      */
     @Test
     public void createNamedObject()
@@ -52,6 +56,7 @@ public class ItemListTest
 
     /**
      * Test case: 12
+     * Tests the accessors and mutators of the ItemList class.
      */
     @Test
     public void accessorsAndMutators()
@@ -73,6 +78,7 @@ public class ItemListTest
 
     /**
      * Test case: 13
+     * Tries to add a Feed to the ItemList.
      */
     @Test
     public void addFeedTest()
@@ -89,6 +95,7 @@ public class ItemListTest
 
     /**
      * Test case: 14
+     * Tries to add a Feed to an ItemList which already has a Feed with the same identifyer.
      */
     @Test
     public void addExistingFeed()
@@ -106,6 +113,7 @@ public class ItemListTest
 
     /**
      * Test case: 15
+     * Tries to remove the first Feed in the array from the ItemList.
      */
     @Test
     public void removeFirstInFeedArray()
@@ -120,6 +128,7 @@ public class ItemListTest
 
     /**
      * Test case: 16
+     * Tries to remove the middle Feed in the array from the ItemList.
      */
     @Test
     public void removeMiddleInFeedArray()
@@ -134,6 +143,7 @@ public class ItemListTest
 
     /**
      * Test case: 17
+     * Tries to remove the last Feed in the array from the ItemList.
      */
     @Test
     public void removeLastInFeedArray()
@@ -148,6 +158,7 @@ public class ItemListTest
 
     /**
      * Test case: 18
+     * Tries to remove a Feed from an empty ItemList.
      */
     @Test(expected = RuntimeException.class)
     public void removeOnEmptyFeedArray()
@@ -157,6 +168,7 @@ public class ItemListTest
 
     /**
      * Test case: 19
+     * Tries to remove non existent Feed from an ItemList
      */
     @Test
     public void removeNonexistentFeed()
@@ -172,6 +184,7 @@ public class ItemListTest
 
     /**
      * Test case: 20
+     * Tries to remove the last Feed in an ItemList. The array should be null after.
      */
     @Test
     public void removingLastFeed()
@@ -184,6 +197,8 @@ public class ItemListTest
 
     /**
      * Test case: 42
+     * Tries to remove a Feed from an itemList when there is more than one of them in the ItemList
+     * with the same identifier.
      */
     @Test
     public void removingFeedWhenMoreThanOneInItemList()

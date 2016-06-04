@@ -5,18 +5,23 @@ import static org.mockito.Mockito.*;
 /**
  * Class Mocks
  *
+ * This is a class with static methods to create the mock objects used in testing classes in the
+ * api package.
+ *
  * @author Axel Nilsson (axnion)
  * @version 0.1
  */
 public class Mocks
 {
     /**
+     * Creates a mock object of the Feed class. It sets what each accessor method should return
+     * and returns the mocked object.
      *
-     * @param title
-     * @param link
-     * @param desc
-     * @param url
-     * @return
+     * @param title The title getTitle() should return.
+     * @param link  The link getLink() should return.
+     * @param desc  The text getDescription() should return.
+     * @param url   The url getUrlToXML() should return.
+     * @return      A mock object of the Feed class.
      */
     public static Feed createMockFeed(String title, String link, String desc, String url)
     {
@@ -31,14 +36,16 @@ public class Mocks
     }
 
     /**
+     * Creates a mock object of the Item class. It sets what each accessor method should return and
+     * returns the mocked object.
      *
-     * @param title
-     * @param link
-     * @param desc
-     * @param id
-     * @param isVisited
-     * @param isStarred
-     * @return
+     * @param title     The title getTitle() should return.
+     * @param link      The link getLink() should return.
+     * @param desc      The text getDescription() should return.
+     * @param id        The id the getId() should return.
+     * @param isVisited The boolean value isVisited should return.
+     * @param isStarred The boolean value isStarred should return.
+     * @return          A mock object of the Item class.
      */
     public static Item createMockItem(String title, String link, String desc, String id,
                                 boolean isVisited, boolean isStarred)
@@ -56,10 +63,12 @@ public class Mocks
     }
 
     /**
+     * Creates a mock object of the ItemList class. It sets what each accessor method should return
+     * and returns the mocked object.
      *
-     * @param name
-     * @param sorting
-     * @return
+     * @param name      The name getName() should return.
+     * @param sorting   The String getSorting() should return.
+     * @return          A mock object of the ItemList class.
      */
     public static ItemList createMockItemList(String name, String sorting)
     {
