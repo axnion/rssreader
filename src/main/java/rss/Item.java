@@ -1,4 +1,4 @@
-package api;
+package rss;
 
 /**
  * Class Item
@@ -10,28 +10,22 @@ package api;
  * @author Axel Nilsson (axnion)
  * @version 1.0
  */
-public class Item
-{
+public class Item {
     private String title;           // The title of the item
     private String link;            // The link to the content of the item
     private String description;     // A descriptive text about the item
     private String id;              // A unique ID for this item
     private String date;            // The date the item was released
-    private boolean visited;        // True if user has visited the item
-    private boolean starred;        // True if user has starred the item
 
     /**
      * Constructor
      */
-    Item()
-    {
+    public Item() {
         title = "";
         link = "";
         description = "";
         id = "";
         date = "";
-        visited = false;
-        starred = false;
     }
 
     /**
@@ -42,18 +36,13 @@ public class Item
      * @param description   A descriptive text about the item
      * @param id            A unique ID to easily identify the item
      * @param date          A String containing the date and time of the items release
-     * @param visited       True if the user has visited the item, if not then false
-     * @param starred       True if the user has starred this item, if not then false.
      */
-    Item(String title, String link, String description, String id, String date, boolean visited, boolean starred)
-    {
+    public Item(String title, String link, String description, String id, String date) {
         this.title = title;
         this.link = link;
         this.description = description;
         this.id = id;
         this.date = date;
-        this.visited = visited;
-        this.starred = starred;
     }
 
     /**
@@ -64,13 +53,10 @@ public class Item
      * @param other The Item object to compare this Item with
      * @return      An integer representing the comparison of the titles of these two Items
      */
-    int compareTitle(Item other)
-    {
+    public int compareTitle(Item other) {
         String title1 = this.getTitle().toLowerCase();
         String title2 = other.getTitle().toLowerCase();
-        int result = title1.compareTo(title2);
-
-        return result;
+        return title1.compareTo(title2);
     }
 
     /**
@@ -81,8 +67,7 @@ public class Item
      * @param other The Item object to compare this Item with
      * @return      An integer representing the comparison of the titles of these two Items
      */
-    int compareDate(Item other)
-    {
+    public int compareDate(Item other) {
         int comparison;
 
         // Comparing years
@@ -130,25 +115,33 @@ public class Item
      * @param str   A String representing a month.
      * @return      An integer representing a month.
      */
-    private int monthStringToInt(String str)
-    {
-        switch (str)
-        {
-            case "Jan": return 1;
-            case "Feb": return 2;
-            case "Mar": return 3;
-            case "Apr": return 4;
-            case "May": return 5;
-            case "Jun": return 6;
-            case "Jul": return 7;
-            case "Aug": return 8;
-            case "Sep": return 9;
-            case "Oct": return 10;
-            case "Nov": return 11;
-            case "Dec": return 12;
-        }
-
-        return 0;
+    private int monthStringToInt(String str) {
+        if(str.equals("Jan"))
+            return 1;
+        else if(str.equals("Feb"))
+            return 2;
+        else if(str.equals("Mar"))
+            return 3;
+        else if(str.equals("Apr"))
+            return 4;
+        else if(str.equals("May"))
+            return 5;
+        else if(str.equals("Jun"))
+            return 6;
+        else if(str.equals("Jul"))
+            return 7;
+        else if(str.equals("Aug"))
+            return 8;
+        else if(str.equals("Sep"))
+            return 9;
+        else if(str.equals("Oct"))
+            return 10;
+        else if(str.equals("Nov"))
+            return 11;
+        else if(str.equals("Dec"))
+            return 12;
+        else
+            return 0;
     }
 
     /**
@@ -156,8 +149,7 @@ public class Item
      * @param str   A String containing numbers.
      * @return      An integer converted from the argument
      */
-    private int removeFirstZero(String str)
-    {
+    private int removeFirstZero(String str) {
         if(str.charAt(0) == '0')
             str = "" + str.charAt(1);
 
@@ -171,92 +163,56 @@ public class Item
     /**
      * @return A String containing the title of the item
      */
-    public String getTitle()
-    {
+    public String getTitle() {
         return title;
     }
 
     /**
      * @return A String containing the URL to the content of the item
      */
-    public String getLink()
-    {
+    public String getLink() {
         return link;
     }
 
     /**
      * @return A String containing a description of the item
      */
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
     /**
      * @return A String containing the unique ID of the item
      */
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
     /**
      * @return A Date object containing the date and time of this items release
      */
-    public String getDate()
-    {
+    public String getDate() {
         return date;
     }
 
-    /**
-     * @return True if the user has visited the item, if not then false.
-     */
-    public boolean isVisited()
-    {
-        return visited;
-    }
-
-    /**
-     * @return True if the user has starred this item, if not then false.
-     */
-    public boolean isStarred()
-    {
-        return starred;
-    }
-
-    void setTitle(String title)
-    {
+    void setTitle(String title) {
         this.title = title;
     }
 
-    void setLink(String link)
-    {
+    void setLink(String link) {
         this.link = link;
     }
 
-    void setDescription(String description)
-    {
+    void setDescription(String description) {
         this.description = description;
     }
 
-    void setId(String id)
-    {
+    void setId(String id) {
         this.id = id;
     }
 
-    void setDate(String date)
-    {
+    void setDate(String date) {
         this.date = date;
-    }
-
-    void setVisited(boolean visited)
-    {
-        this.visited = visited;
-    }
-
-    void setStarred(boolean starred)
-    {
-        this.starred = starred;
     }
 }
 
