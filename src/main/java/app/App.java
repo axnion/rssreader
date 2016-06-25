@@ -3,7 +3,6 @@ package app;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -13,7 +12,7 @@ import javafx.stage.Stage;
  * @author Axel Nilsson (axnion)
  */
 public class App extends Application {
-    Wrapper root;
+    static Wrapper root;
     static BrowserAccess browserAccess;
 
     public static void main(String[] args) {
@@ -23,7 +22,7 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         browserAccess = new BrowserAccess();
         root = new Wrapper();
-        Scene primaryScene = new Scene(root, 960, 540, Color.web("282C2C"));
+        Scene primaryScene = new Scene(root, 960, 540);
 
         primaryStage.setMinWidth(300);
         primaryStage.setMinHeight(300);
@@ -31,6 +30,21 @@ public class App extends Application {
         primaryStage.getIcons().add(new Image("file:img/rss_icon.png"));
         primaryStage.setScene(primaryScene);
         primaryStage.show();
+
+        addFeedList("Test1");
+        addFeedList("Test2");
+        addFeedList("Test3");
+        addFeedList("Test4");
+
+        removeFeedList("Test3");
+    }
+
+    static void addFeedList(String name) {
+        root.addFeedList(name);
+    }
+
+    static void removeFeedList(String name) {
+        root.removeFeedList(name);
     }
 
     /**

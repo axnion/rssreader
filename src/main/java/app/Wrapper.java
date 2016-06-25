@@ -1,18 +1,40 @@
 package app;
 
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 
+import java.util.ArrayList;
 
 /**
  * Class Wrapper
  *
  * @author Axel Nilsson (axnion)
  */
-public class Wrapper extends VBox {
-    SideMenu
-    ArrayList<> lists;
+class Wrapper extends HBox {
+    private SideMenu sideMenu;
+    private ArrayList<FeedListPane> feedListPanes;
 
-    public void Wrapper() {
+    Wrapper() {
+        sideMenu = new SideMenu();
+        feedListPanes = new ArrayList<>();
 
+        getChildren().addAll(sideMenu);
+        getChildren().addAll(feedListPanes);
+        setStyle("-fx-background-color: #282C2C");
+    }
+
+    void addFeedList(String name) {
+        FeedListPane newFeedListPane = new FeedListPane(name);
+        feedListPanes.add(newFeedListPane);
+        getChildren().add(newFeedListPane);
+    }
+
+    void removeFeedList(String name) {
+        for(int i = 0; i < feedListPanes.size(); i++) {
+            if(feedListPanes.get(i).getName().equals(name)) {
+                getChildren().remove(feedListPanes.get(i));
+                feedListPanes.remove(i);
+                break;
+            }
+        }
     }
 }

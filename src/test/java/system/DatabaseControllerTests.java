@@ -23,7 +23,7 @@ public class DatabaseControllerTests {
             dc = new DatabaseController();
         }
         catch(Exception err) {
-            err.printStackTrace();
+           err.printStackTrace();
         }
     }
 
@@ -214,7 +214,7 @@ public class DatabaseControllerTests {
             fail("Setting visited status of Item in nonexistent FeedList didn't produce exception");
         }
         catch(Exception err) {
-            err.printStackTrace();
+            
         }
 
         File f = new File(target);
@@ -276,7 +276,7 @@ public class DatabaseControllerTests {
             fail("Setting starred status of Item in nonexistent FeedList didn't produce exception");
         }
         catch(Exception err) {
-            err.printStackTrace();
+           
         }
 
         File f = new File(target);
@@ -390,7 +390,7 @@ public class DatabaseControllerTests {
             fail("addFeedList() threw an exception");
         }
         catch(Exception err) {
-            err.printStackTrace();
+           
         }
 
         File f = new File(target);
@@ -450,7 +450,7 @@ public class DatabaseControllerTests {
             fail("removeFeedList() was not thrown");
         }
         catch(Exception err) {
-            err.printStackTrace();
+           
         }
 
         File f = new File(target);
@@ -512,7 +512,7 @@ public class DatabaseControllerTests {
             fail("addItem() threw an exception");
         }
         catch(Exception err) {
-            err.printStackTrace();
+           
         }
 
         File f = new File(target);
@@ -543,7 +543,7 @@ public class DatabaseControllerTests {
             fail("addItem() threw an exception");
         }
         catch(Exception err) {
-            err.printStackTrace();
+           
         }
 
         File f = new File(target);
@@ -611,7 +611,7 @@ public class DatabaseControllerTests {
             fail("deleteItem() did not throw an exception");
         }
         catch(Exception err) {
-            err.printStackTrace();
+           
         }
 
         File f = new File(target);
@@ -642,7 +642,7 @@ public class DatabaseControllerTests {
             fail("Nonexistant item found in database");
         }
         catch(Exception err) {
-            err.printStackTrace();
+           
         }
 
         try {
@@ -659,7 +659,7 @@ public class DatabaseControllerTests {
             fail("Nonexistant item found in database");
         }
         catch(Exception err) {
-            err.printStackTrace();
+           
         }
 
         File f = new File(target);

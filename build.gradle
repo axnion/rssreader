@@ -1,5 +1,5 @@
 group 'tech.axelnilsson'
-version '1.0.1'
+version '1.0'
 
 buildscript {
     dependencies {
@@ -23,14 +23,16 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.0.1'
     testCompile "org.mockito:mockito-core:1.+"
+
     compile 'de.dynamicfiles.projects.gradle.plugins:javafx-gradle-plugin:8.4.1'
+    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.8.11.2'
+    compile group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
 }
 
 jfx {
     verbose = false
-    mainClass = "Main"
+    mainClass = "app.App"
     jfxAppOutputDir = "build/bin/app/RSSReader"
     jfxMainAppJarName = "RSSReader.jar"
     deployDir = "src/deploy/"
@@ -45,14 +47,14 @@ jfx {
 
     // gradle jfxNative
     identifier = 1.0 // setting this for windows-bundlers makes it possible to generate upgradeable installers (using same GUID)
-    vendor = "Axel Nilsson"
+    vendor = "axnion"
     nativeOutputDir = "build/bin/native"
     bundler = "ALL" // set this to some specific, if your don't want all bundlers running, examples "windows.app", "jnlp", ...
     jvmProperties = null // Map<String, String>
     jvmArgs = null // List<String>
     userJvmArgs = null // Map<String, String>
     launcherArguments = null // List<String>
-    nativeReleaseVersion = "1.0.1"
+    nativeReleaseVersion = "1.0"
     needShortcut = false
     needMenu = false
     bundleArguments = null
@@ -85,8 +87,8 @@ jfx {
 
 jacocoTestReport {
     reports {
-        xml.enabled true
-        csv.enabled true
+        xml.enabled false
+        csv.enabled false
         html.destination "${buildDir}/jacocoHtml"
     }
 }
