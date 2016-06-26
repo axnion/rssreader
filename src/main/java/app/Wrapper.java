@@ -19,7 +19,7 @@ class Wrapper extends HBox {
 
         getChildren().addAll(sideMenu);
         getChildren().addAll(feedListPanes);
-        setStyle("-fx-background-color: #282C2C");
+        getStyleClass().add("Wrapper");
     }
 
     void addFeedList(String name) {

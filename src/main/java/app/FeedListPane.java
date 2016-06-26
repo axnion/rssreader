@@ -16,9 +16,8 @@ class FeedListPane extends VBox{
         this.name = name;
 
         setPrefWidth(200);
-        setStyle("-fx-background-color: #363636");
-        setBorder(new Border(new BorderStroke(Color.web("282C2C"), BorderStrokeStyle.SOLID,
-                CornerRadii.EMPTY, new BorderWidths(1))));
+        getStyleClass().add("FeedListPane");
+
         Text head = new Text(name);
         head.setFill(Color.WHITE);
 

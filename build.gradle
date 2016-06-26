@@ -31,7 +31,7 @@ dependencies {
 }
 
 jfx {
-    verbose = false
+    verbose = true
     mainClass = "app.App"
     jfxAppOutputDir = "build/bin/app/RSSReader"
     jfxMainAppJarName = "RSSReader.jar"
@@ -92,3 +92,23 @@ jacocoTestReport {
         html.destination "${buildDir}/jacocoHtml"
     }
 }
+
+task myRun(dependsOn: [
+        clean,
+        test,
+        jfxNative,
+        jfxRun,
+])
+
+
+
+task myTest(dependsOn: [
+        clean,
+        test,
+        jacocoTestReport,
+        javadoc
+])
+
+def myTasks = 'My tasks'
+myRun.group = myTasks
+myTest.group = myTasks

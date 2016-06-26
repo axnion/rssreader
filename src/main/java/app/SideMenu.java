@@ -1,7 +1,5 @@
 package app;
 
-import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.control.Button;
@@ -15,12 +13,14 @@ import javafx.util.Duration;
  */
 class SideMenu extends VBox{
     private boolean visible;
+    private int hiddenWidth = 20;
+    private int showingWidth = 220;
 
     SideMenu() {
         visible = false;
-        setMinWidth(50);
-        setMaxWidth(50);
-        setStyle("-fx-background-color: greenyellow");
+        setMinWidth(hiddenWidth);
+        setMaxWidth(hiddenWidth);
+        getStyleClass().add("WideMenu");
 
         Button btn = new Button();
         btn.setOnAction(event -> menuVisibility());
@@ -39,7 +39,7 @@ class SideMenu extends VBox{
         visible = true;
         Timeline feedUpdater = new Timeline(new KeyFrame(Duration.millis(1), event -> inceaseWidth()));
 
-        feedUpdater.setCycleCount(100);
+        feedUpdater.setCycleCount(showingWidth - hiddenWidth);
         feedUpdater.play();
     }
 
@@ -47,7 +47,7 @@ class SideMenu extends VBox{
         visible = false;
         Timeline feedUpdater = new Timeline(new KeyFrame(Duration.millis(1), event -> decreaseWidth()));
 
-        feedUpdater.setCycleCount(100);
+        feedUpdater.setCycleCount(showingWidth - hiddenWidth);
         feedUpdater.play();
     }
 
@@ -60,4 +60,6 @@ class SideMenu extends VBox{
         setMinWidth(getMinWidth() - 2);
         setMaxWidth(getMaxWidth() - 2);
     }
+
+
 }

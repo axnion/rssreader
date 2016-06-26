@@ -1,0 +1,14 @@
+.Wrapper {
+    -fx-background-color: #282C2C;
+}
+
+.SideMenu {
+    -fx-background-color: #1c1c1c;
+}
+
+.FeedListPane {
+    -fx-background-color: #363636;
+    -fx-border-color: #282C2C;
+    -fx-border-style: solid;
+    -fx-border-width: 1;
+}
