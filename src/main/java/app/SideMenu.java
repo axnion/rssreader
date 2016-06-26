@@ -1,6 +1,7 @@
 package app;
 
 import javafx.animation.KeyFrame;
+import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -13,53 +14,45 @@ import javafx.util.Duration;
  */
 class SideMenu extends VBox{
     private boolean visible;
-    private int hiddenWidth = 20;
-    private int showingWidth = 220;
+    private int hiddenWidth = 30;
+    private int showingWidth = 230;
+
+    private CustomButton showHideButton;
 
     SideMenu() {
         visible = false;
         setMinWidth(hiddenWidth);
         setMaxWidth(hiddenWidth);
-        getStyleClass().add("WideMenu");
+        getStyleClass().add("SideMenu");
 
-        Button btn = new Button();
-        btn.setOnAction(event -> menuVisibility());
-
-        getChildren().add(btn);
+        showHideButton = new CustomButton("file:img/arrowRight.png", "SideMenuArrow");
+        showHideButton.setOnMouseClicked(event -> showHideMenu());
+        getChildren().add(showHideButton);
     }
 
-    void menuVisibility() {
-        if(visible)
-            hideMenu();
-        else
-            showMenu();
+    void showHideMenu() {
+        int increment;
+
+        if(visible) {
+            visible = false;
+            increment = -1;
+            showHideButton.setImage("file:img/arrowRight.png");
+        }
+        else {
+            visible = true;
+            increment = 1;
+            showHideButton.setImage("file:img/arrowLeft.png");
+        }
+
+
+        Timeline openMenu = new Timeline(new KeyFrame(Duration.millis(1),
+                event -> changeWidth(increment * 2)));
+        openMenu.setCycleCount(showingWidth - hiddenWidth);
+        openMenu.play();
     }
 
-    void showMenu() {
-        visible = true;
-        Timeline feedUpdater = new Timeline(new KeyFrame(Duration.millis(1), event -> inceaseWidth()));
-
-        feedUpdater.setCycleCount(showingWidth - hiddenWidth);
-        feedUpdater.play();
+    void changeWidth(int increment) {
+        setMinWidth(getMinWidth() + increment);
+        setMaxWidth(getMaxWidth() + increment);
     }
-
-    void hideMenu() {
-        visible = false;
-        Timeline feedUpdater = new Timeline(new KeyFrame(Duration.millis(1), event -> decreaseWidth()));
-
-        feedUpdater.setCycleCount(showingWidth - hiddenWidth);
-        feedUpdater.play();
-    }
-
-    void inceaseWidth() {
-        setMinWidth(getMinWidth() + 2);
-        setMaxWidth(getMaxWidth() + 2);
-    }
-
-    void decreaseWidth() {
-        setMinWidth(getMinWidth() - 2);
-        setMaxWidth(getMaxWidth() - 2);
-    }
-
-
 }
