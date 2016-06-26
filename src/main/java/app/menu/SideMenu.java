@@ -1,9 +1,7 @@
-package app;
+package app.menu;
 
 import javafx.animation.KeyFrame;
-import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
-import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
@@ -12,14 +10,14 @@ import javafx.util.Duration;
  *
  * @author Axel Nilsson (axnion)
  */
-class SideMenu extends VBox{
+public class SideMenu extends VBox{
     private boolean visible;
     private int hiddenWidth = 30;
     private int showingWidth = 230;
 
     private CustomButton showHideButton;
 
-    SideMenu() {
+    public SideMenu() {
         visible = false;
         setMinWidth(hiddenWidth);
         setMaxWidth(hiddenWidth);
@@ -30,7 +28,7 @@ class SideMenu extends VBox{
         getChildren().add(showHideButton);
     }
 
-    void showHideMenu() {
+    public void showHideMenu() {
         int increment;
 
         if(visible) {
@@ -51,7 +49,7 @@ class SideMenu extends VBox{
         openMenu.play();
     }
 
-    void changeWidth(int increment) {
+    public void changeWidth(int increment) {
         setMinWidth(getMinWidth() + increment);
         setMaxWidth(getMaxWidth() + increment);
     }

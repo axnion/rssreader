@@ -1,4 +1,4 @@
-package app;
+package app.main;
 
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -9,10 +9,10 @@ import javafx.scene.text.Text;
  *
  * @author Axel Nilsson (axnion)
  */
-class FeedListPane extends VBox{
+public class FeedListPane extends VBox{
     private String name;
 
-    FeedListPane(String name) {
+    public FeedListPane(String name) {
         this.name = name;
 
         setPrefWidth(200);
@@ -24,11 +24,11 @@ class FeedListPane extends VBox{
         getChildren().add(head);
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 }

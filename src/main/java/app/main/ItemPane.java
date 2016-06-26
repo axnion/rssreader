@@ -1,4 +1,4 @@
-package app;
+package app.main;
 
 import javafx.scene.layout.HBox;
 
@@ -7,6 +7,6 @@ import javafx.scene.layout.HBox;
  *
  * @author Axel Nilsson (axnion)
  */
-class ItemPane extends HBox{
+public class ItemPane extends HBox{
 
 }

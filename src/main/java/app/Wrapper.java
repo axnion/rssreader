@@ -1,5 +1,7 @@
 package app;
 
+import app.main.FeedListPane;
+import app.menu.SideMenu;
 import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
