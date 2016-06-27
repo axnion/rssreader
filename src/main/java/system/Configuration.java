@@ -17,23 +17,29 @@ public class Configuration {
     private static DatabaseController databaseController = new DatabaseController();
 
     public static void addFeed(String url, String listName) {
+        addFeedToDatabase(url, listName);
         getFeedListByName(listName).add(url);
     }
 
     public static void removeFeed(String url, String listName) {
+        removeFeedFromDatabase(url, listName);
         getFeedListByName(listName).remove(url);
     }
 
     public static void addFeedList(String listName) {
-        if(!feedListExists(listName))
+        if(!feedListExists(listName)) {
+            addFeedListToDatabase(listName);
             feedLists.add(new FeedList(listName));
+        }
         else
             throw new FeedListAlreadyExists(listName);
     }
 
     public static void removeFeedList(String listName) {
-        if(feedListExists(listName))
+        if(feedListExists(listName)) {
+            removeFeedListFromDatabase(listName);
             feedLists.remove(getFeedListByName(listName));
+        }
         else
             throw new FeedListDoesNotExist(listName);
     }
@@ -53,6 +59,18 @@ public class Configuration {
     public static void reset() {
         feedLists = new ArrayList<>();
         databaseController = new DatabaseController();
+    }
+
+    static void addFeedListWithoutAddingToDatabase(String listName) {
+        if(!feedListExists(listName)) {
+            feedLists.add(new FeedList(listName));
+        }
+        else
+            throw new FeedListAlreadyExists(listName);
+    }
+
+    static void addFeedWithoutAddingToDatabase(String listName, String url) {
+        getFeedListByName(listName).add(url);
     }
 
     private static boolean feedListExists(String listName) {
@@ -124,6 +142,55 @@ public class Configuration {
         catch(Exception err) {
             throw new DatabaseError("Something went wrong when modifying starred status of " +
                     listName + "-> " + itemId + ".");
+        }
+    }
+
+    public static void loadDatabase() {
+        try {
+            databaseController.loadDatabase();
+        }
+        catch(Exception err) {
+            throw new DatabaseError("Something went wrong when loading a database");
+        }
+    }
+
+    private static void addFeedListToDatabase(String listName) {
+        try {
+            databaseController.addFeedList(listName);
+        }
+        catch(Exception err) {
+            throw new DatabaseError("Something went wrong when trying to add a FeedList with" +
+                    " the name \"" + listName + "\" to database");
+        }
+    }
+
+    private static void removeFeedListFromDatabase(String listName) {
+        try {
+            databaseController.addFeedList(listName);
+        }
+        catch(Exception err) {
+            throw new DatabaseError("Something went wrong when removing a FeedList with" +
+                    " the name \"" + listName + "\" to database");
+        }
+    }
+
+    private static void addFeedToDatabase(String url, String listName) {
+        try {
+            databaseController.addFeed(url, listName);
+        }
+        catch(Exception err) {
+            throw new DatabaseError("Something went wrong when trying to add a Feed with the " +
+                    "url \"" + url + "\" in FeedList \"" + listName + "\" to database");
+        }
+    }
+
+    private static void removeFeedFromDatabase(String url, String listName) {
+        try {
+            databaseController.removeFeed(url, listName);
+        }
+        catch(Exception err) {
+            throw new DatabaseError("Something went wrong when trying to remove a Feed with the " +
+                    "url \"" + url + "\" in FeedList \"" + listName + "\" to database");
         }
     }
 

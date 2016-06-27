@@ -69,6 +69,9 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
         Configuration.setFeedLists(feedLists);
 
+        DatabaseController dbc = Mocks.createDatabaseControllerMock();
+        Configuration.setDatabaseController(dbc);
+
         String url = ConfigurationTests.class
                 .getResource("../../../resources/test/xml/exampleFeed1.xml").getPath();
 
@@ -76,6 +79,12 @@ public class ConfigurationTests {
 
         verify(feedLists.get(0), times(1)).add(any());
         verify(feedLists.get(1), never()).add(any());
+
+        try {
+            verify(dbc, times(1)).addFeed(url, "FeedList1");
+        }
+        catch(Exception err) {
+        }
     }
 
     /**
@@ -93,6 +102,9 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
         Configuration.setFeedLists(feedLists);
 
+        DatabaseController dbc = Mocks.createDatabaseControllerMock();
+        Configuration.setDatabaseController(dbc);
+
         String url = ConfigurationTests.class
                 .getResource("../../../resources/test/xml/exampleFeed1.xml").getPath();
 
@@ -100,6 +112,12 @@ public class ConfigurationTests {
 
         verify(feedLists.get(0), never()).add(any());
         verify(feedLists.get(1), never()).add(any());
+
+        try {
+            verify(dbc, times(1)).removeFeed(url, "FeedList1");
+        }
+        catch(Exception err) {
+        }
     }
 
     /**
@@ -115,6 +133,9 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
         Configuration.setFeedLists(feedLists);
 
+        DatabaseController dbc = Mocks.createDatabaseControllerMock();
+        Configuration.setDatabaseController(dbc);
+
         String url = ConfigurationTests.class
                 .getResource("../../../resources/test/xml/exampleFeed1.xml").getPath();
 
@@ -122,6 +143,11 @@ public class ConfigurationTests {
 
         verify(feedLists.get(0), times(1)).remove(any());
         verify(feedLists.get(1), never()).remove(any());
+        try {
+            verify(dbc, times(1)).removeFeed(url, "FeedList1");
+        }
+        catch(Exception err) {
+        }
     }
 
     /**
@@ -207,6 +233,9 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList1"));
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
         Configuration.setFeedLists(feedLists);
+
+        DatabaseController dbc = Mocks.createDatabaseControllerMock();
+        Configuration.setDatabaseController(dbc);
 
         Configuration.removeFeedList("FeedList1");
 

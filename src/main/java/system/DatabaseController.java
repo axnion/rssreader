@@ -131,12 +131,12 @@ class DatabaseController {
         Connection connection = connectToDatabase();
 
         String createFeedListTableQuery =  "CREATE TABLE " + feedListName +
-                " (ID           VARCHAR(128)    PRIMARY KEY     UNIQUE     NOT NULL," +
-                " VISITED       BOOLEAN         NOT NULL," +
-                " STARRED       BOOLEAN         NOT NULL);";
+                " (ID           TEXT        PRIMARY KEY     UNIQUE     NOT NULL," +
+                " VISITED       BOOLEAN     NOT NULL," +
+                " STARRED       BOOLEAN     NOT NULL);";
 
         String createFeedListSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feed_lists" +
-                " (FEEDLISTNAME     VARCHAR(128)    PRIMARY KEY     UNIQUE       NOT NULL," +
+                " (FEEDLISTNAME     TEXT    PRIMARY KEY     UNIQUE       NOT NULL," +
                 " SORTING VARCHAR(16));";
 
         String addFeddListToSortTable = "INSERT INTO save_data_feed_lists (FEEDLISTNAME,SORTING) " +
@@ -177,8 +177,8 @@ class DatabaseController {
         Connection connection = connectToDatabase();
 
         String createFeedSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feeds" +
-                " (URLTOXML     VARCHAR(128)    PRIMARY KEY     UNIQUE       NOT NULL," +
-                " FEEDLISTNAME  VARCHAR(128));";
+                " (URLTOXML     TEXT    PRIMARY KEY     UNIQUE       NOT NULL," +
+                " FEEDLISTNAME  TEXT);";
 
         String addFeedToSortTable = "INSERT INTO save_data_feeds (URLTOXML,FEEDLISTNAME) " +
                 "VALUES ('" + feedUrlToXml + "','" + feedListName + "')";
@@ -235,6 +235,39 @@ class DatabaseController {
 
         statement.close();
         connection.close();
+    }
+
+    void loadDatabase() throws Exception {
+        Connection connection = connectToDatabase();
+        String getFeedLists = "SELECT * FROM save_data_feed_lists;";
+        String getFeeds = "SELECT * FROM save_data_feeds;";
+        Statement statement = connection.createStatement();
+
+        String createFeedListSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feed_lists" +
+                " (FEEDLISTNAME     TEXT    PRIMARY KEY     UNIQUE       NOT NULL," +
+                " SORTING VARCHAR(16));";
+
+        String createFeedSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feeds" +
+                " (URLTOXML     TEXT    PRIMARY KEY     UNIQUE       NOT NULL," +
+                " FEEDLISTNAME  TEXT);";
+
+        statement.executeUpdate(createFeedListSaveDataTable);
+        statement.executeUpdate(createFeedSaveDataTable);
+
+        ResultSet results = statement.executeQuery(getFeedLists);
+        while(results.next()) {
+            String listName = results.getString("feedlistname");
+
+            Configuration.addFeedListWithoutAddingToDatabase(listName);
+        }
+
+        results = statement.executeQuery(getFeeds);
+        while(results.next()) {
+            String listName = results.getString("feedlistname");
+            String urlToXml = results.getString("urltoxml");
+
+            Configuration.addFeedWithoutAddingToDatabase(listName, urlToXml);
+        }
     }
 
     String getPath() {

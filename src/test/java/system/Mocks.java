@@ -42,6 +42,12 @@ public class Mocks {
 
             doNothing().when(dbc).setStarredStatus("FeedList1", "item_id_1", false);
             doThrow(Exception.class).when(dbc).setStarredStatus("FeedList2", "item_id_1", false);
+
+            doNothing().when(dbc).addFeedList(anyString());
+            doNothing().when(dbc).removeFeedList(anyString());
+
+            doNothing().when(dbc).addFeed(anyString(), anyString());
+            doNothing().when(dbc).removeFeed(anyString(), anyString());
         }
         catch(Exception err) {
             err.printStackTrace();
