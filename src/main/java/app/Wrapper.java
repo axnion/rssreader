@@ -2,7 +2,9 @@ package app;
 
 import app.main.FeedListPane;
 import app.menu.SideMenu;
+import javafx.scene.Node;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 import java.util.ArrayList;
 
@@ -27,7 +29,10 @@ class Wrapper extends HBox {
     void addFeedList(String name) {
         FeedListPane newFeedListPane = new FeedListPane(name);
         feedListPanes.add(newFeedListPane);
-        getChildren().add(newFeedListPane);
+
+        Node node = newFeedListPane;
+        setHgrow(node, Priority.ALWAYS);
+        getChildren().add(node);
     }
 
     void removeFeedList(String name) {

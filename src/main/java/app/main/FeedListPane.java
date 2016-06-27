@@ -15,7 +15,7 @@ public class FeedListPane extends VBox{
     public FeedListPane(String name) {
         this.name = name;
 
-        setPrefWidth(200);
+        setMinWidth(300);
         getStyleClass().add("FeedListPane");
 
         Text head = new Text(name);
