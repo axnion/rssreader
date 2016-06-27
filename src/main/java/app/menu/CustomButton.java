@@ -14,7 +14,6 @@ class CustomButton extends VBox {
 
     CustomButton(String image, String styleClass) {
         imageView = new ImageView(new Image(image));
-//        getStyleClass().add(styleClass);
         imageView.setFitHeight(30);
         imageView.setFitWidth(30);
 

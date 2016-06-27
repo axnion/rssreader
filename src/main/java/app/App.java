@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import system.Configuration;
 
 /**
  * Class App
@@ -22,6 +23,9 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         browserAccess = new BrowserAccess();
         root = new Wrapper();
+
+        Configuration.loadDatabase();
+
         Scene primaryScene = new Scene(root, 960, 540);
         primaryScene.getStylesheets().add("file:css/style.css");
 
@@ -31,13 +35,6 @@ public class App extends Application {
         primaryStage.getIcons().add(new Image("file:img/rss_icon.png"));
         primaryStage.setScene(primaryScene);
         primaryStage.show();
-
-        addFeedList("Test1");
-        addFeedList("Test2");
-        addFeedList("Test3");
-        addFeedList("Test4");
-
-        removeFeedList("Test3");
     }
 
     static void addFeedList(String name) {
