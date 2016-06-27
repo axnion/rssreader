@@ -458,6 +458,59 @@ public class DatabaseControllerTests {
     }
 
     /**
+     * Name: Add feed to empty database
+     * Unit: addFeed()
+     *
+     * NOT VERY WELL TESTED
+     */
+    @Test
+    public void addFeedToEmptyDatabase() {
+        String path = DatabaseControllerTests.class.getResource("../../../resources/test/db")
+                .getPath();
+        path += "/addFeedToDatabase.db";
+
+        try {
+            dc.setPath(path);
+            dc.addFeed("FeedTest", "http://url/to/feed.xml");
+        }
+        catch(Exception err) {
+            fail("addFeed() threw an exception");
+        }
+
+        File f = new File(path);
+        assertTrue(f.delete());
+    }
+
+    /**
+     * Name: Remove feed from database
+     * Unit: removeFeed()
+     *
+     * NOT VERY WELL TESTED
+     */
+    @Test
+    public void removeFeedFromDatabase() {
+        String source = DatabaseControllerTests.class.getResource("../../../resources/test/db")
+                .getPath();
+        source += "/exampleDatabase.db";
+        String target = DatabaseControllerTests.class.getResource("../../../resources/test/db")
+                .getPath();
+        target += "/removeFeed.db";
+        copyDatabase(source, target);
+
+        dc.setPath(target);
+
+        try {
+            dc.removeFeed("FeedList1", "http://url/to/feed2.xml");
+        }
+        catch(Exception err) {
+            fail("removeFeed() threw an exception");
+        }
+
+        File f = new File(target);
+        assertTrue(f.delete());
+    }
+
+    /**
      * Name: Add Item to existing FeedList
      * Unit: addItem()
      *

@@ -65,7 +65,7 @@ class DatabaseController {
 
     String getSorting(String feedListName) throws Exception {
         Connection connection = connectToDatabase();
-        String query = "SELECT SORTING FROM sort_table WHERE FEEDLISTNAME = '" +
+        String query = "SELECT SORTING FROM save_data_feed_lists WHERE FEEDLISTNAME = '" +
                 feedListName + "';";
 
         String sorting;
@@ -115,8 +115,8 @@ class DatabaseController {
 
     void setSorting(String feedListName, String sorting) throws Exception {
         Connection connection = connectToDatabase();
-        String query = "UPDATE sort_table SET SORTING='" + sorting + "' WHERE FEEDLISTNAME='" +
-                feedListName + "';";
+        String query = "UPDATE save_data_feed_lists SET SORTING='" + sorting +
+                "' WHERE FEEDLISTNAME='" + feedListName + "';";
 
         connection.setAutoCommit(false);
         Statement statement = connection.createStatement();
@@ -131,24 +131,25 @@ class DatabaseController {
         Connection connection = connectToDatabase();
 
         String createFeedListTableQuery =  "CREATE TABLE " + feedListName +
-                " (ID                   TEXT        PRIMARY KEY     UNIQUE     NOT NULL," +
-                " VISITED               BOOLEAN     NOT NULL," +
-                " STARRED               BOOLEAN     NOT NULL);";
+                " (ID           VARCHAR(128)    PRIMARY KEY     UNIQUE     NOT NULL," +
+                " VISITED       BOOLEAN         NOT NULL," +
+                " STARRED       BOOLEAN         NOT NULL);";
 
-        String createSortingTableQuery = "CREATE TABLE IF NOT EXISTS sort_table" +
-                " (FEEDLISTNAME     TEXT    PRIMARY KEY     UNIQUE       NOT NULL," +
+        String createFeedListSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feed_lists" +
+                " (FEEDLISTNAME     VARCHAR(128)    PRIMARY KEY     UNIQUE       NOT NULL," +
                 " SORTING VARCHAR(16));";
 
-        String addFeddListToSortTable = "INSERT INTO sort_table (FEEDLISTNAME,SORTING) " +
+        String addFeddListToSortTable = "INSERT INTO save_data_feed_lists (FEEDLISTNAME,SORTING) " +
                 "VALUES ('" + feedListName + "'," + "null" + ")";
 
         connection.setAutoCommit(false);
         Statement statement = connection.createStatement();
-        statement.executeUpdate(createSortingTableQuery);
-        statement.executeUpdate(createFeedListTableQuery);
-        statement.executeUpdate(addFeddListToSortTable);
-        connection.commit();
 
+        statement.executeUpdate(createFeedListTableQuery);
+        statement.executeUpdate(createFeedListSaveDataTable);
+        statement.executeUpdate(addFeddListToSortTable);
+
+        connection.commit();
         statement.close();
         connection.close();
     }
@@ -158,15 +159,53 @@ class DatabaseController {
 
         String dropFeedListTableQuery = "DROP TABLE " + feedListName + ";";
 
-        String deleteFeedListSorting = "DELETE FROM sort_table WHERE FEEDLISTNAME='" +
+        String deleteFeedListSaveData = "DELETE FROM save_data_feed_lists WHERE FEEDLISTNAME='" +
                 feedListName + "'";
 
         connection.setAutoCommit(false);
         Statement statement = connection.createStatement();
-        statement.executeUpdate(dropFeedListTableQuery);
-        statement.executeUpdate(deleteFeedListSorting);
-        connection.commit();
 
+        statement.executeUpdate(dropFeedListTableQuery);
+        statement.executeUpdate(deleteFeedListSaveData);
+
+        connection.commit();
+        statement.close();
+        connection.close();
+    }
+
+    void addFeed(String feedUrlToXml, String feedListName) throws Exception {
+        Connection connection = connectToDatabase();
+
+        String createFeedSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feeds" +
+                " (URLTOXML     VARCHAR(128)    PRIMARY KEY     UNIQUE       NOT NULL," +
+                " FEEDLISTNAME  VARCHAR(128));";
+
+        String addFeedToSortTable = "INSERT INTO save_data_feeds (URLTOXML,FEEDLISTNAME) " +
+                "VALUES ('" + feedUrlToXml + "','" + feedListName + "')";
+
+        connection.setAutoCommit(false);
+        Statement statement = connection.createStatement();
+
+        statement.executeUpdate(createFeedSaveDataTable);
+        statement.executeUpdate(addFeedToSortTable);
+
+        connection.commit();
+        statement.close();
+        connection.close();
+    }
+
+    void removeFeed(String feedUrlToXml, String feedListName) throws Exception {
+        Connection connection = connectToDatabase();
+
+        String deleteFeedSaveData = "DELETE FROM save_data_feeds WHERE URLTOXML='" + feedUrlToXml +
+                "' AND FEEDLISTNAME='" + feedListName + "'";
+
+        connection.setAutoCommit(false);
+        Statement statement = connection.createStatement();
+
+        statement.executeUpdate(deleteFeedSaveData);
+
+        connection.commit();
         statement.close();
         connection.close();
     }
