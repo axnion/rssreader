@@ -76,3 +76,12 @@
 .MenuFeedTitle {
     -fx-fill: white;
 }
+
+.ShowFeedsButton {
+    -fx-fill: darkgrey;
+    -fx-font-size: 50px;
+}
+
+.ShowFeedsButton:hover {
+    -fx-fill: white;
+}
