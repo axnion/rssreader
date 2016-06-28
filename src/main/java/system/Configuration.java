@@ -61,6 +61,14 @@ public class Configuration {
         databaseController = new DatabaseController();
     }
 
+    public  static boolean feedListExists(String listName) {
+        for(FeedList list : feedLists) {
+            if(list.getName().equals(listName))
+                return true;
+        }
+        return false;
+    }
+
     static void addFeedListWithoutAddingToDatabase(String listName) {
         if(!feedListExists(listName)) {
             feedLists.add(new FeedList(listName));
@@ -71,14 +79,6 @@ public class Configuration {
 
     static void addFeedWithoutAddingToDatabase(String listName, String url) {
         getFeedListByName(listName).add(url);
-    }
-
-    private static boolean feedListExists(String listName) {
-        for(FeedList list : feedLists) {
-            if(list.getName().equals(listName))
-                return true;
-        }
-        return false;
     }
 
     /*

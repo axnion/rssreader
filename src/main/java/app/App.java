@@ -35,14 +35,31 @@ public class App extends Application {
         primaryStage.getIcons().add(new Image("file:img/rss_icon.png"));
         primaryStage.setScene(primaryScene);
         primaryStage.show();
+
+        addFeedList("MyFeedList");
+        addFeed("http://feeds.feedburner.com/sakerhetspodcasten", "MyFeedList");
+
+        root.updateFeedLists();
     }
 
-    static void addFeedList(String name) {
-        root.addFeedList(name);
+    static void addFeedList(String listName) {
+        Configuration.addFeedList(listName);
+        root.addFeedList(listName);
     }
 
-    static void removeFeedList(String name) {
-        root.removeFeedList(name);
+    static void removeFeedList(String listName) {
+        Configuration.removeFeedList(listName);
+        root.removeFeedList(listName);
+    }
+
+    static void addFeed(String urlToXml, String listName) {
+        Configuration.addFeed(urlToXml, listName);
+        root.updateFeedLists();
+    }
+
+    static void removeFeed(String urlToXml, String listName) {
+        Configuration.removeFeed(urlToXml, listName);
+        root.updateFeedLists();
     }
 
     /**

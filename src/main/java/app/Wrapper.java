@@ -1,10 +1,13 @@
 package app;
 
 import app.main.FeedListPane;
+import app.main.ItemPane;
 import app.menu.SideMenu;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import rss.Item;
+import system.Configuration;
 
 import java.util.ArrayList;
 
@@ -26,22 +29,36 @@ class Wrapper extends HBox {
         getStyleClass().add("Wrapper");
     }
 
-    void addFeedList(String name) {
-        FeedListPane newFeedListPane = new FeedListPane(name);
+    void addFeedList(String listName) {
+        FeedListPane newFeedListPane = new FeedListPane(listName);
         feedListPanes.add(newFeedListPane);
-
-        Node node = newFeedListPane;
-        setHgrow(node, Priority.ALWAYS);
-        getChildren().add(node);
+        updateFeedLists();
     }
 
-    void removeFeedList(String name) {
+    void removeFeedList(String listName) {
         for(int i = 0; i < feedListPanes.size(); i++) {
-            if(feedListPanes.get(i).getName().equals(name)) {
-                getChildren().remove(feedListPanes.get(i));
+            if(feedListPanes.get(i).getName().equals(listName)) {
                 feedListPanes.remove(i);
+                updateFeedLists();
                 break;
             }
+        }
+    }
+
+    void updateFeedLists() {
+        getChildren().clear();
+        getChildren().add(sideMenu);
+
+        Node node;
+        for(FeedListPane feedListPane : feedListPanes) {
+            ArrayList<Item> items = Configuration.getAllItemsFromFeedList(feedListPane.getName());
+            for(Item item : items) {
+                feedListPane.getChildren().add(new ItemPane(item.getTitle()));
+            }
+
+            node = feedListPane;
+            setHgrow(node, Priority.ALWAYS);
+            getChildren().add(node);
         }
     }
 }

@@ -1,5 +1,8 @@
 package system;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
 import java.sql.*;
 
 /**
@@ -238,6 +241,11 @@ class DatabaseController {
     }
 
     void loadDatabase() throws Exception {
+        if(path.equals("temp.db")) {
+            File tempDatabase = new File("temp.db");
+            tempDatabase.delete();
+        }
+
         Connection connection = connectToDatabase();
         String getFeedLists = "SELECT * FROM save_data_feed_lists;";
         String getFeeds = "SELECT * FROM save_data_feeds;";

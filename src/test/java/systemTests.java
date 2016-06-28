@@ -10,5 +10,7 @@ public class systemTests {
     @Test
     public void startup() {
         Configuration.loadDatabase();
+        Configuration.addFeedList("MyFeedList");
+        Configuration.addFeed("http://feeds.feedburner.com/sakerhetspodcasten", "MyFeedList");
     }
 }

@@ -95,7 +95,6 @@ jacocoTestReport {
 
 task myRun(dependsOn: [
         clean,
-        test,
         jfxNative,
         jfxRun,
 ])
