@@ -1,6 +1,7 @@
 package app.main;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
@@ -28,11 +29,10 @@ public class FeedListPane extends VBox{
         getStyleClass().add("FeedListPane");
 
         Text head = new Text(name);
-        head.setFont(Font.font(20));
-        head.setTextAlignment(TextAlignment.CENTER);
-        head.setFill(Color.WHITE);
+        head.getStyleClass().add("FeedListPaneTitle");
         HBox titlePane = new HBox(head);
         titlePane.setPadding(new Insets(5));
+        titlePane.setAlignment(Pos.CENTER);
 
         scroll = new ScrollPane(container);
         scroll.setFitToHeight(true);

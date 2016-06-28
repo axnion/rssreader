@@ -22,9 +22,12 @@ class MenuFeedList extends VBox{
         menuFeeds = new ArrayList<>();
         feedsContainer = new VBox();
 
-        Text text = new Text(listName);
+        getStyleClass().add("MenuFeedList");
 
-        getChildren().add(text);
+        Text title = new Text(listName);
+        title.getStyleClass().add("MenuFeedListTitle");
+
+        getChildren().add(title);
         getChildren().add(feedsContainer);
     }
 

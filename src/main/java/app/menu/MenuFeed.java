@@ -1,5 +1,6 @@
 package app.menu;
 
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import rss.Feed;
@@ -15,8 +16,11 @@ public class MenuFeed extends VBox{
     MenuFeed(Feed feed) {
         this.feed = feed;
 
-        Text title = new Text(feed.getTitle());
+        getStyleClass().add("MenuFeed");
 
+        Text title = new Text(feed.getTitle());
+        HBox titlePane = new HBox(title);
+        title.getStyleClass().add("MenuFeedTitle");
         getChildren().add(title);
     }
 }
