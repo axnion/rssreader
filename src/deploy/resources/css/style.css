@@ -1,6 +1,5 @@
 .Wrapper {
     -fx-background-color: #282C2C;
-
 }
 
 .SideMenu {
@@ -9,9 +8,6 @@
 
 .FeedListPane {
     -fx-background-color: #363636;
-    -fx-border-color: #282C2C;
-    -fx-border-style: solid;
-    -fx-border-width: 1px;
 }
 
 .SideMenuArrow {
@@ -29,6 +25,10 @@
     -fx-border-width: 3 1 0 0;
 }
 
+.ItemPane:hover {
+    -fx-background-color: #313535;
+}
+
 .scroll-pane > .viewport {
     -fx-background-color: #282C2C;
 }
@@ -42,5 +42,5 @@
 }
 
 .root {
-    -fx-focus-color: transparent;
+    -fx-focus-color: #282C2C;
 }

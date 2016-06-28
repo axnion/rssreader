@@ -59,7 +59,7 @@ public class FeedListContainer extends HBox {
             feedListPane.clear();
             if(items.size() != 0) {
                 for(Item item : items) {
-                    feedListPane.addItemPane(new ItemPane(item.getTitle(), item.getId()));
+                    feedListPane.addItemPane(new ItemPane(item));
                 }
 
                 node = feedListPane;

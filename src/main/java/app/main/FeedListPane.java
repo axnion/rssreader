@@ -1,9 +1,12 @@
 package app.main;
 
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
@@ -25,8 +28,11 @@ public class FeedListPane extends VBox{
         getStyleClass().add("FeedListPane");
 
         Text head = new Text(name);
+        head.setFont(Font.font(20));
         head.setTextAlignment(TextAlignment.CENTER);
         head.setFill(Color.WHITE);
+        HBox titlePane = new HBox(head);
+        titlePane.setPadding(new Insets(5));
 
         container.setStyle("-fx-background-color: #282C2C");
 
@@ -36,7 +42,7 @@ public class FeedListPane extends VBox{
         scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
-        getChildren().add(head);
+        getChildren().add(titlePane);
         getChildren().add(scroll);
     }
 

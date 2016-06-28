@@ -64,6 +64,10 @@ public class App extends Application {
         root.updateFeedLists();
     }
 
+    public static void openLink(String url) {
+        browserAccess.openLink(url);
+    }
+
     /**
      * A class containing a method for opening a link using the getHostService which requires
      * the class to have access to host services.
