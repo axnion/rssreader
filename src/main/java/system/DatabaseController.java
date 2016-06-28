@@ -180,8 +180,8 @@ class DatabaseController {
         Connection connection = connectToDatabase();
 
         String createFeedSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feeds" +
-                " (URLTOXML     TEXT    PRIMARY KEY     UNIQUE       NOT NULL," +
-                " FEEDLISTNAME  TEXT);";
+                " (URLTOXML     TEXT    NOT NULL," +
+                " FEEDLISTNAME  TEXT    NOT NULL);";
 
         String addFeedToSortTable = "INSERT INTO save_data_feeds (URLTOXML,FEEDLISTNAME) " +
                 "VALUES ('" + feedUrlToXml + "','" + feedListName + "')";
@@ -256,8 +256,8 @@ class DatabaseController {
                 " SORTING VARCHAR(16));";
 
         String createFeedSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feeds" +
-                " (URLTOXML     TEXT    PRIMARY KEY     UNIQUE       NOT NULL," +
-                " FEEDLISTNAME  TEXT);";
+                " (URLTOXML     TEXT    NOT NULL," +
+                " FEEDLISTNAME  TEXT    NOT NULL);";
 
         statement.executeUpdate(createFeedListSaveDataTable);
         statement.executeUpdate(createFeedSaveDataTable);
