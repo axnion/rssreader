@@ -36,12 +36,12 @@ public class App extends Application {
         primaryStage.setScene(primaryScene);
         primaryStage.show();
 
-        addFeedList("MyFeedList");
-        addFeedList("MyFeedList2");
-        addFeed("http://feeds.feedburner.com/sakerhetspodcasten", "MyFeedList");
-        addFeed("http://feedpress.me/kodsnack", "MyFeedList2");
+//        addFeedList("MyFeedList");
+//        addFeedList("MyFeedList2");
+//        addFeed("http://feeds.feedburner.com/sakerhetspodcasten", "MyFeedList");
+//        addFeed("http://feedpress.me/kodsnack", "MyFeedList2");
 
-        //root.updateFeedLists();
+        root.updateFeedLists();
     }
 
     static void addFeedList(String listName) {

@@ -34,8 +34,6 @@ public class FeedListPane extends VBox{
         HBox titlePane = new HBox(head);
         titlePane.setPadding(new Insets(5));
 
-        container.setStyle("-fx-background-color: #282C2C");
-
         scroll = new ScrollPane(container);
         scroll.setFitToHeight(true);
         scroll.setFitToWidth(true);
@@ -44,12 +42,6 @@ public class FeedListPane extends VBox{
 
         getChildren().add(titlePane);
         getChildren().add(scroll);
-    }
-
-    public void showAsEmpty() {
-        Text emptyText = new Text("List is empty");
-        emptyText.setFill(Color.GREY);
-        container.getChildren().add(emptyText);
     }
 
     public void addItemPane(ItemPane itemPane) {

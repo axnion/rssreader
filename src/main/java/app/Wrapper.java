@@ -29,18 +29,17 @@ class Wrapper extends HBox {
     }
 
     void addFeedList(String listName) {
-        // add to sideMenu
-
+        sideMenu.addFeedList(listName);
         feedListContainer.addFeedList(listName);
     }
 
     void removeFeedList(String listName) {
-        // Remove from sideMenu
-
+        sideMenu.removeFeedList(listName);
         feedListContainer.removeFeedList(listName);
     }
 
     void updateFeedLists() {
+        sideMenu.updateFeedLists();
         feedListContainer.updateFeedLists();
     }
 }

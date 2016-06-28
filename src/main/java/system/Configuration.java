@@ -1,5 +1,6 @@
 package system;
 
+import rss.Feed;
 import system.exceptions.DatabaseError;
 import system.exceptions.FeedListAlreadyExists;
 import system.exceptions.FeedListDoesNotExist;
@@ -54,6 +55,10 @@ public class Configuration {
 
     public static ArrayList<Item> getAllItemsFromFeedList(String listName) {
         return getFeedListByName(listName).getAllItems(getSorting(listName));
+    }
+
+    public static ArrayList<Feed> getAllFeedsFromFeedList(String listName) {
+        return getFeedListByName(listName).getFeeds();
     }
 
     public static void reset() {
