@@ -1,5 +1,7 @@
 package app.menu;
 
+import app.misc.ToggleButton;
+import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -21,6 +23,7 @@ public class MenuFeed extends VBox{
         Text title = new Text(feed.getTitle());
         HBox titlePane = new HBox(title);
         title.getStyleClass().add("MenuFeedTitle");
+
         getChildren().add(title);
     }
 }

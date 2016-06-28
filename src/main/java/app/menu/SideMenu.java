@@ -1,5 +1,6 @@
 package app.menu;
 
+import app.misc.ToggleButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import de.jensd.fx.glyphs.materialicons.utils.MaterialIconFactory;
 import javafx.animation.KeyFrame;
@@ -17,8 +18,7 @@ public class SideMenu extends VBox {
     private boolean visible;
     private int hiddenWidth = 30;
     private int showingWidth = 230;
-    private VBox showHideButtonContainer;
-    private Text showHideButton;
+    private ToggleButton showHideButton;
     private TreeView treeView;
 
     public SideMenu() {
@@ -27,12 +27,10 @@ public class SideMenu extends VBox {
         setMaxWidth(hiddenWidth);
         getStyleClass().add("SideMenu");
 
-        showHideButton = MaterialIconFactory.get().createIcon(MaterialIcon.KEYBOARD_ARROW_RIGHT,
-                "30px");
-        showHideButton.getStyleClass().add("SideMenuArrow");
-        showHideButtonContainer = new VBox(showHideButton);
-        showHideButtonContainer.setOnMouseClicked(event -> showHideMenu());
-        getChildren().add(showHideButtonContainer);
+        showHideButton = new ToggleButton(MaterialIcon.KEYBOARD_ARROW_RIGHT,
+                MaterialIcon.KEYBOARD_ARROW_LEFT, "SideMenuArrow", "30px", "Show/Hide Menu");
+        showHideButton.setOnMouseClicked(event -> showHideMenu());
+        getChildren().add(showHideButton);
 
         treeView = new TreeView();
         treeView.managedProperty().bind(treeView.visibleProperty());
@@ -54,24 +52,15 @@ public class SideMenu extends VBox {
 
     private void showHideMenu() {
         int increment;
+        showHideButton.toggle();
 
         if(visible) {
             visible = false;
             increment = -1;
-            showHideButtonContainer.getChildren().clear();
-            showHideButton = MaterialIconFactory.get().createIcon(MaterialIcon.KEYBOARD_ARROW_RIGHT,
-                    "30px");
-            showHideButton.getStyleClass().add("SideMenuArrow");
-            showHideButtonContainer.getChildren().add(showHideButton);
         }
         else {
             visible = true;
             increment = 1;
-            showHideButtonContainer.getChildren().clear();
-            showHideButton = MaterialIconFactory.get().createIcon(MaterialIcon.KEYBOARD_ARROW_LEFT,
-                    "30px");
-            showHideButton.getStyleClass().add("SideMenuArrow");
-            showHideButtonContainer.getChildren().add(showHideButton);
         }
 
         treeView.setVisible(visible);
