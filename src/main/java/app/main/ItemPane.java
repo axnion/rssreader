@@ -10,9 +10,15 @@ import javafx.scene.text.Text;
  * @author Axel Nilsson (axnion)
  */
 public class ItemPane extends HBox{
-    public ItemPane(String title) {
+    private String id;
+
+    public ItemPane(String title, String id) {
+        this.id = id;
+
         Text itemTitle = new Text(title);
         itemTitle.setFill(Color.WHITE);
+
         getChildren().add(itemTitle);
+        getStyleClass().add("ItemPane");
     }
 }

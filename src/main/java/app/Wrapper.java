@@ -1,15 +1,10 @@
 package app;
 
-import app.main.FeedListPane;
-import app.main.ItemPane;
+import app.main.FeedListContainer;
 import app.menu.SideMenu;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import rss.Item;
-import system.Configuration;
-
-import java.util.ArrayList;
 
 /**
  * Class Wrapper
@@ -18,47 +13,34 @@ import java.util.ArrayList;
  */
 class Wrapper extends HBox {
     private SideMenu sideMenu;
-    private ArrayList<FeedListPane> feedListPanes;
+    FeedListContainer feedListContainer;
+
 
     Wrapper() {
         sideMenu = new SideMenu();
-        feedListPanes = new ArrayList<>();
+        feedListContainer = new FeedListContainer();
+
+        Node feedListConainerNode = feedListContainer;
+        setHgrow(feedListConainerNode, Priority.ALWAYS);
 
         getChildren().addAll(sideMenu);
-        getChildren().addAll(feedListPanes);
+        getChildren().addAll(feedListConainerNode);
         getStyleClass().add("Wrapper");
     }
 
     void addFeedList(String listName) {
-        FeedListPane newFeedListPane = new FeedListPane(listName);
-        feedListPanes.add(newFeedListPane);
-        updateFeedLists();
+        // add to sideMenu
+
+        feedListContainer.addFeedList(listName);
     }
 
     void removeFeedList(String listName) {
-        for(int i = 0; i < feedListPanes.size(); i++) {
-            if(feedListPanes.get(i).getName().equals(listName)) {
-                feedListPanes.remove(i);
-                updateFeedLists();
-                break;
-            }
-        }
+        // Remove from sideMenu
+
+        feedListContainer.removeFeedList(listName);
     }
 
     void updateFeedLists() {
-        getChildren().clear();
-        getChildren().add(sideMenu);
-
-        Node node;
-        for(FeedListPane feedListPane : feedListPanes) {
-            ArrayList<Item> items = Configuration.getAllItemsFromFeedList(feedListPane.getName());
-            for(Item item : items) {
-                feedListPane.getChildren().add(new ItemPane(item.getTitle()));
-            }
-
-            node = feedListPane;
-            setHgrow(node, Priority.ALWAYS);
-            getChildren().add(node);
-        }
+        feedListContainer.updateFeedLists();
     }
 }
