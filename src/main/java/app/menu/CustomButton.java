@@ -1,31 +1,30 @@
-package app.menu;
-
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
-
-/**
- * Class CustomButton
- *
- * @author Axel Nilsson (axnion)
- */
-class CustomButton extends VBox {
-    private ImageView imageView;
-
-    CustomButton(String image, String styleClass) {
-        imageView = new ImageView(new Image(image));
-        imageView.setFitHeight(30);
-        imageView.setFitWidth(30);
-        setPrefSize(30, 30);
-
-        getChildren().add(imageView);
-    }
-
-    ImageView getImage() {
-        return imageView;
-    }
-
-    void setImage(String path) {
-        imageView.setImage(new Image(path));
-    }
-}
+//package app.menu;
+//
+//import de.jensd.fx.glyphs.materialicons.MaterialIcon;
+//import de.jensd.fx.glyphs.materialicons.utils.MaterialIconFactory;
+//import javafx.scene.Node;
+//import javafx.scene.image.Image;
+//import javafx.scene.image.ImageView;
+//import javafx.scene.layout.VBox;
+//import javafx.scene.text.Text;
+//
+///**
+// * Class CustomButton
+// *
+// * @author Axel Nilsson (axnion)
+// */
+//class CustomButton extends VBox {
+//    CustomButton(MaterialIcon materialIcon, String styleClass, String fontSize) {
+//        Text icon = MaterialIconFactory.get().createIcon(materialIcon, fontSize);
+//        icon.getStyleClass().add(styleClass);
+//        getChildren().add(icon);
+//    }
+//
+//    ImageView getImage() {
+//        return imageView;
+//    }
+//
+//    void setIcon(String path) {
+//        imageView.setImage(new Image(path));
+//    }
+//}

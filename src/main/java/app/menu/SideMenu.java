@@ -1,8 +1,11 @@
 package app.menu;
 
+import de.jensd.fx.glyphs.materialicons.MaterialIcon;
+import de.jensd.fx.glyphs.materialicons.utils.MaterialIconFactory;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 /**
@@ -14,7 +17,8 @@ public class SideMenu extends VBox {
     private boolean visible;
     private int hiddenWidth = 30;
     private int showingWidth = 230;
-    private CustomButton showHideButton;
+    private VBox showHideButtonContainer;
+    private Text showHideButton;
     private TreeView treeView;
 
     public SideMenu() {
@@ -23,9 +27,12 @@ public class SideMenu extends VBox {
         setMaxWidth(hiddenWidth);
         getStyleClass().add("SideMenu");
 
-        showHideButton = new CustomButton("file:img/arrowRight.png", "SideMenuArrow");
-        showHideButton.setOnMouseClicked(event -> showHideMenu());
-        getChildren().add(showHideButton);
+        showHideButton = MaterialIconFactory.get().createIcon(MaterialIcon.KEYBOARD_ARROW_RIGHT,
+                "30px");
+        showHideButton.getStyleClass().add("SideMenuArrow");
+        showHideButtonContainer = new VBox(showHideButton);
+        showHideButtonContainer.setOnMouseClicked(event -> showHideMenu());
+        getChildren().add(showHideButtonContainer);
 
         treeView = new TreeView();
         treeView.managedProperty().bind(treeView.visibleProperty());
@@ -51,12 +58,20 @@ public class SideMenu extends VBox {
         if(visible) {
             visible = false;
             increment = -1;
-            showHideButton.setImage("file:img/arrowRight.png");
+            showHideButtonContainer.getChildren().clear();
+            showHideButton = MaterialIconFactory.get().createIcon(MaterialIcon.KEYBOARD_ARROW_RIGHT,
+                    "30px");
+            showHideButton.getStyleClass().add("SideMenuArrow");
+            showHideButtonContainer.getChildren().add(showHideButton);
         }
         else {
             visible = true;
             increment = 1;
-            showHideButton.setImage("file:img/arrowLeft.png");
+            showHideButtonContainer.getChildren().clear();
+            showHideButton = MaterialIconFactory.get().createIcon(MaterialIcon.KEYBOARD_ARROW_LEFT,
+                    "30px");
+            showHideButton.getStyleClass().add("SideMenuArrow");
+            showHideButtonContainer.getChildren().add(showHideButton);
         }
 
         treeView.setVisible(visible);

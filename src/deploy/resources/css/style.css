@@ -11,8 +11,12 @@
 }
 
 .SideMenuArrow {
-    -fx-fit-to-height: 20px;
-    -fx-fit-to-width: 20px;
+    -fx-fill: darkgrey;
+    -fx-font-size: 50px;
+}
+
+.SideMenuArrow:hover {
+    -fx-fill: white;
 }
 
 .ItemPane {
