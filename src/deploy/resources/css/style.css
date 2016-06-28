@@ -1,5 +1,6 @@
 .Wrapper {
     -fx-background-color: #282C2C;
+
 }
 
 .SideMenu {
@@ -16,4 +17,30 @@
 .SideMenuArrow {
     -fx-fit-to-height: 20px;
     -fx-fit-to-width: 20px;
+}
+
+.ItemPane {
+    -fx-background-color: #282C2C;
+
+    -fx-padding: 10px;
+
+    -fx-border-color: #393F3F;
+    -fx-border-style: solid;
+    -fx-border-width: 3 1 0 0;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: #282C2C;
+}
+
+.scroll-bar {
+    -fx-background-color: #282C2C;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #393F3F;
+}
+
+.root {
+    -fx-focus-color: transparent;
 }
