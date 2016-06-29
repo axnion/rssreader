@@ -35,7 +35,7 @@ class MenuFeedList extends VBox{
         title.getStyleClass().add("MenuFeedListTitle");
 
         showFeedsButton = new ToggleButton(MaterialIcon.ARROW_DROP_DOWN, MaterialIcon.ARROW_DROP_UP,
-                "ShowFeedsButton", "30px", "Show/Hide Feeds");
+                "MenuButton", "30px", "Show/Hide Feeds");
         showFeedsButton.setOnMouseClicked(event -> showAndHideFeeds());
 
         BorderPane titlePane = new BorderPane();

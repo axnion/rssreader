@@ -16,7 +16,7 @@ import javafx.scene.text.TextAlignment;
  *
  * @author Axel Nilsson (axnion)
  */
-public class FeedListPane extends VBox{
+public class FeedListPane extends VBox {
     private String name;
     private ScrollPane scroll;
     private VBox container;

@@ -11,7 +11,7 @@ import javafx.scene.text.Text;
  *
  * @author Axel Nilsson (axnion)
  */
-public class ToggleButton extends VBox{
+public class ToggleButton extends VBox {
     private boolean currentStatus;
     private Text icon1;
     private Text icon2;

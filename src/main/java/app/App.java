@@ -28,6 +28,7 @@ public class App extends Application {
 
         Scene primaryScene = new Scene(root, 960, 540);
         primaryScene.getStylesheets().add("file:css/style.css");
+        primaryScene.getStylesheets().add("file:css/buttons.css");
 
         primaryStage.setMinWidth(300);
         primaryStage.setMinHeight(300);

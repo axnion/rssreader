@@ -28,7 +28,7 @@ public class SideMenu extends VBox {
         getStyleClass().add("SideMenu");
 
         showHideButton = new ToggleButton(MaterialIcon.KEYBOARD_ARROW_RIGHT,
-                MaterialIcon.KEYBOARD_ARROW_LEFT, "SideMenuArrow", "30px", "Show/Hide Menu");
+                MaterialIcon.KEYBOARD_ARROW_LEFT, "MenuButton", "30px", "Show/Hide Menu");
         showHideButton.setOnMouseClicked(event -> showHideMenu());
         getChildren().add(showHideButton);
 
