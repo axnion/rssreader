@@ -1,0 +1,76 @@
+.Wrapper {
+    -fx-background-color: #282C2C;
+}
+
+.SideMenu {
+    -fx-background-color: #393F3F;
+}
+
+.FeedListPane {
+    -fx-background-color: #363636;
+}
+
+.ItemPane {
+    -fx-background-color: #282C2C;
+    -fx-padding: 5px;
+    -fx-border-color: #393F3F;
+    -fx-border-style: solid;
+    -fx-border-width: 3 1 0 0;
+}
+
+.ItemPane:hover {
+    -fx-background-color: #313535;
+}
+
+.MenuFeedList {
+    -fx-border-color: white;
+    -fx-border-style: solid;
+    -fx-border-width: 2 0 0 0;
+}
+
+.MenuFeed {
+
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: #282C2C;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar {
+    -fx-background-color: #282C2C;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #393F3F;
+}
+
+.root {
+    -fx-focus-color: transparent;
+}
+
+.FeedListPaneTitle {
+    -fx-fill: white;
+    -fx-font-size: 20;
+}
+
+.MenuFeedListTitle {
+    -fx-fill: white;
+    -fx-font-size: 15px;
+}
+
+.MenuFeedTitle {
+    -fx-fill: white;
+}
+
+.DetailsLable {
+    -fx-fill: white;
+    -fx-font-weight: bold;
+}
+
+.DetailsText {
+    -fx-fill: white;
+}

@@ -1,0 +1,30 @@
+.ShowFeedsButton {
+    -fx-fill: darkgrey;
+    -fx-font-size: 50px;
+}
+
+.ShowFeedsButton:hover {
+    -fx-fill: white;
+}
+
+.SideMenuArrow {
+
+}
+
+.SideMenuArrow:hover {
+
+}
+
+.ShowItemDetails {
+    -fx-fill: darkgrey;
+    -fx-font-size: 50px;
+}
+
+.MenuButton {
+    -fx-fill: darkgrey;
+    -fx-font-size: 50px;
+}
+
+.MenuButton:hover {
+    -fx-fill: white;
+}
