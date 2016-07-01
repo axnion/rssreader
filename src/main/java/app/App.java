@@ -14,7 +14,7 @@ import system.Configuration;
  */
 public class App extends Application {
     static Wrapper root;
-    static BrowserAccess browserAccess;
+    public static BrowserAccess browserAccess;
 
     public static void main(String[] args) {
         launch(args);
@@ -45,22 +45,22 @@ public class App extends Application {
         root.updateFeedLists();
     }
 
-    static void addFeedList(String listName) {
+    public static void addFeedList(String listName) {
         Configuration.addFeedList(listName);
         root.addFeedList(listName);
     }
 
-    static void removeFeedList(String listName) {
+    public static void removeFeedList(String listName) {
         Configuration.removeFeedList(listName);
         root.removeFeedList(listName);
     }
 
-    static void addFeed(String urlToXml, String listName) {
+    public static void addFeed(String urlToXml, String listName) {
         Configuration.addFeed(urlToXml, listName);
         root.updateFeedLists();
     }
 
-    static void removeFeed(String urlToXml, String listName) {
+    public static void removeFeed(String urlToXml, String listName) {
         Configuration.removeFeed(urlToXml, listName);
         root.updateFeedLists();
     }

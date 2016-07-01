@@ -1,10 +1,12 @@
 package app.menu;
 
+import app.misc.ClickButton;
 import app.misc.ToggleButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import de.jensd.fx.glyphs.materialicons.utils.MaterialIconFactory;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -19,6 +21,7 @@ public class SideMenu extends VBox {
     private int hiddenWidth = 30;
     private int showingWidth = 230;
     private ToggleButton showHideButton;
+    private ClickButton addFeedListButton;
     private TreeView treeView;
 
     public SideMenu() {
@@ -31,6 +34,12 @@ public class SideMenu extends VBox {
                 MaterialIcon.KEYBOARD_ARROW_LEFT, "MenuButton", "30px", "Show/Hide Menu");
         showHideButton.setOnMouseClicked(event -> showHideMenu());
         getChildren().add(showHideButton);
+
+        addFeedListButton = new ClickButton(MaterialIcon.ADD, "MenuButton", "30px",
+                "Add feed list");
+        addFeedListButton.setOnMouseClicked(event -> showAddFeedListTextField());
+        addFeedListButton.setVisible(false);
+        getChildren().add(addFeedListButton);
 
         treeView = new TreeView();
         treeView.managedProperty().bind(treeView.visibleProperty());
@@ -64,11 +73,16 @@ public class SideMenu extends VBox {
         }
 
         treeView.setVisible(visible);
+        addFeedListButton.setVisible(visible);
 
         Timeline openMenu = new Timeline(new KeyFrame(Duration.millis(1),
                 event -> changeWidth(increment * 2)));
         openMenu.setCycleCount(showingWidth - hiddenWidth);
         openMenu.play();
+    }
+
+    private void showAddFeedListTextField() {
+        treeView.showAddFeedListTextField();
     }
 
     private void changeWidth(int increment) {
