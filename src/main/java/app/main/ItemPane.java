@@ -4,9 +4,11 @@ import app.App;
 import app.misc.ClickButton;
 import app.misc.ToggleButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
+import htmlParser.HtmlParser;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -83,36 +85,12 @@ class ItemPane extends VBox {
             descriptionFlow.getChildren().addAll(descriptionLabel, descriptionText);
             descriptionFlow.setMinWidth(440);
 
-            StringBuilder htmlBuilder = new StringBuilder();
-            htmlBuilder.append("<!DOCTYPE html>");
-            htmlBuilder.append("<html>");
-            htmlBuilder.append("<head>");
-            htmlBuilder.append("<meta charset=utf-8>");
-            htmlBuilder.append("</head>");
-            htmlBuilder.append("<body>");
-            htmlBuilder.append(item.getDescription());
-            htmlBuilder.append("</body>");
-            htmlBuilder.append("</html>");
+            //detailsContainer.getChildren().addAll(linkFlow, descriptionFlow);
 
-            try {
-                WebView browser = new WebView();
-                WebEngine webEngine = browser.getEngine();
-                webEngine.loadContent(htmlBuilder.toString());
-
-                VBox box = new VBox(browser);
-                box.setMinHeight(500);
-                box.setMaxHeight(1000000000);
-
-//                Scene TestScene = new Scene(box);
-//                Stage test = new Stage();
-//                test.setScene(TestScene);
-//                test.show();
-
-                detailsContainer.getChildren().add(box);
-            }
-            catch (Exception err) {
-                err.printStackTrace();
-            }
+            HtmlParser htmlParser = new HtmlParser();
+            TextFlow textFlow = htmlParser.getAsTextFlow(item.getDescription());
+            detailsContainer.getChildren().add(textFlow);
+            detailsContainer.minHeight(100);
         }
         detailsVisible = !detailsVisible;
     }
