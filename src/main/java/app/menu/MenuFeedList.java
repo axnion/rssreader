@@ -1,7 +1,12 @@
 package app.menu;
 
+import app.App;
 import app.misc.ToggleButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -19,6 +24,7 @@ import java.util.ArrayList;
 class MenuFeedList extends VBox{
     private boolean visible;
     private String name;
+    private BorderPane titlePane;
     private VBox feedsContainer;
     private ArrayList<MenuFeed> menuFeeds;
     private ToggleButton showFeedsButton;
@@ -38,9 +44,10 @@ class MenuFeedList extends VBox{
                 "MenuButton", "30px", "Show/Hide Feeds");
         showFeedsButton.setOnMouseClicked(event -> showAndHideFeeds());
 
-        BorderPane titlePane = new BorderPane();
+        titlePane = new BorderPane();
         titlePane.setLeft(title);
         titlePane.setRight(showFeedsButton);
+        createContextMenu();
 
         getChildren().add(titlePane);
         getChildren().add(feedsContainer);
@@ -68,6 +75,32 @@ class MenuFeedList extends VBox{
             feedsContainer.getChildren().clear();
             feedsContainer.getChildren().addAll(menuFeeds);
         }
+    }
+
+    void createContextMenu() {
+        ContextMenu rightClickMenu = new ContextMenu();
+
+        MenuItem addFeedButton = new MenuItem("Add Feed");
+        MenuItem removeFeedListButton = new MenuItem("Remove this List");
+        rightClickMenu.getItems().addAll(addFeedButton, removeFeedListButton);
+
+        titlePane.setOnMouseClicked(event -> {
+            if(event.getButton().equals(MouseButton.SECONDARY)) {
+                if(App.openContextMenu != null)
+                    App.openContextMenu.hide();
+
+                rightClickMenu.show(App.root, event.getScreenX(), event.getScreenY());
+                App.openContextMenu = rightClickMenu;
+            }
+        });
+
+        addFeedButton.setOnAction(event -> {
+            System.out.println("FEEEEEEEEEEEED MEEEE!");
+        });
+
+        removeFeedListButton.setOnAction(event -> {
+            App.removeFeedList(name);
+        });
     }
 
     String getName() {

@@ -2,7 +2,10 @@ package app;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import system.Configuration;
@@ -13,7 +16,8 @@ import system.Configuration;
  * @author Axel Nilsson (axnion)
  */
 public class App extends Application {
-    static Wrapper root;
+    public static Wrapper root;
+    public static ContextMenu openContextMenu;
     public static BrowserAccess browserAccess;
 
     public static void main(String[] args) {
@@ -23,12 +27,15 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         browserAccess = new BrowserAccess();
         root = new Wrapper();
+        openContextMenu = null;
 
         Configuration.loadDatabase();
 
         Scene primaryScene = new Scene(root, 960, 540);
         primaryScene.getStylesheets().add("file:css/style.css");
         primaryScene.getStylesheets().add("file:css/buttons.css");
+
+        createContextMenuEscape();
 
         primaryStage.setMinWidth(300);
         primaryStage.setMinHeight(300);
@@ -67,6 +74,19 @@ public class App extends Application {
 
     public static void openLink(String url) {
         browserAccess.openLink(url);
+    }
+
+    static void createContextMenuEscape() {
+        root.setOnMouseClicked(event -> {
+
+            if(event.getButton().equals(MouseButton.PRIMARY)) {
+                System.out.println("Mouse clicked");
+                if(openContextMenu != null) {
+                    System.out.println("AAAAH");
+                    openContextMenu.hide();
+                }
+            }
+        });
     }
 
     /**

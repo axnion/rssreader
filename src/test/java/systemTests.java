@@ -14,6 +14,8 @@ public class systemTests {
         Configuration.loadDatabase();
         Configuration.addFeedList("MyFeedList");
         Configuration.addFeed("http://feeds.feedburner.com/sakerhetspodcasten", "MyFeedList");
+
+        Configuration.removeFeedList("MyFeedList");
     }
 
     @Test

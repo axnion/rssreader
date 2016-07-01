@@ -171,7 +171,7 @@ public class Configuration {
 
     private static void removeFeedListFromDatabase(String listName) {
         try {
-            databaseController.addFeedList(listName);
+            databaseController.removeFeedList(listName);
         }
         catch(Exception err) {
             throw new DatabaseError("Something went wrong when removing a FeedList with" +

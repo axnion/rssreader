@@ -163,7 +163,7 @@ class DatabaseController {
         String dropFeedListTableQuery = "DROP TABLE " + feedListName + ";";
 
         String deleteFeedListSaveData = "DELETE FROM save_data_feed_lists WHERE FEEDLISTNAME='" +
-                feedListName + "'";
+                feedListName + "';";
 
         connection.setAutoCommit(false);
         Statement statement = connection.createStatement();
