@@ -6,6 +6,7 @@ import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -22,9 +23,12 @@ import java.util.ArrayList;
 class TreeView extends VBox {
     private VBox treeViewContainer;
     private TextField addFeedListInput;
+    private Text errMessage;
     private ArrayList<MenuFeedList> menuFeedLists;
 
     TreeView() {
+        BorderPane topBar = new BorderPane();
+
         Label header = new Label("Feedlists");
         header.setFont(Font.font(20));
         header.setTextFill(Color.WHITE);
@@ -39,8 +43,10 @@ class TreeView extends VBox {
 
         getStyleClass().add("SideMenuItem");
 
-        getChildren().add(header);
-        getChildren().add(addFeedListButton);
+        topBar.setLeft(header);
+        topBar.setRight(addFeedListButton);
+
+        getChildren().add(topBar);
         getChildren().add(treeViewContainer);
     }
 
@@ -68,12 +74,23 @@ class TreeView extends VBox {
             menuFeedList.update();
     }
 
+    void closeAll() {
+        getChildren().remove(addFeedListInput);
+        addFeedListInput = null;
+        getChildren().remove(errMessage);
+
+        for(MenuFeedList list : menuFeedLists) {
+            list.hideAddFeedMenu();
+            list.hideFeeds();
+        }
+    }
+
     private void showAddFeedListTextField() {
         if(addFeedListInput != null) {
             return;
         }
 
-        Text errMessage = new Text();
+        errMessage = new Text();
         errMessage.setFill(Color.RED);
         addFeedListInput = new TextField();
         addFeedListInput.setOnKeyPressed(event -> {

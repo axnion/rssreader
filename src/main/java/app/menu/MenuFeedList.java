@@ -1,19 +1,23 @@
 package app.menu;
 
 import app.App;
+import app.misc.ClickButton;
 import app.misc.ToggleButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import rss.Feed;
+import rss.FeedSniffer;
 import system.Configuration;
 
 import java.util.ArrayList;
@@ -31,13 +35,15 @@ class MenuFeedList extends VBox{
     private ArrayList<MenuFeed> menuFeeds;
     private ToggleButton showFeedsButton;
     private HBox addFeedMenuContainer;
+    private VBox newFeedContainer;
 
     MenuFeedList(String listName) {
         name = listName;
         menuFeeds = new ArrayList<>();
         feedsContainer = new VBox();
         visible = false;
-        addFeedMenuContainer = null;
+        addFeedMenuContainer = new HBox();
+        newFeedContainer = new VBox();
 
         getStyleClass().add("MenuFeedList");
 
@@ -47,8 +53,10 @@ class MenuFeedList extends VBox{
         showFeedsButton = new ToggleButton(MaterialIcon.ARROW_DROP_DOWN, MaterialIcon.ARROW_DROP_UP,
                 "MenuButton", "30px", "Show/Hide Feeds");
         showFeedsButton.setOnMouseClicked(event -> {
-            if(event.getButton().equals(MouseButton.PRIMARY))
+            if(event.getButton().equals(MouseButton.PRIMARY)) {
                 showHideFeeds();
+                hideAddFeedMenu();
+            }
         });
 
         titlePane = new BorderPane();
@@ -57,7 +65,9 @@ class MenuFeedList extends VBox{
         createContextMenu();
 
         getChildren().add(titlePane);
+        getChildren().add(addFeedMenuContainer);
         getChildren().add(feedsContainer);
+        getChildren().add(newFeedContainer);
     }
 
     void update() {
@@ -84,15 +94,26 @@ class MenuFeedList extends VBox{
         visible = !visible;
     }
 
+    void hideFeeds() {
+        if(visible) {
+            visible = false;
+            showFeedsButton.toggle();
+        }
+        feedsContainer.getChildren().clear();
+    }
+
     private void showAddFeedMenu() {
-        if(addFeedMenuContainer == null) {
+        if(addFeedMenuContainer.getChildren().size() == 0) {
             if(!visible) {
                 showHideFeeds();
             }
 
-            addFeedMenuContainer = new HBox();
-            Node addFeedMenuNode = new AddFeedMenu(name);
+            TextField urlInput = new TextField();
+            urlInput.setOnAction(event -> {
+                displayFeeds(urlInput.getText());
+            });
 
+            Node addFeedMenuNode = urlInput;
             addFeedMenuNode.setOnKeyPressed(event -> {
                 if(event.getCode().equals(KeyCode.ESCAPE))
                     hideAddFeedMenu();
@@ -100,15 +121,30 @@ class MenuFeedList extends VBox{
 
             addFeedMenuContainer.getChildren().addAll(addFeedMenuNode);
             addFeedMenuContainer.setHgrow(addFeedMenuNode, Priority.ALWAYS);
-
-            getChildren().add(addFeedMenuContainer);
         }
     }
 
-    private void hideAddFeedMenu() {
-        if(addFeedMenuContainer != null) {
-            getChildren().remove(addFeedMenuContainer);
-            addFeedMenuContainer = null;
+    void hideAddFeedMenu() {
+        if(addFeedMenuContainer.getChildren().size() != 0) {
+            addFeedMenuContainer.getChildren().clear();
+            newFeedContainer.getChildren().clear();
+        }
+    }
+
+    private void displayFeeds(String url) {
+        newFeedContainer.getChildren().clear();
+
+        FeedSniffer feedSniffer = new FeedSniffer();
+        ArrayList<Feed> feeds = feedSniffer.getFeeds(url);
+
+        if(feeds.size() == 0) {
+            Text errorMessage = new Text("No feed where found");
+            errorMessage.setFill(Color.RED);
+            newFeedContainer.getChildren().add(errorMessage);
+        }
+
+        for(Feed feed : feeds) {
+            newFeedContainer.getChildren().add(new NewFeed(feed));
         }
     }
 
@@ -140,5 +176,22 @@ class MenuFeedList extends VBox{
 
     String getName() {
         return name;
+    }
+
+    private class NewFeed extends HBox {
+        NewFeed(Feed feed) {
+            Text title = new Text(feed.getTitle());
+            title.setFill(Color.WHITE);
+            ClickButton button = new ClickButton(MaterialIcon.ADD, "MenuButton", "15px",
+                    "Add feed to feedlist");
+            button.setOnMouseClicked(event -> {
+                if(event.getButton().equals(MouseButton.PRIMARY)) {
+                    App.addFeed(feed.getUrlToXML(), name);
+                    newFeedContainer.getChildren().remove(this);
+                }
+            });
+
+            getChildren().addAll(title, button);
+        }
     }
 }
