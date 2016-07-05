@@ -75,7 +75,7 @@ class MenuFeedList extends VBox{
         ArrayList<Feed> feeds = Configuration.getAllFeedsFromFeedList(name);
 
         for(Feed feed : feeds) {
-            menuFeeds.add(new MenuFeed(feed));
+            menuFeeds.add(new MenuFeed(feed, name));
         }
 
         if(visible) {
@@ -87,9 +87,9 @@ class MenuFeedList extends VBox{
     private void showHideFeeds() {
         if(visible)
             feedsContainer.getChildren().clear();
-
         else
             feedsContainer.getChildren().addAll(menuFeeds);
+
         showFeedsButton.toggle();
         visible = !visible;
     }

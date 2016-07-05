@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -51,7 +52,10 @@ class ItemPane extends VBox {
         itemTitle.setWrappingWidth(440);
 
         VBox titleContainer = new VBox(itemTitle);
-        titleContainer.setOnMouseClicked(event -> clickItem());
+        titleContainer.setOnMouseClicked(event -> {
+            if(event.getButton().equals(MouseButton.PRIMARY))
+                App.openLink(item.getLink());
+        });
 
         ClickButton detailsButton = new ClickButton(MaterialIcon.MORE_VERT, "MenuButton", "30px",
                 "Show details");
@@ -93,9 +97,5 @@ class ItemPane extends VBox {
             detailsContainer.minHeight(100);
         }
         detailsVisible = !detailsVisible;
-    }
-
-    private void clickItem() {
-        App.openLink(item.getLink());
     }
 }
