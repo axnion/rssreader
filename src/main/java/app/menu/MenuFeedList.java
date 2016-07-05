@@ -3,11 +3,14 @@ package app.menu;
 import app.App;
 import app.misc.ToggleButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
+import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import rss.Feed;
@@ -27,14 +30,14 @@ class MenuFeedList extends VBox{
     private VBox feedsContainer;
     private ArrayList<MenuFeed> menuFeeds;
     private ToggleButton showFeedsButton;
-    private AddFeedMenu addFeedMenu;
+    private HBox addFeedMenuContainer;
 
     MenuFeedList(String listName) {
         name = listName;
         menuFeeds = new ArrayList<>();
         feedsContainer = new VBox();
         visible = false;
-        addFeedMenu = null;
+        addFeedMenuContainer = null;
 
         getStyleClass().add("MenuFeedList");
 
@@ -82,25 +85,30 @@ class MenuFeedList extends VBox{
     }
 
     private void showAddFeedMenu() {
-        if(addFeedMenu == null) {
+        if(addFeedMenuContainer == null) {
             if(!visible) {
                 showHideFeeds();
             }
 
-            addFeedMenu = new AddFeedMenu(name);
-            addFeedMenu.setOnKeyPressed(event -> {
+            addFeedMenuContainer = new HBox();
+            Node addFeedMenuNode = new AddFeedMenu(name);
+
+            addFeedMenuNode.setOnKeyPressed(event -> {
                 if(event.getCode().equals(KeyCode.ESCAPE))
                     hideAddFeedMenu();
             });
 
-            getChildren().add(addFeedMenu);
+            addFeedMenuContainer.getChildren().addAll(addFeedMenuNode);
+            addFeedMenuContainer.setHgrow(addFeedMenuNode, Priority.ALWAYS);
+
+            getChildren().add(addFeedMenuContainer);
         }
     }
 
     private void hideAddFeedMenu() {
-        if(addFeedMenu != null) {
-            getChildren().remove(addFeedMenu);
-            addFeedMenu = null;
+        if(addFeedMenuContainer != null) {
+            getChildren().remove(addFeedMenuContainer);
+            addFeedMenuContainer = null;
         }
     }
 

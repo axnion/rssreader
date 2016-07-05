@@ -3,9 +3,11 @@ package app.menu;
 import app.App;
 import app.misc.ClickButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -26,22 +28,29 @@ class AddFeedMenu extends VBox {
     AddFeedMenu(String name) {
         feedListName = name;
         HBox searchBar = new HBox();
-        TextField urlInput = new TextField();
         feedContainer = new VBox();
-        ClickButton reloadButton = new ClickButton(MaterialIcon.REDO, "MenuButton", "15px",
-                "Reload");
-        searchBar.getChildren().addAll(urlInput, reloadButton);
-        getChildren().addAll(searchBar, feedContainer);
 
+        TextField urlInput = new TextField();
         urlInput.setOnAction(event -> {
             displayFeeds(urlInput.getText());
         });
 
+        ClickButton reloadButton = new ClickButton(MaterialIcon.REFRESH, "MenuButton", "30px",
+                "Reload");
         reloadButton.setOnMouseClicked(event -> {
             if(event.getButton().equals(MouseButton.PRIMARY)) {
                 displayFeeds(urlInput.getText());
             }
         });
+
+        Node urlInputNode = urlInput;
+        Node reloadButtonNode = reloadButton;
+        searchBar.setHgrow(urlInputNode, Priority.ALWAYS);
+        searchBar.setHgrow(reloadButtonNode, Priority.SOMETIMES);
+
+        searchBar.getChildren().addAll(urlInputNode, reloadButtonNode);
+
+        getChildren().addAll(searchBar, feedContainer);
     }
 
     private void displayFeeds(String url) {
@@ -64,6 +73,7 @@ class AddFeedMenu extends VBox {
     private class NewFeed extends HBox {
         NewFeed(Feed feed) {
             Text title = new Text(feed.getTitle());
+            title.setFill(Color.WHITE);
             ClickButton button = new ClickButton(MaterialIcon.ADD, "MenuButton", "15px",
                     "Add feed to feedlist");
             button.setOnMouseClicked(event -> {
