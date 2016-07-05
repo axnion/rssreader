@@ -5,10 +5,9 @@ import app.misc.ToggleButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import rss.Feed;
@@ -28,12 +27,14 @@ class MenuFeedList extends VBox{
     private VBox feedsContainer;
     private ArrayList<MenuFeed> menuFeeds;
     private ToggleButton showFeedsButton;
+    private AddFeedMenu addFeedMenu;
 
     MenuFeedList(String listName) {
         name = listName;
         menuFeeds = new ArrayList<>();
         feedsContainer = new VBox();
         visible = false;
+        addFeedMenu = null;
 
         getStyleClass().add("MenuFeedList");
 
@@ -42,7 +43,10 @@ class MenuFeedList extends VBox{
 
         showFeedsButton = new ToggleButton(MaterialIcon.ARROW_DROP_DOWN, MaterialIcon.ARROW_DROP_UP,
                 "MenuButton", "30px", "Show/Hide Feeds");
-        showFeedsButton.setOnMouseClicked(event -> showAndHideFeeds());
+        showFeedsButton.setOnMouseClicked(event -> {
+            if(event.getButton().equals(MouseButton.PRIMARY))
+                showHideFeeds();
+        });
 
         titlePane = new BorderPane();
         titlePane.setLeft(title);
@@ -51,16 +55,6 @@ class MenuFeedList extends VBox{
 
         getChildren().add(titlePane);
         getChildren().add(feedsContainer);
-    }
-
-    void showAndHideFeeds() {
-        if(visible)
-            feedsContainer.getChildren().clear();
-
-        else
-            feedsContainer.getChildren().addAll(menuFeeds);
-        showFeedsButton.toggle();
-        visible = !visible;
     }
 
     void update() {
@@ -77,7 +71,40 @@ class MenuFeedList extends VBox{
         }
     }
 
-    void createContextMenu() {
+    private void showHideFeeds() {
+        if(visible)
+            feedsContainer.getChildren().clear();
+
+        else
+            feedsContainer.getChildren().addAll(menuFeeds);
+        showFeedsButton.toggle();
+        visible = !visible;
+    }
+
+    private void showAddFeedMenu() {
+        if(addFeedMenu == null) {
+            if(!visible) {
+                showHideFeeds();
+            }
+
+            addFeedMenu = new AddFeedMenu(name);
+            addFeedMenu.setOnKeyPressed(event -> {
+                if(event.getCode().equals(KeyCode.ESCAPE))
+                    hideAddFeedMenu();
+            });
+
+            getChildren().add(addFeedMenu);
+        }
+    }
+
+    private void hideAddFeedMenu() {
+        if(addFeedMenu != null) {
+            getChildren().remove(addFeedMenu);
+            addFeedMenu = null;
+        }
+    }
+
+    private void createContextMenu() {
         ContextMenu rightClickMenu = new ContextMenu();
 
         MenuItem addFeedButton = new MenuItem("Add Feed");
@@ -95,7 +122,7 @@ class MenuFeedList extends VBox{
         });
 
         addFeedButton.setOnAction(event -> {
-            System.out.println("FEEEEEEEEEEEED MEEEE!");
+            showAddFeedMenu();
         });
 
         removeFeedListButton.setOnAction(event -> {

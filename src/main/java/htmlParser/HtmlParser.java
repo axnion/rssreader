@@ -41,7 +41,7 @@ public class HtmlParser {
             document.getDocumentElement().normalize();
         }
         catch(Exception err) {
-            throw new NoXMLFileFound(html);
+            throw new NoXMLFileFound(html);     // CREATE A NEW EXCEPTION FOR THIS!
         }
 
         parse(document.getDocumentElement(), new StringBuilder());

@@ -1,14 +1,15 @@
 package app.menu;
 
 import app.App;
-import javafx.scene.control.Button;
+import app.misc.ClickButton;
+import de.jensd.fx.glyphs.materialicons.MaterialIcon;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import system.Configuration;
 import system.exceptions.FeedListAlreadyExists;
 
 import java.util.ArrayList;
@@ -19,19 +20,35 @@ import java.util.ArrayList;
  * @author Axel Nilsson (axnion)
  */
 class TreeView extends VBox {
+    private VBox treeViewContainer;
     private TextField addFeedListInput;
     private ArrayList<MenuFeedList> menuFeedLists;
 
     TreeView() {
+        Label header = new Label("Feedlists");
+        header.setFont(Font.font(20));
+        header.setTextFill(Color.WHITE);
+
+        ClickButton addFeedListButton = new ClickButton(MaterialIcon.ADD, "MenuButton", "30px",
+                "Add feed list");
+        addFeedListButton.setOnMouseClicked(event -> showAddFeedListTextField());
+
+        treeViewContainer = new VBox();
         addFeedListInput = null;
         menuFeedLists = new ArrayList<>();
+
+        getStyleClass().add("SideMenuItem");
+
+        getChildren().add(header);
+        getChildren().add(addFeedListButton);
+        getChildren().add(treeViewContainer);
     }
 
     void addFeedList(String listName) {
         menuFeedLists.add(new MenuFeedList(listName));
 
-        getChildren().clear();
-        getChildren().addAll(menuFeedLists);
+        treeViewContainer.getChildren().clear();
+        treeViewContainer.getChildren().addAll(menuFeedLists);
     }
 
     void removeFeedList(String listName) {
@@ -42,8 +59,8 @@ class TreeView extends VBox {
             }
         }
 
-        getChildren().clear();
-        getChildren().addAll(menuFeedLists);
+        treeViewContainer.getChildren().clear();
+        treeViewContainer.getChildren().addAll(menuFeedLists);
     }
 
     void updateFeedList() {
@@ -51,7 +68,7 @@ class TreeView extends VBox {
             menuFeedList.update();
     }
 
-    void showAddFeedListTextField() {
+    private void showAddFeedListTextField() {
         if(addFeedListInput != null) {
             return;
         }

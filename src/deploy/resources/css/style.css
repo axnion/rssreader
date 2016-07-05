@@ -2,10 +2,6 @@
     -fx-background-color: #282C2C;
 }
 
-.SideMenu {
-    -fx-background-color: #393F3F;
-}
-
 .FeedListPane {
     -fx-background-color: #363636;
 }
@@ -20,6 +16,20 @@
 
 .ItemPane:hover {
     -fx-background-color: #313535;
+}
+
+.SideMenu {
+    -fx-padding: 5px;
+    -fx-background-color: #393F3F;
+}
+
+.SideMenuItem {
+    -fx-padding: 2px;
+
+    -fx-border-color: dimgrey;
+    -fx-border-style: solid;
+    -fx-border-width: 1;
+    -fx-border-radius: 5px;
 }
 
 .MenuFeedList {
