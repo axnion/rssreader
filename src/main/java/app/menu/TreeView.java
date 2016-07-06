@@ -11,6 +11,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import system.Configuration;
+import system.FeedList;
 import system.exceptions.FeedListAlreadyExists;
 
 import java.util.ArrayList;
@@ -70,8 +72,17 @@ class TreeView extends VBox {
     }
 
     void updateFeedList() {
-        for(MenuFeedList menuFeedList : menuFeedLists)
-            menuFeedList.update();
+        ArrayList<FeedList> feedLists = Configuration.getAllFeedLists();
+        menuFeedLists.clear();
+        treeViewContainer.getChildren().clear();
+
+        for(FeedList feedList : feedLists) {
+            MenuFeedList newMenuFeedList = new MenuFeedList(feedList.getName());
+            newMenuFeedList.update();
+            menuFeedLists.add(newMenuFeedList);
+        }
+
+        treeViewContainer.getChildren().addAll(menuFeedLists);
     }
 
     void closeAll() {

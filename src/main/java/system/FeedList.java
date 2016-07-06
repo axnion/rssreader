@@ -18,7 +18,7 @@ import java.util.LinkedList;
  *
  * @author Axel Nilsson (axnion)
  */
-class FeedList {
+public class FeedList {
     private String name;
     private ArrayList<Feed> feeds;
     private RssParser rssParser;
@@ -190,7 +190,7 @@ class FeedList {
      * Returns the name of the FeedList. Name is used as identifier for FeedList.
      * @return  The value of the field name.
      */
-    String getName() {
+    public String getName() {
         return name;
     }
 

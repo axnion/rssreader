@@ -240,7 +240,17 @@ class DatabaseController {
         connection.close();
     }
 
-    void loadDatabase() throws Exception {
+    void newDatabase() throws Exception {
+        path = "temp.db";
+    }
+
+    void saveDatabase(String newPath) throws Exception {
+        FileUtils.copyFile(new File(path), new File(newPath));
+        path = newPath;
+    }
+
+    void loadDatabase(String newPath) throws Exception {
+        path = newPath;
         if(path.equals("temp.db")) {
             File tempDatabase = new File("temp.db");
             tempDatabase.delete();

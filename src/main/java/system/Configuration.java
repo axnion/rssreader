@@ -61,9 +61,8 @@ public class Configuration {
         return getFeedListByName(listName).getFeeds();
     }
 
-    public static void reset() {
-        feedLists = new ArrayList<>();
-        databaseController = new DatabaseController();
+    public static ArrayList<FeedList> getAllFeedLists() {
+        return feedLists;
     }
 
     public  static boolean feedListExists(String listName) {
@@ -150,9 +149,29 @@ public class Configuration {
         }
     }
 
-    public static void loadDatabase() {
+    public static void newDatabase() {
+        feedLists = new ArrayList<>();
         try {
-            databaseController.loadDatabase();
+            databaseController.newDatabase();
+        }
+        catch(Exception err) {
+            throw new DatabaseError("Something went wrong when creating new database");
+        }
+    }
+
+    public static void saveDatabase(String path) {
+        try {
+            databaseController.saveDatabase(path);
+        }
+        catch(Exception err) {
+            throw new DatabaseError("Something went wrong when saving a database");
+        }
+    }
+
+    public static void loadDatabase(String path) {
+        feedLists = new ArrayList<>();
+        try {
+            databaseController.loadDatabase(path);
         }
         catch(Exception err) {
             throw new DatabaseError("Something went wrong when loading a database");

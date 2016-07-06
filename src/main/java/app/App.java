@@ -29,7 +29,7 @@ public class App extends Application {
         root = new Wrapper();
         openContextMenu = null;
 
-        Configuration.loadDatabase();
+        Configuration.loadDatabase("temp.db");
 
         Scene primaryScene = new Scene(root, 960, 540);
         primaryScene.getStylesheets().add("file:css/style.css");
@@ -69,6 +69,21 @@ public class App extends Application {
 
     public static void removeFeed(String urlToXml, String listName) {
         Configuration.removeFeed(urlToXml, listName);
+        root.updateFeedLists();
+    }
+
+    public static void newConfiguration() {
+        Configuration.newDatabase();
+        root.updateFeedLists();
+    }
+
+    public static void saveConfiguration(String path) {
+        Configuration.saveDatabase(path);
+        root.updateFeedLists();
+    }
+
+    public static void loadConfiguration(String path) {
+        Configuration.loadDatabase(path);
         root.updateFeedLists();
     }
 

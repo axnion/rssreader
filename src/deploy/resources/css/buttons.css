@@ -28,3 +28,16 @@
 .MenuButton:hover {
     -fx-fill: white;
 }
+
+.CustomButton {
+    -fx-background-color: #282C2C;
+    -fx-border-color: grey;
+    -fx-border-width: 2px;
+    -fx-padding: 3 15 3 15;
+    -fx-font-size: 15px;
+    -fx-text-fill: white;
+}
+
+.CustomButton:hover {
+    -fx-border-color: whitesmoke;
+}
