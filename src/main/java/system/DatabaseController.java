@@ -15,6 +15,12 @@ class DatabaseController {
 
     DatabaseController() {
         path = "temp.db";
+        try {
+            loadDatabase(path);
+        }
+        catch(Exception expt) {
+            expt.printStackTrace();
+        }
     }
 
     Connection connectToDatabase() throws Exception {
@@ -165,11 +171,14 @@ class DatabaseController {
         String deleteFeedListSaveData = "DELETE FROM save_data_feed_lists WHERE FEEDLISTNAME='" +
                 feedListName + "';";
 
+        String deleteFeedSaveData = "DELETE FROM save_data_feeds WHERE FEEDLISTNAME='" + feedListName + "'";
+
         connection.setAutoCommit(false);
         Statement statement = connection.createStatement();
 
         statement.executeUpdate(dropFeedListTableQuery);
         statement.executeUpdate(deleteFeedListSaveData);
+        statement.executeUpdate(deleteFeedSaveData);
 
         connection.commit();
         statement.close();

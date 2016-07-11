@@ -18,7 +18,7 @@ import system.Configuration;
 public class App extends Application {
     public static Wrapper root;
     public static ContextMenu openContextMenu;
-    public static BrowserAccess browserAccess;
+    private static BrowserAccess browserAccess;
 
     public static void main(String[] args) {
         launch(args);
@@ -28,8 +28,6 @@ public class App extends Application {
         browserAccess = new BrowserAccess();
         root = new Wrapper();
         openContextMenu = null;
-
-        Configuration.loadDatabase("temp.db");
 
         Scene primaryScene = new Scene(root, 960, 540);
         primaryScene.getStylesheets().add("file:css/style.css");
@@ -44,10 +42,10 @@ public class App extends Application {
         primaryStage.setScene(primaryScene);
         primaryStage.show();
 
-        addFeedList("MyFeedList");
-        addFeedList("MyFeedList2");
-        addFeed("http://feeds.feedburner.com/sakerhetspodcasten", "MyFeedList");
-        addFeed("http://feedpress.me/kodsnack", "MyFeedList2");
+//        addFeedList("MyFeedList");
+//        addFeedList("MyFeedList2");
+//        addFeed("http://feeds.feedburner.com/sakerhetspodcasten", "MyFeedList");
+//        addFeed("http://feedpress.me/kodsnack", "MyFeedList2");
 
         root.updateFeedLists();
     }
@@ -73,17 +71,37 @@ public class App extends Application {
     }
 
     public static void newConfiguration() {
-        Configuration.newDatabase();
+        try {
+            Configuration.newDatabase();
+        }
+        catch(Exception expt) {
+            expt.printStackTrace();
+        }
+
+        root.reset();
         root.updateFeedLists();
     }
 
     public static void saveConfiguration(String path) {
-        Configuration.saveDatabase(path);
+        try {
+            Configuration.saveDatabase(path);
+        }
+        catch(Exception expt) {
+            expt.printStackTrace();
+        }
+
         root.updateFeedLists();
     }
 
     public static void loadConfiguration(String path) {
-        Configuration.loadDatabase(path);
+        try {
+            Configuration.loadDatabase(path);
+        }
+        catch(Exception expt) {
+            expt.printStackTrace();
+        }
+
+        root.reset();
         root.updateFeedLists();
     }
 
@@ -91,7 +109,7 @@ public class App extends Application {
         browserAccess.openLink(url);
     }
 
-    static void createContextMenuEscape() {
+    private static void createContextMenuEscape() {
         root.setOnMouseClicked(event -> {
 
             if(event.getButton().equals(MouseButton.PRIMARY)) {
@@ -108,7 +126,7 @@ public class App extends Application {
      * A class containing a method for opening a link using the getHostService which requires
      * the class to have access to host services.
      */
-    class BrowserAccess {
+    private class BrowserAccess {
         /**
          * Opens the default browser with the url given to it.
          * @param url URL to the site we want to open.

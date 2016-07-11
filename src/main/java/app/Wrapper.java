@@ -11,12 +11,18 @@ import javafx.scene.layout.Priority;
  *
  * @author Axel Nilsson (axnion)
  */
-public class Wrapper extends HBox {
+class Wrapper extends HBox {
     private SideMenu sideMenu;
-    FeedListContainer feedListContainer;
+    private FeedListContainer feedListContainer;
 
 
-    public Wrapper() {
+    Wrapper() {
+        reset();
+        getStyleClass().add("Wrapper");
+    }
+
+    void reset() {
+        getChildren().clear();
         sideMenu = new SideMenu();
         feedListContainer = new FeedListContainer();
 
@@ -25,20 +31,19 @@ public class Wrapper extends HBox {
 
         getChildren().addAll(sideMenu);
         getChildren().addAll(feedListConainerNode);
-        getStyleClass().add("Wrapper");
     }
 
-    public void addFeedList(String listName) {
+    void addFeedList(String listName) {
         sideMenu.addFeedList(listName);
         feedListContainer.addFeedList(listName);
     }
 
-    public void removeFeedList(String listName) {
+    void removeFeedList(String listName) {
         sideMenu.removeFeedList(listName);
         feedListContainer.removeFeedList(listName);
     }
 
-    public void updateFeedLists() {
+    void updateFeedLists() {
         sideMenu.updateFeedLists();
         feedListContainer.updateFeedLists();
     }

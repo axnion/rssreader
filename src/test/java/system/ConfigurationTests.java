@@ -354,10 +354,9 @@ public class ConfigurationTests {
         DatabaseController dbc = Mocks.createDatabaseControllerMock();
         Configuration.setDatabaseController(dbc);
 
-        assertEquals("", Configuration.getSorting("FeedList1"));
-        assertEquals("DATE_DEC", Configuration.getSorting("FeedList2"));
-
         try {
+            assertEquals("", Configuration.getSorting("FeedList1"));
+            assertEquals("DATE_DEC", Configuration.getSorting("FeedList2"));
             verify(dbc, times(1)).getSorting("FeedList1");
         }
         catch(Exception err) {
@@ -377,9 +376,9 @@ public class ConfigurationTests {
     public void getSortingDatabaseError() {
         DatabaseController dbc = Mocks.createDatabaseControllerMock();
         Configuration.setDatabaseController(dbc);
-        Configuration.getSorting("FeedList3");
 
         try {
+            Configuration.getSorting("FeedList3");
             verify(dbc, times(1)).getSorting("FeedList3");
         }
         catch(Exception err) {
@@ -399,10 +398,9 @@ public class ConfigurationTests {
         DatabaseController dbc = Mocks.createDatabaseControllerMock();
         Configuration.setDatabaseController(dbc);
 
-        assertEquals(true, Configuration.isVisited("FeedList1", "item_id_1"));
-        assertEquals(false, Configuration.isVisited("FeedList1", "item_id_2"));
-
         try {
+            assertEquals(true, Configuration.isVisited("FeedList1", "item_id_1"));
+            assertEquals(false, Configuration.isVisited("FeedList1", "item_id_2"));
             verify(dbc, times(1)).getVisitedStatus("FeedList1", "item_id_1");
             verify(dbc, times(1)).getVisitedStatus("FeedList1", "item_id_2");
         }
@@ -423,9 +421,9 @@ public class ConfigurationTests {
     public void isVisitedDatabaseError() {
         DatabaseController dbc = Mocks.createDatabaseControllerMock();
         Configuration.setDatabaseController(dbc);
-        Configuration.isVisited("FeedList2", "item_id_3");
 
         try {
+            Configuration.isVisited("FeedList2", "item_id_3");
             verify(dbc, times(1)).getVisitedStatus("FeedList2", "item_id_3");
         }
         catch(Exception err) {
@@ -445,10 +443,9 @@ public class ConfigurationTests {
         DatabaseController dbc = Mocks.createDatabaseControllerMock();
         Configuration.setDatabaseController(dbc);
 
-        assertEquals(true, Configuration.isStarred("FeedList1", "item_id_1"));
-        assertEquals(false, Configuration.isStarred("FeedList1", "item_id_2"));
-
         try {
+            assertEquals(true, Configuration.isStarred("FeedList1", "item_id_1"));
+            assertEquals(false, Configuration.isStarred("FeedList1", "item_id_2"));
             verify(dbc, times(1)).getStarredStatus("FeedList1", "item_id_1");
             verify(dbc, times(1)).getStarredStatus("FeedList1", "item_id_2");
         }
@@ -469,9 +466,9 @@ public class ConfigurationTests {
     public void isStarredDatabaseError() {
         DatabaseController dbc = Mocks.createDatabaseControllerMock();
         Configuration.setDatabaseController(dbc);
-        Configuration.isStarred("FeedList2", "item_id_3");
 
         try {
+            Configuration.isStarred("FeedList2", "item_id_3");
             verify(dbc, times(1)).getStarredStatus("FeedList2", "item_id_3");
         }
         catch(Exception err) {
@@ -491,9 +488,9 @@ public class ConfigurationTests {
     public void setSorting() {
         DatabaseController dbc = Mocks.createDatabaseControllerMock();
         Configuration.setDatabaseController(dbc);
-        Configuration.setSorting("FeedList1", "DATE_DEC");
 
         try {
+            Configuration.setSorting("FeedList1", "DATE_DEC");
             verify(dbc, times(1)).setSorting("FeedList1", "DATE_DEC");
         }
         catch(Exception err) {
@@ -513,9 +510,9 @@ public class ConfigurationTests {
     public void setSortingDatabaseError() {
         DatabaseController dbc = Mocks.createDatabaseControllerMock();
         Configuration.setDatabaseController(dbc);
-        Configuration.setSorting("FeedList2", "DATE_DEC");
 
         try {
+            Configuration.setSorting("FeedList2", "DATE_DEC");
             verify(dbc, times(1)).setSorting("FeedList2", "DATE_DEC");
         }
         catch(Exception err) {
@@ -535,9 +532,9 @@ public class ConfigurationTests {
     public void setVisited() {
         DatabaseController dbc = Mocks.createDatabaseControllerMock();
         Configuration.setDatabaseController(dbc);
-        Configuration.setVisited("FeedList1", "item_id_1", false);
 
         try {
+            Configuration.setVisited("FeedList1", "item_id_1", false);
             verify(dbc, times(1)).setVisitedStatus("FeedList1", "item_id_1", false);
         }
         catch(Exception err) {
@@ -557,9 +554,9 @@ public class ConfigurationTests {
     public void setVisitedDatabaseError() {
         DatabaseController dbc = Mocks.createDatabaseControllerMock();
         Configuration.setDatabaseController(dbc);
-        Configuration.setVisited("FeedList2", "item_id_1", false);
 
         try {
+            Configuration.setVisited("FeedList2", "item_id_1", false);
             verify(dbc, times(1)).setVisitedStatus("FeedList2", "item_id_1", false);
         }
         catch(Exception err) {
@@ -579,9 +576,9 @@ public class ConfigurationTests {
     public void setStarred() {
         DatabaseController dbc = Mocks.createDatabaseControllerMock();
         Configuration.setDatabaseController(dbc);
-        Configuration.setStarred("FeedList1", "item_id_1", false);
 
         try {
+            Configuration.setStarred("FeedList1", "item_id_1", false);
             verify(dbc, times(1)).setStarredStatus("FeedList1", "item_id_1", false);
         }
         catch(Exception err) {
@@ -601,9 +598,9 @@ public class ConfigurationTests {
     public void setStarredDatabaseError() {
         DatabaseController dbc = Mocks.createDatabaseControllerMock();
         Configuration.setDatabaseController(dbc);
-        Configuration.setStarred("FeedList2", "item_id_1", false);
 
         try {
+            Configuration.setStarred("FeedList2", "item_id_1", false);
             verify(dbc, times(1)).setStarredStatus("FeedList2", "item_id_1", false);
         }
         catch(Exception err) {

@@ -6,6 +6,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import rss.Item;
 import system.Configuration;
+import system.FeedList;
 
 import java.util.ArrayList;
 
@@ -53,10 +54,13 @@ public class FeedListContainer extends HBox {
         container.getChildren().clear();
 
         Node node;
-        for(FeedListPane feedListPane : feedListPanes) {
-            ArrayList<Item> items = Configuration.getAllItemsFromFeedList(feedListPane.getName());
 
-            feedListPane.clear();
+        ArrayList<FeedList> feedLists = Configuration.getAllFeedLists();
+
+        for(FeedList feedList : feedLists) {
+            ArrayList<Item> items = Configuration.getAllItemsFromFeedList(feedList.getName());
+
+            FeedListPane feedListPane = new FeedListPane(feedList.getName());
             if(items.size() != 0) {
                 for(Item item : items) {
                     feedListPane.addItemPane(new ItemPane(item));
