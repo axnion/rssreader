@@ -180,9 +180,11 @@ class MenuFeedList extends VBox{
 
     private class NewFeed extends HBox {
         NewFeed(Feed feed) {
+            BorderPane borderPane = new BorderPane();
             Text title = new Text(feed.getTitle());
+            title.setWrappingWidth(370);
             title.setFill(Color.WHITE);
-            ClickButton button = new ClickButton(MaterialIcon.ADD, "MenuButton", "15px",
+            ClickButton button = new ClickButton(MaterialIcon.ADD, "MenuButton", "30px",
                     "Add feed to feedlist");
             button.setOnMouseClicked(event -> {
                 if(event.getButton().equals(MouseButton.PRIMARY)) {
@@ -191,7 +193,11 @@ class MenuFeedList extends VBox{
                 }
             });
 
-            getChildren().addAll(title, button);
+            borderPane.setLeft(title);
+            borderPane.setRight(button);
+
+            setHgrow(borderPane, Priority.ALWAYS);
+            getChildren().addAll(borderPane);
         }
     }
 }

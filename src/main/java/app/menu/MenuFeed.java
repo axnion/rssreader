@@ -13,7 +13,7 @@ import rss.Feed;
  *
  * @author Axel Nilsson (axnion)
  */
-public class MenuFeed extends VBox{
+class MenuFeed extends VBox{
     private Feed feed;
     private String feedListName;
 
@@ -25,6 +25,7 @@ public class MenuFeed extends VBox{
 
         getStyleClass().add("MenuFeed");
         Text title = new Text(feed.getTitle());
+        title.setWrappingWidth(400);
         title.getStyleClass().add("MenuFeedTitle");
 
         getChildren().add(title);

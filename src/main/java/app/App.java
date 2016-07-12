@@ -111,11 +111,8 @@ public class App extends Application {
 
     private static void createContextMenuEscape() {
         root.setOnMouseClicked(event -> {
-
             if(event.getButton().equals(MouseButton.PRIMARY)) {
-                System.out.println("Mouse clicked");
                 if(openContextMenu != null) {
-                    System.out.println("AAAAH");
                     openContextMenu.hide();
                 }
             }

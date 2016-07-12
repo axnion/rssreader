@@ -125,7 +125,7 @@ public class FeedList {
      *              according to the rules specified in the rules argument.
      */
     private ArrayList<Item> sort(ArrayList<Item> items, String rules) {
-        if(items.size() <= 1 || rules == null || rules.equals(""))
+        if(items.size() <= 1)
             return items;
 
         ArrayList<Item> out = new ArrayList<>();

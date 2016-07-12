@@ -144,12 +144,12 @@ class DatabaseController {
                 " VISITED       BOOLEAN     NOT NULL," +
                 " STARRED       BOOLEAN     NOT NULL);";
 
-        String createFeedListSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feed_lists" +
-                " (FEEDLISTNAME     TEXT    PRIMARY KEY     UNIQUE       NOT NULL," +
-                " SORTING VARCHAR(16));";
+        String createFeedListSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feed_lists(" +
+                "FEEDLISTNAME TEXT PRIMARY KEY UNIQUE NOT NULL, " +
+                "SORTING VARCHAR(16)  DEFAULT DATE_DEC NOT NULL);";
 
-        String addFeddListToSortTable = "INSERT INTO save_data_feed_lists (FEEDLISTNAME,SORTING) " +
-                "VALUES ('" + feedListName + "'," + "null" + ")";
+        String addFeddListToSortTable = "INSERT INTO save_data_feed_lists (FEEDLISTNAME) " +
+                "VALUES ('" + feedListName + "')";
 
         connection.setAutoCommit(false);
         Statement statement = connection.createStatement();
@@ -270,9 +270,9 @@ class DatabaseController {
         String getFeeds = "SELECT * FROM save_data_feeds;";
         Statement statement = connection.createStatement();
 
-        String createFeedListSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feed_lists" +
-                " (FEEDLISTNAME     TEXT    PRIMARY KEY     UNIQUE       NOT NULL," +
-                " SORTING VARCHAR(16));";
+        String createFeedListSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feed_lists(" +
+                "FEEDLISTNAME TEXT PRIMARY KEY UNIQUE NOT NULL, " +
+                "SORTING VARCHAR(16)  DEFAULT DATE_DEC NOT NULL);";
 
         String createFeedSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feeds" +
                 " (URLTOXML     TEXT    NOT NULL," +
