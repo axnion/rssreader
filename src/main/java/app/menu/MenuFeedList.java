@@ -74,8 +74,14 @@ class MenuFeedList extends VBox{
         menuFeeds.clear();
         ArrayList<Feed> feeds = Configuration.getAllFeedsFromFeedList(name);
 
-        for(Feed feed : feeds) {
-            menuFeeds.add(new MenuFeed(feed, name));
+        for(int i = 0; i < feeds.size(); i++) {
+            MenuFeed menuFeed = new MenuFeed(feeds.get(i), name);
+
+            if(i % 2 == 0) {
+                menuFeed.setStyle("-fx-background-color: #575757");
+            }
+
+            menuFeeds.add(menuFeed);
         }
 
         if(visible) {

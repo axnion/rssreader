@@ -2,26 +2,20 @@ package app.main;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TitledPane;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 
 /**
  * Class FeedListPane
  *
  * @author Axel Nilsson (axnion)
  */
-public class FeedListPane extends VBox {
+class FeedListPane extends VBox {
     private String name;
-    private ScrollPane scroll;
     private VBox container;
 
-    public FeedListPane(String name) {
+    FeedListPane(String name) {
         this.name = name;
         container = new VBox();
 
@@ -34,7 +28,7 @@ public class FeedListPane extends VBox {
         titlePane.setPadding(new Insets(5));
         titlePane.setAlignment(Pos.CENTER);
 
-        scroll = new ScrollPane(container);
+        ScrollPane scroll = new ScrollPane(container);
         scroll.setFitToHeight(true);
         scroll.setFitToWidth(true);
         scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -44,19 +38,15 @@ public class FeedListPane extends VBox {
         getChildren().add(scroll);
     }
 
-    public void addItemPane(ItemPane itemPane) {
+    void addItemPane(ItemPane itemPane) {
         container.getChildren().add(itemPane);
     }
 
-    public void clear() {
-        container.getChildren().clear();
-    }
-
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 }

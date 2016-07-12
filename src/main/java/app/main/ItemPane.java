@@ -2,24 +2,16 @@ package app.main;
 
 import app.App;
 import app.misc.ClickButton;
-import app.misc.ToggleButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import htmlParser.HtmlParser;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
-import javafx.stage.Stage;
 import rss.Item;
 
 /**
