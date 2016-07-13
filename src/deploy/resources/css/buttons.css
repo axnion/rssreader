@@ -41,3 +41,21 @@
 .CustomButton:hover {
     -fx-border-color: whitesmoke;
 }
+
+.ToggleColorButtonOff {
+    -fx-fill: #404040;
+    -fx-font-size: 50px;
+}
+
+.ToggleColorButtonOff:hover {
+    -fx-fill: #787878;
+}
+
+.ToggleColorButtonOn {
+    -fx-fill: white;
+    -fx-font-size: 50px;
+}
+
+.ToggleColorButtonOn:hover {
+    -fx-fill: #787878;
+}

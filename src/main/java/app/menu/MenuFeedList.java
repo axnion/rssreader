@@ -2,7 +2,7 @@ package app.menu;
 
 import app.App;
 import app.misc.ClickButton;
-import app.misc.ToggleButton;
+import app.misc.ToggleIconButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
@@ -33,7 +33,7 @@ class MenuFeedList extends VBox{
     private BorderPane titlePane;
     private VBox feedsContainer;
     private ArrayList<MenuFeed> menuFeeds;
-    private ToggleButton showFeedsButton;
+    private ToggleIconButton showFeedsButton;
     private HBox addFeedMenuContainer;
     private VBox newFeedContainer;
 
@@ -50,7 +50,7 @@ class MenuFeedList extends VBox{
         Text title = new Text(listName);
         title.getStyleClass().add("MenuFeedListTitle");
 
-        showFeedsButton = new ToggleButton(MaterialIcon.ARROW_DROP_DOWN, MaterialIcon.ARROW_DROP_UP,
+        showFeedsButton = new ToggleIconButton(MaterialIcon.ARROW_DROP_DOWN, MaterialIcon.ARROW_DROP_UP,
                 "MenuButton", "30px", "Show/Hide Feeds");
         showFeedsButton.setOnMouseClicked(event -> {
             if(event.getButton().equals(MouseButton.PRIMARY)) {

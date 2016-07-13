@@ -44,6 +44,10 @@ public class RssParser {
         return new Feed(title, link, description,url, items);
     }
 
+    public void updateFeed(Feed feed) {
+        // UPDATE THE FEED WITHOUT ASSIGNING A NEW FEED TO THE REFERENCE
+    }
+
     private String getTitle(Element channel) {
         Node node = channel.getElementsByTagName("title").item(0);
 

@@ -2,6 +2,8 @@ package app.main;
 
 import app.App;
 import app.misc.ClickButton;
+import app.misc.ToggleColorButton;
+import app.misc.ToggleIconButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import htmlParser.HtmlParser;
 import javafx.scene.Node;
@@ -13,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import rss.Item;
+import system.Configuration;
 
 /**
  * Class ItemPane
@@ -23,9 +26,11 @@ class ItemPane extends VBox {
     private boolean detailsVisible;
     private Item item;
     private VBox detailsContainer;
+    private String feedListName;
 
-    ItemPane(Item item) {
+    ItemPane(Item item, String feedListName) {
         this.item = item;
+        this.feedListName = feedListName;
         detailsVisible = false;
         detailsContainer = new VBox();
 
@@ -49,13 +54,39 @@ class ItemPane extends VBox {
                 App.openLink(item.getLink());
         });
 
+        boolean startStarredStatus = false;
+        try {
+            startStarredStatus = Configuration.isStarred(feedListName, item.getId());
+        }
+        catch(Exception expt) {
+            expt.printStackTrace();
+        }
+
+        ToggleColorButton starredButton = new ToggleColorButton(MaterialIcon.STAR,
+                "ToggleColorButtonOn", "ToggleColorButtonOff", startStarredStatus,
+                "20px", "Star this item");
+
+        starredButton.setOnMouseClicked(event -> {
+            if(event.getButton().equals(MouseButton.PRIMARY)) {
+                try {
+                    starredButton.toggle();
+                    Configuration.setStarred(feedListName, item.getId(),
+                            !Configuration.isStarred(feedListName, item.getId()));
+                }
+                catch(Exception expt) {
+                    starredButton.toggle();
+                    expt.printStackTrace();
+                }
+            }
+        });
+
         ClickButton detailsButton = new ClickButton(MaterialIcon.MORE_VERT, "MenuButton", "30px",
                 "Show details");
         detailsButton.setOnMouseClicked(event -> showHideDetails());
 
         Node titleNode = titleContainer;
         itemBar.setHgrow(titleNode, Priority.ALWAYS);
-        itemBar.getChildren().addAll(titleNode, detailsButton);
+        itemBar.getChildren().addAll(titleNode, starredButton, detailsButton);
 
         return itemBar;
     }

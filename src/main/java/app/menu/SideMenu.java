@@ -1,7 +1,7 @@
 package app.menu;
 
 import app.App;
-import app.misc.ToggleButton;
+import app.misc.ToggleIconButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -24,7 +24,7 @@ public class SideMenu extends VBox {
     private int hiddenWidth = 40;
     private int showingWidth = 230;
     private BorderPane topBar;
-    private ToggleButton showHideButton;
+    private ToggleIconButton showHideButton;
     private TreeView treeView;
 
     public SideMenu() {
@@ -35,7 +35,7 @@ public class SideMenu extends VBox {
 
         topBar = new BorderPane();
 
-        showHideButton = new ToggleButton(MaterialIcon.KEYBOARD_ARROW_RIGHT,
+        showHideButton = new ToggleIconButton(MaterialIcon.KEYBOARD_ARROW_RIGHT,
                 MaterialIcon.KEYBOARD_ARROW_LEFT, "MenuButton", "30px", "Show/Hide Menu");
         showHideButton.setOnMouseClicked(event -> showHideMenu());
         topBar.setLeft(showHideButton);

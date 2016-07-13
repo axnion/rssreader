@@ -7,17 +7,17 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 /**
- * Class ToggleButton
+ * Class ToggleIconButton
  *
  * @author Axel Nilsson (axnion)
  */
-public class ToggleButton extends VBox {
+public class ToggleIconButton extends VBox {
     private boolean currentStatus;
     private Text icon1;
     private Text icon2;
 
-    public ToggleButton(MaterialIcon off, MaterialIcon on, String styleClass,  String size,
-                        String tooltipText) {
+    public ToggleIconButton(MaterialIcon off, MaterialIcon on, String styleClass, String size,
+                            String tooltipText) {
         currentStatus = false;
 
         icon1 = MaterialIconFactory.get().createIcon(off, size);
