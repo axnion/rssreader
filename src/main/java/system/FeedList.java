@@ -47,9 +47,22 @@ public class FeedList {
      * @param url   The url to the feed we want to become a Feed object and be added to the
      *              FeedList.
      */
-    void add(String url) {
-        if(getIndexOf(url) == -1)
-            feeds.add(rssParser.getFeed(url));
+    void add(String url, boolean newFeedStatus) {
+        if(getIndexOf(url) == -1) {
+            Feed newFeed = rssParser.getFeed(url);
+
+            try {
+                for(Item item : newFeed.getItems()) {
+                    Configuration.getDatabaseController().addItem(name, item.getId(),
+                            newFeedStatus);
+                }
+            }
+            catch(Exception expt) {
+                expt.printStackTrace();
+            }
+
+            feeds.add(newFeed);
+        }
         else
             throw new FeedAlreadyExists(url, getName());
     }
@@ -61,8 +74,9 @@ public class FeedList {
     void remove(String url) {
         int index = getIndexOf(url);
 
-        if(index > -1)
+        if(index > -1) {
             feeds.remove(index);
+        }
         else
             throw new FeedDoesNotExist(url, getName());
     }
@@ -80,6 +94,23 @@ public class FeedList {
      */
     int size() {
         return feeds.size();
+    }
+
+    void update() {
+        for(int i = 0; i < feeds.size(); i++) {
+            Feed updatedFeed = rssParser.getFeed(feeds.get(i).getUrlToXML());
+
+            try {
+                for(Item item : updatedFeed.getItems()) {
+                    Configuration.getDatabaseController().addItem(name, item.getId(), false);
+                }
+            }
+            catch(Exception expt) {
+                expt.printStackTrace();
+            }
+
+            feeds.set(i, updatedFeed);
+        }
     }
 
     /**

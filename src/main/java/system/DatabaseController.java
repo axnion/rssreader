@@ -148,7 +148,7 @@ class DatabaseController {
                 "FEEDLISTNAME TEXT PRIMARY KEY UNIQUE NOT NULL, " +
                 "SORTING VARCHAR(16)  DEFAULT DATE_DEC NOT NULL);";
 
-        String addFeddListToSortTable = "INSERT INTO save_data_feed_lists (FEEDLISTNAME) " +
+        String addFeedListToSortTable = "INSERT INTO save_data_feed_lists (FEEDLISTNAME) " +
                 "VALUES ('" + feedListName + "')";
 
         connection.setAutoCommit(false);
@@ -156,7 +156,7 @@ class DatabaseController {
 
         statement.executeUpdate(createFeedListTableQuery);
         statement.executeUpdate(createFeedListSaveDataTable);
-        statement.executeUpdate(addFeddListToSortTable);
+        statement.executeUpdate(addFeedListToSortTable);
 
         connection.commit();
         statement.close();
@@ -224,7 +224,7 @@ class DatabaseController {
 
     void addItem(String feedListName, String itemId, boolean visited) throws Exception {
         Connection connection = connectToDatabase();
-        String query = "INSERT INTO " + feedListName + " (ID,VISITED,STARRED) " +
+        String query = "INSERT OR IGNORE INTO " + feedListName + " (ID,VISITED,STARRED) " +
                 "VALUES ('" + itemId + "','" + visited + "','false');";
 
         connection.setAutoCommit(false);

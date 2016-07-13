@@ -1,11 +1,16 @@
 package app;
 
+import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import system.Configuration;
 
 /**
@@ -45,7 +50,18 @@ public class App extends Application {
 //        addFeed("http://feeds.feedburner.com/sakerhetspodcasten", "MyFeedList");
 //        addFeed("http://feedpress.me/kodsnack", "MyFeedList2");
 
-        root.updateFeedLists();
+        Timeline updateTimer = new Timeline(new KeyFrame(
+                Duration.seconds(10),
+                event -> {
+                    System.out.println("UPDATE");
+                    Configuration.update();
+                    root.update();
+                }
+        ));
+        updateTimer.setCycleCount(Animation.INDEFINITE);
+        updateTimer.play();
+
+        root.update();
     }
 
     public static void addFeedList(String listName) {
@@ -60,12 +76,12 @@ public class App extends Application {
 
     public static void addFeed(String urlToXml, String listName) {
         Configuration.addFeed(urlToXml, listName);
-        root.updateFeedLists();
+        root.update();
     }
 
     public static void removeFeed(String urlToXml, String listName) {
         Configuration.removeFeed(urlToXml, listName);
-        root.updateFeedLists();
+        root.update();
     }
 
     public static void newConfiguration() {
@@ -77,7 +93,7 @@ public class App extends Application {
         }
 
         root.reset();
-        root.updateFeedLists();
+        root.update();
     }
 
     public static void saveConfiguration(String path) {
@@ -88,7 +104,7 @@ public class App extends Application {
             expt.printStackTrace();
         }
 
-        root.updateFeedLists();
+        root.update();
     }
 
     public static void loadConfiguration(String path) {
@@ -100,7 +116,7 @@ public class App extends Application {
         }
 
         root.reset();
-        root.updateFeedLists();
+        root.update();
     }
 
     public static void openLink(String url) {

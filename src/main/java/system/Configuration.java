@@ -20,7 +20,7 @@ public class Configuration {
     public static void addFeed(String url, String listName) {
         try {
             addFeedToDatabase(url, listName);
-            getFeedListByName(listName).add(url);
+            getFeedListByName(listName).add(url, true);
         }
         catch(Exception expt) {
             expt.printStackTrace();
@@ -65,6 +65,12 @@ public class Configuration {
             throw new FeedListDoesNotExist(listName);
     }
 
+    public static void update() {
+        for(FeedList feedList : feedLists) {
+            feedList.update();
+        }
+    }
+
     public static FeedList getFeedListByName(String listName) {
         for(FeedList list : feedLists) {
             if(list.getName().equals(listName))
@@ -106,7 +112,7 @@ public class Configuration {
     }
 
     static void addFeedWithoutAddingToDatabase(String listName, String url) {
-        getFeedListByName(listName).add(url);
+        getFeedListByName(listName).add(url, false);
     }
 
     private  static boolean feedListExists(String listName) {

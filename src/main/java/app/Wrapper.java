@@ -43,7 +43,7 @@ class Wrapper extends HBox {
         feedListContainer.removeFeedList(listName);
     }
 
-    void updateFeedLists() {
+    void update() {
         sideMenu.updateFeedLists();
         feedListContainer.updateFeedLists();
     }
