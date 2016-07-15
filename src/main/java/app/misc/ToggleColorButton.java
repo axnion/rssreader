@@ -47,4 +47,8 @@ public class ToggleColorButton extends VBox {
 
         currentStatus = !currentStatus;
     }
+
+    public boolean getCurrentStatus() {
+        return currentStatus;
+    }
 }

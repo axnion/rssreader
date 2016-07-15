@@ -8,7 +8,6 @@ package rss;
  * they are starred.
  *
  * @author Axel Nilsson (axnion)
- * @version 1.0
  */
 public class Item {
     private String title;           // The title of the item
@@ -16,6 +15,9 @@ public class Item {
     private String description;     // A descriptive text about the item
     private String id;              // A unique ID for this item
     private String date;            // The date the item was released
+    private String feedIdentifier;  // The identifier of the feed this item belongs to.
+    private boolean visited;        // The visited status of the Item
+    private boolean starred;        // The starred status of the Item
 
     /**
      * Constructor
@@ -26,23 +28,9 @@ public class Item {
         description = "";
         id = "";
         date = "";
-    }
-
-    /**
-     * Constructor
-     *
-     * @param title         The visible title of the item
-     * @param link          The URL to the items content
-     * @param description   A descriptive text about the item
-     * @param id            A unique ID to easily identify the item
-     * @param date          A String containing the date and time of the items release
-     */
-    public Item(String title, String link, String description, String id, String date) {
-        this.title = title;
-        this.link = link;
-        this.description = description;
-        this.id = id;
-        this.date = date;
+        feedIdentifier = "";
+        visited = true;
+        starred = false;
     }
 
     /**
@@ -161,6 +149,7 @@ public class Item {
     */
 
     /**
+     * Accessor method for title
      * @return A String containing the title of the item
      */
     public String getTitle() {
@@ -168,6 +157,7 @@ public class Item {
     }
 
     /**
+     * Accessor method for link
      * @return A String containing the URL to the content of the item
      */
     public String getLink() {
@@ -175,6 +165,7 @@ public class Item {
     }
 
     /**
+     * Accessor method for description
      * @return A String containing a description of the item
      */
     public String getDescription() {
@@ -182,6 +173,7 @@ public class Item {
     }
 
     /**
+     * Accessor method for id
      * @return A String containing the unique ID of the item
      */
     public String getId() {
@@ -189,30 +181,100 @@ public class Item {
     }
 
     /**
-     * @return A Date object containing the date and time of this items release
+     * Accessor method for date
+     * @return A String containing the date and time of this items release
      */
     public String getDate() {
         return date;
     }
 
+    /**
+     * Accessor method for feedIdentifier
+     * @return A String containing the feed identifier for this Item
+     */
+    public String getFeedIdentifier() {
+        return feedIdentifier;
+    }
+
+    /**
+     * Accessor method for visited
+     * @return The boolean value of visited.
+     */
+    public boolean isVisited() {
+        return visited;
+    }
+
+    /**
+     * Accessor method for starred
+     * @return The boolean value of starred.
+     */
+    public boolean isStarred() {
+        return starred;
+    }
+
+    /**
+     * Mutator method for title
+     * @param title The new String we want assigned to title
+     */
     void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     * Mutator method for link
+     * @param link The new String we want assigned to link
+     */
     void setLink(String link) {
         this.link = link;
     }
 
+    /**
+     * Mutator method for description
+     * @param description The new String we want assigned to description
+     */
     void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * Mutator method for id
+     * @param id The new String we want assigned to id
+     */
     void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * Mutator method for date
+     * @param date The new String we want assigned to date
+     */
     void setDate(String date) {
+        // VALIDATION NEEDED!!!!!
         this.date = date;
+    }
+
+    /**
+     * Mutator method for feedIdentifier
+     * @param feedIdentifier The new String we want assigned to feedIdentifier
+     */
+    void setFeedIdentifier(String feedIdentifier) {
+        this.feedIdentifier = feedIdentifier;
+    }
+
+    /**
+     * Mutator method for visited
+     * @param visited The new boolean value of visited
+     */
+    public void setVisited(boolean visited) {
+        this.visited = visited;
+    }
+
+    /**
+     * Mutator method for starred
+     * @param starred The new boolean value of starred
+     */
+    public void setStarred(boolean starred) {
+        this.starred = starred;
     }
 }
 

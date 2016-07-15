@@ -1,4 +1,4 @@
-package system.exceptions;
+package rss.exceptions;
 
 /**
  * Class ItemDoesNotExist
@@ -11,6 +11,6 @@ public class ItemDoesNotExist extends RuntimeException {
     }
 
     public ItemDoesNotExist(String itemId, String feedUrl) {
-        super("There is no Feed with the ÍD \"" + itemId + "\" in Feed \"" + itemId + "\"");
+        super("There is no Feed with the ÍD \"" + itemId + "\" in Feed \"" + feedUrl + "\"");
     }
 }

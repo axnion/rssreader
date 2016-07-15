@@ -39,7 +39,7 @@ public class RssParser {
         String title = getTitle(channel);
         String link = getLink(channel);
         String description = getDescription(channel);
-        ArrayList<Item> items = getItems(channel);
+        ArrayList<Item> items = getItems(channel, url);
 
         return new Feed(title, link, description,url, items);
     }
@@ -78,7 +78,7 @@ public class RssParser {
         return "";
     }
 
-    private ArrayList<Item> getItems(Element channel) {
+    private ArrayList<Item> getItems(Element channel, String url) {
         NodeList nodes = channel.getChildNodes();
         ArrayList<Item> items = new ArrayList<>();
 
@@ -127,6 +127,7 @@ public class RssParser {
                     item.setDescription("");
                 }
 
+                item.setFeedIdentifier(url);
                 items.add(item);
             }
         }

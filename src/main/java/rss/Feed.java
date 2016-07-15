@@ -1,5 +1,7 @@
 package rss;
 
+import rss.exceptions.ItemDoesNotExist;
+
 import java.util.ArrayList;
 
 /**
@@ -11,7 +13,6 @@ import java.util.ArrayList;
  * able to update.
  *
  * @author Axel Nilsson (axnion)
- * @version 1.0
  */
 public class Feed {
     private String title;           // The title of the feed
@@ -29,6 +30,14 @@ public class Feed {
         this.description = description;
         this.urlToXML = urlToXml;
         this.items = items;
+    }
+
+    public Item getItemById(String id) {
+        for(Item item : items) {
+            if(item.getId().equals(id))
+                return item;
+        }
+        throw new ItemDoesNotExist(id, urlToXML);
     }
 
     /*

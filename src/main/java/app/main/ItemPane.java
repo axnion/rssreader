@@ -3,9 +3,8 @@ package app.main;
 import app.App;
 import app.misc.ClickButton;
 import app.misc.ToggleColorButton;
-import app.misc.ToggleIconButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
-import htmlParser.HtmlParser;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
@@ -24,24 +23,32 @@ import system.Configuration;
  */
 class ItemPane extends VBox {
     private boolean detailsVisible;
-    private Item item;
+    private Group detailsGroup;
     private VBox detailsContainer;
-    private String feedListName;
 
     ItemPane(Item item, String feedListName) {
-        this.item = item;
-        this.feedListName = feedListName;
         detailsVisible = false;
+        detailsGroup = new Group();
         detailsContainer = new VBox();
 
         setMinWidth(470);
 
         getStyleClass().add("ItemPane");
-        getChildren().add(createItemBar());
+
+        try {
+            if(item.isVisited())
+                getStyleClass().add("NotVisited");
+        }
+        catch(Exception expt) {
+            expt.printStackTrace();
+        }
+
+        createDetailsGroup(item);
+        getChildren().add(createItemBar(item, feedListName));
         getChildren().add(detailsContainer);
     }
 
-    private HBox createItemBar() {
+    private HBox createItemBar(Item item, String feedListName) {
         HBox itemBar = new HBox();
 
         Text itemTitle = new Text(item.getTitle());
@@ -50,33 +57,24 @@ class ItemPane extends VBox {
 
         VBox titleContainer = new VBox(itemTitle);
         titleContainer.setOnMouseClicked(event -> {
-            if(event.getButton().equals(MouseButton.PRIMARY))
+            if(event.getButton().equals(MouseButton.PRIMARY)) {
+                getStyleClass().clear();
+                getStyleClass().add("ItemPane");
                 App.openLink(item.getLink());
+                Configuration.setVisited(item.getId(), item.getFeedIdentifier(), feedListName,
+                        true);
+            }
         });
 
-        boolean startStarredStatus = false;
-        try {
-            startStarredStatus = Configuration.isStarred(feedListName, item.getId());
-        }
-        catch(Exception expt) {
-            expt.printStackTrace();
-        }
-
         ToggleColorButton starredButton = new ToggleColorButton(MaterialIcon.STAR,
-                "ToggleColorButtonOn", "ToggleColorButtonOff", startStarredStatus,
+                "ToggleColorButtonOn", "ToggleColorButtonOff", item.isStarred(),
                 "20px", "Star this item");
 
         starredButton.setOnMouseClicked(event -> {
             if(event.getButton().equals(MouseButton.PRIMARY)) {
-                try {
-                    starredButton.toggle();
-                    Configuration.setStarred(feedListName, item.getId(),
-                            !Configuration.isStarred(feedListName, item.getId()));
-                }
-                catch(Exception expt) {
-                    starredButton.toggle();
-                    expt.printStackTrace();
-                }
+                starredButton.toggle();
+                Configuration.setStarred(item.getId(), item.getFeedIdentifier(), feedListName,
+                        starredButton.getCurrentStatus());
             }
         });
 
@@ -91,32 +89,32 @@ class ItemPane extends VBox {
         return itemBar;
     }
 
+    private void createDetailsGroup(Item item) {
+        TextFlow linkFlow = new TextFlow();
+        Text linkLabel = new Text("Link: ");
+        linkLabel.getStyleClass().add("DetailsLable");
+        Text linkText = new Text(item.getLink());
+        linkText.getStyleClass().add("DetailsText");
+        linkFlow.getChildren().addAll(linkLabel, linkText);
+        linkFlow.setMinWidth(440);
+
+        TextFlow descriptionFlow = new TextFlow();
+        Text descriptionLabel = new Text("Description: ");
+        descriptionLabel.getStyleClass().add("DetailsLable");
+        Text descriptionText = new Text(item.getDescription());
+        descriptionText.getStyleClass().add("DetailsText");
+        descriptionFlow.getChildren().addAll(descriptionLabel, descriptionText);
+        descriptionFlow.setMinWidth(440);
+
+        detailsGroup.getChildren().addAll(linkFlow, descriptionFlow);
+    }
+
     private void showHideDetails() {
         if(detailsVisible) {
             detailsContainer.getChildren().clear();
         }
         else {
-            TextFlow linkFlow = new TextFlow();
-            Text linkLabel = new Text("Link: ");
-            linkLabel.getStyleClass().add("DetailsLable");
-            Text linkText = new Text(item.getLink());
-            linkText.getStyleClass().add("DetailsText");
-            linkFlow.getChildren().addAll(linkLabel, linkText);
-            linkFlow.setMinWidth(440);
-
-            TextFlow descriptionFlow = new TextFlow();
-            Text descriptionLabel = new Text("Description: ");
-            descriptionLabel.getStyleClass().add("DetailsLable");
-            Text descriptionText = new Text(item.getDescription());
-            descriptionText.getStyleClass().add("DetailsText");
-            descriptionFlow.getChildren().addAll(descriptionLabel, descriptionText);
-            descriptionFlow.setMinWidth(440);
-
-            //detailsContainer.getChildren().addAll(linkFlow, descriptionFlow);
-
-            HtmlParser htmlParser = new HtmlParser();
-            TextFlow textFlow = htmlParser.getAsTextFlow(item.getDescription());
-            detailsContainer.getChildren().add(textFlow);
+            detailsContainer.getChildren().add(detailsGroup);
             detailsContainer.minHeight(100);
         }
         detailsVisible = !detailsVisible;

@@ -20,6 +20,7 @@ import java.util.LinkedList;
  */
 public class FeedList {
     private String name;
+    private String sortingRules;
     private ArrayList<Feed> feeds;
     private RssParser rssParser;
 
@@ -29,8 +30,9 @@ public class FeedList {
      */
     FeedList(String name) {
         this.name = name;
-        feeds = new ArrayList<>();
-        rssParser = new RssParser();
+        this.sortingRules = "DATE_DEC";
+        this.feeds = new ArrayList<>();
+        this.rssParser = new RssParser();
     }
 
     /**
@@ -117,20 +119,32 @@ public class FeedList {
      * Returns all Item objects in an ArrayList from all of the Feed objects that the FeedList
      * holds. The returned ArrayList is also sorted according to the sorting rules given though the
      * parameter sorting using the sort method.
-     * @param sorting   A String containing rules on how the ArrayList should be sorted.
      * @return          An ArrayList containing all Item objects from all Feed objects in this
      *                  FeedList that is sorted according to the rules in the sorting string.
      */
-    ArrayList<Item> getAllItems(String sorting) {
+    ArrayList<Item> getAllItems() {
         ArrayList<Item> items = new ArrayList<>();
 
         for(Feed feed : feeds) {
             items.addAll(feed.getItems());
         }
 
-        items = sort(items, sorting);
+        items = sort(items);
 
         return items;
+    }
+
+    /**
+     *
+     * @param url
+     * @return
+     */
+    Feed getFeedByUrl(String url) {
+        int index = getIndexOf(url);
+        if(index != -1)
+            return feeds.get(index);
+        else
+            throw new FeedDoesNotExist(url, name);
     }
 
     /**
@@ -151,11 +165,10 @@ public class FeedList {
     /**
      * Sorts an ArrayList of Item objects using the merge sort algorithm.
      * @param items An ArrayList of Item objects to be sorted
-     * @param rules A String containing the rules for how the ArrayList should be sorted
      * @return      An ArrayList containing all Item objects from the argument ArrayList but sorted
      *              according to the rules specified in the rules argument.
      */
-    private ArrayList<Item> sort(ArrayList<Item> items, String rules) {
+    private ArrayList<Item> sort(ArrayList<Item> items) {
         if(items.size() <= 1)
             return items;
 
@@ -177,8 +190,8 @@ public class FeedList {
                 right.add(item);
         }
 
-        left = sort(left, rules);
-        right = sort(right, rules);
+        left = sort(left);
+        right = sort(right);
 
         leftQueue.addAll(left);
         rightQueue.addAll(right);
@@ -193,13 +206,13 @@ public class FeedList {
                 continue;
             }
 
-            titleAsc = rules.equals("TITLE_ASC") && leftQueue.peek()
+            titleAsc = getSortingRules().equals("TITLE_ASC") && leftQueue.peek()
                     .compareTitle(rightQueue.peek()) <= 0;
-            titleDec = rules.equals("TITLE_DEC") && leftQueue.peek()
+            titleDec = getSortingRules().equals("TITLE_DEC") && leftQueue.peek()
                     .compareTitle(rightQueue.peek()) > 0;
-            dateAsc =  rules.equals("DATE_ASC")  && leftQueue.peek()
+            dateAsc =  getSortingRules().equals("DATE_ASC")  && leftQueue.peek()
                     .compareDate(rightQueue.peek()) <= 0;
-            dateDec =  rules.equals("DATE_DEC")  && leftQueue.peek()
+            dateDec =  getSortingRules().equals("DATE_DEC")  && leftQueue.peek()
                     .compareDate(rightQueue.peek()) > 0;
 
             if(titleAsc || titleDec || dateAsc || dateDec) {
@@ -218,48 +231,64 @@ public class FeedList {
     */
 
     /**
-     * Returns the name of the FeedList. Name is used as identifier for FeedList.
-     * @return  The value of the field name.
+     * Accessor method for name
+     * @return  A String containing the value of the name field
      */
     public String getName() {
         return name;
     }
 
     /**
-     *
-     * @return
+     * Accessor method for sortingRules
+     * @return A String containing the value of the sortingRules field
+     */
+    public String getSortingRules() {
+        return sortingRules;
+    }
+
+    /**
+     * Accessor method for feeds
+     * @return An ArrayList containing Feed objects
      */
     ArrayList<Feed> getFeeds() {
         return feeds;
     }
 
     /**
-     *
-     * @return
+     * Accessor method for rssParser
+     * @return An RssParser object
      */
     RssParser getRssParser() {
         return rssParser;
     }
 
     /**
-     * Used to set the name if the FeedList.
-     * @param name  The new name we want to set
+     * Mutator method for name
+     * @param name A String containing the new value of name
      */
     void setName(String name) {
         this.name = name;
     }
 
     /**
-     *
-     * @param feeds
+     * Mutator method for sortingRules
+     * @param sortingRules A String containing the new value of sortingRules
+     */
+    void setSortingRules(String sortingRules) {
+        this.sortingRules = sortingRules;
+    }
+
+    /**
+     * Mutator method for feeds
+     * @param feeds An ArrayList of Feed objects to be set as the new feeds
      */
     void setFeeds(ArrayList<Feed> feeds) {
         this.feeds = feeds;
     }
 
     /**
-     *
-     * @param rssParser
+     * Mutator method for rssParser
+     * @param rssParser An RssParser to be set as this FeedLists RssParser
      */
     void setRssParser(RssParser rssParser) {
         this.rssParser = rssParser;

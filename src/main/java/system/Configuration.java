@@ -1,7 +1,7 @@
 package system;
 
 import rss.Feed;
-import system.exceptions.DatabaseError;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import system.exceptions.FeedListAlreadyExists;
 import system.exceptions.FeedListDoesNotExist;
 import rss.Item;
@@ -83,7 +83,7 @@ public class Configuration {
         ArrayList<Item> items = new ArrayList<>();
 
         try {
-            items = getFeedListByName(listName).getAllItems(getSorting(listName));
+            items = getFeedListByName(listName).getAllItems();
         }
         catch(Exception expt) {
             expt.printStackTrace();
@@ -98,6 +98,22 @@ public class Configuration {
 
     public static ArrayList<FeedList> getAllFeedLists() {
         return feedLists;
+    }
+
+    public static void setSorting(String listName, String sorting) {
+        throw new NotImplementedException();
+    }
+
+    public static void setVisited(String listName, String feedIdentifier, String itemId,
+                                  boolean status) {
+        getFeedListByName(listName).getFeedByUrl(feedIdentifier).getItemById(itemId)
+                .setVisited(status);
+    }
+
+    public static void setStarred(String listName, String feedIdentifier, String itemId,
+                                  boolean status) {
+        getFeedListByName(listName).getFeedByUrl(feedIdentifier).getItemById(itemId)
+                .setStarred(status);
     }
 
     static void reset() {
@@ -127,29 +143,29 @@ public class Configuration {
     -------------------------------------- DATABASE ACCESS -----------------------------------------
     */
 
-    public static String getSorting(String listName) throws Exception {
-        return databaseController.getSorting(listName);
-    }
-
-    public static boolean isVisited(String listName, String itemId) throws Exception {
-        return databaseController.getVisitedStatus(listName, itemId);
-    }
-
-    public static boolean isStarred(String listName, String itemId) throws Exception {
-        return databaseController.getStarredStatus(listName, itemId);
-    }
-
-    public static void setSorting(String listName, String sorting) throws Exception {
-        databaseController.setSorting(listName, sorting);
-    }
-
-    public static void setVisited(String listName, String itemId, boolean status) throws Exception {
-        databaseController.setVisitedStatus(listName, itemId, status);
-    }
-
-    public static void setStarred(String listName, String itemId, boolean status) throws Exception {
-        databaseController.setStarredStatus(listName, itemId, status);
-    }
+//    public static String getSorting(String listName) throws Exception {
+//        return databaseController.getSorting(listName);
+//    }
+//
+//    public static boolean isVisited(String listName, String itemId) throws Exception {
+//        return databaseController.getVisitedStatus(listName, itemId);
+//    }
+//
+//    public static boolean isStarred(String listName, String itemId) throws Exception {
+//        return databaseController.getStarredStatus(listName, itemId);
+//    }
+//
+//    public static void setSorting(String listName, String sorting) throws Exception {
+//        databaseController.setSorting(listName, sorting);
+//    }
+//
+//    public static void setVisited(String listName, String itemId, boolean status) throws Exception {
+//        databaseController.setVisitedStatus(listName, itemId, status);
+//    }
+//
+//    public static void setStarred(String listName, String itemId, boolean status) throws Exception {
+//        databaseController.setStarredStatus(listName, itemId, status);
+//    }
 
     public static void newDatabase() throws Exception {
         reset();

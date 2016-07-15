@@ -18,6 +18,14 @@
     -fx-background-color: #313535;
 }
 
+.NotVisited {
+    -fx-background-color: #d65e15;
+}
+
+.NotVisited:hover {
+    -fx-background-color: #d6875a;
+}
+
 .SideMenu {
     -fx-padding: 5px;
     -fx-background-color: #393F3F;
