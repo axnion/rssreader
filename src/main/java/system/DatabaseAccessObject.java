@@ -39,16 +39,26 @@ public class DatabaseAccessObject {
         }
     }
 
+    /*
+    ------------------------------------ LOAD FROM DATABASE ----------------------------------------
+    */
+
     ArrayList<FeedList> load() throws Exception {
-        Statement statement = loadPreparation();
+        Connection connection = loadPrep();
+        Statement statement = connection.createStatement();
+
         ArrayList<FeedList> feedLists = loadFeedLists(statement);
         loadFeeds(statement, feedLists);
         loadItems(statement, feedLists);
 
+        connection.commit();
+        statement.close();
+        connection.close();
+
         return feedLists;
     }
 
-    private Statement loadPreparation() throws Exception {
+    private Connection loadPrep() throws Exception {
         if(path.equals("temp.db")) {
             File tempDatabase = new File("temp.db");
             tempDatabase.delete();
@@ -56,6 +66,7 @@ public class DatabaseAccessObject {
 
         Class.forName("org.sqlite.JDBC");
         Connection connection = DriverManager.getConnection("jdbc:sqlite:" + path);
+        connection.setAutoCommit(false);
         Statement statement = connection.createStatement();
 
         String createFeedListSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feed_lists(" +
@@ -68,8 +79,9 @@ public class DatabaseAccessObject {
 
         statement.executeUpdate(createFeedListSaveDataTable);
         statement.executeUpdate(createFeedSaveDataTable);
+        statement.close();
 
-        return statement;
+        return connection;
     }
 
     private ArrayList<FeedList> loadFeedLists(Statement statement) throws Exception {
@@ -113,8 +125,66 @@ public class DatabaseAccessObject {
         }
     }
 
-    void save() {
+    /*
+    ------------------------------------ SAVE TO DATABASE ------------------------------------------
+    */
 
+    void save(ArrayList<FeedList> feedLists) throws Exception {
+        Connection connection = savePrep();
+        Statement statement = connection.createStatement();
+
+        saveFeedLists(statement, feedLists);
+        saveFeeds(statement, feedLists);
+        saveItems(statement, feedLists);
+
+        connection.commit();
+        statement.close();
+        connection.close();
+    }
+
+    private Connection savePrep() throws Exception {
+        Class.forName("org.sqlite.JDBC");
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + path);
+        connection.setAutoCommit(false);
+        return connection;
+    }
+
+    private void saveFeedLists(Statement statement, ArrayList<FeedList> feedLists) throws Exception {
+        for(FeedList feedList : feedLists) {
+            String createFeedListTableQuery =  "CREATE TABLE IF NOT EXISTS" + feedList.getName() +
+                    " (ID           TEXT        PRIMARY KEY     UNIQUE     NOT NULL," +
+                    " VISITED       BOOLEAN     NOT NULL," +
+                    " STARRED       BOOLEAN     NOT NULL);";
+
+            String addFeedListToSortTable = "INSERT INTO save_data_feed_lists (FEEDLISTNAME) " +
+                    "VALUES ('" + feedList.getName() + "')";
+
+            statement.executeUpdate(createFeedListTableQuery);
+            statement.executeUpdate(addFeedListToSortTable);
+        }
+    }
+
+    private void saveFeeds(Statement statement, ArrayList<FeedList> feedLists) throws Exception {
+        for(FeedList feedList : feedLists) {
+            for(Feed feed : feedList.getFeeds()) {
+                String addFeedQuery = "INSERT INTO save_data_feeds (URLTOXML,FEEDLISTNAME) " +
+                        "VALUES ('" + feed.getUrlToXML() + "','" + feedList.getName() + "');";
+
+                statement.executeUpdate(addFeedQuery);
+            }
+        }
+    }
+
+    private void saveItems(Statement statement, ArrayList<FeedList> feedLists) throws Exception {
+        for(FeedList feedList : feedLists) {
+            for(Item item : feedList.getAllItems()) {
+                String addItemQuery = "INSERT OR IGNORE INTO " + feedList.getName() +
+                        " (ID,VISITED,STARRED) VALUES ('" + item.getId() + "','" +
+                        item.isVisited() + "','" + item.isStarred() + "');";
+
+                statement.executeUpdate(addItemQuery);
+            }
+        }
     }
 
     void copy(String destination) throws Exception {
