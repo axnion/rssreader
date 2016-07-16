@@ -17,24 +17,6 @@ public class Configuration {
     private static ArrayList<FeedList> feedLists = new ArrayList<>();
     private static DatabaseAccessObject dao = new DatabaseAccessObject();
 
-    public static void addFeed(String url, String listName) {
-        try {
-            getFeedListByName(listName).add(url);
-        }
-        catch(Exception expt) {
-            expt.printStackTrace();
-        }
-    }
-
-    public static void removeFeed(String url, String listName) {
-        try {
-            getFeedListByName(listName).remove(url);
-        }
-        catch(Exception expt) {
-            expt.printStackTrace();
-        }
-    }
-
     public static void addFeedList(String listName) {
         if(!feedListExists(listName)) {
             try {
@@ -59,6 +41,24 @@ public class Configuration {
         }
         else
             throw new FeedListDoesNotExist(listName);
+    }
+
+    public static void addFeed(String url, String listName) {
+        try {
+            getFeedListByName(listName).add(url);
+        }
+        catch(Exception expt) {
+            expt.printStackTrace();
+        }
+    }
+
+    public static void removeFeed(String url, String listName) {
+        try {
+            getFeedListByName(listName).remove(url);
+        }
+        catch(Exception expt) {
+            expt.printStackTrace();
+        }
     }
 
     public static void update() {
@@ -112,6 +112,18 @@ public class Configuration {
                 .setStarred(status);
     }
 
+    private  static boolean feedListExists(String listName) {
+        for(FeedList list : feedLists) {
+            if(list.getName().equals(listName))
+                return true;
+        }
+        return false;
+    }
+
+    /*
+    ----------------------------------- SAVING AND LOADING -----------------------------------------
+    */
+
     public static void newDatabase() throws Exception {
         dao.setPath("temp.db");
         feedLists = dao.load();
@@ -129,14 +141,6 @@ public class Configuration {
     public static void loadDatabase(String path) throws Exception {
         dao.setPath(path);
         feedLists = dao.load();
-    }
-
-    private  static boolean feedListExists(String listName) {
-        for(FeedList list : feedLists) {
-            if(list.getName().equals(listName))
-                return true;
-        }
-        return false;
     }
 
     /*

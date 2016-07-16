@@ -1,11 +1,15 @@
 package app;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import system.Configuration;
 
 /**
@@ -40,21 +44,21 @@ public class App extends Application {
         primaryStage.setScene(primaryScene);
         primaryStage.show();
 
-//        addFeedList("MyFeedList");
-//        addFeedList("MyFeedList2");
-//        addFeed("http://feeds.feedburner.com/sakerhetspodcasten", "MyFeedList");
-//        addFeed("http://feedpress.me/kodsnack", "MyFeedList2");
+        addFeedList("MyFeedList");
+        addFeedList("MyFeedList2");
+        addFeed("http://feeds.feedburner.com/sakerhetspodcasten", "MyFeedList");
+        addFeed("http://feedpress.me/kodsnack", "MyFeedList2");
 
-//        Timeline updateTimer = new Timeline(new KeyFrame(
-//                Duration.seconds(30),
-//                event -> {
-//                    System.out.println("UPDATE");
-//                    Configuration.update();
-//                    root.update();
-//                }
-//        ));
-//        updateTimer.setCycleCount(Animation.INDEFINITE);
-//        updateTimer.play();
+        Timeline updateTimer = new Timeline(new KeyFrame(
+                Duration.seconds(30),
+                event -> {
+                    System.out.println("UPDATE");
+                    Configuration.update();
+                    root.update();
+                }
+        ));
+        updateTimer.setCycleCount(Animation.INDEFINITE);
+        updateTimer.play();
 
         root.update();
     }

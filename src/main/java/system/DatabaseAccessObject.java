@@ -143,6 +143,8 @@ public class DatabaseAccessObject {
     }
 
     private Connection savePrep() throws Exception {
+        new File(path).delete();
+
         Class.forName("org.sqlite.JDBC");
         Connection connection = DriverManager.getConnection("jdbc:sqlite:" + path);
         connection.setAutoCommit(false);

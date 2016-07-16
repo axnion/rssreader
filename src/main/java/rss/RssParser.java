@@ -46,6 +46,7 @@ public class RssParser {
 
     public void updateFeed(Feed feed) {
         // UPDATE THE FEED WITHOUT ASSIGNING A NEW FEED TO THE REFERENCE
+        // HERE ITEMS WILL GET THE FALSE VISITED STATUS
     }
 
     private String getTitle(Element channel) {

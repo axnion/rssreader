@@ -35,13 +35,8 @@ class ItemPane extends VBox {
 
         getStyleClass().add("ItemPane");
 
-        try {
-            if(item.isVisited())
-                getStyleClass().add("NotVisited");
-        }
-        catch(Exception expt) {
-            expt.printStackTrace();
-        }
+        if(!item.isVisited())
+            getStyleClass().add("NotVisited");
 
         createDetailsGroup(item);
         getChildren().add(createItemBar(item, feedListName));
