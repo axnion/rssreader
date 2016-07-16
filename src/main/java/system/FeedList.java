@@ -28,9 +28,9 @@ public class FeedList {
      * Constructor
      * @param name  The name we want the FeedList to be identified by.
      */
-    FeedList(String name) {
+    FeedList(String name, String sortingRules) {
         this.name = name;
-        this.sortingRules = "DATE_DEC";
+        this.sortingRules = sortingRules;
         this.feeds = new ArrayList<>();
         this.rssParser = new RssParser();
     }
@@ -49,22 +49,9 @@ public class FeedList {
      * @param url   The url to the feed we want to become a Feed object and be added to the
      *              FeedList.
      */
-    void add(String url, boolean newFeedStatus) {
-        if(getIndexOf(url) == -1) {
-            Feed newFeed = rssParser.getFeed(url);
-
-            try {
-                for(Item item : newFeed.getItems()) {
-                    Configuration.getDatabaseController().addItem(name, item.getId(),
-                            newFeedStatus);
-                }
-            }
-            catch(Exception expt) {
-                expt.printStackTrace();
-            }
-
-            feeds.add(newFeed);
-        }
+    void add(String url) {
+        if(getIndexOf(url) == -1)
+            feeds.add(rssParser.getFeed(url));
         else
             throw new FeedAlreadyExists(url, getName());
     }
@@ -101,16 +88,6 @@ public class FeedList {
     void update() {
         for(int i = 0; i < feeds.size(); i++) {
             Feed updatedFeed = rssParser.getFeed(feeds.get(i).getUrlToXML());
-
-            try {
-                for(Item item : updatedFeed.getItems()) {
-                    Configuration.getDatabaseController().addItem(name, item.getId(), false);
-                }
-            }
-            catch(Exception expt) {
-                expt.printStackTrace();
-            }
-
             feeds.set(i, updatedFeed);
         }
     }

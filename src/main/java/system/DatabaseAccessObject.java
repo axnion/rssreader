@@ -150,7 +150,7 @@ public class DatabaseAccessObject {
     }
 
     private void saveFeedLists(Statement statement, FeedList feedList) throws Exception {
-        String createFeedListTableQuery =  "CREATE TABLE IF NOT EXISTS" + feedList.getName() +
+        String createFeedListTableQuery =  "CREATE TABLE IF NOT EXISTS " + feedList.getName() +
                 " (ID           TEXT        PRIMARY KEY     UNIQUE     NOT NULL," +
                 " VISITED       BOOLEAN     NOT NULL," +
                 " STARRED       BOOLEAN     NOT NULL);";

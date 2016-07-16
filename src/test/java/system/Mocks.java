@@ -55,4 +55,10 @@ public class Mocks {
 
         return dbc;
     }
+
+    public static DatabaseAccessObject createDatabaseAccessObjectMock() {
+        DatabaseAccessObject dao = mock(DatabaseAccessObject.class);
+
+        return dao;
+    }
 }

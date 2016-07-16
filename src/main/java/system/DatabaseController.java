@@ -285,7 +285,7 @@ class DatabaseController {
         while(results.next()) {
             String listName = results.getString("feedlistname");
 
-            Configuration.addFeedListWithoutAddingToDatabase(listName);
+            //Configuration.addFeedListWithoutAddingToDatabase(listName);
         }
 
         results = statement.executeQuery(getFeeds);
@@ -293,7 +293,7 @@ class DatabaseController {
             String listName = results.getString("feedlistname");
             String urlToXml = results.getString("urltoxml");
 
-            Configuration.addFeedWithoutAddingToDatabase(listName, urlToXml);
+            //Configuration.addFeedWithoutAddingToDatabase(listName, urlToXml);
         }
     }
 

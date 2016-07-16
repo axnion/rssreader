@@ -111,7 +111,7 @@ public class App extends Application {
         }
 
         root.reset();
-        //root.update();
+        root.update();
     }
 
     public static void openLink(String url) {

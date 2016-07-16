@@ -22,7 +22,7 @@ public class FeedListTests {
 
     @Before
     public void createObject() {
-        feedList = new FeedList("MyFeedList");
+        feedList = new FeedList("MyFeedList", "DATA_DEC");
         feedList.setRssParser(Mocks.createRssParser());
     }
 
@@ -148,7 +148,7 @@ public class FeedListTests {
     public void getAllItemsWithoutSorting() {
         addFeedMocks(true);
 
-        ArrayList<Item> items = feedList.getAllItems("");
+        ArrayList<Item> items = feedList.getAllItems();
 
         assertEquals("item-id-1", items.get(0).getId());
         assertEquals("item-id-2", items.get(1).getId());
@@ -164,7 +164,7 @@ public class FeedListTests {
     public void getAllItemsSortedByTitleAscending() {
         addFeedMocks(true);
 
-        ArrayList<Item> items = feedList.getAllItems("TITLE_ASC");
+        ArrayList<Item> items = feedList.getAllItems();
 
         assertEquals("Alignment", items.get(0).getTitle());
         assertEquals("Ambient", items.get(1).getTitle());
@@ -180,7 +180,7 @@ public class FeedListTests {
     public void getAllItemsSortedByTitleDescending() {
         addFeedMocks(true);
 
-        ArrayList<Item> items = feedList.getAllItems("TITLE_DEC");
+        ArrayList<Item> items = feedList.getAllItems();
 
         assertEquals("Treason", items.get(0).getTitle());
         assertEquals("Paralysis", items.get(1).getTitle());
@@ -196,7 +196,7 @@ public class FeedListTests {
     public void getAllItemsSortedByDateAscending() {
         addFeedMocks(true);
 
-        ArrayList<Item> items = feedList.getAllItems("DATE_ASC");
+        ArrayList<Item> items = feedList.getAllItems();
 
         assertEquals("Wen, 01 Jan 2015 12:00:00 +0000", items.get(0).getDate());
         assertEquals("Mon, 01 Jan 2016 11:00:00 +0000", items.get(1).getDate());
@@ -212,7 +212,7 @@ public class FeedListTests {
     public void getAllItemsSortedByDateDescending() {
         addFeedMocks(true);
 
-        ArrayList<Item> items = feedList.getAllItems("DATE_DEC");
+        ArrayList<Item> items = feedList.getAllItems();
 
         assertEquals("Thu, 01 Feb 2016 12:00:00 +0000", items.get(0).getDate());
         assertEquals("Tis, 02 Jan 2016 12:00:00 +0000", items.get(1).getDate());
@@ -226,14 +226,14 @@ public class FeedListTests {
 
     @Test
     public void getAllItemsFromEmptyFeedList() {
-        ArrayList<Item> items = feedList.getAllItems("");
+        ArrayList<Item> items = feedList.getAllItems();
         assertEquals(0, items.size());
     }
 
     @Test
     public void getAllItemsFromEmptyFeedsInFeedList() {
         addFeedMocks(false);
-        ArrayList<Item> items = feedList.getAllItems("");
+        ArrayList<Item> items = feedList.getAllItems();
         assertEquals(0, items.size());
     }
 

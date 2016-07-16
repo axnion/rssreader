@@ -15,12 +15,11 @@ import java.util.ArrayList;
  */
 public class Configuration {
     private static ArrayList<FeedList> feedLists = new ArrayList<>();
-    private static DatabaseController databaseController = new DatabaseController();
+    private static DatabaseAccessObject dao = new DatabaseAccessObject();
 
     public static void addFeed(String url, String listName) {
         try {
-            addFeedToDatabase(url, listName);
-            getFeedListByName(listName).add(url, true);
+            getFeedListByName(listName).add(url);
         }
         catch(Exception expt) {
             expt.printStackTrace();
@@ -29,7 +28,6 @@ public class Configuration {
 
     public static void removeFeed(String url, String listName) {
         try {
-            removeFeedFromDatabase(url, listName);
             getFeedListByName(listName).remove(url);
         }
         catch(Exception expt) {
@@ -40,8 +38,7 @@ public class Configuration {
     public static void addFeedList(String listName) {
         if(!feedListExists(listName)) {
             try {
-                addFeedListToDatabase(listName);
-                feedLists.add(new FeedList(listName));
+                feedLists.add(new FeedList(listName, "DATE_DEC"));
             }
             catch(Exception expt) {
                 expt.printStackTrace();
@@ -54,7 +51,6 @@ public class Configuration {
     public static void removeFeedList(String listName) {
         if(feedListExists(listName)) {
             try {
-                removeFeedListFromDatabase(listName);
                 feedLists.remove(getFeedListByName(listName));
             }
             catch(Exception expt) {
@@ -116,19 +112,23 @@ public class Configuration {
                 .setStarred(status);
     }
 
-    static void reset() {
-        feedLists = new ArrayList<>();
-        databaseController = new DatabaseController();
+    public static void newDatabase() throws Exception {
+        dao.setPath("temp.db");
+        feedLists = dao.load();
     }
 
-    static void addFeedListWithoutAddingToDatabase(String listName) {
-        if(!feedListExists(listName)) {
-            feedLists.add(new FeedList(listName));
-        }
+    public static void saveDatabase() throws Exception {
+        dao.save(feedLists);
     }
 
-    static void addFeedWithoutAddingToDatabase(String listName, String url) {
-        getFeedListByName(listName).add(url, false);
+    public static void saveDatabase(String path) throws Exception {
+        dao.copy(path);
+        dao.save(feedLists);
+    }
+
+    public static void loadDatabase(String path) throws Exception {
+        dao.setPath(path);
+        feedLists = dao.load();
     }
 
     private  static boolean feedListExists(String listName) {
@@ -137,64 +137,6 @@ public class Configuration {
                 return true;
         }
         return false;
-    }
-
-    /*
-    -------------------------------------- DATABASE ACCESS -----------------------------------------
-    */
-
-//    public static String getSorting(String listName) throws Exception {
-//        return databaseController.getSorting(listName);
-//    }
-//
-//    public static boolean isVisited(String listName, String itemId) throws Exception {
-//        return databaseController.getVisitedStatus(listName, itemId);
-//    }
-//
-//    public static boolean isStarred(String listName, String itemId) throws Exception {
-//        return databaseController.getStarredStatus(listName, itemId);
-//    }
-//
-//    public static void setSorting(String listName, String sorting) throws Exception {
-//        databaseController.setSorting(listName, sorting);
-//    }
-//
-//    public static void setVisited(String listName, String itemId, boolean status) throws Exception {
-//        databaseController.setVisitedStatus(listName, itemId, status);
-//    }
-//
-//    public static void setStarred(String listName, String itemId, boolean status) throws Exception {
-//        databaseController.setStarredStatus(listName, itemId, status);
-//    }
-
-    public static void newDatabase() throws Exception {
-        reset();
-        databaseController.newDatabase();
-    }
-
-    public static void saveDatabase(String path) throws Exception {
-        databaseController.saveDatabase(path);
-    }
-
-    public static void loadDatabase(String path) throws Exception {
-        reset();
-        databaseController.loadDatabase(path);
-    }
-
-    private static void addFeedListToDatabase(String listName) throws Exception {
-        databaseController.addFeedList(listName);
-    }
-
-    private static void removeFeedListFromDatabase(String listName) throws Exception {
-        databaseController.removeFeedList(listName);
-    }
-
-    private static void addFeedToDatabase(String url, String listName) throws Exception {
-        databaseController.addFeed(url, listName);
-    }
-
-    private static void removeFeedFromDatabase(String url, String listName) throws Exception {
-        databaseController.removeFeed(url, listName);
     }
 
     /*
@@ -209,11 +151,11 @@ public class Configuration {
         feedLists = newFeedLists;
     }
 
-    static DatabaseController getDatabaseController() {
-        return databaseController;
+    static DatabaseAccessObject getDao() {
+        return dao;
     }
 
-    static void setDatabaseController(DatabaseController newDatabaseController) {
-        databaseController = newDatabaseController;
+    static void setDao(DatabaseAccessObject newDao) {
+        dao = newDao;
     }
 }

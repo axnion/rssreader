@@ -3,6 +3,8 @@ import javafx.scene.text.TextFlow;
 import org.junit.Test;
 import system.Configuration;
 
+import java.sql.Connection;
+
 /**
  * Class systemTests
  *
@@ -22,5 +24,18 @@ public class systemTests {
         Configuration.addFeed("http://feeds.feedburner.com/sakerhetspodcasten", "MyFeedList");
 
         Configuration.removeFeedList("MyFeedList");
+    }
+
+    @Test
+    public void saveDatabase() {
+        Configuration.addFeedList("TestList");
+        Configuration.addFeed("http://feeds.feedburner.com/sakerhetspodcasten", "TestList");
+
+        try {
+            Configuration.saveDatabase("");
+        }
+        catch(Exception expt) {
+            expt.printStackTrace();
+        }
     }
 }

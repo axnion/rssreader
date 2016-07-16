@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class ConfigurationTests {
     @Before
     public void resetObject() {
-        Configuration.reset();
+        Configuration.setFeedLists(new ArrayList<>());
     }
 
     @Test
@@ -47,12 +47,12 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
         Configuration.setFeedLists(feedLists);
 
-        DatabaseController dbc = Mocks.createDatabaseControllerMock();
-        Configuration.setDatabaseController(dbc);
+        DatabaseAccessObject dao = Mocks.createDatabaseAccessObjectMock();
+        Configuration.setDao(dao);
 
         assertEquals("FeedList1", Configuration.getFeedLists().get(0).getName());
         assertEquals("FeedList2", Configuration.getFeedLists().get(1).getName());
-        assertEquals(dbc, Configuration.getDatabaseController());
+        assertEquals(dao, Configuration.getDao());
     }
 
     /**
@@ -69,9 +69,6 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
         Configuration.setFeedLists(feedLists);
 
-        DatabaseController dbc = Mocks.createDatabaseControllerMock();
-        Configuration.setDatabaseController(dbc);
-
         String url = ConfigurationTests.class
                 .getResource("../../../resources/test/xml/exampleFeed1.xml").getPath();
 
@@ -79,12 +76,6 @@ public class ConfigurationTests {
 
         verify(feedLists.get(0), times(1)).add(any());
         verify(feedLists.get(1), never()).add(any());
-
-        try {
-            verify(dbc, times(1)).addFeed(url, "FeedList1");
-        }
-        catch(Exception err) {
-        }
     }
 
     /**
@@ -102,9 +93,6 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
         Configuration.setFeedLists(feedLists);
 
-        DatabaseController dbc = Mocks.createDatabaseControllerMock();
-        Configuration.setDatabaseController(dbc);
-
         String url = ConfigurationTests.class
                 .getResource("../../../resources/test/xml/exampleFeed1.xml").getPath();
 
@@ -112,12 +100,6 @@ public class ConfigurationTests {
 
         verify(feedLists.get(0), never()).add(any());
         verify(feedLists.get(1), never()).add(any());
-
-        try {
-            verify(dbc, times(1)).removeFeed(url, "FeedList1");
-        }
-        catch(Exception err) {
-        }
     }
 
     /**
@@ -133,9 +115,6 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
         Configuration.setFeedLists(feedLists);
 
-        DatabaseController dbc = Mocks.createDatabaseControllerMock();
-        Configuration.setDatabaseController(dbc);
-
         String url = ConfigurationTests.class
                 .getResource("../../../resources/test/xml/exampleFeed1.xml").getPath();
 
@@ -143,11 +122,6 @@ public class ConfigurationTests {
 
         verify(feedLists.get(0), times(1)).remove(any());
         verify(feedLists.get(1), never()).remove(any());
-        try {
-            verify(dbc, times(1)).removeFeed(url, "FeedList1");
-        }
-        catch(Exception err) {
-        }
     }
 
     /**
@@ -233,9 +207,6 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList1"));
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
         Configuration.setFeedLists(feedLists);
-
-        DatabaseController dbc = Mocks.createDatabaseControllerMock();
-        Configuration.setDatabaseController(dbc);
 
         Configuration.removeFeedList("FeedList1");
 
@@ -335,277 +306,9 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
 
         Configuration.setFeedLists(feedLists);
-        Configuration.setDatabaseController(Mocks.createDatabaseControllerMock());
         Configuration.getAllItemsFromFeedList("FeedList1");
 
-        verify(feedLists.get(0), times(1)).getAllItems(any());
-        verify(feedLists.get(1), never()).getAllItems(any());
-    }
-
-    /**
-     * Name: Get sorting
-     * Unit: getSorting()
-     *
-     * Gets the sorting information from the database without DatabaseController throwing
-     * exceptions.
-     */
-    @Test
-    public void getSorting() {
-        DatabaseController dbc = Mocks.createDatabaseControllerMock();
-        Configuration.setDatabaseController(dbc);
-
-        try {
-            assertEquals("", Configuration.getSorting("FeedList1"));
-            assertEquals("DATE_DEC", Configuration.getSorting("FeedList2"));
-            verify(dbc, times(1)).getSorting("FeedList1");
-        }
-        catch(Exception err) {
-            err.printStackTrace();
-            fail();
-        }
-    }
-
-    /**
-     * Name: Get sorting database error
-     * Unit getSorting()
-     *
-     * Gets the sorting information from a database where the DatabaseController throws an
-     * exception. DatabaseError exception should be thrown.
-     */
-    @Test(expected = DatabaseError.class)
-    public void getSortingDatabaseError() {
-        DatabaseController dbc = Mocks.createDatabaseControllerMock();
-        Configuration.setDatabaseController(dbc);
-
-        try {
-            Configuration.getSorting("FeedList3");
-            verify(dbc, times(1)).getSorting("FeedList3");
-        }
-        catch(Exception err) {
-            err.printStackTrace();
-            fail();
-        }
-    }
-
-    /**
-     * Name: Is visited
-     * Unit isVisited()
-     *
-     * Gets visited status from the database without DatabaseController throwing exceptions.
-     */
-    @Test
-    public void isVisited() {
-        DatabaseController dbc = Mocks.createDatabaseControllerMock();
-        Configuration.setDatabaseController(dbc);
-
-        try {
-            assertEquals(true, Configuration.isVisited("FeedList1", "item_id_1"));
-            assertEquals(false, Configuration.isVisited("FeedList1", "item_id_2"));
-            verify(dbc, times(1)).getVisitedStatus("FeedList1", "item_id_1");
-            verify(dbc, times(1)).getVisitedStatus("FeedList1", "item_id_2");
-        }
-        catch(Exception err) {
-            err.printStackTrace();
-            fail();
-        }
-    }
-
-    /**
-     * Name: Is visited database error
-     * Unit isVisited()
-     *
-     * Gets the visited status from a database where the DatabaseController throws an
-     * exception. DatabaseError exception should be thrown.
-     */
-    @Test(expected = DatabaseError.class)
-    public void isVisitedDatabaseError() {
-        DatabaseController dbc = Mocks.createDatabaseControllerMock();
-        Configuration.setDatabaseController(dbc);
-
-        try {
-            Configuration.isVisited("FeedList2", "item_id_3");
-            verify(dbc, times(1)).getVisitedStatus("FeedList2", "item_id_3");
-        }
-        catch(Exception err) {
-            err.printStackTrace();
-            fail();
-        }
-    }
-
-    /**
-     * Name: Is starred
-     * Unit isStarred()
-     *
-     * Gets starred status from the database without DatabaseController throwing exceptions.
-     */
-    @Test
-    public void isStarred() {
-        DatabaseController dbc = Mocks.createDatabaseControllerMock();
-        Configuration.setDatabaseController(dbc);
-
-        try {
-            assertEquals(true, Configuration.isStarred("FeedList1", "item_id_1"));
-            assertEquals(false, Configuration.isStarred("FeedList1", "item_id_2"));
-            verify(dbc, times(1)).getStarredStatus("FeedList1", "item_id_1");
-            verify(dbc, times(1)).getStarredStatus("FeedList1", "item_id_2");
-        }
-        catch(Exception err) {
-            err.printStackTrace();
-            fail();
-        }
-    }
-
-    /**
-     * Name: Is starred database error
-     * Unit isStarred()
-     *
-     * Gets the starred status from a database where the DatabaseController throws an
-     * exception. DatabaseError exception should be thrown.
-     */
-    @Test(expected = DatabaseError.class)
-    public void isStarredDatabaseError() {
-        DatabaseController dbc = Mocks.createDatabaseControllerMock();
-        Configuration.setDatabaseController(dbc);
-
-        try {
-            Configuration.isStarred("FeedList2", "item_id_3");
-            verify(dbc, times(1)).getStarredStatus("FeedList2", "item_id_3");
-        }
-        catch(Exception err) {
-            err.printStackTrace();
-            fail();
-        }
-    }
-
-    /**
-     * Name: Set sorting
-     * Unit setSorting()
-     *
-     * Check so the setSorting method on DatabaseController is called when setSorting is called on
-     * Configuration.
-     */
-    @Test
-    public void setSorting() {
-        DatabaseController dbc = Mocks.createDatabaseControllerMock();
-        Configuration.setDatabaseController(dbc);
-
-        try {
-            Configuration.setSorting("FeedList1", "DATE_DEC");
-            verify(dbc, times(1)).setSorting("FeedList1", "DATE_DEC");
-        }
-        catch(Exception err) {
-            err.printStackTrace();
-            fail();
-        }
-    }
-
-    /**
-     * Name: Set sorting database error
-     * Unit setSorting()
-     *
-     * Tries to set the sorting and the DatabaseController throws an exception. DatabaseError should
-     * be thrown.
-     */
-    @Test(expected = DatabaseError.class)
-    public void setSortingDatabaseError() {
-        DatabaseController dbc = Mocks.createDatabaseControllerMock();
-        Configuration.setDatabaseController(dbc);
-
-        try {
-            Configuration.setSorting("FeedList2", "DATE_DEC");
-            verify(dbc, times(1)).setSorting("FeedList2", "DATE_DEC");
-        }
-        catch(Exception err) {
-            err.printStackTrace();
-            fail();
-        }
-    }
-
-    /**
-     * Name: Set visited
-     * Unit setVisited()
-     *
-     * Check so the setVisited method on DatabaseController is called when setVisitedStatus is
-     * called on Configuration.
-     */
-    @Test
-    public void setVisited() {
-        DatabaseController dbc = Mocks.createDatabaseControllerMock();
-        Configuration.setDatabaseController(dbc);
-
-        try {
-            Configuration.setVisited("FeedList1", "item_id_1", false);
-            verify(dbc, times(1)).setVisitedStatus("FeedList1", "item_id_1", false);
-        }
-        catch(Exception err) {
-            err.printStackTrace();
-            fail();
-        }
-    }
-
-    /**
-     * Name: Set visited database error
-     * Unit setVisited()
-     *
-     * Tries to set the visited status and the DatabaseController throws an exception.
-     * DatabaseError should be thrown.
-     */
-    @Test(expected = DatabaseError.class)
-    public void setVisitedDatabaseError() {
-        DatabaseController dbc = Mocks.createDatabaseControllerMock();
-        Configuration.setDatabaseController(dbc);
-
-        try {
-            Configuration.setVisited("FeedList2", "item_id_1", false);
-            verify(dbc, times(1)).setVisitedStatus("FeedList2", "item_id_1", false);
-        }
-        catch(Exception err) {
-            err.printStackTrace();
-            fail();
-        }
-    }
-
-    /**
-     * Name: Set starred
-     * Unit setStarred()
-     *
-     * Check so the setStarred method on DatabaseController is called when setStarredStatus is
-     * called on Configuration.
-     */
-    @Test
-    public void setStarred() {
-        DatabaseController dbc = Mocks.createDatabaseControllerMock();
-        Configuration.setDatabaseController(dbc);
-
-        try {
-            Configuration.setStarred("FeedList1", "item_id_1", false);
-            verify(dbc, times(1)).setStarredStatus("FeedList1", "item_id_1", false);
-        }
-        catch(Exception err) {
-            err.printStackTrace();
-            fail();
-        }
-    }
-
-    /**
-     * Name: Set starred database error
-     * Unit setStarred()
-     *
-     * Tries to set the starred status and the DatabaseController throws an exception.
-     * DatabaseError should be thrown.
-     */
-    @Test(expected = DatabaseError.class)
-    public void setStarredDatabaseError() {
-        DatabaseController dbc = Mocks.createDatabaseControllerMock();
-        Configuration.setDatabaseController(dbc);
-
-        try {
-            Configuration.setStarred("FeedList2", "item_id_1", false);
-            verify(dbc, times(1)).setStarredStatus("FeedList2", "item_id_1", false);
-        }
-        catch(Exception err) {
-            err.printStackTrace();
-            fail();
-        }
+        verify(feedLists.get(0), times(1)).getAllItems();
+        verify(feedLists.get(1), never()).getAllItems();
     }
 }
