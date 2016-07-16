@@ -48,8 +48,11 @@ public class DatabaseAccessObject {
         Statement statement = connection.createStatement();
 
         ArrayList<FeedList> feedLists = loadFeedLists(statement);
-        loadFeeds(statement, feedLists);
-        loadItems(statement, feedLists);
+
+        for(FeedList feedList : feedLists) {
+            loadFeeds(statement, feedList);
+            loadItems(statement, feedList);
+        }
 
         connection.commit();
         statement.close();
@@ -97,31 +100,26 @@ public class DatabaseAccessObject {
         return feedLists;
     }
 
-    private void loadFeeds(Statement statement, ArrayList<FeedList> feedLists) throws Exception {
-        for(FeedList feedList : feedLists) {
-            String query = "SELECT * FROM save_data_feeds WHERE FEEDLISTNAME='" +
-                    feedList.getName() + "';";
+    private void loadFeeds(Statement statement, FeedList feedList) throws Exception {
+        String query = "SELECT * FROM save_data_feeds WHERE FEEDLISTNAME='" +
+                feedList.getName() + "';";
 
-            ResultSet results = statement.executeQuery(query);
-            while(results.next()) {
-                feedList.add(results.getString("urltoxml"));
-            }
+        ResultSet results = statement.executeQuery(query);
+        while(results.next()) {
+            feedList.add(results.getString("urltoxml"));
         }
     }
 
-    private void loadItems(Statement statement, ArrayList<FeedList> feedLists) throws Exception  {
+    private void loadItems(Statement statement, FeedList feedList) throws Exception  {
         String query;
+        for(Item item : feedList.getAllItems()) {
+            query = "SELECT * FROM '" + feedList.getName() + "' WHERE ID='" +
+                    item.getId() + "';";
 
-        for(FeedList feedList : feedLists) {
-            for(Item item : feedList.getAllItems()) {
-                query = "SELECT * FROM '" + feedList.getName() + "' WHERE ID='" +
-                        item.getId() + "';";
-
-                ResultSet results = statement.executeQuery(query);
-                results.next();
-                item.setVisited(results.getBoolean("VISITED"));
-                item.setStarred(results.getBoolean("STARRED"));
-            }
+            ResultSet results = statement.executeQuery(query);
+            results.next();
+            item.setVisited(results.getBoolean("VISITED"));
+            item.setStarred(results.getBoolean("STARRED"));
         }
     }
 
@@ -133,9 +131,11 @@ public class DatabaseAccessObject {
         Connection connection = savePrep();
         Statement statement = connection.createStatement();
 
-        saveFeedLists(statement, feedLists);
-        saveFeeds(statement, feedLists);
-        saveItems(statement, feedLists);
+        for(FeedList feedList : feedLists) {
+            saveFeedLists(statement, feedList);
+            saveFeeds(statement, feedList);
+            saveItems(statement, feedList);
+        }
 
         connection.commit();
         statement.close();
@@ -149,41 +149,35 @@ public class DatabaseAccessObject {
         return connection;
     }
 
-    private void saveFeedLists(Statement statement, ArrayList<FeedList> feedLists) throws Exception {
-        for(FeedList feedList : feedLists) {
-            String createFeedListTableQuery =  "CREATE TABLE IF NOT EXISTS" + feedList.getName() +
-                    " (ID           TEXT        PRIMARY KEY     UNIQUE     NOT NULL," +
-                    " VISITED       BOOLEAN     NOT NULL," +
-                    " STARRED       BOOLEAN     NOT NULL);";
+    private void saveFeedLists(Statement statement, FeedList feedList) throws Exception {
+        String createFeedListTableQuery =  "CREATE TABLE IF NOT EXISTS" + feedList.getName() +
+                " (ID           TEXT        PRIMARY KEY     UNIQUE     NOT NULL," +
+                " VISITED       BOOLEAN     NOT NULL," +
+                " STARRED       BOOLEAN     NOT NULL);";
 
-            String addFeedListToSortTable = "INSERT INTO save_data_feed_lists (FEEDLISTNAME) " +
-                    "VALUES ('" + feedList.getName() + "')";
+        String addFeedListToSortTable = "INSERT INTO save_data_feed_lists (FEEDLISTNAME) " +
+                "VALUES ('" + feedList.getName() + "')";
 
-            statement.executeUpdate(createFeedListTableQuery);
-            statement.executeUpdate(addFeedListToSortTable);
+        statement.executeUpdate(createFeedListTableQuery);
+        statement.executeUpdate(addFeedListToSortTable);
+    }
+
+    private void saveFeeds(Statement statement, FeedList feedList) throws Exception {
+        for(Feed feed : feedList.getFeeds()) {
+            String addFeedQuery = "INSERT INTO save_data_feeds (URLTOXML,FEEDLISTNAME) " +
+                    "VALUES ('" + feed.getUrlToXML() + "','" + feedList.getName() + "');";
+
+            statement.executeUpdate(addFeedQuery);
         }
     }
 
-    private void saveFeeds(Statement statement, ArrayList<FeedList> feedLists) throws Exception {
-        for(FeedList feedList : feedLists) {
-            for(Feed feed : feedList.getFeeds()) {
-                String addFeedQuery = "INSERT INTO save_data_feeds (URLTOXML,FEEDLISTNAME) " +
-                        "VALUES ('" + feed.getUrlToXML() + "','" + feedList.getName() + "');";
+    private void saveItems(Statement statement, FeedList feedList) throws Exception {
+        for(Item item : feedList.getAllItems()) {
+            String addItemQuery = "INSERT OR IGNORE INTO " + feedList.getName() +
+                    " (ID,VISITED,STARRED) VALUES ('" + item.getId() + "','" +
+                    item.isVisited() + "','" + item.isStarred() + "');";
 
-                statement.executeUpdate(addFeedQuery);
-            }
-        }
-    }
-
-    private void saveItems(Statement statement, ArrayList<FeedList> feedLists) throws Exception {
-        for(FeedList feedList : feedLists) {
-            for(Item item : feedList.getAllItems()) {
-                String addItemQuery = "INSERT OR IGNORE INTO " + feedList.getName() +
-                        " (ID,VISITED,STARRED) VALUES ('" + item.getId() + "','" +
-                        item.isVisited() + "','" + item.isStarred() + "');";
-
-                statement.executeUpdate(addItemQuery);
-            }
+            statement.executeUpdate(addItemQuery);
         }
     }
 
