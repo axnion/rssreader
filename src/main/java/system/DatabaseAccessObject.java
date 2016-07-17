@@ -148,6 +148,21 @@ public class DatabaseAccessObject {
         Class.forName("org.sqlite.JDBC");
         Connection connection = DriverManager.getConnection("jdbc:sqlite:" + path);
         connection.setAutoCommit(false);
+
+        Statement statement = connection.createStatement();
+
+        String createFeedListSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feed_lists(" +
+                "FEEDLISTNAME TEXT PRIMARY KEY UNIQUE NOT NULL, " +
+                "SORTING VARCHAR(16)  DEFAULT DATE_DEC NOT NULL);";
+
+        String createFeedSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feeds" +
+                " (URLTOXML     TEXT    NOT NULL," +
+                " FEEDLISTNAME  TEXT    NOT NULL);";
+
+        statement.executeUpdate(createFeedListSaveDataTable);
+        statement.executeUpdate(createFeedSaveDataTable);
+        statement.close();
+
         return connection;
     }
 

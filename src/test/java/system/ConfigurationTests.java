@@ -1,6 +1,5 @@
 package system;
 
-import system.exceptions.DatabaseError;
 import system.exceptions.FeedListAlreadyExists;
 import system.exceptions.FeedListDoesNotExist;
 
@@ -8,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;

@@ -56,7 +56,7 @@ class ItemPane extends VBox {
                 getStyleClass().clear();
                 getStyleClass().add("ItemPane");
                 App.openLink(item.getLink());
-                Configuration.setVisited(item.getId(), item.getFeedIdentifier(), feedListName,
+                Configuration.setVisited(feedListName, item.getFeedIdentifier(), item.getId(),
                         true);
             }
         });
@@ -68,7 +68,7 @@ class ItemPane extends VBox {
         starredButton.setOnMouseClicked(event -> {
             if(event.getButton().equals(MouseButton.PRIMARY)) {
                 starredButton.toggle();
-                Configuration.setStarred(item.getId(), item.getFeedIdentifier(), feedListName,
+                Configuration.setStarred(feedListName, item.getFeedIdentifier(), item.getId(),
                         starredButton.getCurrentStatus());
             }
         });

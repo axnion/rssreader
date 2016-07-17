@@ -6,6 +6,8 @@ import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
+import java.util.Date;
+
 /**
  * Class Wrapper
  *
@@ -14,7 +16,7 @@ import javafx.scene.layout.Priority;
 class Wrapper extends HBox {
     private SideMenu sideMenu;
     private FeedListContainer feedListContainer;
-
+    private static Date lastUpdated;
 
     Wrapper() {
         reset();
@@ -44,6 +46,8 @@ class Wrapper extends HBox {
     }
 
     void update() {
+        lastUpdated = new Date();
+
         sideMenu.updateFeedLists();
         feedListContainer.updateFeedLists();
     }

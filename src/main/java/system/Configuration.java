@@ -1,7 +1,6 @@
 package system;
 
 import rss.Feed;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import system.exceptions.FeedListAlreadyExists;
 import system.exceptions.FeedListDoesNotExist;
 import rss.Item;
@@ -97,7 +96,7 @@ public class Configuration {
     }
 
     public static void setSorting(String listName, String sorting) {
-        throw new NotImplementedException();
+        getFeedListByName(listName).setSortingRules(sorting);
     }
 
     public static void setVisited(String listName, String feedIdentifier, String itemId,

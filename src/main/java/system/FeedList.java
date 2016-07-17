@@ -86,9 +86,8 @@ public class FeedList {
     }
 
     void update() {
-        for(int i = 0; i < feeds.size(); i++) {
-            Feed updatedFeed = rssParser.getFeed(feeds.get(i).getUrlToXML());
-            feeds.set(i, updatedFeed);
+        for(Feed feed : feeds) {
+            rssParser.updateFeed(feed);
         }
     }
 

@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import system.Configuration;
 
+import java.util.Date;
+
 /**
  * Class App
  *
@@ -21,6 +23,7 @@ public class App extends Application {
     public static Wrapper root;
     public static ContextMenu openContextMenu;
     private static BrowserAccess browserAccess;
+
 
     public static void main(String[] args) {
         launch(args);
@@ -44,10 +47,10 @@ public class App extends Application {
         primaryStage.setScene(primaryScene);
         primaryStage.show();
 
-        addFeedList("MyFeedList");
-        addFeedList("MyFeedList2");
-        addFeed("http://feeds.feedburner.com/sakerhetspodcasten", "MyFeedList");
-        addFeed("http://feedpress.me/kodsnack", "MyFeedList2");
+//        addFeedList("MyFeedList");
+//        addFeedList("MyFeedList2");
+//        addFeed("http://feeds.feedburner.com/sakerhetspodcasten", "MyFeedList");
+//        addFeed("http://feedpress.me/kodsnack", "MyFeedList2");
 
         Timeline updateTimer = new Timeline(new KeyFrame(
                 Duration.seconds(30),

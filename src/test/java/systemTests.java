@@ -1,9 +1,6 @@
-import htmlParser.HtmlParser;
-import javafx.scene.text.TextFlow;
+
 import org.junit.Test;
 import system.Configuration;
-
-import java.sql.Connection;
 
 /**
  * Class systemTests
