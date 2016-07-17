@@ -1,5 +1,9 @@
 package rss;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Class Item
  *
@@ -14,8 +18,8 @@ public class Item {
     private String link;            // The link to the content of the item
     private String description;     // A descriptive text about the item
     private String id;              // A unique ID for this item
-    private String date;            // The date the item was released
     private String feedIdentifier;  // The identifier of the feed this item belongs to.
+    private Date date;              // The date the item was released
     private boolean visited;        // The visited status of the Item
     private boolean starred;        // The starred status of the Item
 
@@ -27,7 +31,6 @@ public class Item {
         link = "";
         description = "";
         id = "";
-        date = "";
         feedIdentifier = "";
         visited = true;
         starred = false;
@@ -47,89 +50,8 @@ public class Item {
         return title1.compareTo(title2);
     }
 
-    /**
-     * Compares this Items date to another Items title. It will compare year, months, days, hours,
-     * minutes, and seconds, in that order. If the other item is newer than this it will return an
-     * integer smaller than 0. And if this is newer than the other a positive integer is returned.
-     * If they are the same 0 is returned.
-     * @param other The Item object to compare this Item with
-     * @return      An integer representing the comparison of the titles of these two Items
-     */
     public int compareDate(Item other) {
-        int comparison;
-
-        // Comparing years
-        comparison = Integer.parseInt(this.getDate().substring(12, 16)) -
-                Integer.parseInt(other.getDate().substring(12, 16));
-        if(comparison != 0)
-            return comparison;
-
-        // Comparing months
-        comparison = monthStringToInt(this.getDate().substring(8, 11)) -
-                monthStringToInt(other.getDate().substring(8, 11));
-        if(comparison != 0)
-            return comparison;
-
-        // Comparing days
-        comparison = removeFirstZero(this.getDate().substring(5, 7)) -
-                removeFirstZero(other.getDate().substring(5, 7));
-        if(comparison != 0)
-            return comparison;
-
-        // Comparing hours
-        comparison = removeFirstZero(this.getDate().substring(17, 19)) -
-                removeFirstZero(other.getDate().substring(17, 19));
-        if(comparison != 0)
-            return comparison;
-
-        // Comparing minutes
-        comparison = removeFirstZero(this.getDate().substring(20, 22)) -
-                removeFirstZero(other.getDate().substring(20, 22));
-        if(comparison != 0)
-            return comparison;
-
-        // Comparing seconds
-        comparison = removeFirstZero(this.getDate().substring(23, 25)) -
-                removeFirstZero(other.getDate().substring(23, 25));
-        if(comparison != 0)
-            return comparison;
-
-        return 0;
-    }
-
-    /**
-     * Takes a three character String representing a month. If the String matches one of the
-     * alternatives an integer associated with that month.
-     * @param str   A String representing a month.
-     * @return      An integer representing a month.
-     */
-    private int monthStringToInt(String str) {
-        if(str.equals("Jan"))
-            return 1;
-        else if(str.equals("Feb"))
-            return 2;
-        else if(str.equals("Mar"))
-            return 3;
-        else if(str.equals("Apr"))
-            return 4;
-        else if(str.equals("May"))
-            return 5;
-        else if(str.equals("Jun"))
-            return 6;
-        else if(str.equals("Jul"))
-            return 7;
-        else if(str.equals("Aug"))
-            return 8;
-        else if(str.equals("Sep"))
-            return 9;
-        else if(str.equals("Oct"))
-            return 10;
-        else if(str.equals("Nov"))
-            return 11;
-        else if(str.equals("Dec"))
-            return 12;
-        else
-            return 0;
+        return this.date.compareTo(other.getDate());
     }
 
     /**
@@ -184,7 +106,7 @@ public class Item {
      * Accessor method for date
      * @return A String containing the date and time of this items release
      */
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
@@ -249,8 +171,16 @@ public class Item {
      * @param date The new String we want assigned to date
      */
     void setDate(String date) {
-        // VALIDATION NEEDED!!!!!
-        this.date = date;
+        SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
+
+        try {
+            this.date = format.parse(date);
+            this.date.setTime(this.date.getTime() / 1000);
+        }
+        catch(ParseException expt) {
+            this.date = new Date(0);
+            expt.printStackTrace();
+        }
     }
 
     /**
