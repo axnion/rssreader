@@ -23,6 +23,41 @@ public class RssParser {
     }
 
     public Feed getFeed(String url) {
+        Element channel = getChannelElement(url);
+
+        String title = getTitle(channel);
+        String link = getLink(channel);
+        String description = getDescription(channel);
+        ArrayList<Item> items = getItems(channel, url);
+
+        return new Feed(title, link, description,url, items);
+    }
+
+    public void updateFeed(Feed feed) {
+        Element channel = getChannelElement(feed.getUrlToXML());
+
+        feed.setTitle(getTitle(channel));
+        feed.setLink(getLink(channel));
+        feed.setDescription(getDescription(channel));
+        feed.setItems(updateItems(feed.getItems(), getItems(channel, feed.getUrlToXML())));
+    }
+
+    private ArrayList<Item> updateItems(ArrayList<Item> oldItems, ArrayList<Item> newItems) {
+        for(Item newItem : newItems) {
+            newItem.setVisited(false);
+            newItem.setStarred(false);
+            for(Item oldItem : oldItems) {
+                if(newItem.getId().equals(oldItem.getId())) {
+                    newItem.setVisited(oldItem.isVisited());
+                    newItem.setStarred(oldItem.isStarred());
+                }
+            }
+        }
+
+        return newItems;
+    }
+
+    private Element getChannelElement(String url) {
         Element channel;
 
         try {
@@ -36,17 +71,7 @@ public class RssParser {
             throw new NoXMLFileFound(url);
         }
 
-        String title = getTitle(channel);
-        String link = getLink(channel);
-        String description = getDescription(channel);
-        ArrayList<Item> items = getItems(channel, url);
-
-        return new Feed(title, link, description,url, items);
-    }
-
-    public void updateFeed(Feed feed) {
-        // UPDATE THE FEED WITHOUT ASSIGNING A NEW FEED TO THE REFERENCE
-        // HERE ITEMS WILL GET THE FALSE VISITED STATUS
+        return channel;
     }
 
     private String getTitle(Element channel) {
