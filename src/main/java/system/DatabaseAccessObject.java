@@ -127,11 +127,11 @@ public class DatabaseAccessObject {
     ------------------------------------ SAVE TO DATABASE ------------------------------------------
     */
 
-    void save(ArrayList<FeedList> feedLists) throws Exception {
+    void save() throws Exception {
         Connection connection = savePrep();
         Statement statement = connection.createStatement();
 
-        for(FeedList feedList : feedLists) {
+        for(FeedList feedList : Configuration.getFeedLists()) {
             saveFeedLists(statement, feedList);
             saveFeeds(statement, feedList);
             saveItems(statement, feedList);
@@ -198,10 +198,10 @@ public class DatabaseAccessObject {
         }
     }
 
-    void copy(String destination) throws Exception {
-        FileUtils.copyFile(new File(path), new File(destination));
-        path = destination;
-    }
+//    void copy(String destination) throws Exception {
+//        FileUtils.copyFile(new File(path), new File(destination));
+//        path = destination;
+//    }
 
     String getPath() {
         return path;

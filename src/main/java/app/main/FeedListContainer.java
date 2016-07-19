@@ -55,7 +55,7 @@ public class FeedListContainer extends HBox {
 
         Node node;
 
-        ArrayList<FeedList> feedLists = Configuration.getAllFeedLists();
+        ArrayList<FeedList> feedLists = Configuration.getFeedLists();
 
         for(FeedList feedList : feedLists) {
             ArrayList<Item> items = Configuration.getAllItemsFromFeedList(feedList.getName());

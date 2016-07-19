@@ -72,7 +72,7 @@ class TreeView extends VBox {
     }
 
     void updateFeedList() {
-        ArrayList<FeedList> feedLists = Configuration.getAllFeedLists();
+        ArrayList<FeedList> feedLists = Configuration.getFeedLists();
         menuFeedLists.clear();
         treeViewContainer.getChildren().clear();
 

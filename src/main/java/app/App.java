@@ -12,9 +12,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import system.Configuration;
 
-import java.util.Date;
-import java.util.Set;
-
 /**
  * Class App
  *
