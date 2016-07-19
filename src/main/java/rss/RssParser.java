@@ -18,12 +18,22 @@ import java.util.ArrayList;
  * @author Axel Nilsson (axnion)
  */
 public class RssParser {
-    private boolean updated;
+    private boolean updated; // A field used in the update methods to keep track of update status.
 
+    /**
+     * Constructor
+     */
     public RssParser() {
 
     }
 
+    /**
+     * Uses the other methods in the class to read the XML file and creates and returns a new Feed
+     * object with the results from the methods.
+     *
+     * @param url   A String containing the URL to the XML file.
+     * @return      A Feed representing the content of the feed from the XML file at url.
+     */
     public Feed getFeed(String url) {
         Element channel = getChannelElement(url);
 
@@ -35,6 +45,14 @@ public class RssParser {
         return new Feed(title, link, description,url, items);
     }
 
+    /**
+     * Updates an already created Feed object. It takes one Feed as an argument and updates the
+     * Feeds title, link and description. It also calls the updateItems method which returns an
+     * updated ArrayList of Item objects. Returns the update status.
+     *
+     * @param feed  The Feed object to be updated.
+     * @return      True if
+     */
     public boolean updateFeed(Feed feed) {
         Element channel = getChannelElement(feed.getUrlToXML());
         updated = false;
@@ -47,6 +65,15 @@ public class RssParser {
         return updated;
     }
 
+    /**
+     * Takes all old Items and all new Items and copies the visited and starred statuses from the
+     * old to the new. It also identifies all new Items and sets both visited and starred status to
+     * false.
+     *
+     * @param oldItems  The already existing ArrayList of Item objects
+     * @param newItems  The new ArrayList of Item objects.
+     * @return          The newItems ArrayList with updated visited and starred statuses.
+     */
     private ArrayList<Item> updateItems(ArrayList<Item> oldItems, ArrayList<Item> newItems) {
         boolean newItemStatus;
 
@@ -70,6 +97,14 @@ public class RssParser {
         return newItems;
     }
 
+    /**
+     * Takes a URL to an XML file with an rss feed and creates a Document object. It then gets the
+     * channel element and returns it. If something goes wrong while reading the XML file a
+     * NoXMLFileFound exception is thrown.
+     *
+     * @param url   A String containing the URL to the XML file.
+     * @return      The channel element from the XML file.
+     */
     private Element getChannelElement(String url) {
         Element channel;
 
@@ -87,6 +122,13 @@ public class RssParser {
         return channel;
     }
 
+    /**
+     * Takes the channel Element and gets the title node and returns the value. If no title node is
+     * found then a String with 'Untitled' is returned.
+     *
+     * @param channel   The channel Element of the Document.
+     * @return          A String containing the title of the feed.
+     */
     private String getTitle(Element channel) {
         Node node = channel.getElementsByTagName("title").item(0);
 
@@ -97,6 +139,13 @@ public class RssParser {
         return "Untitled";
     }
 
+    /**
+     * Takes the channel Element and gets the link node and returns the value. If no link node is
+     * found then an empty String is returned.
+     *
+     * @param channel   The channel Element of the Document.
+     * @return          A String containing the link of the feed.
+     */
     private String getLink(Element channel) {
         Node node = channel.getElementsByTagName("link").item(0);
 
@@ -107,6 +156,13 @@ public class RssParser {
         return "";
     }
 
+    /**
+     * Takes the channel Element and gets the description node and returns the value. If no
+     * description is found then an empty String is returned.
+     *
+     * @param channel   The channel Element of the Document.
+     * @return          A String containing the description of the feed.
+     */
     private String getDescription(Element channel) {
         Node node = channel.getElementsByTagName("description").item(0);
 
@@ -117,6 +173,16 @@ public class RssParser {
         return "";
     }
 
+    /**
+     * Iterates through every node in the channel Element and looks for item nodes. If an item node
+     * is found then the method will get the id, title, link, pubDate, and description from the item
+     * node and produce a new Item object and put it in the ArrayList. The ArrayList is then
+     * returned.
+     *
+     * @param channel   The channel Element of the Document.
+     * @param url       The URL to the XML file, is added to every Item as Feed identifier.
+     * @return          An ArrayList of Item objects from the RSS feed.
+     */
     private ArrayList<Item> getItems(Element channel, String url) {
         NodeList nodes = channel.getChildNodes();
         ArrayList<Item> items = new ArrayList<>();
@@ -170,7 +236,6 @@ public class RssParser {
                 items.add(item);
             }
         }
-
         return items;
     }
 }

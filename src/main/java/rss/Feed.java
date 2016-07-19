@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Class Feed
  *
- * The Feed class represents an rss feed. It has the title of the feed or channel, a link to the
+ * The Feed class represents an RSS feed. It has the title of the feed or channel, a link to the
  * "base" website, and it has a text describing the content of the feed. It also has an array of
  * Item objects represents all the items in the feed, and lastly it has a url to the XML file to be
  * able to update.
@@ -32,6 +32,12 @@ public class Feed {
         this.items = items;
     }
 
+    /**
+     * Returns the Item object from items with a matching id to the argument passed though id
+     * parameter. If no Item is found then ItemDoesNotExist exception is thrown.
+     * @param id    A String containing the id of the Item the method should look for.
+     * @return      An Item with an id matching the argument id.
+     */
     public Item getItemById(String id) {
         for(Item item : items) {
             if(item.getId().equals(id))
@@ -119,5 +125,3 @@ public class Feed {
         this.urlToXML = urlToXML;
     }
 }
-
-// Created: 2016-04-17

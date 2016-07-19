@@ -12,9 +12,8 @@ import java.util.LinkedList;
 /**
  * Class FeedList
  *
- * FeedList is a "list-like" object that contains Feed objects. It implements the Iterable
- * interface. It has a name that is used as an identifier for each FeedList and an ArrayList of
- * Feed objects.
+ * FeedList is a "list-like" object that contains Feed objects. It has a name that is used as an
+ * identifier for each FeedList and an ArrayList of Feed objects.
  *
  * @author Axel Nilsson (axnion)
  */
@@ -26,7 +25,8 @@ public class FeedList {
 
     /**
      * Constructor
-     * @param name  The name we want the FeedList to be identified by.
+     *
+     * @param name  The name the FeedList is to be identified by.
      */
     FeedList(String name, String sortingRules) {
         this.name = name;
@@ -36,8 +36,9 @@ public class FeedList {
     }
 
     /**
-     * Used to get the element at a specific index in the FeedList.
-     * @param index The index of the element the method show return.
+     * Returns the Feed object at the specified index passed though the index parameter.
+     *
+     * @param index The index of the element to be returned.
      * @return      A Feed at the specified index in the FeedList.
      */
     Feed get(int index) {
@@ -45,9 +46,11 @@ public class FeedList {
     }
 
     /**
-     * Used to add a Feed object to the FeedList.
-     * @param url   The url to the feed we want to become a Feed object and be added to the
-     *              FeedList.
+     * Used to add a new Feed to feeds. The url to the XML file is passed as an argument though the
+     * url parameter. The url is then passed to the getFeed method in the RssParser object which
+     * returns a Feed object which is added to feeds.
+     *
+     * @param url   The url to the XML file of the Feed to be added.
      */
     void add(String url) {
         if(getIndexOf(url) == -1)
@@ -57,8 +60,10 @@ public class FeedList {
     }
 
     /**
-     * Used to remove a Feed with the same UrlToXml identifier.
-     * @param url   The url to the Feed we want removed from the FeedList.
+     * Used to remove the Feed object with the same url as the url passed as an argument though the
+     * url parameter. If no Feed with that url is found then FeedDoesNotExist exception is thrown.
+     *
+     * @param url   The url to the XML file of the Feed to be removed.
      */
     void remove(String url) {
         int index = getIndexOf(url);
@@ -70,12 +75,12 @@ public class FeedList {
             throw new FeedDoesNotExist(url, getName());
     }
 
-    /**
-     * Removes all Feed objects in the FeedList.
-     */
-    void clear() {
-        feeds.clear();
-    }
+//    /**
+//     * Removes all Feed objects in the FeedList.
+//     */
+//    void clear() {
+//        feeds.clear();
+//    }
 
     /**
      * Returns the amount of elements in the FeedList.
@@ -85,6 +90,10 @@ public class FeedList {
         return feeds.size();
     }
 
+    /**
+     * Calls the update method on all Feeds.
+     * @return True if a Feed got updated.
+     */
     boolean update() {
         boolean updated = false;
         for(Feed feed : feeds) {
@@ -95,11 +104,11 @@ public class FeedList {
     }
 
     /**
-     * Returns all Item objects in an ArrayList from all of the Feed objects that the FeedList
-     * holds. The returned ArrayList is also sorted according to the sorting rules given though the
-     * parameter sorting using the sort method.
-     * @return          An ArrayList containing all Item objects from all Feed objects in this
-     *                  FeedList that is sorted according to the rules in the sorting string.
+     * Returns all Item objects in an ArrayList from all of the Feed objects the FeedList holds. The
+     * returned ArrayList is also sorted according to the rules in sortingRules.
+     *
+     * @return  An ArrayList containing all Item objects from all Feed objects in this
+     *          FeedList that is sorted according to sortingRules.
      */
     ArrayList<Item> getAllItems() {
         ArrayList<Item> items = new ArrayList<>();
@@ -114,6 +123,9 @@ public class FeedList {
     }
 
     /**
+     * Checks all Feed objects in feeds for a Feed object with a url that is the same as the
+     * argument passed though the url parameter. If one is found it's returned, but if none is found
+     * FeedDoesNotExist exception is thrown.
      *
      * @param url
      * @return
@@ -129,6 +141,7 @@ public class FeedList {
     /**
      * Returns an integer containing the index of a Feed object in the FeedList with the same
      * identifier as the argument Feed.
+     *
      * @param url   A String containing the url to the feed we want to get the index of.
      * @return      An integer with the index of the Feed object in the FeedList. If it does not
      *              exist then -1 is returned.
@@ -143,6 +156,7 @@ public class FeedList {
 
     /**
      * Sorts an ArrayList of Item objects using the merge sort algorithm.
+     *
      * @param items An ArrayList of Item objects to be sorted
      * @return      An ArrayList containing all Item objects from the argument ArrayList but sorted
      *              according to the rules specified in the rules argument.

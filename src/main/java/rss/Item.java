@@ -55,19 +55,6 @@ public class Item {
         return this.date.compareTo(other.getDate());
     }
 
-    /**
-     * Removes the first character if it is a 0.
-     *
-     * @param str   A String containing numbers.
-     * @return      An integer converted from the argument
-     */
-    private int removeFirstZero(String str) {
-        if(str.charAt(0) == '0')
-            str = "" + str.charAt(1);
-
-        return Integer.parseInt(str);
-    }
-
     /*
     ------------------------------- ACCESSORS AND MUTATORS -----------------------------------------
     */
