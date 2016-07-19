@@ -41,6 +41,7 @@ public class Item {
      * earlier in the alphabet than the other the value returned is lower than 0. If this items
      * title is later than others title the returned value is higher than 0. If they are the same 0
      * is returned
+     *
      * @param other The Item object to compare this Item with
      * @return      An integer representing the comparison of the titles of these two Items
      */
@@ -56,6 +57,7 @@ public class Item {
 
     /**
      * Removes the first character if it is a 0.
+     *
      * @param str   A String containing numbers.
      * @return      An integer converted from the argument
      */
@@ -72,6 +74,7 @@ public class Item {
 
     /**
      * Accessor method for title
+     *
      * @return A String containing the title of the item
      */
     public String getTitle() {
@@ -80,6 +83,7 @@ public class Item {
 
     /**
      * Accessor method for link
+     *
      * @return A String containing the URL to the content of the item
      */
     public String getLink() {
@@ -88,6 +92,7 @@ public class Item {
 
     /**
      * Accessor method for description
+     *
      * @return A String containing a description of the item
      */
     public String getDescription() {
@@ -96,6 +101,7 @@ public class Item {
 
     /**
      * Accessor method for id
+     *
      * @return A String containing the unique ID of the item
      */
     public String getId() {
@@ -104,6 +110,7 @@ public class Item {
 
     /**
      * Accessor method for date
+     *
      * @return A String containing the date and time of this items release
      */
     public Date getDate() {
@@ -112,6 +119,7 @@ public class Item {
 
     /**
      * Accessor method for feedIdentifier
+     *
      * @return A String containing the feed identifier for this Item
      */
     public String getFeedIdentifier() {
@@ -120,6 +128,7 @@ public class Item {
 
     /**
      * Accessor method for visited
+     *
      * @return The boolean value of visited.
      */
     public boolean isVisited() {
@@ -128,6 +137,7 @@ public class Item {
 
     /**
      * Accessor method for starred
+     *
      * @return The boolean value of starred.
      */
     public boolean isStarred() {
@@ -136,6 +146,7 @@ public class Item {
 
     /**
      * Mutator method for title
+     *
      * @param title The new String we want assigned to title
      */
     void setTitle(String title) {
@@ -144,6 +155,7 @@ public class Item {
 
     /**
      * Mutator method for link
+     *
      * @param link The new String we want assigned to link
      */
     void setLink(String link) {
@@ -152,6 +164,7 @@ public class Item {
 
     /**
      * Mutator method for description
+     *
      * @param description The new String we want assigned to description
      */
     void setDescription(String description) {
@@ -160,6 +173,7 @@ public class Item {
 
     /**
      * Mutator method for id
+     *
      * @param id The new String we want assigned to id
      */
     void setId(String id) {
@@ -168,6 +182,7 @@ public class Item {
 
     /**
      * Mutator method for date
+     *
      * @param date The new String we want assigned to date
      */
     void setDate(String date) {
@@ -185,6 +200,7 @@ public class Item {
 
     /**
      * Mutator method for feedIdentifier
+     *
      * @param feedIdentifier The new String we want assigned to feedIdentifier
      */
     void setFeedIdentifier(String feedIdentifier) {
@@ -193,6 +209,7 @@ public class Item {
 
     /**
      * Mutator method for visited
+     *
      * @param visited The new boolean value of visited
      */
     public void setVisited(boolean visited) {
@@ -201,11 +218,10 @@ public class Item {
 
     /**
      * Mutator method for starred
+     *
      * @param starred The new boolean value of starred
      */
     public void setStarred(boolean starred) {
         this.starred = starred;
     }
 }
-
-// Created: 2016-04-17
