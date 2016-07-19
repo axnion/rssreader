@@ -6,6 +6,7 @@ import system.exceptions.FeedListDoesNotExist;
 import rss.Item;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Class Configuration
@@ -15,11 +16,13 @@ import java.util.ArrayList;
 public class Configuration {
     private static ArrayList<FeedList> feedLists = new ArrayList<>();
     private static DatabaseAccessObject dao = new DatabaseAccessObject();
+    private static Date lastUpdated = new Date();
 
     public static void addFeedList(String listName) {
         if(!feedListExists(listName)) {
             try {
                 feedLists.add(new FeedList(listName, "DATE_DEC"));
+                lastUpdated = new Date();
             }
             catch(Exception expt) {
                 expt.printStackTrace();
@@ -33,6 +36,7 @@ public class Configuration {
         if(feedListExists(listName)) {
             try {
                 feedLists.remove(getFeedListByName(listName));
+                lastUpdated = new Date();
             }
             catch(Exception expt) {
                 expt.printStackTrace();
@@ -45,6 +49,7 @@ public class Configuration {
     public static void addFeed(String url, String listName) {
         try {
             getFeedListByName(listName).add(url);
+            lastUpdated = new Date();
         }
         catch(Exception expt) {
             expt.printStackTrace();
@@ -54,6 +59,7 @@ public class Configuration {
     public static void removeFeed(String url, String listName) {
         try {
             getFeedListByName(listName).remove(url);
+            lastUpdated = new Date();
         }
         catch(Exception expt) {
             expt.printStackTrace();
@@ -61,9 +67,16 @@ public class Configuration {
     }
 
     public static void update() {
+        boolean updated = false;
         for(FeedList feedList : feedLists) {
-            feedList.update();
+            if(feedList.update())
+                updated = true;
         }
+
+        System.out.println("Backend updated: " + updated);
+
+        if(updated)
+            lastUpdated = new Date();
     }
 
     public static FeedList getFeedListByName(String listName) {
@@ -126,6 +139,7 @@ public class Configuration {
     public static void newDatabase() throws Exception {
         dao.setPath("temp.db");
         feedLists = dao.load();
+        lastUpdated = new Date();
     }
 
     public static void saveDatabase() throws Exception {
@@ -140,6 +154,7 @@ public class Configuration {
     public static void loadDatabase(String path) throws Exception {
         dao.setPath(path);
         feedLists = dao.load();
+        lastUpdated = new Date();
     }
 
     /*
@@ -160,5 +175,13 @@ public class Configuration {
 
     static void setDao(DatabaseAccessObject newDao) {
         dao = newDao;
+    }
+
+    public static Date getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public static void setLastUpdated(Date newDate) {
+        lastUpdated = newDate;
     }
 }

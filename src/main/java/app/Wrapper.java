@@ -3,8 +3,10 @@ package app;
 import app.main.FeedListContainer;
 import app.menu.SideMenu;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import system.Configuration;
 
 import java.util.Date;
 
@@ -16,11 +18,12 @@ import java.util.Date;
 class Wrapper extends HBox {
     private SideMenu sideMenu;
     private FeedListContainer feedListContainer;
-    private static Date lastUpdated;
+    private Date lastUpdated;
 
     Wrapper() {
         reset();
         getStyleClass().add("Wrapper");
+        lastUpdated = new Date();
     }
 
     void reset() {
@@ -31,8 +34,12 @@ class Wrapper extends HBox {
         Node feedListConainerNode = feedListContainer;
         setHgrow(feedListConainerNode, Priority.ALWAYS);
 
-        getChildren().addAll(sideMenu);
-        getChildren().addAll(feedListConainerNode);
+        Button updateBtn = new Button();
+        updateBtn.setOnAction(event -> Configuration.update());
+        getChildren().add(updateBtn);
+
+        getChildren().add(sideMenu);
+        getChildren().add(feedListConainerNode);
     }
 
     void addFeedList(String listName) {
@@ -46,9 +53,11 @@ class Wrapper extends HBox {
     }
 
     void update() {
-        lastUpdated = new Date();
-
-        sideMenu.updateFeedLists();
-        feedListContainer.updateFeedLists();
+        System.out.println("Update - backend update status: " + lastUpdated.before(Configuration.getLastUpdated()));
+        if(lastUpdated.before(Configuration.getLastUpdated())) {
+            sideMenu.updateFeedLists();
+            feedListContainer.updateFeedLists();
+            lastUpdated = new Date();
+        }
     }
 }

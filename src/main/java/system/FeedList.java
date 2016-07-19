@@ -85,10 +85,13 @@ public class FeedList {
         return feeds.size();
     }
 
-    void update() {
+    boolean update() {
+        boolean updated = false;
         for(Feed feed : feeds) {
-            rssParser.updateFeed(feed);
+            if(rssParser.updateFeed(feed))
+                updated = true;
         }
+        return updated;
     }
 
     /**

@@ -52,18 +52,10 @@ public class App extends Application {
 //        addFeed("http://feeds.feedburner.com/sakerhetspodcasten", "MyFeedList");
 //        addFeed("http://feedpress.me/kodsnack", "MyFeedList2");
 
-        Timeline updateTimer = new Timeline(new KeyFrame(
-                Duration.seconds(30),
-                event -> {
-                    System.out.println("UPDATE");
-                    Configuration.update();
-                    root.update();
-                }
-        ));
+        Timeline updateTimer = new Timeline(new KeyFrame(Duration.seconds(5),
+                event -> root.update()));
         updateTimer.setCycleCount(Animation.INDEFINITE);
         updateTimer.play();
-
-        root.update();
     }
 
     public static void addFeedList(String listName) {

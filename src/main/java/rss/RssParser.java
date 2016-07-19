@@ -18,6 +18,8 @@ import java.util.ArrayList;
  * @author Axel Nilsson (axnion)
  */
 public class RssParser {
+    private boolean updated;
+
     public RssParser() {
 
     }
@@ -33,24 +35,35 @@ public class RssParser {
         return new Feed(title, link, description,url, items);
     }
 
-    public void updateFeed(Feed feed) {
+    public boolean updateFeed(Feed feed) {
         Element channel = getChannelElement(feed.getUrlToXML());
+        updated = false;
 
         feed.setTitle(getTitle(channel));
         feed.setLink(getLink(channel));
         feed.setDescription(getDescription(channel));
         feed.setItems(updateItems(feed.getItems(), getItems(channel, feed.getUrlToXML())));
+
+        return updated;
     }
 
     private ArrayList<Item> updateItems(ArrayList<Item> oldItems, ArrayList<Item> newItems) {
+        boolean newItemStatus;
+
         for(Item newItem : newItems) {
+            newItemStatus = true;
             newItem.setVisited(false);
             newItem.setStarred(false);
             for(Item oldItem : oldItems) {
                 if(newItem.getId().equals(oldItem.getId())) {
                     newItem.setVisited(oldItem.isVisited());
                     newItem.setStarred(oldItem.isStarred());
+                    newItemStatus = false;
                 }
+            }
+
+            if(newItemStatus) {
+                updated = true;
             }
         }
 
