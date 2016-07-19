@@ -7,6 +7,9 @@ import rss.Item;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Class Configuration
@@ -66,17 +69,9 @@ public class Configuration {
         }
     }
 
-    public static void update() {
-        boolean updated = false;
-        for(FeedList feedList : feedLists) {
-            if(feedList.update())
-                updated = true;
-        }
-
-        System.out.println("Backend updated: " + updated);
-
-        if(updated)
-            lastUpdated = new Date();
+    public static void startUpdater() {
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleAtFixedRate(new UpdaterThread(), 0, 5, TimeUnit.SECONDS);
     }
 
     public static FeedList getFeedListByName(String listName) {

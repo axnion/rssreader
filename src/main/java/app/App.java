@@ -13,6 +13,7 @@ import javafx.util.Duration;
 import system.Configuration;
 
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Class App
@@ -56,6 +57,8 @@ public class App extends Application {
                 event -> root.update()));
         updateTimer.setCycleCount(Animation.INDEFINITE);
         updateTimer.play();
+
+        Configuration.startUpdater();
     }
 
     public static void addFeedList(String listName) {

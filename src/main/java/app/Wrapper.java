@@ -3,7 +3,6 @@ package app;
 import app.main.FeedListContainer;
 import app.menu.SideMenu;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import system.Configuration;
@@ -34,10 +33,6 @@ class Wrapper extends HBox {
         Node feedListConainerNode = feedListContainer;
         setHgrow(feedListConainerNode, Priority.ALWAYS);
 
-        Button updateBtn = new Button();
-        updateBtn.setOnAction(event -> Configuration.update());
-        getChildren().add(updateBtn);
-
         getChildren().add(sideMenu);
         getChildren().add(feedListConainerNode);
     }
@@ -53,11 +48,11 @@ class Wrapper extends HBox {
     }
 
     void update() {
-        System.out.println("Update - backend update status: " + lastUpdated.before(Configuration.getLastUpdated()));
         if(lastUpdated.before(Configuration.getLastUpdated())) {
             sideMenu.updateFeedLists();
             feedListContainer.updateFeedLists();
             lastUpdated = new Date();
+            System.out.println("Wrapper - Wrapper updated");
         }
     }
 }
