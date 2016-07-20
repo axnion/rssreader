@@ -7,7 +7,6 @@
             <title>Item title</title>
             <description>This is an item description</description>
             <link>http://www.test-link.net</link>
-
             <guid>test-id</guid>
         </item>
     </channel>

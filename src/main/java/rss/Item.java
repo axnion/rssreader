@@ -32,6 +32,7 @@ public class Item {
         description = "";
         id = "";
         feedIdentifier = "";
+        date = new Date(0);
         visited = true;
         starred = false;
     }
@@ -52,7 +53,7 @@ public class Item {
     }
 
     public int compareDate(Item other) {
-        return this.date.compareTo(other.getDate());
+        return this.getDate().compareTo(other.getDate());
     }
 
     /*
@@ -177,7 +178,7 @@ public class Item {
 
         try {
             this.date = format.parse(date);
-            this.date.setTime(this.date.getTime() / 1000);
+            this.date.setTime(this.date.getTime());
         }
         catch(ParseException expt) {
             this.date = new Date(0);

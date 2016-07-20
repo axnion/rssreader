@@ -7,21 +7,21 @@
         <title>Item title</title>
         <description>This is an item description</description>
         <link>http://www.google.com</link>
-        <pubDate>Mon, 01 Jan 2016 00:00:00 +0000</pubDate>
+        <pubDate>Fri, 01 Jan 2016 00:00:00 +0000</pubDate>
         <guid>test-id-1</guid>
     </item>
     <item>
         <title>Item title 2</title>
         <description>This is a second item description</description>
         <link>http://www.google.se</link>
-        <pubDate>Mon, 02 Jan 2016 00:00:00 +0000</pubDate>
+        <pubDate>Sat, 02 Jan 2016 00:00:00 +0000</pubDate>
         <guid>test-id-2</guid>
     </item>
     <item>
         <title>Item title 3</title>
         <description>This is a third item description</description>
         <link>http://www.google.org</link>
-        <pubDate>Mon, 03 Jan 2016 00:00:00 +0000</pubDate>
+        <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
         <guid>test-id-3</guid>
     </item>
 </channel>

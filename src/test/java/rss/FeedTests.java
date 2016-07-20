@@ -5,6 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Class FeedTests
@@ -18,9 +19,9 @@ public class FeedTests {
     public void createObject() {
         ArrayList<Item> items = new ArrayList<>();
         items.add(Mocks.createItemMock("ItemTitle1", "http://link1.com", "Description1",
-                "Mon, 01 Jan 2016 12:00:00 +0000", "item_id_1"));
+                "1451649600000", "item_id_1"));
         items.add(Mocks.createItemMock("ItemTitle2", "http://link2.com", "Description2",
-                "Mon, 01 Jan 2016 12:00:00 +0000", "item_id_2"));
+                "1451649600000", "item_id_2"));
 
         feed = new Feed("FeedTitle", "http://www.link-to-feed-website.com", "Description",
                 "https:link-to-feed-website.com/feed.xml", items);
@@ -39,9 +40,9 @@ public class FeedTests {
         //Change the values using mutators
         ArrayList<Item> items = new ArrayList<>();
         items.add(Mocks.createItemMock("ItemTitle3", "http://link3.com", "Description3",
-                "Mon, 01 Jan 2016 12:00:00 +0000", "item_id_3"));
+                "1451649600000", "item_id_3"));
         items.add(Mocks.createItemMock("ItemTitle4", "http://link4.com", "Description4",
-                "Mon, 01 Jan 2016 12:00:00 +0000", "item_id_4"));
+                "1451649600000", "item_id_4"));
 
         feed.setTitle("NewFeedTitle");
         feed.setLink("http://www.link-to-new-feed-website.com");

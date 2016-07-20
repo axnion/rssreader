@@ -7,19 +7,19 @@
             <title>Item title 1</title>
             <description>This is an item 1 description</description>
             <link>http://www.test-link-1.net</link>
-            <pubDate>Mon, 01 Jan 2016 00:00:00 +0000</pubDate>
+            <pubDate>Fri, 01 Jan 2016 00:00:00 +0000</pubDate>
             <guid>test-id-1</guid>
         </item>
         <item>
             <title>Item title 2</title>
             <description>This is an item 2 description</description>
             <link>http://www.test-link-2.net</link>
-            <pubDate>Tue, 02 Jan 2016 00:00:00 +0000</pubDate>
+            <pubDate>Sat, 02 Jan 2016 00:00:00 +0000</pubDate>
         </item>
         <item>
             <description>This is an item 3 description</description>
             <link>http://www.test-link-3.net</link>
-            <pubDate>Wen, 03 Jan 2016 00:00:00 +0000</pubDate>
+            <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
             <guid>test-id-3</guid>
         </item>
     </channel>

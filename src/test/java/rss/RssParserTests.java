@@ -32,7 +32,7 @@ public class RssParserTests {
         assertEquals("Item title", feed.getItems().get(0).getTitle());
         assertEquals("http://www.test-link.net", feed.getItems().get(0).getLink());
         assertEquals("This is an item description", feed.getItems().get(0).getDescription());
-        assertEquals("Mon, 01 Jan 2016 00:00:00 +0000", feed.getItems().get(0).getDate());
+        assertEquals(1451606400, feed.getItems().get(0).getDate().getTime() / 1000);
         assertEquals("test-id", feed.getItems().get(0).getId());
     }
 
@@ -54,7 +54,7 @@ public class RssParserTests {
         assertEquals("Item title", feed.getItems().get(0).getTitle());
         assertEquals("http://www.test-link.net", feed.getItems().get(0).getLink());
         assertEquals("This is an item description", feed.getItems().get(0).getDescription());
-        assertEquals("Mon, 01 Jan 2016 00:00:00 +0000", feed.getItems().get(0).getDate());
+        assertEquals(1451606400, feed.getItems().get(0).getDate().getTime() / 1000);
         assertEquals("test-id", feed.getItems().get(0).getId());
     }
 
@@ -71,7 +71,7 @@ public class RssParserTests {
         assertEquals("Item title", feed.getItems().get(0).getTitle());
         assertEquals("http://www.test-link.net", feed.getItems().get(0).getLink());
         assertEquals("This is an item description", feed.getItems().get(0).getDescription());
-        assertEquals("Mon, 01 Jan 2016 00:00:00 +0000", feed.getItems().get(0).getDate());
+        assertEquals(1451606400, feed.getItems().get(0).getDate().getTime() / 1000);
         assertEquals("test-id", feed.getItems().get(0).getId());
     }
 
@@ -88,7 +88,7 @@ public class RssParserTests {
         assertEquals("Item title", feed.getItems().get(0).getTitle());
         assertEquals("http://www.test-link.net", feed.getItems().get(0).getLink());
         assertEquals("This is an item description", feed.getItems().get(0).getDescription());
-        assertEquals("Mon, 01 Jan 2016 00:00:00 +0000", feed.getItems().get(0).getDate());
+        assertEquals(1451606400, feed.getItems().get(0).getDate().getTime() / 1000);
         assertEquals("test-id", feed.getItems().get(0).getId());
     }
 
@@ -100,8 +100,6 @@ public class RssParserTests {
         assertEquals("Test title", feed.getTitle());
         assertEquals("http://www.feed-link.com", feed.getLink());
         assertEquals("This is a feed description", feed.getDescription());
-
-
     }
 
     @Test
@@ -117,7 +115,7 @@ public class RssParserTests {
         assertEquals("Untitled", feed.getItems().get(0).getTitle());
         assertEquals("http://www.test-link.net", feed.getItems().get(0).getLink());
         assertEquals("This is an item description", feed.getItems().get(0).getDescription());
-        assertEquals("Mon, 01 Jan 2016 00:00:00 +0000", feed.getItems().get(0).getDate());
+        assertEquals(1451606400, feed.getItems().get(0).getDate().getTime() / 1000);
         assertEquals("test-id", feed.getItems().get(0).getId());
     }
 
@@ -146,7 +144,7 @@ public class RssParserTests {
         assertEquals("Item title", feed.getItems().get(0).getTitle());
         assertEquals("http://www.test-link.net", feed.getItems().get(0).getLink());
         assertEquals("", feed.getItems().get(0).getDescription());
-        assertEquals("Mon, 01 Jan 2016 00:00:00 +0000", feed.getItems().get(0).getDate());
+        assertEquals(1451606400, feed.getItems().get(0).getDate().getTime() / 1000);
         assertEquals("test-id", feed.getItems().get(0).getId());
     }
 
@@ -163,7 +161,7 @@ public class RssParserTests {
         assertEquals("Item title", feed.getItems().get(0).getTitle());
         assertEquals("http://www.test-link.net", feed.getItems().get(0).getLink());
         assertEquals("This is an item description", feed.getItems().get(0).getDescription());
-        assertEquals("Mon, 01 Jan 0001 00:00:00 +0000", feed.getItems().get(0).getDate());
+        assertEquals(0, feed.getItems().get(0).getDate().getTime() / 1000);
         assertEquals("test-id", feed.getItems().get(0).getId());
     }
 
@@ -193,13 +191,13 @@ public class RssParserTests {
         assertEquals("Item title 1", feed.getItems().get(0).getTitle());
         assertEquals("http://www.test-link-1.net", feed.getItems().get(0).getLink());
         assertEquals("This is an item 1 description", feed.getItems().get(0).getDescription());
-        assertEquals("Mon, 01 Jan 2016 00:00:00 +0000", feed.getItems().get(0).getDate());
+        assertEquals(1451606400, feed.getItems().get(0).getDate().getTime() / 1000);
         assertEquals("test-id-1", feed.getItems().get(0).getId());
 
         assertEquals("Untitled", feed.getItems().get(1).getTitle());
         assertEquals("http://www.test-link-3.net", feed.getItems().get(1).getLink());
         assertEquals("This is an item 3 description", feed.getItems().get(1).getDescription());
-        assertEquals("Wen, 03 Jan 2016 00:00:00 +0000", feed.getItems().get(1).getDate());
+        assertEquals(1451779200, feed.getItems().get(1).getDate().getTime() / 1000);
         assertEquals("test-id-3", feed.getItems().get(1).getId());
     }
 }

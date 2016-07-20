@@ -11,6 +11,7 @@ import rss.exceptions.NoXMLFileFound;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Class FeedListTests
@@ -22,7 +23,7 @@ public class FeedListTests {
 
     @Before
     public void createObject() {
-        feedList = new FeedList("MyFeedList", "DATA_DEC");
+        feedList = new FeedList("MyFeedList", "DATE_DEC");
         feedList.setRssParser(Mocks.createRssParser());
     }
 
@@ -136,34 +137,26 @@ public class FeedListTests {
     }
 
     @Test
-    public void clearFeedList() {
-        addFeedMocks(false);
-
-        assertEquals(2, feedList.size());
-        feedList.clear();
-        assertEquals(0, feedList.size());
-    }
-
-    @Test
-    public void getAllItemsWithoutSorting() {
+    public void getAllItemsDefaultSortingRules() {
         addFeedMocks(true);
 
         ArrayList<Item> items = feedList.getAllItems();
 
-        assertEquals("item-id-1", items.get(0).getId());
-        assertEquals("item-id-2", items.get(1).getId());
-        assertEquals("item-id-3", items.get(2).getId());
-        assertEquals("item-id-4", items.get(3).getId());
-        assertEquals("item-id-5", items.get(4).getId());
-        assertEquals("item-id-6", items.get(5).getId());
-        assertEquals("item-id-7", items.get(6).getId());
-        assertEquals("item-id-8", items.get(7).getId());
+        assertEquals("1454328000000", Long.toString(items.get(0).getDate().getTime()));
+        assertEquals("1451736000000", Long.toString(items.get(1).getDate().getTime()));
+        assertEquals("1451651401000", Long.toString(items.get(2).getDate().getTime()));
+        assertEquals("1451651400000", Long.toString(items.get(3).getDate().getTime()));
+        assertEquals("1451649600000", Long.toString(items.get(4).getDate().getTime()));
+        assertEquals("1451649600000", Long.toString(items.get(5).getDate().getTime()));
+        assertEquals("1451646000000", Long.toString(items.get(6).getDate().getTime()));
+        assertEquals("1420113600000", Long.toString(items.get(7).getDate().getTime()));
     }
 
     @Test
     public void getAllItemsSortedByTitleAscending() {
         addFeedMocks(true);
 
+        feedList.setSortingRules("TITLE_ASC");
         ArrayList<Item> items = feedList.getAllItems();
 
         assertEquals("Alignment", items.get(0).getTitle());
@@ -180,6 +173,7 @@ public class FeedListTests {
     public void getAllItemsSortedByTitleDescending() {
         addFeedMocks(true);
 
+        feedList.setSortingRules("TITLE_DEC");
         ArrayList<Item> items = feedList.getAllItems();
 
         assertEquals("Treason", items.get(0).getTitle());
@@ -196,32 +190,34 @@ public class FeedListTests {
     public void getAllItemsSortedByDateAscending() {
         addFeedMocks(true);
 
+        feedList.setSortingRules("DATE_ASC");
         ArrayList<Item> items = feedList.getAllItems();
 
-        assertEquals("Wen, 01 Jan 2015 12:00:00 +0000", items.get(0).getDate());
-        assertEquals("Mon, 01 Jan 2016 11:00:00 +0000", items.get(1).getDate());
-        assertEquals("Mon, 01 Jan 2016 12:00:00 +0000", items.get(2).getDate());
-        assertEquals("Mon, 01 Jan 2016 12:00:00 +0000", items.get(3).getDate());
-        assertEquals("Mon, 01 Jan 2016 12:30:00 +0000", items.get(4).getDate());
-        assertEquals("Mon, 01 Jan 2016 12:30:01 +0000", items.get(5).getDate());
-        assertEquals("Tis, 02 Jan 2016 12:00:00 +0000", items.get(6).getDate());
-        assertEquals("Thu, 01 Feb 2016 12:00:00 +0000", items.get(7).getDate());
+        assertEquals("1420113600000", Long.toString(items.get(0).getDate().getTime()));
+        assertEquals("1451646000000", Long.toString(items.get(1).getDate().getTime()));
+        assertEquals("1451649600000", Long.toString(items.get(2).getDate().getTime()));
+        assertEquals("1451649600000", Long.toString(items.get(3).getDate().getTime()));
+        assertEquals("1451651400000", Long.toString(items.get(4).getDate().getTime()));
+        assertEquals("1451651401000", Long.toString(items.get(5).getDate().getTime()));
+        assertEquals("1451736000000", Long.toString(items.get(6).getDate().getTime()));
+        assertEquals("1454328000000", Long.toString(items.get(7).getDate().getTime()));
     }
 
     @Test
     public void getAllItemsSortedByDateDescending() {
         addFeedMocks(true);
 
+        feedList.setSortingRules("DATE_DEC");
         ArrayList<Item> items = feedList.getAllItems();
 
-        assertEquals("Thu, 01 Feb 2016 12:00:00 +0000", items.get(0).getDate());
-        assertEquals("Tis, 02 Jan 2016 12:00:00 +0000", items.get(1).getDate());
-        assertEquals("Mon, 01 Jan 2016 12:30:01 +0000", items.get(2).getDate());
-        assertEquals("Mon, 01 Jan 2016 12:30:00 +0000", items.get(3).getDate());
-        assertEquals("Mon, 01 Jan 2016 12:00:00 +0000", items.get(4).getDate());
-        assertEquals("Mon, 01 Jan 2016 12:00:00 +0000", items.get(5).getDate());
-        assertEquals("Mon, 01 Jan 2016 11:00:00 +0000", items.get(6).getDate());
-        assertEquals("Wen, 01 Jan 2015 12:00:00 +0000", items.get(7).getDate());
+        assertEquals("1454328000000", Long.toString(items.get(0).getDate().getTime()));
+        assertEquals("1451736000000", Long.toString(items.get(1).getDate().getTime()));
+        assertEquals("1451651401000", Long.toString(items.get(2).getDate().getTime()));
+        assertEquals("1451651400000", Long.toString(items.get(3).getDate().getTime()));
+        assertEquals("1451649600000", Long.toString(items.get(4).getDate().getTime()));
+        assertEquals("1451649600000", Long.toString(items.get(5).getDate().getTime()));
+        assertEquals("1451646000000", Long.toString(items.get(6).getDate().getTime()));
+        assertEquals("1420113600000", Long.toString(items.get(7).getDate().getTime()));
     }
 
     @Test
@@ -244,22 +240,22 @@ public class FeedListTests {
 
         if(addItems) {
             items1.add(Mocks.createItemMock("Ambient", "http://feed-website.com/Item1",
-                    "Description1", "Mon, 01 Jan 2016 12:00:00 +0000", "item-id-1"));
+                    "Description1", "1451649600000", "item-id-1"));
             items1.add(Mocks.createItemMock("Ceremony", "http://feed-website.com/Item2",
-                    "Description2", "Tis, 02 Jan 2016 12:00:00 +0000", "item-id-2"));
+                    "Description2", "1451736000000", "item-id-2"));
             items1.add(Mocks.createItemMock("Alignment", "http://feed-website.com/Item3",
-                    "Description3", "Wen, 01 Jan 2015 12:00:00 +0000", "item-id-3"));
+                    "Description3", "1420113600000", "item-id-3"));
             items1.add(Mocks.createItemMock("Paralysis", "http://feed-website.com/Item4",
-                    "Description4", "Thu, 01 Feb 2016 12:00:00 +0000", "item-id-4"));
+                    "Description4", "1454328000000", "item-id-4"));
 
             items2.add(Mocks.createItemMock("Treason", "http://feed-website.com/Item5",
-                    "Description5", "Mon, 01 Jan 2016 11:00:00 +0000", "item-id-5"));
+                    "Description5", "1451646000000", "item-id-5"));
             items2.add(Mocks.createItemMock("Homeland", "http://feed-website.com/Item6",
-                    "Description6", "Mon, 01 Jan 2016 12:30:00 +0000", "item-id-6"));
+                    "Description6", "1451651400000", "item-id-6"));
             items2.add(Mocks.createItemMock("Evacuation", "http://feed-website.com/Item7",
-                    "Description7", "Mon, 01 Jan 2016 12:00:00 +0000", "item-id-7"));
+                    "Description7", "1451649600000", "item-id-7"));
             items2.add(Mocks.createItemMock("Featherweight", "http://feed-website.com/Item8",
-                    "Description8", "Mon, 01 Jan 2016 12:30:01 +0000", "item-id-8"));
+                    "Description8","1451651401000", "item-id-8"));
         }
 
         feeds.add(rss.Mocks.createFeedMock("FeedTitle1", "http://feed-website-1.com",

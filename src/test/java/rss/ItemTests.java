@@ -2,6 +2,8 @@ package rss;
 
 import org.junit.Test;
 
+import java.util.Date;
+
 import static org.junit.Assert.*;
 
 /**
@@ -24,7 +26,7 @@ public class ItemTests {
         assertEquals(testItem.getLink(), "");
         assertEquals(testItem.getDescription(), "");
         assertEquals(testItem.getId(), "");
-        assertNull(testItem.getDate());
+        assertTrue(testItem.getDate().before(new Date()));
     }
 
     /**
@@ -47,7 +49,7 @@ public class ItemTests {
         assertEquals(testItem.getLink(), "https://www.google.se");
         assertEquals(testItem.getDescription(), "This is a test");
         assertEquals(testItem.getId(), "a_title");
-        assertEquals(testItem.getDate().getTime(), 1451649600);
+        assertEquals(testItem.getDate().getTime() / 1000, 1451649600);
 
         // Using mutators to edit each fields
         testItem.setTitle("B Title");
@@ -61,7 +63,7 @@ public class ItemTests {
         assertEquals(testItem.getLink(), "https://www.bing.se");
         assertEquals(testItem.getDescription(), "This is another test");
         assertEquals(testItem.getId(), "b_title");
-        assertEquals(testItem.getDate().getTime(), 1483272000);
+        assertEquals(testItem.getDate().getTime() / 1000, 1483272000);
     }
 
     /**

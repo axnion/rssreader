@@ -24,14 +24,6 @@ import java.util.ArrayList;
  * @author Axel Nilsson (axnion)
  */
 public class RssParser {
-
-    /**
-     * Constructor
-     */
-    public RssParser() {
-
-    }
-
     /**
      * Uses the other methods in the class to read the XML file and creates and returns a new Feed
      * object with the results from the methods.
@@ -214,7 +206,7 @@ public class RssParser {
                             .getNodeValue());
                 }
                 catch(RuntimeException err) {
-                    item.setDate("Mon, 01 Jan 0001 00:00:00 +0000");
+                    item.setDate("Thu, 01 Jan 1970 00:00:00 +0000");
                 }
 
                 try {

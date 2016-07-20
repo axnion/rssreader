@@ -7,14 +7,14 @@
             <title>Example Item 21</title>
             <description>This is an item description</description>
             <link>http://www.google.com</link>
-            <pubDate>Wen, 11 Feb 2016 21:15:15 +0000</pubDate>
+            <pubDate>Thu, 11 Feb 2016 21:15:15 +0000</pubDate>
             <guid>example-id-21</guid>
         </item>
         <item>
             <title>Example Item 22</title>
             <description>This is an item description</description>
             <link>http://www.google.com</link>
-            <pubDate>Thu, 12 Feb 2016 23:45:20 +0000</pubDate>
+            <pubDate>Fri, 12 Feb 2016 23:45:20 +0000</pubDate>
             <guid>example-id-22</guid>
         </item>
     </channel>

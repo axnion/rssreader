@@ -3,6 +3,7 @@ package rss;
 import rss.exceptions.NoXMLFileFound;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.doThrow;
@@ -28,7 +29,7 @@ public class Mocks {
         doReturn(title).when(item).getTitle();
         doReturn(link).when(item).getLink();
         doReturn(desc).when(item).getDescription();
-        doReturn(date).when(item).getDate();
+        doReturn(new Date(Long.parseUnsignedLong(date))).when(item).getDate();
         doReturn(id).when(item).getId();
 
         doCallRealMethod().when(item).compareDate(any(Item.class));
