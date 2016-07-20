@@ -15,10 +15,15 @@ import java.util.ArrayList;
 /**
  * Class RssParser
  *
+ * RssParser class is used to create Feed objects from a URL to an XML file containing an RSS feed.
+ *
+ * It has two public methods. getFeed takes a URL to an XML document with an RSS feed as an argument
+ * and creates a new Feed object with the information from the rss feed.
+ * updateFeed takes an already existing Feed and updates all information and Items in the Feed.
+ *
  * @author Axel Nilsson (axnion)
  */
 public class RssParser {
-    private boolean updated; // A field used in the update methods to keep track of update status.
 
     /**
      * Constructor
@@ -47,35 +52,24 @@ public class RssParser {
 
     /**
      * Updates an already created Feed object. It takes one Feed as an argument and updates the
-     * Feeds title, link and description. It also calls the updateItems method which returns an
-     * updated ArrayList of Item objects. Returns the update status.
+     * Feeds title, link and description. It also gets all items from the rss feed and compares the
+     * updated ArrayList with the old and copies visited and starred status to the new Items and
+     * determines which Items are new. Returns the update status.
      *
      * @param feed  The Feed object to be updated.
      * @return      True if
      */
     public boolean updateFeed(Feed feed) {
         Element channel = getChannelElement(feed.getUrlToXML());
-        updated = false;
+        boolean updated = false;
 
         feed.setTitle(getTitle(channel));
         feed.setLink(getLink(channel));
         feed.setDescription(getDescription(channel));
-        feed.setItems(updateItems(feed.getItems(), getItems(channel, feed.getUrlToXML())));
 
-        return updated;
-    }
-
-    /**
-     * Takes all old Items and all new Items and copies the visited and starred statuses from the
-     * old to the new. It also identifies all new Items and sets both visited and starred status to
-     * false.
-     *
-     * @param oldItems  The already existing ArrayList of Item objects
-     * @param newItems  The new ArrayList of Item objects.
-     * @return          The newItems ArrayList with updated visited and starred statuses.
-     */
-    private ArrayList<Item> updateItems(ArrayList<Item> oldItems, ArrayList<Item> newItems) {
         boolean newItemStatus;
+        ArrayList<Item> oldItems = feed.getItems();
+        ArrayList<Item> newItems = getItems(channel, feed.getUrlToXML());
 
         for(Item newItem : newItems) {
             newItemStatus = true;
@@ -88,13 +82,12 @@ public class RssParser {
                     newItemStatus = false;
                 }
             }
-
-            if(newItemStatus) {
+            if(newItemStatus)
                 updated = true;
-            }
         }
 
-        return newItems;
+        feed.setItems(newItems);
+        return updated;
     }
 
     /**
