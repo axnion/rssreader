@@ -75,13 +75,6 @@ public class FeedList {
             throw new FeedDoesNotExist(url, getName());
     }
 
-//    /**
-//     * Removes all Feed objects in the FeedList.
-//     */
-//    void clear() {
-//        feeds.clear();
-//    }
-
     /**
      * Returns the amount of elements in the FeedList.
      * @return  An integer describing the number of elements in the FeedList
@@ -127,8 +120,8 @@ public class FeedList {
      * argument passed though the url parameter. If one is found it's returned, but if none is found
      * FeedDoesNotExist exception is thrown.
      *
-     * @param url
-     * @return
+     * @param url   The url of the Feed the method is searching for.
+     * @return      A Feed object from feeds with a urlToXml which is the same as url.
      */
     Feed getFeedByUrl(String url) {
         int index = getIndexOf(url);
@@ -199,13 +192,13 @@ public class FeedList {
                 continue;
             }
 
-            titleAsc = getSortingRules().equals("TITLE_ASC") && leftQueue.peek()
+            titleAsc = sortingRules.equals("TITLE_ASC") && leftQueue.peek()
                     .compareTitle(rightQueue.peek()) <= 0;
-            titleDec = getSortingRules().equals("TITLE_DEC") && leftQueue.peek()
+            titleDec = sortingRules.equals("TITLE_DEC") && leftQueue.peek()
                     .compareTitle(rightQueue.peek()) > 0;
-            dateAsc =  getSortingRules().equals("DATE_ASC")  && leftQueue.peek()
+            dateAsc =  sortingRules.equals("DATE_ASC")  && leftQueue.peek()
                     .compareDate(rightQueue.peek()) <= 0;
-            dateDec =  getSortingRules().equals("DATE_DEC")  && leftQueue.peek()
+            dateDec =  sortingRules.equals("DATE_DEC")  && leftQueue.peek()
                     .compareDate(rightQueue.peek()) > 0;
 
             if(titleAsc || titleDec || dateAsc || dateDec) {
@@ -217,6 +210,14 @@ public class FeedList {
         }
 
         return out;
+    }
+
+    void setVisited(String feedIdentifier, String itemId, boolean status) {
+        getFeedByUrl(feedIdentifier).setVisited(itemId, status);
+    }
+
+    void setStarred(String feedIdentifier, String itemId, boolean status) {
+        getFeedByUrl(feedIdentifier).setStarred(itemId, status);
     }
 
     /*
@@ -235,7 +236,7 @@ public class FeedList {
      * Accessor method for sortingRules
      * @return A String containing the value of the sortingRules field
      */
-    public String getSortingRules() {
+    String getSortingRules() {
         return sortingRules;
     }
 

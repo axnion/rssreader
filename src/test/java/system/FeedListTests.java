@@ -10,8 +10,9 @@ import rss.exceptions.NoXMLFileFound;
 
 import static org.junit.Assert.*;
 
+import static org.mockito.Mockito.*;
+
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Class FeedListTests
@@ -31,6 +32,7 @@ public class FeedListTests {
     public void accessorsAndMutators() {
         // Checking values set by constructor
         assertEquals("MyFeedList", feedList.getName());
+        assertEquals("DATE_DEC", feedList.getSortingRules());
 
         // Change the values using mutators
         ArrayList<Feed> feeds = new ArrayList<>();
@@ -42,11 +44,13 @@ public class FeedListTests {
         RssParser rssParser = Mocks.createRssParser();
 
         feedList.setName("MyNewFeedList");
+        feedList.setSortingRules("TITLE_ASC");
         feedList.setFeeds(feeds);
         feedList.setRssParser(rssParser);
 
         // Checking values set by mutators
         assertEquals("MyNewFeedList", feedList.getName());
+        assertEquals("TITLE_ASC", feedList.getSortingRules());
         assertEquals(feeds, feedList.getFeeds());
         assertEquals(rssParser, feedList.getRssParser());
     }
@@ -134,6 +138,54 @@ public class FeedListTests {
     public void removeFeedFromEmptyFeedList() {
         feedList.remove("http://feed-website-1.com/feed.xml");
         assertEquals(0, feedList.size());
+    }
+
+    @Test
+    public void updateFeedListNoFeeds() {
+        boolean updateStatus = feedList.update();
+        assertFalse(updateStatus);
+    }
+
+    @Test
+    public void updateFeedListNoUpdate() {
+        ArrayList<Feed> feedMocks = addFeedMocks(false);
+        RssParser rssParserMock = Mocks.createRssParser();
+
+        doReturn(false).when(rssParserMock).updateFeed(feedMocks.get(0));
+        doReturn(false).when(rssParserMock).updateFeed(feedMocks.get(1));
+
+        feedList.setRssParser(rssParserMock);
+        boolean updateStatus = feedList.update();
+
+        assertFalse(updateStatus);
+    }
+
+    @Test
+    public void updateFeedListSingleUpdate() {
+        ArrayList<Feed> feedMocks = addFeedMocks(false);
+        RssParser rssParserMock = Mocks.createRssParser();
+
+        doReturn(true).when(rssParserMock).updateFeed(feedMocks.get(0));
+        doReturn(false).when(rssParserMock).updateFeed(feedMocks.get(1));
+
+        feedList.setRssParser(rssParserMock);
+        boolean updateStatus = feedList.update();
+
+        assertTrue(updateStatus);
+    }
+
+    @Test
+    public void updateFeedListMultipleUpdates() {
+        ArrayList<Feed> feedMocks = addFeedMocks(false);
+        RssParser rssParserMock = Mocks.createRssParser();
+
+        doReturn(true).when(rssParserMock).updateFeed(feedMocks.get(0));
+        doReturn(true).when(rssParserMock).updateFeed(feedMocks.get(1));
+
+        feedList.setRssParser(rssParserMock);
+        boolean updateStatus = feedList.update();
+
+        assertTrue(updateStatus);
     }
 
     @Test
@@ -233,7 +285,24 @@ public class FeedListTests {
         assertEquals(0, items.size());
     }
 
-    private void addFeedMocks(boolean addItems) {
+    @Test
+    public void getExistingFeedByUrl() {
+        addFeedMocks(false);
+        feedList.getFeedByUrl("http://feed-website-1.com/feed.xml");
+    }
+
+    @Test(expected = FeedDoesNotExist.class)
+    public void getNonexistentFeedByUrl() {
+        addFeedMocks(false);
+        feedList.getFeedByUrl("http://feed-website-3.com/feed.xml");
+    }
+
+    @Test(expected = FeedDoesNotExist.class)
+    public void getFeedByUrlFromEmptyFeedList() {
+        feedList.getFeedByUrl("http://feed-website-1.com/feed.xml");
+    }
+
+    private ArrayList<Feed> addFeedMocks(boolean addItems) {
         ArrayList<Feed> feeds = new ArrayList<>();
         ArrayList<Item> items1 = new ArrayList<>();
         ArrayList<Item> items2 = new ArrayList<>();
@@ -264,5 +333,6 @@ public class FeedListTests {
                 "Description2", "http://feed-website-2.com/feed.xml", items2));
 
         feedList.setFeeds(feeds);
+        return feeds;
     }
 }
