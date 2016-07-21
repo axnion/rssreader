@@ -176,8 +176,7 @@ public class Configuration {
      */
     public static void setVisited(String listName, String feedIdentifier, String itemId,
                                   boolean status) {
-        getFeedListByName(listName).getFeedByUrl(feedIdentifier).getItemById(itemId)
-                .setVisited(status);
+        getFeedListByName(listName).setVisited(feedIdentifier, itemId, status);
     }
 
     /**
@@ -191,8 +190,7 @@ public class Configuration {
      */
     public static void setStarred(String listName, String feedIdentifier, String itemId,
                                   boolean status) {
-        getFeedListByName(listName).getFeedByUrl(feedIdentifier).getItemById(itemId)
-                .setStarred(status);
+        getFeedListByName(listName).setStarred(feedIdentifier, itemId, status);
     }
 
     /**
@@ -220,7 +218,7 @@ public class Configuration {
      *
      * @throws Exception Problems with database.
      */
-    public static void newDatabase() throws Exception {
+    public static void reset() throws Exception {
         dao.setPath("temp.db");
         feedLists = dao.load();
         lastUpdated = new Date();
@@ -231,7 +229,7 @@ public class Configuration {
      *
      * @throws Exception Problems with database.
      */
-    public static void saveDatabase() throws Exception {
+    public static void save() throws Exception {
         dao.save();
     }
 
@@ -241,7 +239,7 @@ public class Configuration {
      * @param path A String containing the path we want the database to be saved.
      * @throws Exception Problems with database.
      */
-    public static void saveDatabase(String path) throws Exception {
+    public static void save(String path) throws Exception {
         dao.setPath(path);
         dao.save();
     }
@@ -252,7 +250,7 @@ public class Configuration {
      * @param path A String containing the path to the database to be loaded.
      * @throws Exception Problems with database.
      */
-    public static void loadDatabase(String path) throws Exception {
+    public static void load(String path) throws Exception {
         dao.setPath(path);
         feedLists = dao.load();
         lastUpdated = new Date();
@@ -290,6 +288,15 @@ public class Configuration {
     }
 
     /**
+     * Access method for updatePeriod
+     *
+     * @return Number of seconds the program will currently wait between updates
+     */
+    public static int getUpdatePeriod() {
+        return updatePeriod;
+    }
+
+    /**
      * Mutator method for feedLists.
      *
      * @param newFeedLists An ArrayList of FeedList objects to be set as the new feedLists.
@@ -314,5 +321,14 @@ public class Configuration {
      */
     static void setLastUpdated(Date newDate) {
         lastUpdated = newDate;
+    }
+
+    /**
+     * Mutator method for updatePeriod
+     *
+     * @param seconds Number of seconds the program will wait between checking the feeds for updates
+     */
+    static void setUpdatePeriod(int seconds) {
+        updatePeriod = seconds;
     }
 }
