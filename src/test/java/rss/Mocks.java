@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.doThrow;
 
 public class Mocks {
     public static Feed createFeedMock(String title, String link, String desc, String url,
@@ -18,6 +17,9 @@ public class Mocks {
         doReturn(desc).when(feed).getDescription();
         doReturn(url).when(feed).getUrlToXML();
         doReturn(items).when(feed).getItems();
+
+        for(Item item : items)
+            when(feed.getItemById(item.getId())).thenReturn(item);
 
         return feed;
     }
