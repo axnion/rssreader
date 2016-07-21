@@ -197,10 +197,9 @@ class DatabaseAccessObject {
         }
     }
 
-//    void copy(String destination) throws Exception {
-//        FileUtils.copyFile(new File(path), new File(destination));
-//        path = destination;
-//    }
+    /*
+    ----------------------------------- ACCESSORS AND MUTATORS -------------------------------------
+    */
 
     String getPath() {
         return path;
