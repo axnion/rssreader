@@ -11,7 +11,7 @@ public class systemTests {
     @Test
     public void startup() {
         try {
-            Configuration.loadDatabase("temp.db");
+            Configuration.load("temp.db");
         }
         catch(Exception expt) {
             expt.printStackTrace();
@@ -29,7 +29,7 @@ public class systemTests {
         Configuration.addFeed("http://feeds.feedburner.com/sakerhetspodcasten", "TestList");
 
         try {
-            Configuration.saveDatabase("");
+            Configuration.save("");
         }
         catch(Exception expt) {
             expt.printStackTrace();

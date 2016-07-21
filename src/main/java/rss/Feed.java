@@ -46,6 +46,14 @@ public class Feed {
         throw new ItemDoesNotExist(id, urlToXML);
     }
 
+    public void setVisited(String itemId, boolean status) {
+        getItemById(itemId).setVisited(status);
+    }
+
+    public void setStarred(String itemId, boolean status) {
+        getItemById(itemId).setStarred(status);
+    }
+
     /*
     ------------------------------- ACCESSORS AND MUTATORS -----------------------------------------
     */

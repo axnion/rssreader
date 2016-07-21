@@ -373,4 +373,3 @@ public class ItemTests {
         assertTrue(testItem.compareDate(other) < 0);
     }
 }
-// Created: 2016-04-17

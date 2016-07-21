@@ -1,6 +1,5 @@
 package system;
 
-import org.apache.commons.io.FileUtils;
 import rss.Feed;
 import rss.Item;
 
@@ -16,7 +15,7 @@ import java.util.ArrayList;
  *
  * @author Axel Nilsson (axnion)
  */
-public class DatabaseAccessObject {
+class DatabaseAccessObject {
     private String path;
 
     DatabaseAccessObject() {

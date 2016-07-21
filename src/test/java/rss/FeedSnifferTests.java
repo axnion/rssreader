@@ -22,6 +22,6 @@ public class FeedSnifferTests {
     @Test
     public void snifferTest() {
         ArrayList<Feed> feeds = feedSniffer.getFeeds("http://www.axelnilsson.tech/");
-        assertEquals(1, feeds.size());
+        assertEquals(0, feeds.size());
     }
 }

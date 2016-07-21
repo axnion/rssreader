@@ -80,7 +80,7 @@ public class App extends Application {
 
     public static void newConfiguration() {
         try {
-            Configuration.newDatabase();
+            Configuration.reset();
         }
         catch(Exception expt) {
             expt.printStackTrace();
@@ -92,7 +92,7 @@ public class App extends Application {
 
     public static void saveConfiguration(String path) {
         try {
-            Configuration.saveDatabase(path);
+            Configuration.save(path);
         }
         catch(Exception expt) {
             expt.printStackTrace();
@@ -103,7 +103,7 @@ public class App extends Application {
 
     public static void loadConfiguration(String path) {
         try {
-            Configuration.loadDatabase(path);
+            Configuration.load(path);
         }
         catch(Exception expt) {
             expt.printStackTrace();
