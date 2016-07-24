@@ -117,8 +117,15 @@ class DatabaseAccessObject {
 
             ResultSet results = statement.executeQuery(query);
             results.next();
-            item.setVisited(results.getBoolean("VISITED"));
-            item.setStarred(results.getBoolean("STARRED"));
+
+            if(!results.isClosed()) {
+                item.setVisited(results.getString("visited").equals("true"));
+                item.setStarred(results.getString("starred").equals("true"));
+            }
+            else {
+                item.setVisited(false);
+                item.setStarred(false);
+            }
         }
     }
 

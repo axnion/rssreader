@@ -16,10 +16,12 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import rss.Feed;
 import rss.FeedSniffer;
 import system.Configuration;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -171,13 +173,8 @@ class MenuFeedList extends VBox{
             }
         });
 
-        addFeedButton.setOnAction(event -> {
-            showAddFeedMenu();
-        });
-
-        removeFeedListButton.setOnAction(event -> {
-            App.removeFeedList(name);
-        });
+        addFeedButton.setOnAction(event -> showAddFeedMenu());
+        removeFeedListButton.setOnAction(event -> App.removeFeedList(name));
     }
 
     String getName() {
