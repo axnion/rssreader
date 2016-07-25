@@ -4,10 +4,16 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import system.Configuration;
@@ -18,26 +24,39 @@ import system.Configuration;
  * @author Axel Nilsson (axnion)
  */
 public class App extends Application {
-    public static Wrapper root;
+    public static Wrapper wrapper;
+    public static HBox messageBox;
     public static ContextMenu openContextMenu;
     private static BrowserAccess browserAccess;
-
 
     public static void main(String[] args) {
         launch(args);
     }
 
     public void start(Stage primaryStage) {
+        wrapper = new Wrapper();
+        messageBox = new HBox();
         browserAccess = new BrowserAccess();
-        root = new Wrapper();
         openContextMenu = null;
+
+        messageBox.setMaxHeight(20);
+        messageBox.setMinHeight(20);
+        messageBox.setAlignment(Pos.CENTER);
+        messageBox.getStyleClass().add("TopBar");
+
+        VBox root = new VBox();
+        root.getChildren().add(messageBox);
+        root.getChildren().add(wrapper);
+
+        root.setVgrow(wrapper, Priority.ALWAYS);
+        root.setVgrow(messageBox, Priority.ALWAYS);
 
         Scene primaryScene = new Scene(root, 960, 540);
         primaryScene.getStylesheets().add("file:css/style.css");
         primaryScene.getStylesheets().add("file:css/buttons.css");
 
         createContextMenuEscape();
-
+s
         primaryStage.setMinWidth(300);
         primaryStage.setMinHeight(300);
         primaryStage.setTitle("RSSReader");
@@ -45,37 +64,45 @@ public class App extends Application {
         primaryStage.setScene(primaryScene);
         primaryStage.show();
 
-//        addFeedList("MyFeedList");
-//        addFeedList("MyFeedList2");
-//        addFeed("http://feeds.feedburner.com/sakerhetspodcasten", "MyFeedList");
-//        addFeed("http://feedpress.me/kodsnack", "MyFeedList2");
+        Timeline guiUpdater = new Timeline(new KeyFrame(Duration.seconds(5),
+                event -> wrapper.update()));
+        guiUpdater.setCycleCount(Animation.INDEFINITE);
+        guiUpdater.play();
 
-        Timeline updateTimer = new Timeline(new KeyFrame(Duration.seconds(5),
-                event -> root.update()));
-        updateTimer.setCycleCount(Animation.INDEFINITE);
-        updateTimer.play();
+        Timeline autoSave = new Timeline(new KeyFrame(Duration.seconds(
+                Configuration.getAutosavePeriod()), event -> {
+            try {
+                Configuration.save();
+            }
+            catch(Exception expt) {
+                expt.printStackTrace();
 
-        Configuration.startUpdater();
+            }
+        }));
+        autoSave.setCycleCount(Animation.INDEFINITE);
+        autoSave.play();
+
+        Configuration.startFeedUpdater();
     }
 
     public static void addFeedList(String listName) {
         Configuration.addFeedList(listName);
-        root.addFeedList(listName);
+        wrapper.addFeedList(listName);
     }
 
     public static void removeFeedList(String listName) {
         Configuration.removeFeedList(listName);
-        root.removeFeedList(listName);
+        wrapper.removeFeedList(listName);
     }
 
     public static void addFeed(String urlToXml, String listName) {
         Configuration.addFeed(urlToXml, listName);
-        root.update();
+        wrapper.update();
     }
 
     public static void removeFeed(String urlToXml, String listName) {
         Configuration.removeFeed(urlToXml, listName);
-        root.update();
+        wrapper.update();
     }
 
     public static void newConfiguration() {
@@ -86,19 +113,8 @@ public class App extends Application {
             expt.printStackTrace();
         }
 
-        root.reset();
-        root.update();
-    }
-
-    public static void saveConfiguration(String path) {
-        try {
-            Configuration.save(path);
-        }
-        catch(Exception expt) {
-            expt.printStackTrace();
-        }
-
-        root.update();
+        wrapper.reset();
+        wrapper.update();
     }
 
     public static void loadConfiguration(String path) {
@@ -109,8 +125,19 @@ public class App extends Application {
             expt.printStackTrace();
         }
 
-        root.reset();
-        root.update();
+        wrapper.reset();
+        wrapper.update();
+    }
+
+    public static void showMessage(String message) {
+        Text text = new Text(message);
+        text.getStyleClass().add("text");
+        messageBox.getChildren().add(text);
+
+        Timeline updateTimer = new Timeline(new KeyFrame(Duration.seconds(10),
+                event -> messageBox.getChildren().clear()));
+        updateTimer.setCycleCount(1);
+        updateTimer.play();
     }
 
     public static void openLink(String url) {
@@ -118,7 +145,7 @@ public class App extends Application {
     }
 
     private static void createContextMenuEscape() {
-        root.setOnMouseClicked(event -> {
+        wrapper.setOnMouseClicked(event -> {
             if(event.getButton().equals(MouseButton.PRIMARY)) {
                 if(openContextMenu != null) {
                     openContextMenu.hide();

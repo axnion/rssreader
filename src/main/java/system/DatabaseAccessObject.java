@@ -1,5 +1,6 @@
 package system;
 
+import app.App;
 import rss.Feed;
 import rss.Item;
 
@@ -56,6 +57,8 @@ class DatabaseAccessObject {
         connection.commit();
         statement.close();
         connection.close();
+
+        App.showMessage("Loaded " + path);
 
         return feedLists;
     }
@@ -146,6 +149,7 @@ class DatabaseAccessObject {
         connection.commit();
         statement.close();
         connection.close();
+        App.showMessage("Saved to " + path);
     }
 
     private Connection savePrep() throws Exception {

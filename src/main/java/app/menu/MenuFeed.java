@@ -49,7 +49,7 @@ class MenuFeed extends VBox{
                 if(App.openContextMenu != null)
                     App.openContextMenu.hide();
 
-                rightClickMenu.show(App.root, event.getScreenX(), event.getScreenY());
+                rightClickMenu.show(App.wrapper, event.getScreenX(), event.getScreenY());
                 App.openContextMenu = rightClickMenu;
             }
         });

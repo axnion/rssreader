@@ -2,6 +2,10 @@
     -fx-background-color: #282C2C;
 }
 
+.TopBar {
+    -fx-background-color: #393F3F;
+}
+
 .FeedListPane {
     -fx-background-color: #363636;
 }
@@ -92,5 +96,9 @@
 }
 
 .DetailsText {
+    -fx-fill: white;
+}
+
+.text {
     -fx-fill: white;
 }

@@ -1,5 +1,6 @@
 package system;
 
+import app.App;
 import rss.Feed;
 import system.exceptions.FeedListAlreadyExists;
 import system.exceptions.FeedListDoesNotExist;
@@ -31,6 +32,7 @@ public class Configuration {
     private static DatabaseAccessObject dao = new DatabaseAccessObject();
     private static Date lastUpdated = new Date();
     private static int updatePeriod = 5;
+    private static int autosavePeriod = 60;
 
     /**
      * Creates and adds a new FeedList object with the name specified though the listName parameter.
@@ -97,21 +99,21 @@ public class Configuration {
      * the update method on each FeedList in feedLists and if any updates are found the lastUpdated
      * is updated to current time.
      */
-    public static void startUpdater() {
+    public static void startFeedUpdater() {
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(new Thread() {
             public void run() {
-                Thread.currentThread().setName("UpdaterThread");
-                boolean updated = false;
-                for(FeedList feedList : feedLists) {
-                    if(feedList.update())
-                        updated = true;
-                }
+            Thread.currentThread().setName("UpdaterThread");
+            boolean updated = false;
+            for(FeedList feedList : feedLists) {
+                if(feedList.update())
+                    updated = true;
+            }
 
-                if(updated) {
-                    Configuration.setLastUpdated(new Date());
-                    System.out.println("UpdaterThread - Configuration Updated");
-                }
+            if(updated) {
+                Configuration.setLastUpdated(new Date());
+                System.out.println("UpdaterThread - Configuration Updated");
+            }
             }
         }, 0, updatePeriod, TimeUnit.SECONDS);
     }
@@ -297,6 +299,15 @@ public class Configuration {
     }
 
     /**
+     * Access method for autosavePeriod
+     *
+     * @return Number of seconds the program will currently wait between autosaves
+     */
+    public static int getAutosavePeriod() {
+        return autosavePeriod;
+    }
+
+    /**
      * Mutator method for feedLists.
      *
      * @param newFeedLists An ArrayList of FeedList objects to be set as the new feedLists.
@@ -330,5 +341,14 @@ public class Configuration {
      */
     static void setUpdatePeriod(int seconds) {
         updatePeriod = seconds;
+    }
+
+    /**
+     * Mutator method for autosavePeriod
+     *
+     * @param seconds Number of seconds the program will wait between autosaving.
+     */
+    static void setAutoSavePeriod(int seconds) {
+        autosavePeriod = seconds;
     }
 }

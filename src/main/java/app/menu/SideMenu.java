@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
+import system.Configuration;
 
 import java.io.File;
 
@@ -73,6 +74,17 @@ public class SideMenu extends VBox {
         Button saveBtn = new Button("Save");
         saveBtn.getStyleClass().add("CustomButton");
         saveBtn.setOnAction(event -> {
+            try {
+                Configuration.save();
+            }
+            catch(Exception expt) {
+                expt.printStackTrace();
+            }
+        });
+
+        Button saveAsBtn = new Button("Save As");
+        saveAsBtn.getStyleClass().add("CustomButton");
+        saveAsBtn.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save configuration");
             fileChooser.setInitialFileName("newConfiguration.db");
@@ -81,7 +93,12 @@ public class SideMenu extends VBox {
             File savedFile = fileChooser.showSaveDialog(null);
 
             if(savedFile != null) {
-                App.saveConfiguration(savedFile.getAbsolutePath());
+                try {
+                    Configuration.save(savedFile.getAbsolutePath());
+                }
+                catch(Exception expt) {
+                    expt.printStackTrace();
+                }
             }
         });
 
@@ -100,7 +117,7 @@ public class SideMenu extends VBox {
             }
         });
 
-        buttons.getChildren().addAll(newBtn, saveBtn, loadBtn);
+        buttons.getChildren().addAll(newBtn, saveBtn, saveAsBtn, loadBtn);
         buttons.setVisible(false);
 
         topBar.setRight(buttons);
