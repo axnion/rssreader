@@ -56,7 +56,7 @@ public class App extends Application {
         primaryScene.getStylesheets().add("file:css/buttons.css");
 
         createContextMenuEscape();
-s
+
         primaryStage.setMinWidth(300);
         primaryStage.setMinHeight(300);
         primaryStage.setTitle("RSSReader");

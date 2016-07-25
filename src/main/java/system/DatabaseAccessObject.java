@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Class DatabaseAccessObject
@@ -18,25 +19,26 @@ import java.util.ArrayList;
  */
 class DatabaseAccessObject {
     private String path;
+    private Date lastSaved;
 
     DatabaseAccessObject() {
         path = "temp.db";
-        try {
-            load();
-        }
-        catch(Exception expt) {
-            expt.printStackTrace();
-        }
+        init();
     }
 
     DatabaseAccessObject(String path) {
         this.path = path;
+        init();
+    }
+
+    private void init() {
         try {
             load();
         }
         catch(Exception expt) {
             expt.printStackTrace();
         }
+        lastSaved = new Date();
     }
 
     /*
@@ -137,6 +139,10 @@ class DatabaseAccessObject {
     */
 
     void save() throws Exception {
+        if(getLastSaved().after(Configuration.getLastUpdated())) {
+            return;
+        }
+
         Connection connection = savePrep();
         Statement statement = connection.createStatement();
 
@@ -149,6 +155,7 @@ class DatabaseAccessObject {
         connection.commit();
         statement.close();
         connection.close();
+        setLastSaved(new Date());
         App.showMessage("Saved to " + path);
     }
 
@@ -216,7 +223,15 @@ class DatabaseAccessObject {
         return path;
     }
 
-    void setPath(String newPath) {
-        path = newPath;
+    Date getLastSaved() {
+        return lastSaved;
+    }
+
+    void setPath(String path) {
+        this.path = path;
+    }
+
+    void setLastSaved(Date lastSaved) {
+        this.lastSaved = lastSaved;
     }
 }

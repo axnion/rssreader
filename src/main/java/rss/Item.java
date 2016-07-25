@@ -175,14 +175,20 @@ public class Item {
      */
     void setDate(String date) {
         SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
-
         try {
             this.date = format.parse(date);
             this.date.setTime(this.date.getTime());
         }
-        catch(ParseException expt) {
-            this.date = new Date(0);
-            expt.printStackTrace();
+        catch(ParseException expt) {     //Mon Jul 25 2016 12:13:33 GMT+0000
+            format = new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'Z");
+            try {
+                this.date = format.parse(date);
+                this.date.setTime(this.date.getTime());
+            }
+            catch(ParseException expt2) {
+                this.date = new Date(0);
+                expt.printStackTrace();
+            }
         }
     }
 
