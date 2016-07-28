@@ -4,8 +4,8 @@ import app.App;
 import app.misc.ClickButton;
 import app.misc.ToggleColorButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
-import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -13,8 +13,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import rss.Item;
 import system.Configuration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class ItemPane
@@ -23,12 +29,12 @@ import system.Configuration;
  */
 class ItemPane extends VBox {
     private boolean detailsVisible;
-    private Group detailsGroup;
+    private ArrayList<TextFlow> details;
     private VBox detailsContainer;
 
     ItemPane(Item item, String feedListName) {
         detailsVisible = false;
-        detailsGroup = new Group();
+        details = new ArrayList<>();
         detailsContainer = new VBox();
 
         setMinWidth(470);
@@ -38,7 +44,7 @@ class ItemPane extends VBox {
         if(!item.isVisited())
             getStyleClass().add("NotVisited");
 
-        createDetailsGroup(item);
+        //createDetailsGroup(item);
         getChildren().add(createItemBar(item, feedListName));
         getChildren().add(detailsContainer);
     }
@@ -88,20 +94,55 @@ class ItemPane extends VBox {
         TextFlow linkFlow = new TextFlow();
         Text linkLabel = new Text("Link: ");
         linkLabel.getStyleClass().add("DetailsLable");
-        Text linkText = new Text(item.getLink());
-        linkText.getStyleClass().add("DetailsText");
+        Hyperlink linkText = new Hyperlink(item.getLink());
         linkFlow.getChildren().addAll(linkLabel, linkText);
         linkFlow.setMinWidth(440);
+        details.add(linkFlow);
 
         TextFlow descriptionFlow = new TextFlow();
         Text descriptionLabel = new Text("Description: ");
         descriptionLabel.getStyleClass().add("DetailsLable");
-        Text descriptionText = new Text(item.getDescription());
-        descriptionText.getStyleClass().add("DetailsText");
-        descriptionFlow.getChildren().addAll(descriptionLabel, descriptionText);
-        descriptionFlow.setMinWidth(440);
+        descriptionFlow.getChildren().add(descriptionLabel);
 
-        detailsGroup.getChildren().addAll(linkFlow, descriptionFlow);
+        try {
+            Document document = Jsoup.parse("<html>" + item.getDescription() + "</html>");
+            Element element = document.body();
+            List<org.jsoup.nodes.Node> nodeList = element.childNodes();
+
+            for(org.jsoup.nodes.Node node : nodeList) {
+                if(node.nodeName().equals("p")) {
+                    Text descriptionText = new Text(node.childNode(0).toString());
+                    descriptionText.getStyleClass().add("DetailsText");
+                    descriptionFlow.getChildren().add(descriptionText);
+                }
+            }
+        }
+        catch(RuntimeException expt) {
+            Text descriptionText = new Text(item.getDescription());
+            descriptionFlow.getChildren().add(descriptionText);
+            expt.printStackTrace();
+        }
+
+        descriptionFlow.setMinWidth(440);
+        details.add(descriptionFlow);
+
+        TextFlow idFlow = new TextFlow();
+        Text idLabel = new Text("ID: ");
+        idLabel.getStyleClass().add("DetailsLable");
+        Text idText = new Text(item.getId());
+        idText.getStyleClass().add("DetailsText");
+        idFlow.getChildren().addAll(idLabel, idText);
+        idFlow.setMinWidth(440);
+        details.add(idFlow);
+
+        TextFlow dateFlow = new TextFlow();
+        Text dateLabel = new Text("Date: ");
+        dateLabel.getStyleClass().add("DetailsLable");
+        Text dateText = new Text(item.getDate().toString());
+        dateText.getStyleClass().add("DetailsText");
+        dateFlow.getChildren().addAll(dateLabel, dateText);
+        dateFlow.setMinWidth(440);
+        details.add(dateFlow);
     }
 
     private void showHideDetails() {
@@ -109,7 +150,7 @@ class ItemPane extends VBox {
             detailsContainer.getChildren().clear();
         }
         else {
-            detailsContainer.getChildren().add(detailsGroup);
+            detailsContainer.getChildren().addAll(details);
             detailsContainer.minHeight(100);
         }
         detailsVisible = !detailsVisible;

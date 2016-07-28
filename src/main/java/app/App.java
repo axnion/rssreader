@@ -131,7 +131,7 @@ public class App extends Application {
 
     public static void showMessage(String message) {
         Text text = new Text(message);
-        text.getStyleClass().add("text");
+        text.setStyle("-fx-fill: white");
         messageBox.getChildren().add(text);
 
         Timeline updateTimer = new Timeline(new KeyFrame(Duration.seconds(10),
