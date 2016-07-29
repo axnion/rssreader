@@ -53,7 +53,7 @@ class TreeView extends VBox {
     }
 
     void addFeedList(String listName) {
-        menuFeedLists.add(new MenuFeedList(listName));
+        menuFeedLists.add(new MenuFeedList(Configuration.getFeedListByName(listName)));
 
         treeViewContainer.getChildren().clear();
         treeViewContainer.getChildren().addAll(menuFeedLists);
@@ -77,7 +77,7 @@ class TreeView extends VBox {
         treeViewContainer.getChildren().clear();
 
         for(FeedList feedList : feedLists) {
-            MenuFeedList newMenuFeedList = new MenuFeedList(feedList.getName());
+            MenuFeedList newMenuFeedList = new MenuFeedList(feedList);
             newMenuFeedList.update();
             menuFeedLists.add(newMenuFeedList);
         }

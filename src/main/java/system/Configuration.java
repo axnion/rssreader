@@ -1,6 +1,5 @@
 package system;
 
-import app.App;
 import rss.Feed;
 import system.exceptions.FeedListAlreadyExists;
 import system.exceptions.FeedListDoesNotExist;
@@ -22,14 +21,14 @@ import java.util.concurrent.TimeUnit;
  * and in turn all Items. All modifications done to the FeedList/Feed/Item objects are done though
  * here.
  *
- * Configuration also holds the DatabaseAccessObject which is used to load and save user data to
+ * Configuration also holds the DatabaseAccessObjectSQLite which is used to load and save user data to
  * a database.
  *
  * @author Axel Nilsson (axnion)
  */
 public class Configuration {
     private static ArrayList<FeedList> feedLists = new ArrayList<>();
-    private static DatabaseAccessObject dao = new DatabaseAccessObject();
+    private static DatabaseAccessObjectSQLite dao = new DatabaseAccessObjectSQLite();
     private static Date lastUpdated = new Date();
     private static int updatePeriod = 5;
     private static int autosavePeriod = 60;
@@ -46,7 +45,7 @@ public class Configuration {
      */
     public static void addFeedList(String listName) {
         if(!feedListExists(listName)) {
-            feedLists.add(new FeedList(listName, "DATE_DEC"));
+            feedLists.add(new FeedList(listName, "DATE_DEC", true));
             lastUpdated = new Date();
         }
         else
@@ -168,6 +167,11 @@ public class Configuration {
         setLastUpdated(new Date());
     }
 
+    public static void setShowVisitedStatus(String listName, boolean status) {
+        getFeedListByName(listName).setShowVisitedStatus(status);
+        setLastUpdated(new Date());
+    }
+
     /**
      * Finds the correct Item object using listName, feedIdentifier, and itemId. The setVisited
      * method is then called on the found Item object and passes the status as an argument.
@@ -218,7 +222,7 @@ public class Configuration {
     */
 
     /**
-     * Resets the Configuration by changing the path in DatabaseAccessObject to default 'temp.db'
+     * Resets the Configuration by changing the path in DatabaseAccessObjectSQLite to default 'temp.db'
      * and loads the empty default database. Updates lastUpdated.
      *
      * @throws Exception Problems with database.
@@ -230,7 +234,7 @@ public class Configuration {
     }
 
     /**
-     * Calls the save method on DatabaseAccessObject.
+     * Calls the save method on DatabaseAccessObjectSQLite.
      *
      * @throws Exception Problems with database.
      */
@@ -239,7 +243,7 @@ public class Configuration {
     }
 
     /**
-     * Changes the path in DatabaseAccessObject and calls the save method.
+     * Changes the path in DatabaseAccessObjectSQLite and calls the save method.
      *
      * @param path A String containing the path we want the database to be saved.
      * @throws Exception Problems with database.
@@ -250,7 +254,7 @@ public class Configuration {
     }
 
     /**
-     * Changes the path in DatabaseAccessObject and then calls the load method. Updates lastUpdated.
+     * Changes the path in DatabaseAccessObjectSQLite and then calls the load method. Updates lastUpdated.
      *
      * @param path A String containing the path to the database to be loaded.
      * @throws Exception Problems with database.
@@ -275,11 +279,11 @@ public class Configuration {
     }
 
     /**
-     * Access method for DatabaseAccessObject.
+     * Access method for DatabaseAccessObjectSQLite.
      *
-     * @return The DatabaseAccessObject currently used in Configuration.
+     * @return The DatabaseAccessObjectSQLite currently used in Configuration.
      */
-    static DatabaseAccessObject getDao() {
+    static DatabaseAccessObjectSQLite getDao() {
         return dao;
     }
 
@@ -320,11 +324,11 @@ public class Configuration {
     }
 
     /**
-     * Mutator method for DatabaseAccessObject.
+     * Mutator method for DatabaseAccessObjectSQLite.
      *
-     * @param newDao A DatabaseAccessObject to be set as the new dao.
+     * @param newDao A DatabaseAccessObjectSQLite to be set as the new dao.
      */
-    static void setDao(DatabaseAccessObject newDao) {
+    static void setDao(DatabaseAccessObjectSQLite newDao) {
         dao = newDao;
     }
 

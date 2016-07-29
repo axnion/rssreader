@@ -4,10 +4,10 @@ import app.App;
 import app.misc.ClickButton;
 import app.misc.ToggleIconButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
@@ -20,6 +20,7 @@ import javafx.stage.FileChooser;
 import rss.Feed;
 import rss.FeedSniffer;
 import system.Configuration;
+import system.FeedList;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
  */
 class MenuFeedList extends VBox{
     private boolean visible;
-    private String name;
+    private FeedList feedList;
     private BorderPane titlePane;
     private HBox settings;
     private VBox settingsContainer;
@@ -41,9 +42,10 @@ class MenuFeedList extends VBox{
     private HBox addFeedMenuContainer;
     private VBox newFeedContainer;
 
-    MenuFeedList(String listName) {
-        name = listName;
+    MenuFeedList(FeedList feedList) {
+        this.feedList = feedList;
         menuFeeds = new ArrayList<>();
+        settings = new HBox();
         settingsContainer = new VBox();
         feedsContainer = new VBox();
         visible = false;
@@ -52,7 +54,7 @@ class MenuFeedList extends VBox{
 
         getStyleClass().add("MenuFeedList");
 
-        Text title = new Text(listName);
+        Text title = new Text(feedList.getName());
         title.getStyleClass().add("MenuFeedListTitle");
 
         showFeedsButton = new ToggleIconButton(MaterialIcon.ARROW_DROP_DOWN, MaterialIcon.ARROW_DROP_UP,
@@ -68,19 +70,21 @@ class MenuFeedList extends VBox{
         titlePane.setLeft(title);
         titlePane.setRight(showFeedsButton);
         createContextMenu();
+        createSettings();
 
         getChildren().add(titlePane);
         getChildren().add(addFeedMenuContainer);
+        getChildren().add(settingsContainer);
         getChildren().add(feedsContainer);
         getChildren().add(newFeedContainer);
     }
 
     void update() {
         menuFeeds.clear();
-        ArrayList<Feed> feeds = Configuration.getAllFeedsFromFeedList(name);
+        ArrayList<Feed> feeds = Configuration.getAllFeedsFromFeedList(feedList.getName());
 
         for(int i = 0; i < feeds.size(); i++) {
-            MenuFeed menuFeed = new MenuFeed(feeds.get(i), name);
+            MenuFeed menuFeed = new MenuFeed(feeds.get(i), feedList.getName());
 
             if(i % 2 == 0) {
                 menuFeed.setStyle("-fx-background-color: #575757");
@@ -98,9 +102,11 @@ class MenuFeedList extends VBox{
     private void showHideFeeds() {
         if(visible) {
             feedsContainer.getChildren().clear();
+            settingsContainer.getChildren().clear();
         }
         else {
             feedsContainer.getChildren().addAll(menuFeeds);
+            settingsContainer.getChildren().add(settings);
         }
 
         showFeedsButton.toggle();
@@ -135,6 +141,49 @@ class MenuFeedList extends VBox{
             addFeedMenuContainer.getChildren().addAll(addFeedMenuNode);
             addFeedMenuContainer.setHgrow(addFeedMenuNode, Priority.ALWAYS);
         }
+    }
+
+    private void createSettings() {
+        RadioButton showVisitedButton = new RadioButton("Show not visited");
+        showVisitedButton.setStyle("-fx-text-fill: white");
+        showVisitedButton.setSelected(Configuration.getFeedListByName(feedList.getName()).
+                getShowVisitedStatus());
+        showVisitedButton.setOnAction(event -> {
+            Configuration.setShowVisitedStatus(feedList.getName(), showVisitedButton.isSelected());
+        });
+
+        ComboBox<String> sortingSelection = new ComboBox<>();
+        ObservableList<String> sortingOptions = FXCollections.observableArrayList(
+                "Title Ascending",
+                "Title Descending",
+                "Date Ascending",
+                "Date Descending"
+        );
+        sortingSelection.setItems(sortingOptions);
+
+        if(feedList.getSortingRules().equals("TITLE_ASC"))
+            sortingSelection.setValue("Title Ascending");
+        else if(feedList.getSortingRules().equals("TITLE_DEC"))
+            sortingSelection.setValue("Title Descending");
+        else if(feedList.getSortingRules().equals("DATE_ASC"))
+            sortingSelection.setValue("Date Ascending");
+        else
+            sortingSelection.setValue("Date Descending");
+
+        sortingSelection.setOnAction(event -> {
+            String newSortingRule = sortingSelection.getSelectionModel().getSelectedItem();
+            if(newSortingRule.equals("Title Ascending"))
+                Configuration.setSortingRules(feedList.getName(), "TITLE_ASC");
+            else if(newSortingRule.equals("Title Descending"))
+                Configuration.setSortingRules(feedList.getName(), "TITLE_DEC");
+            else if(newSortingRule.equals("Date Ascending"))
+                Configuration.setSortingRules(feedList.getName(), "DATE_ASC");
+            else
+                Configuration.setSortingRules(feedList.getName(), "DATE_DEC");
+        });
+
+        settings.getChildren().add(showVisitedButton);
+        settings.getChildren().add(sortingSelection);
     }
 
     void hideAddFeedMenu() {
@@ -179,11 +228,11 @@ class MenuFeedList extends VBox{
         });
 
         addFeedButton.setOnAction(event -> showAddFeedMenu());
-        removeFeedListButton.setOnAction(event -> App.removeFeedList(name));
+        removeFeedListButton.setOnAction(event -> App.removeFeedList(feedList.getName()));
     }
 
     String getName() {
-        return name;
+        return feedList.getName();
     }
 
     private class NewFeed extends HBox {
@@ -196,7 +245,7 @@ class MenuFeedList extends VBox{
                     "Add feed to feedlist");
             button.setOnMouseClicked(event -> {
                 if(event.getButton().equals(MouseButton.PRIMARY)) {
-                    App.addFeed(feed.getUrlToXML(), name);
+                    App.addFeed(feed.getUrlToXML(), feedList.getName());
                     newFeedContainer.getChildren().remove(this);
                 }
             });

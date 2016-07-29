@@ -20,19 +20,21 @@ import java.util.LinkedList;
 public class FeedList {
     private String name;
     private String sortingRules;
-    private ArrayList<Feed> feeds;
     private RssParser rssParser;
+    private boolean showVisitedStatus;
+    private ArrayList<Feed> feeds;
 
     /**
      * Constructor
      *
      * @param name  The name the FeedList is to be identified by.
      */
-    FeedList(String name, String sortingRules) {
+    FeedList(String name, String sortingRules, boolean showVisitedStatus) {
         this.name = name;
         this.sortingRules = sortingRules;
-        this.feeds = new ArrayList<>();
         this.rssParser = new RssParser();
+        this.showVisitedStatus = showVisitedStatus;
+        this.feeds = new ArrayList<>();
     }
 
     /**
@@ -236,16 +238,8 @@ public class FeedList {
      * Accessor method for sortingRules
      * @return A String containing the value of the sortingRules field
      */
-    String getSortingRules() {
+    public String getSortingRules() {
         return sortingRules;
-    }
-
-    /**
-     * Accessor method for feeds
-     * @return An ArrayList containing Feed objects
-     */
-    ArrayList<Feed> getFeeds() {
-        return feeds;
     }
 
     /**
@@ -254,6 +248,18 @@ public class FeedList {
      */
     RssParser getRssParser() {
         return rssParser;
+    }
+
+    public boolean getShowVisitedStatus() {
+        return showVisitedStatus;
+    }
+
+    /**
+     * Accessor method for feeds
+     * @return An ArrayList containing Feed objects
+     */
+    ArrayList<Feed> getFeeds() {
+        return feeds;
     }
 
     /**
@@ -273,18 +279,27 @@ public class FeedList {
     }
 
     /**
-     * Mutator method for feeds
-     * @param feeds An ArrayList of Feed objects to be set as the new feeds
-     */
-    void setFeeds(ArrayList<Feed> feeds) {
-        this.feeds = feeds;
-    }
-
-    /**
      * Mutator method for rssParser
      * @param rssParser An RssParser to be set as this FeedLists RssParser
      */
     void setRssParser(RssParser rssParser) {
         this.rssParser = rssParser;
+    }
+
+    /**
+     * Mutator method for showVisitedStatus
+     *
+     * @param showVisitedStatus True if
+     */
+    void setShowVisitedStatus(boolean showVisitedStatus) {
+            this.showVisitedStatus = showVisitedStatus;
+    }
+
+    /**
+     * Mutator method for feeds
+     * @param feeds An ArrayList of Feed objects to be set as the new feeds
+     */
+    void setFeeds(ArrayList<Feed> feeds) {
+        this.feeds = feeds;
     }
 }
