@@ -5,7 +5,9 @@ import app.misc.ClickButton;
 import app.misc.ToggleColorButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import javafx.scene.Node;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -28,28 +30,29 @@ import java.util.List;
  * @author Axel Nilsson (axnion)
  */
 class ItemPane extends VBox {
+    private Item item;
+    private String feedListName;
     private boolean detailsVisible;
     private ArrayList<TextFlow> details;
     private VBox detailsContainer;
+    private ContextMenu contextMenu;
 
     ItemPane(Item item, String feedListName) {
+        this.item = item;
+        this.feedListName = feedListName;
         detailsVisible = false;
         details = new ArrayList<>();
         detailsContainer = new VBox();
 
         setMinWidth(470);
 
-        getStyleClass().add("ItemPane");
-
-        if(!item.isVisited())
-            getStyleClass().add("NotVisited");
-
+        setVisited(item.isVisited());
         //createDetailsGroup(item);
-        getChildren().add(createItemBar(item, feedListName));
+        getChildren().add(createItemBar(feedListName));
         getChildren().add(detailsContainer);
     }
 
-    private HBox createItemBar(Item item, String feedListName) {
+    private HBox createItemBar(String feedListName) {
         HBox itemBar = new HBox();
 
         Text itemTitle = new Text(item.getTitle());
@@ -59,8 +62,7 @@ class ItemPane extends VBox {
         VBox titleContainer = new VBox(itemTitle);
         titleContainer.setOnMouseClicked(event -> {
             if(event.getButton().equals(MouseButton.PRIMARY)) {
-                getStyleClass().clear();
-                getStyleClass().add("ItemPane");
+                setVisited(true);
                 App.openLink(item.getLink());
                 Configuration.setVisited(feedListName, item.getFeedIdentifier(), item.getId(),
                         true);
@@ -90,7 +92,36 @@ class ItemPane extends VBox {
         return itemBar;
     }
 
-    private void createDetailsGroup(Item item) {
+    private void createContextMenu(boolean visited) {
+        contextMenu = new ContextMenu();
+
+        MenuItem changeVisited;
+        if(visited)
+            changeVisited = new MenuItem("Set to not visited");
+        else
+            changeVisited = new MenuItem("Set to visited");
+
+        changeVisited.setOnAction(event -> {
+            setVisited(!visited);
+            Configuration.setVisited(feedListName, item.getFeedIdentifier(), item.getId(),
+                    !visited);
+        });
+
+        contextMenu.getItems().clear();
+        contextMenu.getItems().add(changeVisited);
+
+        setOnMouseClicked(event -> {
+            if(event.getButton().equals(MouseButton.SECONDARY)) {
+                if(App.openContextMenu != null)
+                    App.openContextMenu.hide();
+
+                contextMenu.show(App.wrapper, event.getScreenX(), event.getScreenY());
+                App.openContextMenu = contextMenu;
+            }
+        });
+    }
+
+    private void createDetailsGroup() {
         TextFlow linkFlow = new TextFlow();
         Text linkLabel = new Text("Link: ");
         linkLabel.getStyleClass().add("DetailsLable");
@@ -154,5 +185,19 @@ class ItemPane extends VBox {
             detailsContainer.minHeight(100);
         }
         detailsVisible = !detailsVisible;
+    }
+
+    private void setVisited(boolean status) {
+        if(status) {
+            getStyleClass().clear();
+            getStyleClass().add("ItemPane");
+        }
+        else {
+            getStyleClass().clear();
+            getStyleClass().add("ItemPane");
+            getStyleClass().add("NotVisited");
+        }
+
+        createContextMenu(status);
     }
 }

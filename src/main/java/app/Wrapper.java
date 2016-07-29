@@ -52,7 +52,7 @@ class Wrapper extends HBox {
             sideMenu.updateFeedLists();
             feedListContainer.updateFeedLists();
             lastUpdated = new Date();
-            System.out.println("Wrapper - Wrapper updated");
+            System.out.println("Update: Wrapper");
         }
     }
 }

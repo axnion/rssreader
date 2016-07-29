@@ -61,6 +61,7 @@ class DatabaseAccessObject {
         connection.close();
 
         App.showMessage("Loaded " + path);
+        System.out.println("Loaded " + path);
 
         return feedLists;
     }
@@ -155,8 +156,10 @@ class DatabaseAccessObject {
         connection.commit();
         statement.close();
         connection.close();
+
         setLastSaved(new Date());
         App.showMessage("Saved to " + path);
+        System.out.println("Saved to " + path);
     }
 
     private Connection savePrep() throws Exception {

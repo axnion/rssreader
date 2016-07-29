@@ -112,7 +112,7 @@ public class Configuration {
 
             if(updated) {
                 Configuration.setLastUpdated(new Date());
-                System.out.println("UpdaterThread - Configuration Updated");
+                System.out.println("Update: Configuration");
             }
             }
         }, 0, updatePeriod, TimeUnit.SECONDS);
@@ -165,6 +165,7 @@ public class Configuration {
      */
     public static void setSortingRules(String listName, String sorting) {
         getFeedListByName(listName).setSortingRules(sorting);
+        setLastUpdated(new Date());
     }
 
     /**
@@ -179,6 +180,7 @@ public class Configuration {
     public static void setVisited(String listName, String feedIdentifier, String itemId,
                                   boolean status) {
         getFeedListByName(listName).setVisited(feedIdentifier, itemId, status);
+        setLastUpdated(new Date());
     }
 
     /**
@@ -193,6 +195,7 @@ public class Configuration {
     public static void setStarred(String listName, String feedIdentifier, String itemId,
                                   boolean status) {
         getFeedListByName(listName).setStarred(feedIdentifier, itemId, status);
+        setLastUpdated(new Date());
     }
 
     /**
