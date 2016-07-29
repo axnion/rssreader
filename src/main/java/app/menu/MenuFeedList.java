@@ -33,6 +33,8 @@ class MenuFeedList extends VBox{
     private boolean visible;
     private String name;
     private BorderPane titlePane;
+    private HBox settings;
+    private VBox settingsContainer;
     private VBox feedsContainer;
     private ArrayList<MenuFeed> menuFeeds;
     private ToggleIconButton showFeedsButton;
@@ -42,6 +44,7 @@ class MenuFeedList extends VBox{
     MenuFeedList(String listName) {
         name = listName;
         menuFeeds = new ArrayList<>();
+        settingsContainer = new VBox();
         feedsContainer = new VBox();
         visible = false;
         addFeedMenuContainer = new HBox();
@@ -93,10 +96,12 @@ class MenuFeedList extends VBox{
     }
 
     private void showHideFeeds() {
-        if(visible)
+        if(visible) {
             feedsContainer.getChildren().clear();
-        else
+        }
+        else {
             feedsContainer.getChildren().addAll(menuFeeds);
+        }
 
         showFeedsButton.toggle();
         visible = !visible;
