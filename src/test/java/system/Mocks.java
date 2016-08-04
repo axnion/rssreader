@@ -1,8 +1,5 @@
 package system;
 
-import rss.Feed;
-import rss.Item;
-
 import java.util.ArrayList;
 
 import static org.mockito.Mockito.*;
@@ -21,8 +18,8 @@ class Mocks {
         return feedList;
     }
 
-    static DatabaseAccessObject createDatabaseAccessObjectMock() {
-        DatabaseAccessObject dao = mock(DatabaseAccessObject.class);
+    static DatabaseAccessObjectSQLite createDatabaseAccessObjectMock() {
+        DatabaseAccessObjectSQLite dao = mock(DatabaseAccessObjectSQLite.class);
 
         try {
             doNothing().when(dao).setPath(anyString());

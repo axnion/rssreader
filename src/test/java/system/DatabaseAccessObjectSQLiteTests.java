@@ -8,27 +8,27 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 /**
- * Class DatabaseAccessObjectTests
+ * Class DatabaseAccessObjectSQLiteTests
  *
  * @author Axel Nilsson (axnion)
  */
-public class DatabaseAccessObjectTests {
-    private DatabaseAccessObject dao;
+public class DatabaseAccessObjectSQLiteTests {
+    private DatabaseAccessObjectSQLite dao;
 
     @Before
     public void createObject() {
-        dao = new DatabaseAccessObject();
+        dao = new DatabaseAccessObjectSQLite();
     }
 
     @Test
     public void createDAOWithoutPath() {
-        dao = new DatabaseAccessObject();
+        dao = new DatabaseAccessObjectSQLite();
         assertEquals("temp.db", dao.getPath());
     }
 
     @Test
     public void createDAOWithPath() {
-        dao = new DatabaseAccessObject("path/to/database");
+        dao = new DatabaseAccessObjectSQLite("path/to/database");
         assertEquals("path/to/database", dao.getPath());
     }
 

@@ -13,20 +13,20 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Class DatabaseAccessObject
+ * Class DatabaseAccessObjectSQLite
  *
  * @author Axel Nilsson (axnion)
  */
-class DatabaseAccessObject {
+class DatabaseAccessObjectSQLite {
     private String path;
     private Date lastSaved;
 
-    DatabaseAccessObject() {
+    DatabaseAccessObjectSQLite() {
         path = "temp.db";
         init();
     }
 
-    DatabaseAccessObject(String path) {
+    DatabaseAccessObjectSQLite(String path) {
         this.path = path;
         init();
     }
@@ -78,8 +78,9 @@ class DatabaseAccessObject {
         Statement statement = connection.createStatement();
 
         String createFeedListSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feed_lists(" +
-                "FEEDLISTNAME TEXT PRIMARY KEY UNIQUE NOT NULL, " +
-                "SORTING VARCHAR(16)  DEFAULT DATE_DEC NOT NULL);";
+                "FEEDLISTNAME TEXT          PRIMARY KEY         UNIQUE      NOT NULL, " +
+                "SORTING      VARCHAR(16)   DEFAULT DATE_DEC    NOT NULL, " +
+                "SHOWVISITED  BOOLEAN       DEFAULT TRUE        NOT NULL);";
 
         String createFeedSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feeds" +
                 " (URLTOXML     TEXT    NOT NULL," +
@@ -99,7 +100,7 @@ class DatabaseAccessObject {
         ResultSet results = statement.executeQuery(query);
         while(results.next()) {
             feedLists.add(new FeedList(results.getString("feedlistname"),
-                    results.getString("sorting")));
+                    results.getString("sorting"), results.getString("SHOWVISITED").equals("true")));
         }
 
         return feedLists;
@@ -172,8 +173,9 @@ class DatabaseAccessObject {
         Statement statement = connection.createStatement();
 
         String createFeedListSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feed_lists(" +
-                "FEEDLISTNAME TEXT PRIMARY KEY UNIQUE NOT NULL, " +
-                "SORTING VARCHAR(16)  DEFAULT DATE_DEC NOT NULL);";
+                "FEEDLISTNAME TEXT          PRIMARY KEY         UNIQUE      NOT NULL, " +
+                "SORTING      VARCHAR(16)   DEFAULT DATE_DEC    NOT NULL, " +
+                "SHOWVISITED  BOOLEAN       DEFAULT TRUE        NOT NULL);";
 
         String createFeedSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feeds" +
                 " (URLTOXML     TEXT    NOT NULL," +
@@ -192,8 +194,10 @@ class DatabaseAccessObject {
                 " VISITED       BOOLEAN     NOT NULL," +
                 " STARRED       BOOLEAN     NOT NULL);";
 
-        String addFeedListToSortTable = "INSERT INTO save_data_feed_lists (FEEDLISTNAME) " +
-                "VALUES ('" + feedList.getName() + "')";
+        String addFeedListToSortTable = "INSERT INTO save_data_feed_lists " +
+                "(FEEDLISTNAME, SORTING, SHOWVISITED) " +
+                "VALUES ('" + feedList.getName() + "','" + feedList.getSortingRules() + "','" +
+                feedList.getShowVisitedStatus() + "');";
 
         statement.executeUpdate(createFeedListTableQuery);
         statement.executeUpdate(addFeedListToSortTable);
@@ -232,6 +236,7 @@ class DatabaseAccessObject {
 
     void setPath(String path) {
         this.path = path;
+        setLastSaved(new Date(0));
     }
 
     void setLastSaved(Date lastSaved) {

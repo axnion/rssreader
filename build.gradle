@@ -33,6 +33,7 @@ dependencies {
     compile 'de.jensd:fontawesomefx-controls:8.11'
     compile 'de.jensd:fontawesomefx-materialicons:2.1-2'
     compile 'org.jsoup:jsoup:1.7.2'
+    compile group: 'com.orientechnologies', name: 'orientdb-core', version: '2.2.6'
 }
 
 jfx {

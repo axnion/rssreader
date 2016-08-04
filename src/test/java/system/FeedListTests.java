@@ -24,7 +24,7 @@ public class FeedListTests {
 
     @Before
     public void createObject() {
-        feedList = new FeedList("MyFeedList", "DATE_DEC");
+        feedList = new FeedList("MyFeedList", "DATE_DEC", true);
         feedList.setRssParser(Mocks.createRssParser());
     }
 

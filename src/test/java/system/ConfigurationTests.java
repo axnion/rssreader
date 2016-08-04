@@ -48,7 +48,7 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
         Configuration.setFeedLists(feedLists);
 
-        DatabaseAccessObject dao = Mocks.createDatabaseAccessObjectMock();
+        DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectMock();
         Configuration.setDao(dao);
 
         Configuration.setUpdatePeriod(10);
@@ -508,7 +508,7 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
         Configuration.setFeedLists(feedLists);
 
-        DatabaseAccessObject dao = Mocks.createDatabaseAccessObjectMock();
+        DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectMock();
         Configuration.setDao(dao);
 
         assertEquals(2, Configuration.getFeedLists().size());
@@ -527,7 +527,7 @@ public class ConfigurationTests {
 
     @Test
     public void saveDatabaseTest() {
-        DatabaseAccessObject dao = Mocks.createDatabaseAccessObjectMock();
+        DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectMock();
         Configuration.setDao(dao);
 
         try {
@@ -542,7 +542,7 @@ public class ConfigurationTests {
 
     @Test
     public void saveAsDatabaseTest() {
-        DatabaseAccessObject dao = Mocks.createDatabaseAccessObjectMock();
+        DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectMock();
         Configuration.setDao(dao);
 
         try {
@@ -565,7 +565,7 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
         Configuration.setFeedLists(feedLists);
 
-        DatabaseAccessObject dao = Mocks.createDatabaseAccessObjectMock();
+        DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectMock();
         Configuration.setDao(dao);
 
         assertEquals(2, Configuration.getFeedLists().size());
