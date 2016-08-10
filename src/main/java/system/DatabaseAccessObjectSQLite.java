@@ -21,22 +21,41 @@ class DatabaseAccessObjectSQLite {
     private String path;
     private Date lastSaved;
 
+    /**
+     * Constructor
+     *
+     * Sets path to the default temp.db and calls the init method.
+     */
     DatabaseAccessObjectSQLite() {
         path = "temp.db";
         init();
     }
 
-    DatabaseAccessObjectSQLite(String path) {
-        this.path = path;
+    /**
+     * Constructor
+     *
+     * Takes the argument passed though pathParam and assigns it's value to path and calls the init
+     * method.
+     *
+     * @param pathParam The path to the database this object will load from and save to.
+     */
+    DatabaseAccessObjectSQLite(String pathParam) {
+        path = pathParam;
         init();
     }
 
+    /**
+     * Initializes the object by trying to load the database at the currently set path. If the
+     * loading of the database fails the stack trace is printed out and RuntimeException is thrown
+     * to terminate the session.
+     */
     private void init() {
         try {
             load();
         }
         catch(Exception expt) {
             expt.printStackTrace();
+            throw new RuntimeException("Failed due to default database not loading");
         }
         lastSaved = new Date();
     }
@@ -45,6 +64,15 @@ class DatabaseAccessObjectSQLite {
     ------------------------------------ LOAD FROM DATABASE ----------------------------------------
     */
 
+    /**
+     * Uses loadPrep, loadFeedLists, loadFeeds, loadItems methods to create an ArrayList of FeedList
+     * objects using the data from the database. The database that will be loaded is specified in
+     * the path field.
+     *
+     * @return              An ArrayList of FeedList objects created from data from the database.
+     * @throws Exception    If there is any exceptions thrown by the SQLite driver this exception is
+     *                      passed to the caller of this method.
+     */
     ArrayList<FeedList> load() throws Exception {
         Connection connection = loadPrep();
         Statement statement = connection.createStatement();
@@ -66,6 +94,16 @@ class DatabaseAccessObjectSQLite {
         return feedLists;
     }
 
+    /**
+     * loadPrep prepares the system for loading a database. It makes the connection with the
+     * database which is returned at the end of the method. It also creates important tables if they
+     * do not exist in the database.
+     *
+     * @return              A Connection object which is connected to a database at the location
+     *                      stored in the path field.
+     * @throws Exception    If there is any exceptions thrown by the SQLite driver this exception is
+     *                      passed to the caller of this method.
+     */
     private Connection loadPrep() throws Exception {
         if(path.equals("temp.db")) {
             File tempDatabase = new File("temp.db");
@@ -93,6 +131,18 @@ class DatabaseAccessObjectSQLite {
         return connection;
     }
 
+    /**
+     * Get's all the saved information on every FeedList from the database. For each row in the
+     * database the method creates a new FeedList object and puts it into an ArrayList. The
+     * ArrayList is then returned.
+     *
+     * @param statement     A Statement object which is connected to a database which can be used to
+     *                      send queries to the database and receive the result
+     * @return              An ArrayList of FeedList objects created with information from the
+     *                      database connected to the Statement object.
+     * @throws Exception    If there is any exceptions thrown by the SQLite driver this exception is
+     *                      passed to the caller of this method.
+     */
     private ArrayList<FeedList> loadFeedLists(Statement statement) throws Exception {
         ArrayList<FeedList> feedLists = new ArrayList<>();
         String query = "SELECT * FROM save_data_feed_lists;";
@@ -106,6 +156,17 @@ class DatabaseAccessObjectSQLite {
         return feedLists;
     }
 
+    /**
+     * Finds all rows in the save_data-feeds table which has the name of the FeedList passed though
+     * the feedList parameter. Then it goes though all of the rows and creates Feed objects and
+     * calls the add method on feedList.
+     *
+     * @param statement     A Statement object which is connected to a database which can be used to
+     *                      send queries to the database and receive the result
+     * @param feedList
+     * @throws Exception    If there is any exceptions thrown by the SQLite driver this exception is
+     *                      passed to the caller of this method.
+     */
     private void loadFeeds(Statement statement, FeedList feedList) throws Exception {
         String query = "SELECT * FROM save_data_feeds WHERE FEEDLISTNAME='" +
                 feedList.getName() + "';";
@@ -116,6 +177,14 @@ class DatabaseAccessObjectSQLite {
         }
     }
 
+    /**
+     *
+     * @param statement     A Statement object which is connected to a database which can be used to
+     *                      send queries to the database and receive the result
+     * @param feedList      
+     * @throws Exception    If there is any exceptions thrown by the SQLite driver this exception is
+     *                      passed to the caller of this method.
+     */
     private void loadItems(Statement statement, FeedList feedList) throws Exception  {
         String query;
         for(Item item : feedList.getAllItems()) {

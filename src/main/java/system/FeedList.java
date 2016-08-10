@@ -12,29 +12,40 @@ import java.util.LinkedList;
 /**
  * Class FeedList
  *
- * FeedList is a "list-like" object that contains Feed objects. It has a name that is used as an
- * identifier for each FeedList and an ArrayList of Feed objects.
+ * FeedList is a "list-like" object that contains Feed objects. It has a name field which is used as
+ * a unique identifier for each FeedList object, a String of sorting rules which tells the sort
+ * method which rules to follow when sorting the Item objects, and a showVisitedStatus which is true
+ * if the visited status of Items should be shown in this FeedList. There is also a RssParser object
+ * and an ArrayList of Feed objects.
+ *
+ * The class has some methods taken from List like get, add, remove, and size.
  *
  * @author Axel Nilsson (axnion)
  */
 public class FeedList {
     private String name;
     private String sortingRules;
-    private RssParser rssParser;
     private boolean showVisitedStatus;
+    private RssParser rssParser;
     private ArrayList<Feed> feeds;
 
     /**
      * Constructor
+     * Takes the arguments passed though the parameters and assigns the values to the corresponding
+     * fields. Also creates new RssParser and ArrayList.
      *
-     * @param name  The name the FeedList is to be identified by.
+     * @param nameParam                 The unique name of the FeedList. Is used as identifier.
+     * @param sortingRulesParam         The rules the sorting will follow when sorting all Item
+     *                                  objects from the Feeds.
+     * @param showVisitedStatusParam    True if the visited status of all Items in this FeedList
+     *                                  should be displayed.
      */
-    FeedList(String name, String sortingRules, boolean showVisitedStatus) {
-        this.name = name;
-        this.sortingRules = sortingRules;
-        this.rssParser = new RssParser();
-        this.showVisitedStatus = showVisitedStatus;
-        this.feeds = new ArrayList<>();
+    FeedList(String nameParam, String sortingRulesParam, boolean showVisitedStatusParam) {
+        name = nameParam;
+        sortingRules = sortingRulesParam;
+        showVisitedStatus = showVisitedStatusParam;
+        rssParser = new RssParser();
+        feeds = new ArrayList<>();
     }
 
     /**
@@ -214,10 +225,28 @@ public class FeedList {
         return out;
     }
 
+    /**
+     * Calls the setVisited method of a Feed object which identifier is equal to the argument passed
+     * though feedIdentifier parameter, and passes itemId and status as arguments.
+     *
+     * @param feedIdentifier    The unique identifier of the Feed containing the Item.
+     * @param itemId            The unique identifier of the Item to be updated.
+     * @param status            The new visited status of the Item. True if the user has visited the
+     *                          item, false if not.
+     */
     void setVisited(String feedIdentifier, String itemId, boolean status) {
         getFeedByUrl(feedIdentifier).setVisited(itemId, status);
     }
 
+    /**
+     * Calls the setStarred method of a Feed object which identifier is equal to the argument passed
+     * though feedIdentifier parameter, and passes itemId and status as arguments.
+     *
+     * @param feedIdentifier    The unique identifier of the Feed containing the Item.
+     * @param itemId            The unique identifier of the Item to be updated.
+     * @param status            The new starred status of the Item. True if the user has starred the
+     *                          item, false if not.
+     */
     void setStarred(String feedIdentifier, String itemId, boolean status) {
         getFeedByUrl(feedIdentifier).setStarred(itemId, status);
     }
@@ -228,6 +257,7 @@ public class FeedList {
 
     /**
      * Accessor method for name
+     *
      * @return  A String containing the value of the name field
      */
     public String getName() {
@@ -236,6 +266,7 @@ public class FeedList {
 
     /**
      * Accessor method for sortingRules
+     *
      * @return A String containing the value of the sortingRules field
      */
     public String getSortingRules() {
@@ -243,19 +274,26 @@ public class FeedList {
     }
 
     /**
-     * Accessor method for rssParser
-     * @return An RssParser object
+     * Accessor method for showVisitedStaus
+     *
+     * @return True if the visited status of Items in this FeedList should be shown, false if not.
      */
-    RssParser getRssParser() {
-        return rssParser;
-    }
-
     public boolean getShowVisitedStatus() {
         return showVisitedStatus;
     }
 
     /**
+     * Accessor method for rssParser
+     *
+     * @return The RssParser currently in use by this FeedList
+     */
+    RssParser getRssParser() {
+        return rssParser;
+    }
+
+    /**
      * Accessor method for feeds
+     *
      * @return An ArrayList containing Feed objects
      */
     ArrayList<Feed> getFeeds() {
@@ -264,42 +302,46 @@ public class FeedList {
 
     /**
      * Mutator method for name
-     * @param name A String containing the new value of name
+     *
+     * @param nameParam A String containing the new value of name
      */
-    void setName(String name) {
-        this.name = name;
+    void setName(String nameParam) {
+        name = nameParam;
     }
 
     /**
      * Mutator method for sortingRules
-     * @param sortingRules A String containing the new value of sortingRules
+     *
+     * @param sortingRulesParam A String containing the new value of sortingRules
      */
-    void setSortingRules(String sortingRules) {
-        this.sortingRules = sortingRules;
-    }
-
-    /**
-     * Mutator method for rssParser
-     * @param rssParser An RssParser to be set as this FeedLists RssParser
-     */
-    void setRssParser(RssParser rssParser) {
-        this.rssParser = rssParser;
+    void setSortingRules(String sortingRulesParam) {
+        sortingRules = sortingRulesParam;
     }
 
     /**
      * Mutator method for showVisitedStatus
      *
-     * @param showVisitedStatus True if
+     * @param showVisitedStatusParam True if
      */
-    void setShowVisitedStatus(boolean showVisitedStatus) {
-            this.showVisitedStatus = showVisitedStatus;
+    void setShowVisitedStatus(boolean showVisitedStatusParam) {
+        showVisitedStatus = showVisitedStatusParam;
+    }
+
+    /**
+     * Mutator method for rssParser
+     *
+     * @param rssParserParam An RssParser to be set as this FeedLists RssParser
+     */
+    void setRssParser(RssParser rssParserParam) {
+        rssParser = rssParserParam;
     }
 
     /**
      * Mutator method for feeds
-     * @param feeds An ArrayList of Feed objects to be set as the new feeds
+     *
+     * @param feedsParam An ArrayList of Feed objects to be set as the new feeds
      */
-    void setFeeds(ArrayList<Feed> feeds) {
-        this.feeds = feeds;
+    void setFeeds(ArrayList<Feed> feedsParam) {
+        feeds = feedsParam;
     }
 }
