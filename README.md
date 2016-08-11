@@ -1,6 +1,6 @@
 # RSSReader
 ## About
-RSSReader is an open source Java application to aggregate RSS feeds. You can compose your own lists and select which feeds should be included in each list. So feeds can be added globaly to the application and can then be added to each list we want the feed to be included in. Each list can then be sorted by date and by title, both ascending and descending. The configuration can then be saved as a .json file to the file system.
+RSSReader is an open source Java application to aggregate RSS feeds. You can compose your own lists and add feeds to these lists by providing a link to the RSS XML file. Each list can  be sorted by date and by title, both ascending and descending. All user created data can be saved to SQLite databases.
 
 ## Platforms
 Since the application is writen in Java it is platform agnostic, so it can be used on any platform by using the jar version of the application. But there are installers for both Windows and Linux.
@@ -35,7 +35,7 @@ Commons, controls, and materialicons
 Link: https://bitbucket.org/Jerady/fontawesomefx
 Version: 8.11
 
-#### SQLite jdbc
+#### SQLite JDBC
 Link: https://bitbucket.org/xerial/sqlite-jdbc
 Version: 3.8.11.2
 
@@ -54,7 +54,8 @@ Link: http://junit.org
 Version: 4.11
 
 #### Mockito
-Link: 1.10.19
+Link: http://mockito.org/
+Version: 1.10.19
 
 ## Gradle Tasks
 When using Gradle the user will run tasks to preform what they want done. Here are some examples on tasks that I use often when working on this project, the command you have to run if you are using Gradle standalone and a short description on what the task does. When using standalone Gradle you'll have to be in the root directory for the project.
