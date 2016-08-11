@@ -3,10 +3,10 @@
 RSSReader is an open source Java application to aggregate RSS feeds. You can compose your own lists and add feeds to these lists by providing a link to the RSS XML file. Each list can  be sorted by date and by title, both ascending and descending. All user created data can be saved to SQLite databases.
 
 ## Platforms
-Since the application is writen in Java it is platform agnostic, so it can be used on any platform by using the jar version of the application. But there are installers for both Windows and Linux.
+Since the application is written in Java it is platform agnostic, so it can be used on any platform by using the jar version of the application. But there are installers for both Windows and Linux.
 
 ## Release
-Latest release is RSSReader 1.0.1 and is available [here](https://github.com/1dv430/an222yp-project/releases/tag/v1.0.1).
+No release is currently available.
 
 # Project Setup
 ## Requirements
