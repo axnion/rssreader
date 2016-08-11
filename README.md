@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/axnion/rssreader.svg?branch=master)](https://travis-ci.org/axnion/rssreader)
+[![codecov](https://codecov.io/gh/axnion/rssreader/branch/master/graph/badge.svg)](https://codecov.io/gh/axnion/rssreader)
+
+
 # RSSReader
 ## About
 RSSReader is an open source Java application to aggregate RSS feeds. You can compose your own lists and add feeds to these lists by providing a link to the RSS XML file. Each list can  be sorted by date and by title, both ascending and descending. All user created data can be saved to SQLite databases.
