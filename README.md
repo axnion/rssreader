@@ -12,7 +12,7 @@ Latest release is RSSReader 1.0.1 and is available [here](https://github.com/1dv
 ## Requirements
 There are a couple of requirements necessary to be able to contribute or do changes in the source code. Java 8 and JDK 8 is required because I have used parts of Java introduces in Java 8.
 
-Gradle is the build system used in this project. It is required as it handles dependencies, but it also makes testing, compiling and packaging easyer.
+Gradle is the build system used in this project. It is required as it handles dependencies, but it also makes testing, compiling and packaging easier.
 
 * Java 8
 * Java Development Kit 8
@@ -25,29 +25,36 @@ Some IDEs like JetBains IntelliJ Idea have support for Gradle. You should then b
 If you are not using an IDE with Gradle support you can install Gradle to be used in the Terminal or Command Promt. You can download Gradle from their website [here](http://gradle.org/gradle-download/) or if you are on Linux it is available using APT and DNF.
 
 ## Dependencies
-#### JUnit
-JUnit is a unit testing framework for Java. I use it in all automated tests for this application.
+### Application dependencies
+#### Javafx-gradle-plugin
+Link: https://github.com/FibreFoX/javafx-gradle-plugin
+Version: 8.4.1
 
+#### Fontawesomefx
+Commons, controls, and materialicons
+Link: https://bitbucket.org/Jerady/fontawesomefx
+Version: 8.11
+
+#### SQLite jdbc
+Link: https://bitbucket.org/xerial/sqlite-jdbc
+Version: 3.8.11.2
+
+#### Apache Commons IO
+Link: https://commons.apache.org/proper/commons-io/
+Version: 1.3.2
+
+#### Jsoup
+Link: https://jsoup.org/
+Version: 1.7.2
+
+
+### Testing dependencies
+#### JUnit
 Link: http://junit.org
-Version used: 4.11
+Version: 4.11
 
 #### Mockito
-Mockito is a testing framework I've used in addition to Junit as it provides the ability to mock objects and methods. This means I can test a specific unit without having to depend on other objects and resources.
-
-Link: http://mockito.org/
-Version used: Mockito-core 1.+ (Latest 1. release)
-
-#### Jackson
-Jackson is a JSON processing API to convert json to Java objects. This is used to save and load the save files. When saving a configuration it will take all objects and convert them to JSON, and when the user loads a configuration the json is converted to Java objects.
-
-Link: https://github.com/FasterXML/jackson
-Version used: Jackson-databind 2.0.1
-
-#### JavaFX Gradle Plugin
-JavaFx Gradle Plugin is a plugin for Gradle to run and package JavaFX application. Using this plugin I can now package the application as native installers for Windows, Linux and Mac. You do however need to be on the operating system you are packaging for.
-
-Link: https://github.com/FibreFoX/javafx-gradle-plugin
-Version used: 8.4.1
+Link: 1.10.19
 
 ## Gradle Tasks
 When using Gradle the user will run tasks to preform what they want done. Here are some examples on tasks that I use often when working on this project, the command you have to run if you are using Gradle standalone and a short description on what the task does. When using standalone Gradle you'll have to be in the root directory for the project.
@@ -56,6 +63,8 @@ PS. When running Gradle standalone keep in mind that you will have to have write
 
 |Task|Command|Description|
 |----|----|----|
+|myRun|gradle myRun|Runs clean, jfxNative and then jfxRun. This is so all resources are updated before running the application|
+|myTest|gradle myTest|Runs clean, test, jacocoTestReport and javadoc tasks. So build folder is reset and all tests are executed. Lastly all test and javadoc documentation is created|
 |jfxRun|gradle jfxRun|This will build the application and then start the application|
 |jfxNative|gradle jfxNative|This task will compile and build the application. It will then look if you have build tools installed on your machine to produce native installers for the operating system you are on. If it can't find any it will tell you so. But if the tools are found it will run them and produce installers for you operating system.
 |test|gradle test|This task will run all tests in the test directory|
