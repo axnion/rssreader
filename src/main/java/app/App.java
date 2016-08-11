@@ -5,7 +5,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.image.Image;
@@ -70,7 +69,7 @@ public class App extends Application {
         guiUpdater.play();
 
         Timeline autoSave = new Timeline(new KeyFrame(Duration.seconds(
-                Configuration.getAutosavePeriod()), event -> {
+                Configuration.getAutoSavePeriod()), event -> {
             try {
                 Configuration.save();
             }

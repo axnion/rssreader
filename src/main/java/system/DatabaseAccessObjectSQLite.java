@@ -19,7 +19,7 @@ import java.util.Date;
  *
  * @author Axel Nilsson (axnion)
  */
-class DatabaseAccessObjectSQLite {
+class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
     private String path;
     private Date lastSaved;
 
@@ -30,7 +30,6 @@ class DatabaseAccessObjectSQLite {
      */
     DatabaseAccessObjectSQLite() {
         path = "temp.db";
-        init();
     }
 
     /**
@@ -43,24 +42,23 @@ class DatabaseAccessObjectSQLite {
      */
     DatabaseAccessObjectSQLite(String pathParam) {
         path = pathParam;
-        init();
     }
 
-    /**
-     * Initializes the object by trying to load the database at the currently set path. If the
-     * loading of the database fails the stack trace is printed out and RuntimeException is thrown
-     * to terminate the session.
-     */
-    private void init() {
-        try {
-            load();
-        }
-        catch(Exception expt) {
-            expt.printStackTrace();
-            throw new RuntimeException("Failed due to default database not loading");
-        }
-        lastSaved = new Date();
-    }
+//    /**
+//     * Initializes the object by trying to load the database at the currently set path. If the
+//     * loading of the database fails the stack trace is printed out and RuntimeException is thrown
+//     * to terminate the session.
+//     */
+//    private void init() {
+//        try {
+//            load();
+//        }
+//        catch(Exception expt) {
+//            expt.printStackTrace();
+//            throw new RuntimeException("Failed due to default database not loading");
+//        }
+//        lastSaved = new Date();
+//    }
 
     /*
     ------------------------------------ LOAD FROM DATABASE ----------------------------------------
@@ -75,7 +73,7 @@ class DatabaseAccessObjectSQLite {
      * @throws Exception    If there is any exceptions thrown by the SQLite driver this exception is
      *                      passed to the caller of this method.
      */
-    ArrayList<FeedList> load() throws Exception {
+    public ArrayList<FeedList> load() throws Exception {
         Connection connection = loadPrep();
         Statement statement = connection.createStatement();
 
@@ -90,8 +88,13 @@ class DatabaseAccessObjectSQLite {
         statement.close();
         connection.close();
 
-        App.showMessage("Loaded " + path);
-        System.out.println("Loaded " + path);
+        try {
+            App.showMessage("Loaded " + path);
+            System.out.println("Loaded " + path);
+        }
+        catch(NullPointerException expt) {
+            expt.printStackTrace();
+        }
 
         return feedLists;
     }
@@ -211,7 +214,7 @@ class DatabaseAccessObjectSQLite {
     ------------------------------------ SAVE TO DATABASE ------------------------------------------
     */
 
-    void save() throws Exception {
+    public void save() throws Exception {
         if(getLastSaved().after(Configuration.getLastUpdated())) {
             return;
         }
@@ -230,8 +233,13 @@ class DatabaseAccessObjectSQLite {
         connection.close();
 
         setLastSaved(new Date());
-        App.showMessage("Saved to " + path);
-        System.out.println("Saved to " + path);
+        try {
+            App.showMessage("Saved to " + path);
+            System.out.println("Saved to " + path);
+        }
+        catch(NullPointerException expt) {
+            expt.printStackTrace();
+        }
     }
 
     private Connection savePrep() throws Exception {
@@ -297,7 +305,7 @@ class DatabaseAccessObjectSQLite {
     ----------------------------------- ACCESSORS AND MUTATORS -------------------------------------
     */
 
-    String getPath() {
+    public String getPath() {
         return path;
     }
 
@@ -305,7 +313,7 @@ class DatabaseAccessObjectSQLite {
         return lastSaved;
     }
 
-    void setPath(String path) {
+    public void setPath(String path) {
         this.path = path;
         setLastSaved(new Date(0));
     }

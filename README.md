@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/axnion/rssreader.svg?branch=master)](https://travis-ci.org/axnion/rssreader)
-[![codecov](https://codecov.io/gh/axnion/rssreader/branch/master/graph/badge.svg)](https://codecov.io/gh/axnion/rssreader)
+[![Coverage](https://codecov.io/gh/axnion/rssreader/branch/master/graph/badge.svg)](https://codecov.io/gh/axnion/rssreader)
 
 
 # RSSReader

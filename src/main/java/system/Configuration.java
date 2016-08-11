@@ -28,10 +28,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class Configuration {
     private static ArrayList<FeedList> feedLists = new ArrayList<>();
-    private static DatabaseAccessObjectSQLite dao = new DatabaseAccessObjectSQLite();
+    private static DatabaseAccessObject dao = new DatabaseAccessObjectSQLite();
     private static Date lastUpdated = new Date();
     private static int updatePeriod = 5;
-    private static int autosavePeriod = 60;
+    private static int autoSavePeriod = 60;
 
     /**
      * Creates and adds a new FeedList object with the name specified though the listName parameter.
@@ -283,7 +283,7 @@ public class Configuration {
      *
      * @return The DatabaseAccessObjectSQLite currently used in Configuration.
      */
-    static DatabaseAccessObjectSQLite getDao() {
+    static DatabaseAccessObject getDao() {
         return dao;
     }
 
@@ -310,8 +310,8 @@ public class Configuration {
      *
      * @return Number of seconds the program will currently wait between autosaves
      */
-    public static int getAutosavePeriod() {
-        return autosavePeriod;
+    public static int getAutoSavePeriod() {
+        return autoSavePeriod;
     }
 
     /**
@@ -341,7 +341,7 @@ public class Configuration {
         lastUpdated = newDate;
     }
 
-    /**
+    /**database
      * Mutator method for updatePeriod
      *
      * @param seconds Number of seconds the program will wait between checking the feeds for updates
@@ -356,6 +356,6 @@ public class Configuration {
      * @param seconds Number of seconds the program will wait between autosaving.
      */
     static void setAutoSavePeriod(int seconds) {
-        autosavePeriod = seconds;
+        autoSavePeriod = seconds;
     }
 }
