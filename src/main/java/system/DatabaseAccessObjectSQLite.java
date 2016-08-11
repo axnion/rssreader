@@ -15,6 +15,8 @@ import java.util.Date;
 /**
  * Class DatabaseAccessObjectSQLite
  *
+ * This class is used to load and save user data in the RSSReader application.
+ *
  * @author Axel Nilsson (axnion)
  */
 class DatabaseAccessObjectSQLite {
