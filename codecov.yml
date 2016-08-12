@@ -10,7 +10,7 @@ coverage:
     changes: false
 
   ignore:
-    - app/*
+    - src/main/java/app/.*
 
 comment:
   layout: "header, diff"
