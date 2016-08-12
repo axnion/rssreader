@@ -9,9 +9,9 @@ coverage:
     patch: true
     changes: false
 
+  ignore:
+    - src/main/java/app/*
+
 comment:
   layout: "header, diff"
   behavior: default  # update if exists else create new
-
-ignore:
-  - src/main/java/app/*
