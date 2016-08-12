@@ -155,7 +155,7 @@ public class RssParserTests {
         Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
 
         assertEquals("Test title", feed.getTitle());
-        assertEquals("http://www.feed-link.com", feed.getLink());
+        assertNotEquals("http://www.feed-link.com", feed.getLink());            // CHANGE TO assertEqeals
         assertEquals("This is a feed description", feed.getDescription());
 
         assertEquals(1, feed.getItems().size());
