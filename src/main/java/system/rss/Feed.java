@@ -1,6 +1,6 @@
-package rss;
+package system.rss;
 
-import rss.exceptions.ItemDoesNotExist;
+import system.rss.exceptions.ItemDoesNotExist;
 
 import java.util.ArrayList;
 

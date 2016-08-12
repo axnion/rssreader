@@ -16,13 +16,11 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
-import rss.Feed;
-import rss.FeedSniffer;
+import system.rss.Feed;
+import system.rss.FeedSniffer;
 import system.Configuration;
 import system.FeedList;
 
-import java.io.File;
 import java.util.ArrayList;
 
 /**

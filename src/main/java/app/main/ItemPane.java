@@ -18,7 +18,7 @@ import javafx.scene.text.TextFlow;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import rss.Item;
+import system.rss.Item;
 import system.Configuration;
 
 import java.util.ArrayList;

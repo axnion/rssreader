@@ -75,7 +75,7 @@ public class SideMenu extends VBox {
         saveBtn.getStyleClass().add("CustomButton");
         saveBtn.setOnAction(event -> {
             try {
-                Configuration.save();
+                App.saveConfiguration();
             }
             catch(Exception expt) {
                 expt.printStackTrace();
@@ -94,7 +94,7 @@ public class SideMenu extends VBox {
 
             if(savedFile != null) {
                 try {
-                    Configuration.save(savedFile.getAbsolutePath());
+                    App.saveConfiguration(savedFile.getAbsolutePath());
                 }
                 catch(Exception expt) {
                     expt.printStackTrace();

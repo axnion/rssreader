@@ -1,4 +1,4 @@
-package rss;
+package system.rss;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -26,7 +26,7 @@ public class FeedSniffer {
     public ArrayList<Feed> getFeeds(String url) {
         feeds.clear();
 
-        if(getFileType(url).equals("rss")) {
+        if(getFileType(url).equals("system/rss")) {
             feeds.add(rssParser.getFeed(url));
         }
         else if(getFileType(url).equals("html")) {
@@ -44,7 +44,7 @@ public class FeedSniffer {
             Elements elements = htmlDoc.body().getAllElements();
 
             for(Element el : elements) {
-                if(el.nodeName().equals("a") && getFileType(el.attr("href")).equals("rss")) {
+                if(el.nodeName().equals("a") && getFileType(el.attr("href")).equals("system/rss")) {
                     foundFeeds.add(rssParser.getFeed(el.attr("href")));
                 }
             }
@@ -66,8 +66,8 @@ public class FeedSniffer {
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document xmlDoc = builder.parse(url);
 
-            if(xmlDoc.getDocumentElement().getTagName().equals("rss")) {
-                return "rss";
+            if(xmlDoc.getDocumentElement().getTagName().equals("system/rss")) {
+                return "system/rss";
             }
             else {
                 throw new Exception();

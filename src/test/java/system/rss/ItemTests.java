@@ -1,4 +1,4 @@
-package rss;
+package system.rss;
 
 import org.junit.Test;
 

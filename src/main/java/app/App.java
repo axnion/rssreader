@@ -24,8 +24,8 @@ import system.Configuration;
  */
 public class App extends Application {
     public static Wrapper wrapper;
-    public static HBox messageBox;
     public static ContextMenu openContextMenu;
+    private static HBox messageBox;
     private static BrowserAccess browserAccess;
 
     public static void main(String[] args) {
@@ -126,9 +126,36 @@ public class App extends Application {
 
         wrapper.reset();
         wrapper.update();
+        showMessage("Loaded " + path);
     }
 
-    public static void showMessage(String message) {
+    public static void saveConfiguration() {
+        try {
+            Configuration.save();
+        }
+        catch(Exception expt) {
+            expt.printStackTrace();
+        }
+
+        showMessage("Saved");
+    }
+
+    public static void saveConfiguration(String path) {
+        try {
+            Configuration.save(path);
+        }
+        catch(Exception expt) {
+            expt.printStackTrace();
+        }
+
+        showMessage("Saved to " + path);
+    }
+
+    public static void openLink(String url) {
+        browserAccess.openLink(url);
+    }
+
+    private static void showMessage(String message) {
         Text text = new Text(message);
         text.setStyle("-fx-fill: white");
         messageBox.getChildren().add(text);
@@ -137,10 +164,6 @@ public class App extends Application {
                 event -> messageBox.getChildren().clear()));
         updateTimer.setCycleCount(1);
         updateTimer.play();
-    }
-
-    public static void openLink(String url) {
-        browserAccess.openLink(url);
     }
 
     private static void createContextMenuEscape() {

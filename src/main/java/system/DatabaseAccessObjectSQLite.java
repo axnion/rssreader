@@ -1,8 +1,7 @@
 package system;
 
-import app.App;
-import rss.Feed;
-import rss.Item;
+import system.rss.Feed;
+import system.rss.Item;
 
 import java.io.File;
 import java.sql.Connection;
@@ -44,22 +43,6 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
         path = pathParam;
     }
 
-//    /**
-//     * Initializes the object by trying to load the database at the currently set path. If the
-//     * loading of the database fails the stack trace is printed out and RuntimeException is thrown
-//     * to terminate the session.
-//     */
-//    private void init() {
-//        try {
-//            load();
-//        }
-//        catch(Exception expt) {
-//            expt.printStackTrace();
-//            throw new RuntimeException("Failed due to default database not loading");
-//        }
-//        lastSaved = new Date();
-//    }
-
     /*
     ------------------------------------ LOAD FROM DATABASE ----------------------------------------
     */
@@ -87,14 +70,6 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
         connection.commit();
         statement.close();
         connection.close();
-
-        try {
-            App.showMessage("Loaded " + path);
-            System.out.println("Loaded " + path);
-        }
-        catch(NullPointerException expt) {
-            expt.printStackTrace();
-        }
 
         return feedLists;
     }
@@ -233,13 +208,6 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
         connection.close();
 
         setLastSaved(new Date());
-        try {
-            App.showMessage("Saved to " + path);
-            System.out.println("Saved to " + path);
-        }
-        catch(NullPointerException expt) {
-            expt.printStackTrace();
-        }
     }
 
     private Connection savePrep() throws Exception {

@@ -1,6 +1,6 @@
-package rss;
+package system.rss;
 
-import rss.exceptions.NoXMLFileFound;
+import system.rss.exceptions.NoXMLFileFound;
 
 import java.util.ArrayList;
 import java.util.Date;

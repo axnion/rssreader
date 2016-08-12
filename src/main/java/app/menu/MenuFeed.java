@@ -6,7 +6,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import rss.Feed;
+import system.rss.Feed;
 
 /**
  * Class MenuFeed

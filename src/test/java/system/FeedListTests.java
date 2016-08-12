@@ -4,9 +4,9 @@ import system.exceptions.FeedAlreadyExists;
 import system.exceptions.FeedDoesNotExist;
 import org.junit.Before;
 import org.junit.Test;
-import rss.*;
-import rss.Mocks;
-import rss.exceptions.NoXMLFileFound;
+import system.rss.*;
+import system.rss.Mocks;
+import system.rss.exceptions.NoXMLFileFound;
 
 import static org.junit.Assert.*;
 
@@ -36,9 +36,9 @@ public class FeedListTests {
 
         // Change the values using mutators
         ArrayList<Feed> feeds = new ArrayList<>();
-        feeds.add(rss.Mocks.createFeedMock("FeedTitle1", "http://feed-website-1.com",
+        feeds.add(system.rss.Mocks.createFeedMock("FeedTitle1", "http://feed-website-1.com",
                 "Description1", "http://feed-website-1.com/feed.xml", new ArrayList<>()));
-        feeds.add(rss.Mocks.createFeedMock("FeedTitle2", "http://feed-website-2.com",
+        feeds.add(system.rss.Mocks.createFeedMock("FeedTitle2", "http://feed-website-2.com",
                 "Description2", "http://feed-website-2.com/feed.xml", new ArrayList<>()));
 
         RssParser rssParser = Mocks.createRssParser();
@@ -305,11 +305,11 @@ public class FeedListTests {
     @Test
     public void setVisitedOfItemInExistingFeed() {
         ArrayList<Feed> feeds = new ArrayList<>();
-        feeds.add(Mocks.createFeedMock("Feed1", "http://feed1.com", "Feed1 Description", "http://feed1.com/rss.xml", new ArrayList<>()));
-        feeds.add(Mocks.createFeedMock("Feed2", "http://feed2.com", "Feed2 Description", "http://feed2.com/rss.xml", new ArrayList<>()));
+        feeds.add(Mocks.createFeedMock("Feed1", "http://feed1.com", "Feed1 Description", "http://feed1.com/system.rss.xml", new ArrayList<>()));
+        feeds.add(Mocks.createFeedMock("Feed2", "http://feed2.com", "Feed2 Description", "http://feed2.com/system.rss.xml", new ArrayList<>()));
 
         feedList.setFeeds(feeds);
-        feedList.setVisited("http://feed2.com/rss.xml", "itemId", true);
+        feedList.setVisited("http://feed2.com/system.rss.xml", "itemId", true);
 
         verify(feeds.get(0), never()).setVisited(anyString(), anyBoolean());
         verify(feeds.get(1), times(1)).setVisited("itemId", true);
@@ -318,11 +318,11 @@ public class FeedListTests {
     @Test(expected = FeedDoesNotExist.class)
     public void setVisitedOfItemInNonexistentFeed() {
         ArrayList<Feed> feeds = new ArrayList<>();
-        feeds.add(Mocks.createFeedMock("Feed1", "http://feed1.com", "Feed1 Description", "http://feed1.com/rss.xml", new ArrayList<>()));
-        feeds.add(Mocks.createFeedMock("Feed2", "http://feed2.com", "Feed2 Description", "http://feed2.com/rss.xml", new ArrayList<>()));
+        feeds.add(Mocks.createFeedMock("Feed1", "http://feed1.com", "Feed1 Description", "http://feed1.com/system.rss.xml", new ArrayList<>()));
+        feeds.add(Mocks.createFeedMock("Feed2", "http://feed2.com", "Feed2 Description", "http://feed2.com/system.rss.xml", new ArrayList<>()));
 
         feedList.setFeeds(feeds);
-        feedList.setVisited("http://feed3.com/rss.xml", "itemId", true);
+        feedList.setVisited("http://feed3.com/system.rss.xml", "itemId", true);
 
         verify(feeds.get(0), never()).setVisited(anyString(), anyBoolean());
         verify(feeds.get(1), never()).setVisited(anyString(), anyBoolean());
@@ -331,11 +331,11 @@ public class FeedListTests {
     @Test
     public void setStarredOfItemInExistingFeed() {
         ArrayList<Feed> feeds = new ArrayList<>();
-        feeds.add(Mocks.createFeedMock("Feed1", "http://feed1.com", "Feed1 Description", "http://feed1.com/rss.xml", new ArrayList<>()));
-        feeds.add(Mocks.createFeedMock("Feed2", "http://feed2.com", "Feed2 Description", "http://feed2.com/rss.xml", new ArrayList<>()));
+        feeds.add(Mocks.createFeedMock("Feed1", "http://feed1.com", "Feed1 Description", "http://feed1.com/system.rss.xml", new ArrayList<>()));
+        feeds.add(Mocks.createFeedMock("Feed2", "http://feed2.com", "Feed2 Description", "http://feed2.com/system.rss.xml", new ArrayList<>()));
 
         feedList.setFeeds(feeds);
-        feedList.setStarred("http://feed2.com/rss.xml", "itemId", true);
+        feedList.setStarred("http://feed2.com/system.rss.xml", "itemId", true);
 
         verify(feeds.get(0), never()).setStarred(anyString(), anyBoolean());
         verify(feeds.get(1), times(1)).setStarred("itemId", true);
@@ -344,11 +344,11 @@ public class FeedListTests {
     @Test(expected = FeedDoesNotExist.class)
     public void setStarredOfItemInNonexistentFeed() {
         ArrayList<Feed> feeds = new ArrayList<>();
-        feeds.add(Mocks.createFeedMock("Feed1", "http://feed1.com", "Feed1 Description", "http://feed1.com/rss.xml", new ArrayList<>()));
-        feeds.add(Mocks.createFeedMock("Feed2", "http://feed2.com", "Feed2 Description", "http://feed2.com/rss.xml", new ArrayList<>()));
+        feeds.add(Mocks.createFeedMock("Feed1", "http://feed1.com", "Feed1 Description", "http://feed1.com/system.rss.xml", new ArrayList<>()));
+        feeds.add(Mocks.createFeedMock("Feed2", "http://feed2.com", "Feed2 Description", "http://feed2.com/system.rss.xml", new ArrayList<>()));
 
         feedList.setFeeds(feeds);
-        feedList.setStarred("http://feed3.com/rss.xml", "itemId", true);
+        feedList.setStarred("http://feed3.com/system.rss.xml", "itemId", true);
 
         verify(feeds.get(0), never()).setStarred(anyString(), anyBoolean());
         verify(feeds.get(1), never()).setStarred(anyString(), anyBoolean());
@@ -379,9 +379,9 @@ public class FeedListTests {
                     "Description8","1451651401000", "item-id-8"));
         }
 
-        feeds.add(rss.Mocks.createFeedMock("FeedTitle1", "http://feed-website-1.com",
+        feeds.add(system.rss.Mocks.createFeedMock("FeedTitle1", "http://feed-website-1.com",
                 "Description1", "http://feed-website-1.com/feed.xml", items1));
-        feeds.add(rss.Mocks.createFeedMock("FeedTitle2", "http://feed-website-2.com",
+        feeds.add(system.rss.Mocks.createFeedMock("FeedTitle2", "http://feed-website-2.com",
                 "Description2", "http://feed-website-2.com/feed.xml", items2));
 
         feedList.setFeeds(feeds);

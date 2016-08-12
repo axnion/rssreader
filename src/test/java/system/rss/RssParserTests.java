@@ -1,8 +1,8 @@
-package rss;
+package system.rss;
 
 import org.junit.Before;
 import org.junit.Test;
-import rss.exceptions.NoXMLFileFound;
+import system.rss.exceptions.NoXMLFileFound;
 
 import static org.junit.Assert.*;
 
@@ -21,7 +21,8 @@ public class RssParserTests {
 
     @Test
     public void readFeed() {
-        String url = "../../../resources/test/xml/FeedItemComplete.xml";
+        String url = "../../../../resources/test/xml/FeedItemComplete.xml";
+        System.out.println(RssParser.class.getResource(url).getPath());
         Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
 
         assertEquals("Test title", feed.getTitle());
@@ -43,7 +44,7 @@ public class RssParserTests {
 
     @Test
     public void readFeedWithoutTitle() {
-        String url = "../../../resources/test/xml/FeedWithoutTitle.xml";
+        String url = "../../../../resources/test/xml/FeedWithoutTitle.xml";
         Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
 
         assertEquals("Untitled", feed.getTitle());
@@ -60,7 +61,7 @@ public class RssParserTests {
 
     @Test
     public void readFeedWithoutLink() {
-        String url = "../../../resources/test/xml/FeedWithoutLink.xml";
+        String url = "../../../../resources/test/xml/FeedWithoutLink.xml";
         Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
 
         assertEquals("Test title", feed.getTitle());
@@ -77,7 +78,7 @@ public class RssParserTests {
 
     @Test
     public void readFeedWithoutDescription() {
-        String url = "../../../resources/test/xml/FeedWithoutDescription.xml";
+        String url = "../../../../resources/test/xml/FeedWithoutDescription.xml";
         Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
 
         assertEquals("Test title", feed.getTitle());
@@ -94,7 +95,7 @@ public class RssParserTests {
 
     @Test
     public void readFeedWithoutItems() {
-        String url = "../../../resources/test/xml/FeedWithoutItems.xml";
+        String url = "../../../../resources/test/xml/FeedWithoutItems.xml";
         Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
 
         assertEquals("Test title", feed.getTitle());
@@ -104,7 +105,7 @@ public class RssParserTests {
 
     @Test
     public void readFeedWithItemWithoutTitle() {
-        String url = "../../../resources/test/xml/FeedItemWithoutTitle.xml";
+        String url = "../../../../resources/test/xml/FeedItemWithoutTitle.xml";
         Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
 
         assertEquals("Test title", feed.getTitle());
@@ -121,7 +122,7 @@ public class RssParserTests {
 
     @Test
     public void readFeedWithItemWithoutLink() {
-        String url = "../../../resources/test/xml/FeedItemWithoutLink.xml";
+        String url = "../../../../resources/test/xml/FeedItemWithoutLink.xml";
         Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
 
         assertEquals("Test title", feed.getTitle());
@@ -133,7 +134,7 @@ public class RssParserTests {
 
     @Test
     public void readFeedWithItemWithoutDescription() {
-        String url = "../../../resources/test/xml/FeedItemWithoutDescription.xml";
+        String url = "../../../../resources/test/xml/FeedItemWithoutDescription.xml";
         Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
 
         assertEquals("Test title", feed.getTitle());
@@ -150,7 +151,7 @@ public class RssParserTests {
 
     @Test
     public void readFeedWithItemWithoutDate() {
-        String url = "../../../resources/test/xml/FeedItemWithoutDate.xml";
+        String url = "../../../../resources/test/xml/FeedItemWithoutDate.xml";
         Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
 
         assertEquals("Test title", feed.getTitle());
@@ -167,7 +168,7 @@ public class RssParserTests {
 
     @Test
     public void readFeedWithItemWithoutId() {
-        String url = "../../../resources/test/xml/FeedItemWithoutId.xml";
+        String url = "../../../../resources/test/xml/FeedItemWithoutId.xml";
         Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
 
         assertEquals("Test title", feed.getTitle());
@@ -179,7 +180,7 @@ public class RssParserTests {
 
     @Test
     public void readFeedWithBrokenItems() {
-        String url = "../../../resources/test/xml/FeedPartiallyBroken.xml";
+        String url = "../../../../resources/test/xml/FeedPartiallyBroken.xml";
         Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
 
         assertEquals("Test title", feed.getTitle());

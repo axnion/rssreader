@@ -1,4 +1,4 @@
-package rss.exceptions;
+package system.rss.exceptions;
 
 /**
  * Class ItemDoesNotExist

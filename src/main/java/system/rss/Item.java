@@ -1,4 +1,4 @@
-package rss;
+package system.rss;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

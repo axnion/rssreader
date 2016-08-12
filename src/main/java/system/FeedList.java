@@ -2,9 +2,9 @@ package system;
 
 import system.exceptions.FeedAlreadyExists;
 import system.exceptions.FeedDoesNotExist;
-import rss.Feed;
-import rss.Item;
-import rss.RssParser;
+import system.rss.Feed;
+import system.rss.Item;
+import system.rss.RssParser;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

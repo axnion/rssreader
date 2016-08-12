@@ -440,9 +440,9 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
 
         Configuration.setFeedLists(feedLists);
-        Configuration.setVisited("FeedList1", "http://feedsId.com/rss.xml", "itemId", true);
+        Configuration.setVisited("FeedList1", "http://feedsId.com/system.rss.xml", "itemId", true);
 
-        verify(feedLists.get(0), times(1)).setVisited("http://feedsId.com/rss.xml", "itemId", true);
+        verify(feedLists.get(0), times(1)).setVisited("http://feedsId.com/system.rss.xml", "itemId", true);
         verify(feedLists.get(1), never()).setVisited(anyString(), anyString(), anyBoolean());
     }
 
@@ -459,7 +459,7 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
 
         Configuration.setFeedLists(feedLists);
-        Configuration.setVisited("FeedList3", "http://feedsId.com/rss.xml", "itemId", true);
+        Configuration.setVisited("FeedList3", "http://feedsId.com/system.rss.xml", "itemId", true);
 
         verify(feedLists.get(0), never()).setVisited(anyString(), anyString(), anyBoolean());
         verify(feedLists.get(1), never()).setVisited(anyString(), anyString(), anyBoolean());
@@ -476,9 +476,9 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
 
         Configuration.setFeedLists(feedLists);
-        Configuration.setStarred("FeedList1", "http://feedsId.com/rss.xml", "itemId", true);
+        Configuration.setStarred("FeedList1", "http://feedsId.com/system.rss.xml", "itemId", true);
 
-        verify(feedLists.get(0), times(1)).setStarred("http://feedsId.com/rss.xml", "itemId", true);
+        verify(feedLists.get(0), times(1)).setStarred("http://feedsId.com/system.rss.xml", "itemId", true);
         verify(feedLists.get(1), never()).setStarred(anyString(), anyString(), anyBoolean());
     }
 
@@ -493,7 +493,7 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
 
         Configuration.setFeedLists(feedLists);
-        Configuration.setVisited("FeedList3", "http://feedsId.com/rss.xml", "itemId", true);
+        Configuration.setVisited("FeedList3", "http://feedsId.com/system.rss.xml", "itemId", true);
 
         verify(feedLists.get(0), never()).setStarred(anyString(), anyString(), anyBoolean());
         verify(feedLists.get(1), never()).setStarred(anyString(), anyString(), anyBoolean());

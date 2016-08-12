@@ -1,9 +1,9 @@
 package system;
 
-import rss.Feed;
+import system.rss.Feed;
 import system.exceptions.FeedListAlreadyExists;
 import system.exceptions.FeedListDoesNotExist;
-import rss.Item;
+import system.rss.Item;
 
 import java.util.ArrayList;
 import java.util.Date;

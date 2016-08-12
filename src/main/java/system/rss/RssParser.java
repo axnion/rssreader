@@ -1,6 +1,6 @@
-package rss;
+package system.rss;
 
-import rss.exceptions.NoXMLFileFound;
+import system.rss.exceptions.NoXMLFileFound;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * RssParser class is used to create Feed objects from a URL to an XML file containing an RSS feed.
  *
  * It has two public methods. getFeed takes a URL to an XML document with an RSS feed as an argument
- * and creates a new Feed object with the information from the rss feed.
+ * and creates a new Feed object with the information from the system.rss feed.
  * updateFeed takes an already existing Feed and updates all information and Items in the Feed.
  *
  * @author Axel Nilsson (axnion)
@@ -44,7 +44,7 @@ public class RssParser {
 
     /**
      * Updates an already created Feed object. It takes one Feed as an argument and updates the
-     * Feeds title, link and description. It also gets all items from the rss feed and compares the
+     * Feeds title, link and description. It also gets all items from the system.rss feed and compares the
      * updated ArrayList with the old and copies visited and starred status to the new Items and
      * determines which Items are new. Returns the update status.
      *
@@ -83,7 +83,7 @@ public class RssParser {
     }
 
     /**
-     * Takes a URL to an XML file with an rss feed and creates a Document object. It then gets the
+     * Takes a URL to an XML file with an system.rss feed and creates a Document object. It then gets the
      * channel element and returns it. If something goes wrong while reading the XML file a
      * NoXMLFileFound exception is thrown.
      *
