@@ -1,6 +1,7 @@
 package system;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Interface DatabaseAccessObject
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  */
 interface DatabaseAccessObject {
     ArrayList<FeedList> load() throws Exception;
-    void save() throws Exception;
+    void save(ArrayList<FeedList> feedLists, Date configurationLastUpdate) throws Exception;
 
     void setPath(String path);
     String getPath();

@@ -532,7 +532,7 @@ public class ConfigurationTests {
 
         try {
             Configuration.save();
-            verify(dao, times(1)).save();
+            verify(dao, times(1)).save(any(), any(Date.class));
         }
         catch(Exception expt) {
             expt.printStackTrace();
@@ -547,7 +547,7 @@ public class ConfigurationTests {
 
         try {
             Configuration.save("new/path/to/save/database");
-            verify(dao, times(1)).save();
+            verify(dao, times(1)).save(any(), any(Date.class));
             verify(dao, times(1)).setPath("new/path/to/save/database");
         }
         catch(Exception expt) {

@@ -285,22 +285,22 @@ public class FeedListTests {
         assertEquals(0, items.size());
     }
 
-    @Test
-    public void getExistingFeedByUrl() {
-        addFeedMocks(false);
-        feedList.getFeedByUrl("http://feed-website-1.com/feed.xml");
-    }
-
-    @Test(expected = FeedDoesNotExist.class)
-    public void getNonexistentFeedByUrl() {
-        addFeedMocks(false);
-        feedList.getFeedByUrl("http://feed-website-3.com/feed.xml");
-    }
-
-    @Test(expected = FeedDoesNotExist.class)
-    public void getFeedByUrlFromEmptyFeedList() {
-        feedList.getFeedByUrl("http://feed-website-1.com/feed.xml");
-    }
+//    @Test
+//    public void getExistingFeedByUrl() {
+//        addFeedMocks(false);
+//        feedList.getFeedByUrl("http://feed-website-1.com/feed.xml");
+//    }
+//
+//    @Test(expected = FeedDoesNotExist.class)
+//    public void getNonexistentFeedByUrl() {
+//        addFeedMocks(false);
+//        feedList.getFeedByUrl("http://feed-website-3.com/feed.xml");
+//    }
+//
+//    @Test(expected = FeedDoesNotExist.class)
+//    public void getFeedByUrlFromEmptyFeedList() {
+//        feedList.getFeedByUrl("http://feed-website-1.com/feed.xml");
+//    }
 
     @Test
     public void setVisitedOfItemInExistingFeed() {

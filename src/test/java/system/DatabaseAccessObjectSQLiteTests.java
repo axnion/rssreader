@@ -1,9 +1,12 @@
 package system;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import system.rss.Feed;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -14,10 +17,19 @@ import static org.junit.Assert.*;
  */
 public class DatabaseAccessObjectSQLiteTests {
     private DatabaseAccessObjectSQLite dao;
+    private String path = "";
 
     @Before
     public void createObject() {
         dao = new DatabaseAccessObjectSQLite();
+    }
+
+    @After
+    public void removeDatabase() {
+        if(!path.equals("")) {
+            // Remove database
+            path = "";
+        }
     }
 
     @Test
@@ -50,4 +62,32 @@ public class DatabaseAccessObjectSQLiteTests {
             fail();
         }
     }
+
+    @Test
+    public void saveDefault() {
+        ArrayList<FeedList> feedLists = Mocks.createFullConfiguration();
+
+        try {
+            dao.save(feedLists, new Date());
+        }
+        catch(Exception expt) {
+            expt.printStackTrace();
+        }
+    }
+
+    @Test
+    public void saveToOtherLocation() {
+        ArrayList<FeedList> feedLists = Mocks.createFullConfiguration();
+        String url = "../../../resources/test/db";
+        path = DatabaseAccessObjectSQLite.class.getResource(url).getPath() + "saveDatabaseTest.db";
+
+        try {
+            dao.setPath(path);
+            dao.save(feedLists, new Date());
+        }
+        catch(Exception expt) {
+            expt.printStackTrace();
+        }
+    }
+
 }

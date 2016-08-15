@@ -136,7 +136,7 @@ public class FeedList {
      * @param url   The url of the Feed the method is searching for.
      * @return      A Feed object from feeds with a urlToXml which is the same as url.
      */
-    Feed getFeedByUrl(String url) {
+    private Feed getFeedByUrl(String url) {
         int index = getIndexOf(url);
         if(index != -1)
             return feeds.get(index);

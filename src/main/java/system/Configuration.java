@@ -239,7 +239,7 @@ public class Configuration {
      * @throws Exception Problems with database.
      */
     public static void save() throws Exception {
-        dao.save();
+        dao.save(getFeedLists(), getLastUpdated());
     }
 
     /**
@@ -250,7 +250,7 @@ public class Configuration {
      */
     public static void save(String path) throws Exception {
         dao.setPath(path);
-        dao.save();
+        dao.save(getFeedLists(), getLastUpdated());
     }
 
     /**

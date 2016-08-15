@@ -29,6 +29,7 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
      */
     DatabaseAccessObjectSQLite() {
         path = "temp.db";
+        lastSaved = new Date(0);
     }
 
     /**
@@ -41,6 +42,7 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
      */
     DatabaseAccessObjectSQLite(String pathParam) {
         path = pathParam;
+        lastSaved = new Date(0);
     }
 
     /*
@@ -189,15 +191,15 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
     ------------------------------------ SAVE TO DATABASE ------------------------------------------
     */
 
-    public void save() throws Exception {
-        if(getLastSaved().after(Configuration.getLastUpdated())) {
+    public void save(ArrayList<FeedList> feedLists, Date lastUpdateConfiguration) throws Exception {
+        if(getLastSaved().after(lastUpdateConfiguration)) {
             return;
         }
 
         Connection connection = savePrep();
         Statement statement = connection.createStatement();
 
-        for(FeedList feedList : Configuration.getFeedLists()) {
+        for(FeedList feedList : feedLists) {
             saveFeedLists(statement, feedList);
             saveFeeds(statement, feedList);
             saveItems(statement, feedList);
