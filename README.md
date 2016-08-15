@@ -30,11 +30,11 @@ If you are not using an IDE with Gradle support you can install Gradle to be use
 
 ## Dependencies
 ### Application dependencies
-#### Javafx-gradle-plugin
+#### JavaFX-Gradle-Plugin
 Link: https://github.com/FibreFoX/javafx-gradle-plugin
-Version: 8.4.1
+Version: 8.5.2
 
-#### Fontawesomefx
+#### FontawesomeFX
 Commons, controls, and materialicons
 Link: https://bitbucket.org/Jerady/fontawesomefx
 Version: 8.11
@@ -55,7 +55,7 @@ Version: 1.7.2
 ### Testing dependencies
 #### JUnit
 Link: http://junit.org
-Version: 4.11
+Version: 4.12
 
 #### Mockito
 Link: http://mockito.org/
