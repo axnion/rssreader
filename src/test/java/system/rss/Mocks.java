@@ -25,7 +25,7 @@ public class Mocks {
     }
 
     public static Item createItemMock(String title, String link, String desc,String date,
-                                      String id) {
+                                      String id, boolean visitedStatus, boolean starredStatus) {
         Item item = mock(Item.class);
 
         doReturn(title).when(item).getTitle();
@@ -33,6 +33,8 @@ public class Mocks {
         doReturn(desc).when(item).getDescription();
         doReturn(new Date(Long.parseUnsignedLong(date))).when(item).getDate();
         doReturn(id).when(item).getId();
+        doReturn(visitedStatus).when(item).isVisited();
+        doReturn(starredStatus).when(item).isStarred();
 
         doCallRealMethod().when(item).compareDate(any(Item.class));
         doCallRealMethod().when(item).compareTitle(any(Item.class));

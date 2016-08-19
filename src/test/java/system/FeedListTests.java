@@ -361,22 +361,22 @@ public class FeedListTests {
 
         if(addItems) {
             items1.add(Mocks.createItemMock("Ambient", "http://feed-website.com/Item1",
-                    "Description1", "1451649600000", "item-id-1"));
+                    "Description1", "1451649600000", "item-id-1", false, false));
             items1.add(Mocks.createItemMock("Ceremony", "http://feed-website.com/Item2",
-                    "Description2", "1451736000000", "item-id-2"));
+                    "Description2", "1451736000000", "item-id-2", false, false));
             items1.add(Mocks.createItemMock("Alignment", "http://feed-website.com/Item3",
-                    "Description3", "1420113600000", "item-id-3"));
+                    "Description3", "1420113600000", "item-id-3", false, false));
             items1.add(Mocks.createItemMock("Paralysis", "http://feed-website.com/Item4",
-                    "Description4", "1454328000000", "item-id-4"));
+                    "Description4", "1454328000000", "item-id-4", false, false));
 
             items2.add(Mocks.createItemMock("Treason", "http://feed-website.com/Item5",
-                    "Description5", "1451646000000", "item-id-5"));
+                    "Description5", "1451646000000", "item-id-5", false, false));
             items2.add(Mocks.createItemMock("Homeland", "http://feed-website.com/Item6",
-                    "Description6", "1451651400000", "item-id-6"));
+                    "Description6", "1451651400000", "item-id-6", false, false));
             items2.add(Mocks.createItemMock("Evacuation", "http://feed-website.com/Item7",
-                    "Description7", "1451649600000", "item-id-7"));
+                    "Description7", "1451649600000", "item-id-7", false, false));
             items2.add(Mocks.createItemMock("Featherweight", "http://feed-website.com/Item8",
-                    "Description8","1451651401000", "item-id-8"));
+                    "Description8","1451651401000", "item-id-8", false, false));
         }
 
         feeds.add(system.rss.Mocks.createFeedMock("FeedTitle1", "http://feed-website-1.com",

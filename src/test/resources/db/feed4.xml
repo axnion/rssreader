@@ -1,0 +1,28 @@
+<rss>
+    <channel>
+        <title>feed4</title>
+        <description>feed4desc</description>
+        <link>http://feed4.com</link>
+        <item>
+            <title>item7</title>
+            <description>item7desc</description>
+            <link>http://feed4.com/item7</link>
+            <pubDate>Fri, 01 Jan 2016 12:00:00 +0000</pubDate>
+            <guid>item7</guid>
+        </item>
+        <item>
+            <title>item8</title>
+            <description>item8desc</description>
+            <link>http://feed4.com/item8</link>
+            <pubDate>Fri, 01 Jan 2016 12:00:00 +0000</pubDate>
+            <guid>item8</guid>
+        </item>
+        <item>
+            <title>item9</title>
+            <description>item9desc</description>
+            <link>http://feed4.com/item8</link>
+            <pubDate>Fri, 01 Jan 2016 12:00:00 +0000</pubDate>
+            <guid>item9</guid>
+        </item>
+    </channel>
+</rss>

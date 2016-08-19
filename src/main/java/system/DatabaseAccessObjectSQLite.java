@@ -192,9 +192,8 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
     */
 
     public void save(ArrayList<FeedList> feedLists, Date lastUpdateConfiguration) throws Exception {
-        if(getLastSaved().after(lastUpdateConfiguration)) {
+        if(getLastSaved().after(lastUpdateConfiguration))
             return;
-        }
 
         Connection connection = savePrep();
         Statement statement = connection.createStatement();
@@ -288,7 +287,7 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
         setLastSaved(new Date(0));
     }
 
-    void setLastSaved(Date lastSaved) {
-        this.lastSaved = lastSaved;
+    void setLastSaved(Date lastSavedParam) {
+        lastSaved = lastSavedParam;
     }
 }
