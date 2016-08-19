@@ -75,6 +75,8 @@ public class DatabaseAccessObjectSQLiteTests {
     public void loadDatabaseWithContent() {
         ArrayList<FeedList> feedLists = new ArrayList<>();
 
+        System.out.println(resources + "exampleDatabase.sqlite");
+
         try {
             dao.setPath(resources + "exampleDatabase.sqlite");
             feedLists = dao.load();
@@ -143,6 +145,8 @@ public class DatabaseAccessObjectSQLiteTests {
         File createdDatabase = new File(dao.getPath());
         File compDatabase = new File(resources + "exampleDatabase.sqlite");
 
+        assertTrue(createdDatabase.exists());
+
         try {
             assertTrue(FileUtils.contentEquals(createdDatabase, compDatabase));
         }
@@ -155,6 +159,7 @@ public class DatabaseAccessObjectSQLiteTests {
     public void saveToOtherLocation() {
         ArrayList<FeedList> feedLists = Mocks.createFullConfiguration();
         path = resources + "saveDatabaseCreated.sqlite";
+        System.out.println(path);
 
         try {
             dao.setPath(path);
@@ -166,6 +171,9 @@ public class DatabaseAccessObjectSQLiteTests {
 
         File createdDatabase = new File(path);
         File compDatabase = new File(resources + "exampleDatabase.sqlite");
+
+
+        assertTrue(createdDatabase.exists());
 
         try {
             assertTrue(FileUtils.contentEquals(createdDatabase, compDatabase));
@@ -179,6 +187,7 @@ public class DatabaseAccessObjectSQLiteTests {
     public void saveLastUpdateLaterThanConfiguration() {
         ArrayList<FeedList> feedLists = Mocks.createFullConfiguration();
         path = resources + "saveDatabaseCreated.sqlite";
+        System.out.println(path);
 
         try {
             dao.setPath(path);
@@ -189,6 +198,7 @@ public class DatabaseAccessObjectSQLiteTests {
             expt.printStackTrace();
         }
 
+        assertFalse(new File(path).exists());
         verify(feedLists.get(0), never()).getName();
         verify(feedLists.get(1), never()).getName();
     }
