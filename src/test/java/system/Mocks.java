@@ -21,7 +21,8 @@ class Mocks {
         return feedList;
     }
 
-    static FeedList createFeedListMock(String name, ArrayList<Feed> feeds) {
+    static FeedList createFeedListMock(String name, String sortingRules, boolean showVisitedStatus,
+                                       ArrayList<Feed> feeds) {
         ArrayList<Item> items = new ArrayList<>();
         for(Feed feed : feeds) {
             items.addAll(feed.getItems());
@@ -35,6 +36,8 @@ class Mocks {
         doReturn(true).when(feedList).update();
         doReturn(items).when(feedList).getAllItems();
         doReturn(feeds).when(feedList).getFeeds();
+        doReturn(sortingRules).when(feedList).getSortingRules();
+        doReturn(showVisitedStatus).when(feedList).getShowVisitedStatus();
 
         return feedList;
     }
@@ -87,8 +90,8 @@ class Mocks {
 
         // Create FeedLists
         ArrayList<FeedList> feedLists = new ArrayList<>();
-        feedLists.add(Mocks.createFeedListMock("FeedList1", feeds1));
-        feedLists.add(Mocks.createFeedListMock("FeedList2", feeds2));
+        feedLists.add(Mocks.createFeedListMock("FeedList1", "DATE_DEC", true, feeds1));
+        feedLists.add(Mocks.createFeedListMock("FeedList2", "TITLE_ASC", false, feeds2));
 
         return feedLists;
     }

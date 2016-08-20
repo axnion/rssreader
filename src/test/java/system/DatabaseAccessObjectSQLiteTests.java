@@ -3,13 +3,18 @@ package system;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import system.rss.Feed;
 import system.rss.Item;
 
 import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
 
 import static org.junit.Assert.*;
 
@@ -145,17 +150,7 @@ public class DatabaseAccessObjectSQLiteTests {
             expt.printStackTrace();
         }
 
-        File createdDatabase = new File(dao.getPath());
-        File compDatabase = new File(resources + "exampleDatabase.sqlite");
-
-        assertTrue(createdDatabase.exists());
-
-        try {
-            assertTrue(FileUtils.contentEquals(createdDatabase, compDatabase));
-        }
-        catch(Exception expt) {
-            expt.printStackTrace();
-        }
+        assertTrue(compareFiles(new File(path), new File(resources + "exampleDatabase.sqlite")));
     }
 
     @Test
@@ -172,18 +167,7 @@ public class DatabaseAccessObjectSQLiteTests {
             expt.printStackTrace();
         }
 
-        File createdDatabase = new File(path);
-        File compDatabase = new File(resources + "exampleDatabase.sqlite");
-
-
-        assertTrue(createdDatabase.exists());
-
-        try {
-            assertTrue(FileUtils.contentEquals(createdDatabase, compDatabase));
-        }
-        catch(Exception expt) {
-            expt.printStackTrace();
-        }
+        assertTrue(compareFiles(new File(path), new File(resources + "exampleDatabase.sqlite")));
     }
 
     @Test
@@ -204,5 +188,130 @@ public class DatabaseAccessObjectSQLiteTests {
         assertFalse(new File(path).exists());
         verify(feedLists.get(0), never()).getName();
         verify(feedLists.get(1), never()).getName();
+    }
+
+    @BeforeClass
+    public static void createExampleDatabase() {
+        String resources = DatabaseAccessObjectSQLite.class
+                .getResource("../../../resources/test/db/").getPath();
+
+        try {
+            String pathToDatabase = resources + "exampleDatabase.sqlite";
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:" + pathToDatabase);
+            Statement statement = connection.createStatement();
+
+            // Creating base tables
+            statement.executeUpdate(
+                    "CREATE TABLE IF NOT EXISTS save_data_feed_lists " +
+                            "(FEEDLISTNAME TEXT PRIMARY KEY UNIQUE NOT NULL, " +
+                            "SORTING VARCHAR(16) DEFAULT DATE_DEC NOT NULL, " +
+                            "SHOWVISITED BOOLEAN DEFAULT TRUE NOT NULL);"
+            );
+            statement.executeUpdate(
+                    "CREATE TABLE IF NOT EXISTS save_data_feeds " +
+                            "(URLTOXML TEXT NOT NULL, FEEDLISTNAME TEXT NOT NULL);"
+            );
+
+            // Adding FeedLists
+            statement.executeUpdate(
+                    "CREATE TABLE IF NOT EXISTS FeedList1 " +
+                            "(ID TEXT PRIMARY KEY UNIQUE NOT NULL, " +
+                            "VISITED BOOLEAN NOT NULL, " +
+                            "STARRED BOOLEAN NOT NULL);"
+            );
+            statement.executeUpdate(
+                    "INSERT INTO save_data_feed_lists (FEEDLISTNAME, SORTING, SHOWVISITED) " +
+                            "VALUES ('FeedList1','DATE_DEC','true');"
+            );
+
+            statement.executeUpdate(
+                    "CREATE TABLE FeedList2 " +
+                            "(ID TEXT PRIMARY KEY UNIQUE NOT NULL, " +
+                            "VISITED BOOLEAN NOT NULL, " +
+                            "STARRED BOOLEAN NOT NULL);"
+            );
+            statement.executeUpdate(
+                    "INSERT INTO save_data_feed_lists (FEEDLISTNAME, SORTING, SHOWVISITED) " +
+                            "VALUES ('FeedList2','TITLE_ASC','false');"
+            );
+
+            // Adding Feeds
+            statement.executeUpdate(
+                    "INSERT INTO save_data_feeds (URLTOXML,FEEDLISTNAME) " +
+                            "VALUES ('" + resources + "feed1.xml','FeedList1');"
+            );
+            statement.executeUpdate(
+                    "INSERT INTO save_data_feeds (URLTOXML,FEEDLISTNAME) " +
+                            "VALUES ('" + resources + "feed2.xml','FeedList1');"
+            );
+            statement.executeUpdate(
+                    "INSERT INTO save_data_feeds (URLTOXML,FEEDLISTNAME) " +
+                            "VALUES ('" + resources + "feed3.xml','FeedList2');"
+            );
+            statement.executeUpdate(
+                    "INSERT INTO save_data_feeds (URLTOXML,FEEDLISTNAME) " +
+                            "VALUES ('" + resources + "feed4.xml','FeedList2');"
+            );
+
+            // Adding Items
+            statement.executeUpdate(
+                    "INSERT INTO FeedList1 (ID,VISITED,STARRED) " +
+                            "VALUES ('item1','false','false');"
+            );
+            statement.executeUpdate(
+                    "INSERT INTO FeedList1 (ID,VISITED,STARRED) " +
+                            "VALUES ('item2','false','true');"
+            );
+            statement.executeUpdate(
+                    "INSERT INTO FeedList1 (ID,VISITED,STARRED) " +
+                            "VALUES ('item3','true','true');"
+            );
+            statement.executeUpdate(
+                    "INSERT INTO FeedList1 (ID,VISITED,STARRED) " +
+                            "VALUES ('item4','true','false');"
+            );
+            statement.executeUpdate(
+                    "INSERT INTO FeedList2 (ID,VISITED,STARRED) " +
+                            "VALUES ('item5','true','false');"
+            );
+            statement.executeUpdate(
+                    "INSERT INTO FeedList2 (ID,VISITED,STARRED) " +
+                            "VALUES ('item6','true','true');"
+            );
+            statement.executeUpdate(
+                    "INSERT INTO FeedList2 (ID,VISITED,STARRED) " +
+                            "VALUES ('item7','false','true');"
+            );
+            statement.executeUpdate(
+                    "INSERT INTO FeedList2 (ID,VISITED,STARRED) " +
+                            "VALUES ('item8','false','false');"
+            );
+
+            statement.close();
+            connection.close();
+        }
+        catch(Exception expt) {
+            expt.printStackTrace();
+        }
+    }
+
+    private boolean compareFiles(File file1, File file2) {
+        try {
+            Scanner createdDatabaseScanner = new Scanner(file1);
+            Scanner compDatabaseScanner = new Scanner(file2);
+
+            while(createdDatabaseScanner.hasNextLine()) {
+                compDatabaseScanner.hasNextLine();
+
+                if(!createdDatabaseScanner.nextLine().equals(compDatabaseScanner.nextLine())) {
+                    return false;
+                }
+            }
+        }
+        catch(Exception expt) {
+            expt.printStackTrace();
+        }
+
+        return true;
     }
 }

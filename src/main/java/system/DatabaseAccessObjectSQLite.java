@@ -97,17 +97,16 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
         connection.setAutoCommit(false);
         Statement statement = connection.createStatement();
 
-        String createFeedListSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feed_lists(" +
-                "FEEDLISTNAME TEXT          PRIMARY KEY         UNIQUE      NOT NULL, " +
-                "SORTING      VARCHAR(16)   DEFAULT DATE_DEC    NOT NULL, " +
-                "SHOWVISITED  BOOLEAN       DEFAULT TRUE        NOT NULL);";
-
-        String createFeedSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feeds" +
-                " (URLTOXML     TEXT    NOT NULL," +
-                " FEEDLISTNAME  TEXT    NOT NULL);";
-
-        statement.executeUpdate(createFeedListSaveDataTable);
-        statement.executeUpdate(createFeedSaveDataTable);
+        statement.executeUpdate(
+                "CREATE TABLE IF NOT EXISTS save_data_feed_lists " +
+                        "(FEEDLISTNAME TEXT PRIMARY KEY UNIQUE NOT NULL, " +
+                        "SORTING VARCHAR(16) DEFAULT DATE_DEC NOT NULL, " +
+                        "SHOWVISITED BOOLEAN DEFAULT TRUE NOT NULL);"
+        );
+        statement.executeUpdate(
+                "CREATE TABLE IF NOT EXISTS save_data_feeds " +
+                        "(URLTOXML TEXT NOT NULL, FEEDLISTNAME TEXT NOT NULL);"
+        );
         statement.close();
 
         return connection;
@@ -217,56 +216,53 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
         Class.forName("org.sqlite.JDBC");
         Connection connection = DriverManager.getConnection("jdbc:sqlite:" + path);
         connection.setAutoCommit(false);
-
         Statement statement = connection.createStatement();
 
-        String createFeedListSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feed_lists(" +
-                "FEEDLISTNAME TEXT          PRIMARY KEY         UNIQUE      NOT NULL, " +
-                "SORTING      VARCHAR(16)   DEFAULT DATE_DEC    NOT NULL, " +
-                "SHOWVISITED  BOOLEAN       DEFAULT TRUE        NOT NULL);";
+        statement.executeUpdate(
+                "CREATE TABLE IF NOT EXISTS save_data_feed_lists " +
+                        "(FEEDLISTNAME TEXT PRIMARY KEY UNIQUE NOT NULL, " +
+                        "SORTING VARCHAR(16) DEFAULT DATE_DEC NOT NULL, " +
+                        "SHOWVISITED BOOLEAN DEFAULT TRUE NOT NULL);"
+        );
+        statement.executeUpdate(
+                "CREATE TABLE IF NOT EXISTS save_data_feeds " +
+                        "(URLTOXML TEXT NOT NULL, FEEDLISTNAME TEXT NOT NULL);"
+        );
 
-        String createFeedSaveDataTable = "CREATE TABLE IF NOT EXISTS save_data_feeds" +
-                " (URLTOXML     TEXT    NOT NULL," +
-                " FEEDLISTNAME  TEXT    NOT NULL);";
-
-        statement.executeUpdate(createFeedListSaveDataTable);
-        statement.executeUpdate(createFeedSaveDataTable);
         statement.close();
-
         return connection;
     }
 
     private void saveFeedLists(Statement statement, FeedList feedList) throws Exception {
-        String createFeedListTableQuery =  "CREATE TABLE IF NOT EXISTS " + feedList.getName() +
-                " (ID           TEXT        PRIMARY KEY     UNIQUE     NOT NULL," +
-                " VISITED       BOOLEAN     NOT NULL," +
-                " STARRED       BOOLEAN     NOT NULL);";
-
-        String addFeedListToSortTable = "INSERT INTO save_data_feed_lists " +
-                "(FEEDLISTNAME, SORTING, SHOWVISITED) " +
-                "VALUES ('" + feedList.getName() + "','" + feedList.getSortingRules() + "','" +
-                feedList.getShowVisitedStatus() + "');";
-
-        statement.executeUpdate(createFeedListTableQuery);
-        statement.executeUpdate(addFeedListToSortTable);
+        statement.executeUpdate(
+                "CREATE TABLE IF NOT EXISTS " + feedList.getName() + " " +
+                        "(ID TEXT PRIMARY KEY UNIQUE NOT NULL, " +
+                        "VISITED BOOLEAN NOT NULL, " +
+                        "STARRED BOOLEAN NOT NULL);"
+        );
+        statement.executeUpdate(
+                "INSERT INTO save_data_feed_lists (FEEDLISTNAME, SORTING, SHOWVISITED) " +
+                        "VALUES ('" + feedList.getName() + "','" + feedList.getSortingRules() +
+                        "','" + feedList.getShowVisitedStatus() + "');"
+        );
     }
 
     private void saveFeeds(Statement statement, FeedList feedList) throws Exception {
         for(Feed feed : feedList.getFeeds()) {
-            String addFeedQuery = "INSERT INTO save_data_feeds (URLTOXML,FEEDLISTNAME) " +
-                    "VALUES ('" + feed.getUrlToXML() + "','" + feedList.getName() + "');";
-
-            statement.executeUpdate(addFeedQuery);
+            statement.executeUpdate(
+                    "INSERT INTO save_data_feeds (URLTOXML,FEEDLISTNAME) " +
+                            "VALUES ('" + feed.getUrlToXML() + "','" + feedList.getName() + "');"
+            );
         }
     }
 
     private void saveItems(Statement statement, FeedList feedList) throws Exception {
         for(Item item : feedList.getAllItems()) {
-            String addItemQuery = "INSERT OR IGNORE INTO " + feedList.getName() +
-                    " (ID,VISITED,STARRED) VALUES ('" + item.getId() + "','" +
-                    item.isVisited() + "','" + item.isStarred() + "');";
-
-            statement.executeUpdate(addItemQuery);
+            statement.executeUpdate(
+                    "INSERT INTO " + feedList.getName() + " (ID,VISITED,STARRED) " +
+                            "VALUES ('" + item.getId() + "','" +
+                            item.isVisited() + "','" + item.isStarred() + "');"
+            );
         }
     }
 
