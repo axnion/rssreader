@@ -33,6 +33,9 @@ public class DatabaseAccessObjectSQLiteTests {
 
     @After
     public void removeDatabase() {
+        File tempDatabase = new File("temp.sqlite");
+        tempDatabase.delete();
+
         if(!path.equals("")) {
             File createdDatabase = new File(path);
             createdDatabase.delete();
@@ -43,7 +46,7 @@ public class DatabaseAccessObjectSQLiteTests {
     @Test
     public void createDAOWithoutPath() {
         dao = new DatabaseAccessObjectSQLite();
-        assertEquals("temp.db", dao.getPath());
+        assertEquals("temp.sqlite", dao.getPath());
     }
 
     @Test
@@ -54,7 +57,7 @@ public class DatabaseAccessObjectSQLiteTests {
 
     @Test
     public void accessorsAndMutators() {
-        assertEquals("temp.db", dao.getPath());
+        assertEquals("temp.sqlite", dao.getPath());
         dao.setPath("path/to/database");
         assertEquals("path/to/database", dao.getPath());
     }

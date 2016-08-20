@@ -28,7 +28,7 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
      * Sets path to the default temp.db and calls the init method.
      */
     DatabaseAccessObjectSQLite() {
-        path = "temp.db";
+        path = "temp.sqlite";
         lastSaved = new Date(0);
     }
 
