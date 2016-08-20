@@ -3,5 +3,6 @@
 build/
 gradle/
 temp.db
+temp.sqlite
 gradlew
 gradlew.bat
