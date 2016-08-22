@@ -39,6 +39,9 @@ public class Mocks {
         doCallRealMethod().when(item).compareDate(any(Item.class));
         doCallRealMethod().when(item).compareTitle(any(Item.class));
 
+        doNothing().when(item).setVisited(anyBoolean());
+        doNothing().when(item).setStarred(anyBoolean());
+
         return item;
     }
 

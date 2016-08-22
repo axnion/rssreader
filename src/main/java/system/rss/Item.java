@@ -123,7 +123,7 @@ public class Item {
         return visited;
     }
 
-    /**
+    /**     //Mon Jul 25 2016 12:13:33 GMT+0000
      * Accessor method for starred
      *
      * @return The boolean value of starred.
@@ -179,16 +179,9 @@ public class Item {
             this.date = format.parse(date);
             this.date.setTime(this.date.getTime());
         }
-        catch(ParseException expt) {     //Mon Jul 25 2016 12:13:33 GMT+0000
-            format = new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'Z");
-            try {
-                this.date = format.parse(date);
-                this.date.setTime(this.date.getTime());
-            }
-            catch(ParseException expt2) {
-                this.date = new Date(0);
-                expt.printStackTrace();
-            }
+        catch(ParseException expt) {
+            this.date = new Date(0);
+            expt.printStackTrace();
         }
     }
 

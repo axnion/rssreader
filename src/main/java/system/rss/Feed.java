@@ -32,20 +32,6 @@ public class Feed {
         this.items = items;
     }
 
-    /**
-     * Returns the Item object from items with a matching id to the argument passed though id
-     * parameter. If no Item is found then ItemDoesNotExist exception is thrown.
-     * @param id    A String containing the id of the Item the method should look for.
-     * @return      An Item with an id matching the argument id.
-     */
-    public Item getItemById(String id) {
-        for(Item item : items) {
-            if(item.getId().equals(id))
-                return item;
-        }
-        throw new ItemDoesNotExist(id, urlToXML);
-    }
-
     public void setVisited(String itemId, boolean status) {
         getItemById(itemId).setVisited(status);
     }
@@ -53,6 +39,20 @@ public class Feed {
     public void setStarred(String itemId, boolean status) {
         getItemById(itemId).setStarred(status);
     }
+
+    /**
+     * Returns the Item object from items with a matching id to the argument passed though id
+     * parameter. If no Item is found then ItemDoesNotExist exception is thrown.
+     * @param id    A String containing the id of the Item the method should look for.
+     * @return      An Item with an id matching the argument id.
+     */
+     public Item getItemById(String id) {
+        for(Item item : items) {
+            if(item.getId().equals(id))
+                return item;
+        }
+        throw new ItemDoesNotExist(id, urlToXML);
+     }
 
     /*
     ------------------------------- ACCESSORS AND MUTATORS -----------------------------------------

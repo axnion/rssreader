@@ -42,6 +42,7 @@ public class ItemTests {
         testItem.setLink("https://www.google.se");
         testItem.setDescription("This is a test");
         testItem.setId("a_title");
+        testItem.setFeedIdentifier("my_feed");
         testItem.setDate("Mon, 01 Jan 2016 12:00:00 +0000");
 
         // Using accessors to get the values of each field.
@@ -49,21 +50,8 @@ public class ItemTests {
         assertEquals(testItem.getLink(), "https://www.google.se");
         assertEquals(testItem.getDescription(), "This is a test");
         assertEquals(testItem.getId(), "a_title");
+        assertEquals(testItem.getFeedIdentifier(), "my_feed");
         assertEquals(testItem.getDate().getTime() / 1000, 1451649600);
-
-        // Using mutators to edit each fields
-        testItem.setTitle("B Title");
-        testItem.setLink("https://www.bing.se");
-        testItem.setDescription("This is another test");
-        testItem.setId("b_title");
-        testItem.setDate("Mon, 01 Jan 2017 12:00:00 +0000");
-
-        // Using accessors to get the values of each field.
-        assertEquals(testItem.getTitle(), "B Title");
-        assertEquals(testItem.getLink(), "https://www.bing.se");
-        assertEquals(testItem.getDescription(), "This is another test");
-        assertEquals(testItem.getId(), "b_title");
-        assertEquals(testItem.getDate().getTime() / 1000, 1483272000);
     }
 
     /**
@@ -372,4 +360,6 @@ public class ItemTests {
 
         assertTrue(testItem.compareDate(other) < 0);
     }
+
+
 }

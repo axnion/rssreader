@@ -69,8 +69,9 @@ class Mocks {
                 "1451649600", "item8", false, false));
 
         // Create Feeds
-        String path = DatabaseAccessObjectSQLite.class.getResource("../../../resources/test/db/").
-                getPath();
+        String path = DatabaseAccessObjectSQLite.class
+                .getResource("../../../resources/test/DatabaseAccessObjectSQLiteTestResources/")
+                .getPath();
 
         ArrayList<Feed> feeds1 = new ArrayList<>();
         Feed feed1 = system.rss.Mocks.createFeedMock("feed1", "http://feed1.com", "feed1desc",

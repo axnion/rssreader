@@ -2,7 +2,11 @@ package system.rss;
 
 import org.junit.Before;
 import org.junit.Test;
+import system.rss.exceptions.ItemDoesNotExist;
+
 import static org.junit.Assert.*;
+
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 
@@ -13,10 +17,11 @@ import java.util.ArrayList;
  */
 public class FeedTests {
     private Feed feed;
+    private ArrayList<Item> items;
 
     @Before
     public void createObject() {
-        ArrayList<Item> items = new ArrayList<>();
+        items = new ArrayList<>();
         items.add(Mocks.createItemMock("ItemTitle1", "http://link1.com", "Description1",
                 "1451649600000", "item_id_1", false, false));
         items.add(Mocks.createItemMock("ItemTitle2", "http://link2.com", "Description2",
@@ -24,6 +29,36 @@ public class FeedTests {
 
         feed = new Feed("FeedTitle", "http://www.link-to-feed-website.com", "Description",
                 "https:link-to-feed-website.com/feed.xml", items);
+    }
+
+    @Test
+    public void setVisitedOnExistingItem() {
+        feed.setVisited("item_id_1", true);
+        verify(items.get(0), times(1)).setVisited(true);
+        verify(items.get(0), never()).setVisited(false);
+        verify(items.get(1), never()).setVisited(anyBoolean());
+    }
+
+    @Test(expected = ItemDoesNotExist.class)
+    public void setVisitedOnNonexistantItem() {
+        feed.setVisited("item_id_3", true);
+        verify(items.get(0), never()).setVisited(anyBoolean());
+        verify(items.get(1), never()).setVisited(anyBoolean());
+    }
+
+    @Test
+    public void setStarredOnExistingItem() {
+        feed.setStarred("item_id_1", true);
+        verify(items.get(0), times(1)).setStarred(true);
+        verify(items.get(0), never()).setStarred(false);
+        verify(items.get(1), never()).setStarred(anyBoolean());
+    }
+
+    @Test(expected = ItemDoesNotExist.class)
+    public void setStarredOnNonexistantItem() {
+        feed.setStarred("item_id_3", true);
+        verify(items.get(0), never()).setStarred(anyBoolean());
+        verify(items.get(1), never()).setStarred(anyBoolean());
     }
 
     @Test
