@@ -42,6 +42,11 @@ public class RssParser {
         return new Feed(title, link, description,url, items);
     }
 
+    FeedMinimal getMinimalFeed(String url) {
+        Element channel = getChannelElement(url);
+        return new FeedMinimal(url, getTitle(channel));
+    }
+
     /**
      * Updates an already created Feed object. It takes one Feed as an argument and updates the
      * Feeds title, link and description. It also gets all items from the system.rss feed and compares the

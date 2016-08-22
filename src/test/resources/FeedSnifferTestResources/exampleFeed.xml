@@ -1,0 +1,21 @@
+<rss>
+    <channel>
+        <title>Feed</title>
+        <description>This is a description Feed</description>
+        <link>http://feed.com/</link>
+        <item>
+            <title>Item 1</title>
+            <description>This is an item description</description>
+            <link>http://www.google.com</link>
+            <pubDate>Fri, 01 Jan 2016 12:00:00 +0000</pubDate>
+            <guid>example-id-1</guid>
+        </item>
+        <item>
+            <title>Item 2</title>
+            <description>This is an item description</description>
+            <link>http://www.google.com</link>
+            <pubDate>Sat, 02 Jan 2016 20:30:15 +0000</pubDate>
+            <guid>example-id-2</guid>
+        </item>
+    </channel>
+</rss>

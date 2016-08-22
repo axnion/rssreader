@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import system.rss.Feed;
+import system.rss.FeedMinimal;
 import system.rss.FeedSniffer;
 import system.Configuration;
 import system.FeedList;
@@ -195,7 +196,7 @@ class MenuFeedList extends VBox{
         newFeedContainer.getChildren().clear();
 
         FeedSniffer feedSniffer = new FeedSniffer();
-        ArrayList<Feed> feeds = feedSniffer.getFeeds(url);
+        ArrayList<FeedMinimal> feeds = feedSniffer.getFeeds(url);
 
         if(feeds.size() == 0) {
             Text errorMessage = new Text("No feed where found");
@@ -203,7 +204,7 @@ class MenuFeedList extends VBox{
             newFeedContainer.getChildren().add(errorMessage);
         }
 
-        for(Feed feed : feeds) {
+        for(FeedMinimal feed : feeds) {
             newFeedContainer.getChildren().add(new NewFeed(feed));
         }
     }
@@ -234,16 +235,16 @@ class MenuFeedList extends VBox{
     }
 
     private class NewFeed extends HBox {
-        NewFeed(Feed feed) {
+        NewFeed(FeedMinimal feed) {
             BorderPane borderPane = new BorderPane();
-            Text title = new Text(feed.getTitle());
+            Text title = new Text(feed.title);
             title.setWrappingWidth(370);
             title.setFill(Color.WHITE);
             ClickButton button = new ClickButton(MaterialIcon.ADD, "MenuButton", "30px",
                     "Add feed to feedlist");
             button.setOnMouseClicked(event -> {
                 if(event.getButton().equals(MouseButton.PRIMARY)) {
-                    App.addFeed(feed.getUrlToXML(), feedList.getName());
+                    App.addFeed(feed.urlToXml, feedList.getName());
                     newFeedContainer.getChildren().remove(this);
                 }
             });

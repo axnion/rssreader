@@ -13,6 +13,9 @@ import java.util.ArrayList;
  */
 public class FeedSnifferTests {
     private FeedSniffer feedSniffer;
+    private String resources = FeedSniffer.class
+            .getResource("../../../../resources/test/FeedSnifferTestResources/")
+            .getPath();
 
     @Before
     public void createObject() {
@@ -21,7 +24,9 @@ public class FeedSnifferTests {
 
     @Test
     public void snifferTest() {
-        ArrayList<Feed> feeds = feedSniffer.getFeeds("http://www.axelnilsson.tech/");
-        assertEquals(0, feeds.size());
+        ArrayList<FeedMinimal> feeds = feedSniffer.getFeeds(resources + "exampleFeed.xml");
+        assertEquals(1, feeds.size());
+        assertEquals("Feed", feeds.get(0).title);
+        assertEquals(resources + "exampleFeed.xml", feeds.get(0).urlToXml);
     }
 }
