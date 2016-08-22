@@ -1,6 +1,5 @@
 package system;
 
-import org.junit.BeforeClass;
 import system.exceptions.FeedListAlreadyExists;
 import system.exceptions.FeedListDoesNotExist;
 
