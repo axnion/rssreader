@@ -177,7 +177,8 @@ public class ConfigurationTests {
         Configuration.setFeedLists(feedLists);
 
         String url = ConfigurationTests.class
-                .getResource("../../../resources/test/xml/exampleFeed1.xml").getPath();
+                .getResource("../../../resources/test/RssParserTestResources/exampleFeed1.xml")
+                .getPath();
 
         Configuration.addFeed(url, "FeedList1");
 
@@ -201,7 +202,7 @@ public class ConfigurationTests {
         Configuration.setFeedLists(feedLists);
 
         String url = ConfigurationTests.class
-                .getResource("../../../resources/test/xml/exampleFeed1.xml").getPath();
+                .getResource("../../../resources/test/RssParserTestResources/exampleFeed1.xml").getPath();
 
         Configuration.addFeed(url, "FeedList3");
 
@@ -223,7 +224,8 @@ public class ConfigurationTests {
         Configuration.setFeedLists(feedLists);
 
         String url = ConfigurationTests.class
-                .getResource("../../../resources/test/xml/exampleFeed1.xml").getPath();
+                .getResource("../../../resources/test/RssParserTestResources/exampleFeed1.xml")
+                .getPath();
 
         Configuration.removeFeed(url, "FeedList1");
 
@@ -246,7 +248,8 @@ public class ConfigurationTests {
         Configuration.setFeedLists(feedLists);
 
         String url = ConfigurationTests.class
-                .getResource("../../../resources/test/xml/exampleFeed1.xml").getPath();
+                .getResource("../../../resources/test/RssParserTestResources/exampleFeed1.xml")
+                .getPath();
 
         Configuration.addFeed(url, "FeedList3");
 

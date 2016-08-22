@@ -1,12 +1,5 @@
 package system.rss;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.w3c.dom.Document;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.ArrayList;
 
 /**

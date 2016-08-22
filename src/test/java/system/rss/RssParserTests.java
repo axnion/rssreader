@@ -13,6 +13,9 @@ import static org.junit.Assert.*;
  */
 public class RssParserTests {
     private RssParser rssParser;
+    private String resources = FeedSniffer.class
+            .getResource("../../../../resources/test/RssParserTestResources/")
+            .getPath();
 
     @Before
     public void createObject() {
@@ -21,9 +24,7 @@ public class RssParserTests {
 
     @Test
     public void readFeed() {
-        String url = "../../../../resources/test/xml/FeedItemComplete.xml";
-        System.out.println(RssParser.class.getResource(url).getPath());
-        Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
+        Feed feed = rssParser.getFeed(resources + "FeedItemComplete.xml");
 
         assertEquals("Test title", feed.getTitle());
         assertEquals("http://www.feed-link.com", feed.getLink());
@@ -44,8 +45,7 @@ public class RssParserTests {
 
     @Test
     public void readFeedWithoutTitle() {
-        String url = "../../../../resources/test/xml/FeedWithoutTitle.xml";
-        Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
+        Feed feed = rssParser.getFeed(resources + "FeedWithoutTitle.xml");
 
         assertEquals("Untitled", feed.getTitle());
         assertEquals("http://www.feed-link.com", feed.getLink());
@@ -61,8 +61,7 @@ public class RssParserTests {
 
     @Test
     public void readFeedWithoutLink() {
-        String url = "../../../../resources/test/xml/FeedWithoutLink.xml";
-        Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
+        Feed feed = rssParser.getFeed(resources + "FeedWithoutLink.xml");
 
         assertEquals("Test title", feed.getTitle());
         assertEquals("", feed.getLink());
@@ -78,8 +77,7 @@ public class RssParserTests {
 
     @Test
     public void readFeedWithoutDescription() {
-        String url = "../../../../resources/test/xml/FeedWithoutDescription.xml";
-        Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
+        Feed feed = rssParser.getFeed(resources + "FeedWithoutDescription.xml");
 
         assertEquals("Test title", feed.getTitle());
         assertEquals("http://www.feed-link.com", feed.getLink());
@@ -95,8 +93,7 @@ public class RssParserTests {
 
     @Test
     public void readFeedWithoutItems() {
-        String url = "../../../../resources/test/xml/FeedWithoutItems.xml";
-        Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
+        Feed feed = rssParser.getFeed(resources + "FeedWithoutItems.xml");
 
         assertEquals("Test title", feed.getTitle());
         assertEquals("http://www.feed-link.com", feed.getLink());
@@ -105,8 +102,7 @@ public class RssParserTests {
 
     @Test
     public void readFeedWithItemWithoutTitle() {
-        String url = "../../../../resources/test/xml/FeedItemWithoutTitle.xml";
-        Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
+        Feed feed = rssParser.getFeed(resources + "FeedItemWithoutTitle.xml");
 
         assertEquals("Test title", feed.getTitle());
         assertEquals("http://www.feed-link.com", feed.getLink());
@@ -122,8 +118,7 @@ public class RssParserTests {
 
     @Test
     public void readFeedWithItemWithoutLink() {
-        String url = "../../../../resources/test/xml/FeedItemWithoutLink.xml";
-        Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
+        Feed feed = rssParser.getFeed(resources + "FeedItemWithoutLink.xml");
 
         assertEquals("Test title", feed.getTitle());
         assertEquals("http://www.feed-link.com", feed.getLink());
@@ -134,8 +129,7 @@ public class RssParserTests {
 
     @Test
     public void readFeedWithItemWithoutDescription() {
-        String url = "../../../../resources/test/xml/FeedItemWithoutDescription.xml";
-        Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
+        Feed feed = rssParser.getFeed(resources + "FeedItemWithoutDescription.xml");
 
         assertEquals("Test title", feed.getTitle());
         assertEquals("http://www.feed-link.com", feed.getLink());
@@ -151,8 +145,7 @@ public class RssParserTests {
 
     @Test
     public void readFeedWithItemWithoutDate() {
-        String url = "../../../../resources/test/xml/FeedItemWithoutDate.xml";
-        Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
+        Feed feed = rssParser.getFeed(resources + "FeedItemWithoutDate.xml");
 
         assertEquals("Test title", feed.getTitle());
         assertEquals("http://www.feed-link.com", feed.getLink());
@@ -168,8 +161,7 @@ public class RssParserTests {
 
     @Test
     public void readFeedWithItemWithoutId() {
-        String url = "../../../../resources/test/xml/FeedItemWithoutId.xml";
-        Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
+        Feed feed = rssParser.getFeed(resources + "FeedItemWithoutId.xml");
 
         assertEquals("Test title", feed.getTitle());
         assertEquals("http://www.feed-link.com", feed.getLink());
@@ -180,8 +172,7 @@ public class RssParserTests {
 
     @Test
     public void readFeedWithBrokenItems() {
-        String url = "../../../../resources/test/xml/FeedPartiallyBroken.xml";
-        Feed feed = rssParser.getFeed(RssParser.class.getResource(url).getPath());
+        Feed feed = rssParser.getFeed(resources + "FeedPartiallyBroken.xml");
 
         assertEquals("Test title", feed.getTitle());
         assertEquals("http://www.feed-link.com", feed.getLink());
@@ -200,5 +191,64 @@ public class RssParserTests {
         assertEquals("This is an item 3 description", feed.getItems().get(1).getDescription());
         assertEquals(1451779200, feed.getItems().get(1).getDate().getTime() / 1000);
         assertEquals("test-id-3", feed.getItems().get(1).getId());
+    }
+
+    @Test
+    public void updateFeedNothingToUpdate() {
+        Feed feed = rssParser.getFeed(resources + "update/original.xml");
+
+        assertEquals(4, feed.getItems().size());
+        assertEquals("item1", feed.getItems().get(0).getId());
+        assertEquals("item2", feed.getItems().get(1).getId());
+        assertEquals("item3", feed.getItems().get(2).getId());
+        assertEquals("item4", feed.getItems().get(3).getId());
+
+        rssParser.updateFeed(feed);
+
+        assertEquals(4, feed.getItems().size());
+        assertEquals("item1", feed.getItems().get(0).getId());
+        assertEquals("item2", feed.getItems().get(1).getId());
+        assertEquals("item3", feed.getItems().get(2).getId());
+        assertEquals("item4", feed.getItems().get(3).getId());
+    }
+
+    @Test
+    public void updateFeedAddedItem() {
+        Feed feed = rssParser.getFeed(resources + "update/original.xml");
+
+        assertEquals(4, feed.getItems().size());
+        assertEquals("item1", feed.getItems().get(0).getId());
+        assertEquals("item2", feed.getItems().get(1).getId());
+        assertEquals("item3", feed.getItems().get(2).getId());
+        assertEquals("item4", feed.getItems().get(3).getId());
+
+        feed.setUrlToXML(resources + "update/itemAdded.xml");
+        rssParser.updateFeed(feed);
+
+        assertEquals(5, feed.getItems().size());
+        assertEquals("item1", feed.getItems().get(0).getId());
+        assertEquals("item2", feed.getItems().get(1).getId());
+        assertEquals("item3", feed.getItems().get(2).getId());
+        assertEquals("item4", feed.getItems().get(3).getId());
+        assertEquals("item5", feed.getItems().get(4).getId());
+    }
+
+    @Test
+    public void updateFeedRemovedItem() {
+        Feed feed = rssParser.getFeed(resources + "update/original.xml");
+
+        assertEquals(4, feed.getItems().size());
+        assertEquals("item1", feed.getItems().get(0).getId());
+        assertEquals("item2", feed.getItems().get(1).getId());
+        assertEquals("item3", feed.getItems().get(2).getId());
+        assertEquals("item4", feed.getItems().get(3).getId());
+
+        feed.setUrlToXML(resources + "update/itemRemoved.xml");
+        rssParser.updateFeed(feed);
+
+        assertEquals(3, feed.getItems().size());
+        assertEquals("item1", feed.getItems().get(0).getId());
+        assertEquals("item2", feed.getItems().get(1).getId());
+        assertEquals("item4", feed.getItems().get(2).getId());
     }
 }
