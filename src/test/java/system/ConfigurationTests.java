@@ -1,5 +1,6 @@
 package system;
 
+import org.junit.BeforeClass;
 import system.exceptions.FeedListAlreadyExists;
 import system.exceptions.FeedListDoesNotExist;
 
@@ -259,37 +260,10 @@ public class ConfigurationTests {
     }
 
     @Test
-    public void updaterAliveTest() {
-        boolean isAlive = false;
-        Configuration.stopFeedUpdater();
-        for(Thread thread : Thread.getAllStackTraces().keySet()) {
-            if(thread.getName().equals("UpdaterThread"))
-                isAlive = true;
-        }
-        assertFalse(isAlive);
-
-        Configuration.startFeedUpdater();
-        for(Thread thread : Thread.getAllStackTraces().keySet()) {
-            if(thread.getName().equals("UpdaterThread"))
-                isAlive = true;
-        }
-        assertTrue(isAlive);
-
-        Configuration.stopFeedUpdater();
-
-        isAlive = false;
-        for(Thread thread : Thread.getAllStackTraces().keySet()) {
-            if(thread.getName().equals("UpdaterThread"))
-                isAlive = true;
-        }
-        assertTrue(isAlive);
-    }
-
-    @Test
     public void updateTest() {
         ArrayList<FeedList> feedLists = new ArrayList<>();
         feedLists.add(Mocks.createFeedListMock("FeedList1", true));
-        feedLists.add(Mocks.createFeedListMock("FeedList1", false));
+        feedLists.add(Mocks.createFeedListMock("FeedList2", false));
         Configuration.setFeedLists(feedLists);
 
         Date beforeUpdate = Configuration.getLastUpdated();
@@ -297,22 +271,20 @@ public class ConfigurationTests {
         Configuration.startFeedUpdater();
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(5000);
         }
         catch(InterruptedException expt) {
             expt.printStackTrace();
-            fail();
         }
-
-        verify(feedLists.get(0), times(1)).update();
-        verify(feedLists.get(1), times(1)).update();
-
 
         Date afterUpdate = Configuration.getLastUpdated();
         assertFalse(beforeUpdate == afterUpdate);
         assertTrue(afterUpdate.after(beforeUpdate));
 
-        Configuration.stopFeedUpdater();
+        feedLists = new ArrayList<>();
+        feedLists.add(Mocks.createFeedListMock("FeedList1", false));
+        feedLists.add(Mocks.createFeedListMock("FeedList2", false));
+        Configuration.setFeedLists(feedLists);
     }
 
     /**

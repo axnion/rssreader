@@ -18,6 +18,7 @@ class Mocks {
     static FeedList createFeedListMock(String name) {
         FeedList feedList = mock(FeedList.class);
         doReturn(name).when(feedList).getName();
+        doReturn(false).when(feedList).update();
         return feedList;
     }
 

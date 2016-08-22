@@ -103,24 +103,19 @@ public class Configuration {
         executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(new Thread() {
             public void run() {
-            Thread.currentThread().setName("UpdaterThread");
-            boolean updated = false;
-            for(FeedList feedList : feedLists) {
-                if(feedList.update())
-                    updated = true;
-            }
+                Thread.currentThread().setName("UpdaterThread");
+                boolean updated = false;
+                for(FeedList feedList : feedLists) {
+                    if(feedList.update())
+                        updated = true;
+                }
 
-            if(updated) {
-                Configuration.setLastUpdated(new Date());
-                System.out.println("Update: Configuration");
-            }
+                if(updated) {
+                    Configuration.setLastUpdated(new Date());
+                    System.out.println("Update: Configuration");
+                }
             }
         }, 0, updatePeriod, TimeUnit.SECONDS);
-    }
-
-
-    static void stopFeedUpdater() {
-        executorService.shutdown();
     }
 
     /**
