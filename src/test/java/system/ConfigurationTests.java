@@ -42,24 +42,25 @@ public class ConfigurationTests {
         assertNotNull(Configuration.getDao());
         assertEquals(0, Configuration.getFeedLists().size());
         assertEquals(5, Configuration.getUpdatePeriod());
+        assertEquals(60, Configuration.getAutoSavePeriod());
 
         ArrayList<FeedList> feedLists = new ArrayList<>();
         feedLists.add(Mocks.createFeedListMock("FeedList1"));
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
-        Configuration.setFeedLists(feedLists);
-
         DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectMock();
         Configuration.setDao(dao);
-
-        Configuration.setUpdatePeriod(10);
-
         Date currentDate = new Date();
+
+        Configuration.setFeedLists(feedLists);
+        Configuration.setUpdatePeriod(10);
         Configuration.setLastUpdated(currentDate);
+        Configuration.setAutoSavePeriod(10);
 
         assertEquals("FeedList1", Configuration.getFeedLists().get(0).getName());
         assertEquals("FeedList2", Configuration.getFeedLists().get(1).getName());
         assertEquals(dao, Configuration.getDao());
         assertEquals(currentDate, Configuration.getLastUpdated());
+        assertEquals(10, Configuration.getAutoSavePeriod());
     }
 
     /**
@@ -257,12 +258,62 @@ public class ConfigurationTests {
         verify(feedLists.get(1), never()).remove(any());
     }
 
-
     @Test
-    public void updaterTest() {
+    public void updaterAliveTest() {
+        boolean isAlive = false;
+        Configuration.stopFeedUpdater();
+        for(Thread thread : Thread.getAllStackTraces().keySet()) {
+            if(thread.getName().equals("UpdaterThread"))
+                isAlive = true;
+        }
+        assertFalse(isAlive);
 
+        Configuration.startFeedUpdater();
+        for(Thread thread : Thread.getAllStackTraces().keySet()) {
+            if(thread.getName().equals("UpdaterThread"))
+                isAlive = true;
+        }
+        assertTrue(isAlive);
+
+        Configuration.stopFeedUpdater();
+
+        isAlive = false;
+        for(Thread thread : Thread.getAllStackTraces().keySet()) {
+            if(thread.getName().equals("UpdaterThread"))
+                isAlive = true;
+        }
+        assertTrue(isAlive);
     }
 
+    @Test
+    public void updateTest() {
+        ArrayList<FeedList> feedLists = new ArrayList<>();
+        feedLists.add(Mocks.createFeedListMock("FeedList1", true));
+        feedLists.add(Mocks.createFeedListMock("FeedList1", false));
+        Configuration.setFeedLists(feedLists);
+
+        Date beforeUpdate = Configuration.getLastUpdated();
+
+        Configuration.startFeedUpdater();
+
+        try {
+            Thread.sleep(1000);
+        }
+        catch(InterruptedException expt) {
+            expt.printStackTrace();
+            fail();
+        }
+
+        verify(feedLists.get(0), times(1)).update();
+        verify(feedLists.get(1), times(1)).update();
+
+
+        Date afterUpdate = Configuration.getLastUpdated();
+        assertFalse(beforeUpdate == afterUpdate);
+        assertTrue(afterUpdate.after(beforeUpdate));
+
+        Configuration.stopFeedUpdater();
+    }
 
     /**
      * Name: Get existing FeedList by name
@@ -427,6 +478,40 @@ public class ConfigurationTests {
 
         verify(feedLists.get(0), never()).setSortingRules(anyString());
         verify(feedLists.get(1), never()).setSortingRules(anyString());
+    }
+
+    @Test
+    public void setShowVisitedStatusOnExistingFeedList() {
+        ArrayList<FeedList> feedLists = new ArrayList<>();
+        feedLists.add(Mocks.createFeedListMock("FeedList1"));
+        feedLists.add(Mocks.createFeedListMock("FeedList2"));
+
+        Configuration.setFeedLists(feedLists);
+        Configuration.setShowVisitedStatus("FeedList1", false);
+        Configuration.setShowVisitedStatus("FeedList1", true);
+        Configuration.setShowVisitedStatus("FeedList2", true);
+
+        verify(feedLists.get(0), times(1)).setShowVisitedStatus(true);
+        verify(feedLists.get(0), times(1)).setShowVisitedStatus(false);
+        verify(feedLists.get(1), times(1)).setShowVisitedStatus(eq(true));
+        verify(feedLists.get(1), never()).setShowVisitedStatus(eq(false));
+    }
+
+    @Test
+    public void setShowVisitedStatusOnNonexistentFeedList() {
+        ArrayList<FeedList> feedLists = new ArrayList<>();
+        feedLists.add(Mocks.createFeedListMock("FeedList1"));
+        feedLists.add(Mocks.createFeedListMock("FeedList2"));
+
+        Configuration.setFeedLists(feedLists);
+        Configuration.setShowVisitedStatus("FeedList1", false);
+        Configuration.setShowVisitedStatus("FeedList1", true);
+        Configuration.setShowVisitedStatus("FeedList2", true);
+
+        verify(feedLists.get(0), times(1)).setShowVisitedStatus(true);
+        verify(feedLists.get(0), times(1)).setShowVisitedStatus(false);
+        verify(feedLists.get(1), times(1)).setShowVisitedStatus(eq(true));
+        verify(feedLists.get(1), never()).setShowVisitedStatus(eq(false));
     }
 
     /**

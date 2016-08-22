@@ -21,6 +21,13 @@ class Mocks {
         return feedList;
     }
 
+    static FeedList createFeedListMock(String name, boolean updateStatus) {
+        FeedList feedList = mock(FeedList.class);
+        doReturn(name).when(feedList).getName();
+        doReturn(updateStatus).when(feedList).update();
+        return feedList;
+    }
+
     static FeedList createFeedListMock(String name, String sortingRules, boolean showVisitedStatus,
                                        ArrayList<Feed> feeds) {
         ArrayList<Item> items = new ArrayList<>();

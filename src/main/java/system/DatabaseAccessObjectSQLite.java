@@ -25,7 +25,7 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
     /**
      * Constructor
      *
-     * Sets path to the default temp.db and calls the init method.
+     * Sets path to the default temp.sqlite and calls the init method.
      */
     DatabaseAccessObjectSQLite() {
         path = "temp.sqlite";
@@ -87,8 +87,8 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
      *                      passed to the caller of this method.
      */
     private Connection loadPrep() throws Exception {
-        if(path.equals("temp.db")) {
-            File tempDatabase = new File("temp.db");
+        if(path.equals("temp.sqlite")) {
+            File tempDatabase = new File("temp.sqlite");
             tempDatabase.delete();
         }
 

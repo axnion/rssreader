@@ -32,6 +32,7 @@ public class Configuration {
     private static Date lastUpdated = new Date();
     private static int updatePeriod = 5;
     private static int autoSavePeriod = 60;
+    private static ScheduledExecutorService executorService;
 
     /**
      * Creates and adds a new FeedList object with the name specified though the listName parameter.
@@ -99,7 +100,7 @@ public class Configuration {
      * is updated to current time.
      */
     public static void startFeedUpdater() {
-        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(new Thread() {
             public void run() {
             Thread.currentThread().setName("UpdaterThread");
@@ -115,6 +116,11 @@ public class Configuration {
             }
             }
         }, 0, updatePeriod, TimeUnit.SECONDS);
+    }
+
+
+    static void stopFeedUpdater() {
+        executorService.shutdown();
     }
 
     /**
