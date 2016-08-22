@@ -1,10 +1,9 @@
 package system;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+
 import system.rss.Feed;
 import system.rss.Item;
 
@@ -28,12 +27,14 @@ import static org.mockito.Mockito.*;
 public class DatabaseAccessObjectSQLiteTests {
     private DatabaseAccessObjectSQLite dao;
     private String resources = DatabaseAccessObjectSQLite.class
-            .getResource("../../../resources/test/db/").getPath();
+            .getResource("../../../resources/test/DatabaseAccessObjectSQLiteTestResources/")
+            .getPath();
     private String path = "";
 
     @Before
     public void createObject() {
         dao = new DatabaseAccessObjectSQLite();
+        createExampleDatabase();
     }
 
     @After
@@ -190,10 +191,9 @@ public class DatabaseAccessObjectSQLiteTests {
         verify(feedLists.get(1), never()).getName();
     }
 
-    @BeforeClass
     public static void createExampleDatabase() {
         String resources = DatabaseAccessObjectSQLite.class
-                .getResource("../../../resources/test/db/").getPath();
+                .getResource("../../../resources/test/DatabaseAccessObjectSQLiteTestResources/").getPath();
 
         try {
             String pathToDatabase = resources + "exampleDatabase.sqlite";
