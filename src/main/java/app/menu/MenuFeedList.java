@@ -69,7 +69,6 @@ class MenuFeedList extends VBox{
         titlePane.setLeft(title);
         titlePane.setRight(showFeedsButton);
         createContextMenu();
-        createSettings();
 
         getChildren().add(titlePane);
         getChildren().add(addFeedMenuContainer);
@@ -142,49 +141,6 @@ class MenuFeedList extends VBox{
         }
     }
 
-    private void createSettings() {
-        RadioButton showVisitedButton = new RadioButton("Show not visited");
-        showVisitedButton.setStyle("-fx-text-fill: white");
-        showVisitedButton.setSelected(Configuration.getFeedListByName(feedList.getName()).
-                getShowVisitedStatus());
-        showVisitedButton.setOnAction(event -> {
-            Configuration.setShowVisitedStatus(feedList.getName(), showVisitedButton.isSelected());
-        });
-
-        ComboBox<String> sortingSelection = new ComboBox<>();
-        ObservableList<String> sortingOptions = FXCollections.observableArrayList(
-                "Title Ascending",
-                "Title Descending",
-                "Date Ascending",
-                "Date Descending"
-        );
-        sortingSelection.setItems(sortingOptions);
-
-        if(feedList.getSortingRules().equals("TITLE_ASC"))
-            sortingSelection.setValue("Title Ascending");
-        else if(feedList.getSortingRules().equals("TITLE_DEC"))
-            sortingSelection.setValue("Title Descending");
-        else if(feedList.getSortingRules().equals("DATE_ASC"))
-            sortingSelection.setValue("Date Ascending");
-        else
-            sortingSelection.setValue("Date Descending");
-
-        sortingSelection.setOnAction(event -> {
-            String newSortingRule = sortingSelection.getSelectionModel().getSelectedItem();
-            if(newSortingRule.equals("Title Ascending"))
-                Configuration.setSortingRules(feedList.getName(), "TITLE_ASC");
-            else if(newSortingRule.equals("Title Descending"))
-                Configuration.setSortingRules(feedList.getName(), "TITLE_DEC");
-            else if(newSortingRule.equals("Date Ascending"))
-                Configuration.setSortingRules(feedList.getName(), "DATE_ASC");
-            else
-                Configuration.setSortingRules(feedList.getName(), "DATE_DEC");
-        });
-
-        settings.getChildren().add(showVisitedButton);
-        settings.getChildren().add(sortingSelection);
-    }
-
     void hideAddFeedMenu() {
         if(addFeedMenuContainer.getChildren().size() != 0) {
             addFeedMenuContainer.getChildren().clear();
@@ -214,7 +170,51 @@ class MenuFeedList extends VBox{
 
         MenuItem addFeedButton = new MenuItem("Add Feed");
         MenuItem removeFeedListButton = new MenuItem("Remove this List");
-        rightClickMenu.getItems().addAll(addFeedButton, removeFeedListButton);
+        CheckMenuItem showVisitedStatus = new CheckMenuItem("Show items visited status");
+        showVisitedStatus.setSelected(Configuration.getFeedListByName(feedList.getName())
+                .getShowVisitedStatus());
+
+        Menu sortingMenu = new Menu("Sorting");
+        ToggleGroup sortingAlternatives = new ToggleGroup();
+        RadioMenuItem titleAsc = new RadioMenuItem("Title Ascending");
+        RadioMenuItem titleDec = new RadioMenuItem("Title Descending");
+        RadioMenuItem dateAsc = new RadioMenuItem("Date Ascending");
+        RadioMenuItem dateDec = new RadioMenuItem("Date Descending");
+
+        if(feedList.getSortingRules().equals("TITLE_ASC"))
+            titleAsc.setSelected(true);
+        else if(feedList.getSortingRules().equals("TITLE_DEC"))
+            titleDec.setSelected(true);
+        else if(feedList.getSortingRules().equals("DATE_ASC"))
+            dateAsc.setSelected(true);
+        else
+            dateDec.setSelected(true);
+
+        titleAsc.setOnAction(event -> {
+            Configuration.setSortingRules(feedList.getName(), "TITLE_ASC");
+            titleAsc.setSelected(true);
+        });
+        titleDec.setOnAction(event -> {
+            Configuration.setSortingRules(feedList.getName(), "TITLE_DEC");
+            titleDec.setSelected(true);
+        });
+        dateAsc.setOnAction(event -> {
+            Configuration.setSortingRules(feedList.getName(), "DATE_ASC");
+            dateAsc.setSelected(true);
+        });
+        dateDec.setOnAction(event -> {
+            Configuration.setSortingRules(feedList.getName(), "DATE_DEC");
+            dateDec.setSelected(true);
+        });
+
+        titleAsc.setToggleGroup(sortingAlternatives);
+        titleDec.setToggleGroup(sortingAlternatives);
+        dateAsc.setToggleGroup(sortingAlternatives);
+        dateDec.setToggleGroup(sortingAlternatives);
+        sortingMenu.getItems().addAll(titleAsc, titleDec, dateAsc, dateDec);
+
+        rightClickMenu.getItems().addAll(addFeedButton, showVisitedStatus, sortingMenu,
+                removeFeedListButton);
 
         titlePane.setOnMouseClicked(event -> {
             if(event.getButton().equals(MouseButton.SECONDARY)) {
@@ -228,6 +228,8 @@ class MenuFeedList extends VBox{
 
         addFeedButton.setOnAction(event -> showAddFeedMenu());
         removeFeedListButton.setOnAction(event -> App.removeFeedList(feedList.getName()));
+        showVisitedStatus.setOnAction(event -> Configuration.setShowVisitedStatus(feedList.getName(),
+                showVisitedStatus.isSelected()));
     }
 
     String getName() {
