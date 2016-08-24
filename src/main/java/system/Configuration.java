@@ -103,6 +103,7 @@ public class Configuration {
         executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(new Thread() {
             public void run() {
+                setDaemon(true);
                 Thread.currentThread().setName("UpdaterThread");
                 boolean updated = false;
                 for(FeedList feedList : feedLists) {

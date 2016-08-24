@@ -1,5 +1,5 @@
 group 'tech.axelnilsson'
-version '1.0'
+version '2.0'
 
 buildscript {
     dependencies {
@@ -51,7 +51,7 @@ jfx {
     addPackagerJar = true
 
     // gradle jfxNative
-    identifier = 1.0 // setting this for windows-bundlers makes it possible to generate upgradeable installers (using same GUID)
+    identifier = 2.0 // setting this for windows-bundlers makes it possible to generate upgradeable installers (using same GUID)
     vendor = "axnion"
     nativeOutputDir = "build/bin/native"
     bundler = "ALL" // set this to some specific, if your don't want all bundlers running, examples "windows.app", "jnlp", ...
@@ -59,10 +59,13 @@ jfx {
     jvmArgs = null // List<String>
     userJvmArgs = null // Map<String, String>
     launcherArguments = null // List<String>
-    nativeReleaseVersion = "1.0"
+    nativeReleaseVersion = "2.0"
     needShortcut = false
     needMenu = false
-    bundleArguments = null
+    bundleArguments = [
+            license: MIT
+    ]
+
     appName = "RSSReader" // this is used for files below "src/main/deploy", e.g. "src/main/deploy/windows/project.ico"
     additionalAppResources = "src/deploy/resources" // path to some additional resources when creating application-bundle
     secondaryLaunchers = null
