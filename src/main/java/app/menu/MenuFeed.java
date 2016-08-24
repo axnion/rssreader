@@ -54,4 +54,8 @@ class MenuFeed extends VBox{
             }
         });
     }
+
+    public String getFeedUrlToXML() {
+        return feed.getUrlToXML();
+    }
 }

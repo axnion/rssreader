@@ -4,6 +4,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
@@ -59,7 +60,7 @@ public class App extends Application {
         primaryStage.setMinWidth(300);
         primaryStage.setMinHeight(300);
         primaryStage.setTitle("RSSReader");
-        primaryStage.getIcons().add(new Image("file:img/rss_icon.png"));
+        primaryStage.getIcons().add(new Image("file:img/icon.png"));
         primaryStage.setScene(primaryScene);
         primaryStage.show();
 
@@ -75,13 +76,17 @@ public class App extends Application {
             }
             catch(Exception expt) {
                 expt.printStackTrace();
-
             }
         }));
         autoSave.setCycleCount(Animation.INDEFINITE);
         autoSave.play();
 
         Configuration.startFeedUpdater();
+
+        primaryStage.setOnCloseRequest(event -> {
+            Platform.exit();
+            System.exit(0);
+        });
     }
 
     public static void addFeedList(String listName) {

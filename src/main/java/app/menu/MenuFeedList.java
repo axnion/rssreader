@@ -78,8 +78,8 @@ class MenuFeedList extends VBox{
     }
 
     void update() {
-        menuFeeds.clear();
         ArrayList<Feed> feeds = Configuration.getAllFeedsFromFeedList(feedList.getName());
+        menuFeeds.clear();
 
         for(int i = 0; i < feeds.size(); i++) {
             MenuFeed menuFeed = new MenuFeed(feeds.get(i), feedList.getName());
@@ -87,7 +87,6 @@ class MenuFeedList extends VBox{
             if(i % 2 == 0) {
                 menuFeed.setStyle("-fx-background-color: #575757");
             }
-
             menuFeeds.add(menuFeed);
         }
 
@@ -248,6 +247,9 @@ class MenuFeedList extends VBox{
                 if(event.getButton().equals(MouseButton.PRIMARY)) {
                     App.addFeed(feed.urlToXml, feedList.getName());
                     newFeedContainer.getChildren().remove(this);
+                    if(newFeedContainer.getChildren().size() == 0) {
+                        hideAddFeedMenu();
+                    }
                 }
             });
 

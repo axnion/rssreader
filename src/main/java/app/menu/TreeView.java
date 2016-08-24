@@ -73,15 +73,26 @@ class TreeView extends VBox {
 
     void updateFeedList() {
         ArrayList<FeedList> feedLists = Configuration.getFeedLists();
-        menuFeedLists.clear();
-        treeViewContainer.getChildren().clear();
+        boolean feedListExists;
 
         for(FeedList feedList : feedLists) {
-            MenuFeedList newMenuFeedList = new MenuFeedList(feedList);
-            newMenuFeedList.update();
-            menuFeedLists.add(newMenuFeedList);
+            feedListExists = false;
+            for(MenuFeedList menuFeedList : menuFeedLists) {
+                if(feedList.getName().equals(menuFeedList.getName())) {
+                    feedListExists = true;
+                    menuFeedList.update();
+                }
+            }
+
+            if(!feedListExists) {
+                MenuFeedList newMenuFeedList = new MenuFeedList(feedList);
+                newMenuFeedList.update();
+                menuFeedLists.add(newMenuFeedList);
+            }
+
         }
 
+        treeViewContainer.getChildren().clear();
         treeViewContainer.getChildren().addAll(menuFeedLists);
     }
 
