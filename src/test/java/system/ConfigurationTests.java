@@ -15,14 +15,25 @@ import java.util.Date;
 /**
  * Class ConfigurationTest
  *
+ * This is the test class for the Configuration class.
+ *
  * @author Axel Nilsson (axnion)
  */
 public class ConfigurationTests {
+    /**
+     * Test preparation. Resets the whole Configuration class.
+     */
     @Before
     public void resetObject() {
         Configuration.setFeedLists(new ArrayList<>());
     }
 
+    /**
+     * Name Create object
+     * Unit: Configuration()
+     *
+     * Creates a Configuration object.
+     */
     @Test
     public void createObject() {
         new Configuration();
@@ -49,7 +60,7 @@ public class ConfigurationTests {
         ArrayList<FeedList> feedLists = new ArrayList<>();
         feedLists.add(Mocks.createFeedListMock("FeedList1"));
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
-        DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectMock();
+        DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectSQLiteMock();
         Configuration.setDao(dao);
         Date currentDate = new Date();
 
@@ -115,12 +126,12 @@ public class ConfigurationTests {
 
     /**
      * Name: Remove existing FeedList
-     * Unit: removeFeedList()
+     * Unit: removeFeedList(String)
      *
      * Tries to remove a FeedList that does exist in the Configuration.
      */
     @Test
-    public void removeExistingFeedList(String) {
+    public void removeExistingFeedList() {
         ArrayList<FeedList> feedLists = new ArrayList<>();
         feedLists.add(Mocks.createFeedListMock("FeedList1"));
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
@@ -595,7 +606,7 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
         Configuration.setFeedLists(feedLists);
 
-        DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectMock();
+        DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectSQLiteMock();
         Configuration.setDao(dao);
 
         assertEquals(2, Configuration.getFeedLists().size());
@@ -620,7 +631,7 @@ public class ConfigurationTests {
      */
     @Test
     public void saveDatabaseTest() {
-        DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectMock();
+        DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectSQLiteMock();
         Configuration.setDao(dao);
 
         try {
@@ -641,7 +652,7 @@ public class ConfigurationTests {
      */
     @Test
     public void saveAsDatabaseTest() {
-        DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectMock();
+        DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectSQLiteMock();
         Configuration.setDao(dao);
 
         try {
@@ -670,7 +681,7 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
         Configuration.setFeedLists(feedLists);
 
-        DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectMock();
+        DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectSQLiteMock();
         Configuration.setDao(dao);
 
         assertEquals(2, Configuration.getFeedLists().size());

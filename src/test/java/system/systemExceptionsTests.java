@@ -8,9 +8,16 @@ import static org.junit.Assert.*;
 /**
  * Class systemExceptionsTests
  *
+ * This is the test class for the all exceptions in system package class.
+ *
  * @author Axel Nilsson (axnion)
  */
 public class systemExceptionsTests {
+
+    /**
+     * Name: Database error test
+     * Unit: DatabaseError()
+     */
     @Test
     public void DatabaseErrorTest() {
         try {
@@ -28,6 +35,10 @@ public class systemExceptionsTests {
         }
     }
 
+    /**
+     * Name: Failed to connect to database test
+     * Unit: FailedToConnectToDatabase()
+     */
     @Test
     public void FailedToConnectToDatabaseTest() {
         try {
@@ -45,6 +56,10 @@ public class systemExceptionsTests {
         }
     }
 
+    /**
+     * Name: Feed already exists test
+     * Unit: FeedAlreadyExists()
+     */
     @Test
     public void FeedAlreadyExistsTest() {
         try {
@@ -63,6 +78,10 @@ public class systemExceptionsTests {
         }
     }
 
+    /**
+     * Name: Feed does not exist test
+     * Unit: FeedDoesNotExist()
+     */
     @Test
     public void FeedDoesNotExistTest() {
         try {
@@ -81,6 +100,10 @@ public class systemExceptionsTests {
         }
     }
 
+    /**
+     * Name: FeedList already exists test
+     * Unit: FeedListAlreadyExists()
+     */
     @Test
     public void FeedListAlreadyExistsTest() {
         try {
@@ -99,6 +122,10 @@ public class systemExceptionsTests {
         }
     }
 
+    /**
+     * Name: FeedList does not exist
+     * Unit: FeedListDoesNotExist()
+     */
     @Test
     public void FeedListDoesNotExistTest() {
         try {

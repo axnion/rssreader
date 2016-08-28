@@ -12,9 +12,18 @@ import static org.mockito.Mockito.doNothing;
 /**
  * Class Mocks
  *
+ * This class contains static methods for creating Mocks of diffrent kinds to imitate objects in the
+ * system package.
+ *
  * @author Axel Nilsson (axnion)
  */
 class Mocks {
+    /**
+     * Creates a mock of a FeedList which can return the name.
+     *
+     * @param name  The name of the FeedList
+     * @return      A FeedList mock which knows it's name.
+     */
     static FeedList createFeedListMock(String name) {
         FeedList feedList = mock(FeedList.class);
         doReturn(name).when(feedList).getName();
@@ -22,6 +31,13 @@ class Mocks {
         return feedList;
     }
 
+    /**
+     * Creates a mock of a FeedList which can return it's name and update status.
+     *
+     * @param name          The name of the FeedList
+     * @param updateStatus  The constant update status of the FeedList
+     * @return              A FeedList which knows it's name and update status.
+     */
     static FeedList createFeedListMock(String name, boolean updateStatus) {
         FeedList feedList = mock(FeedList.class);
         doReturn(name).when(feedList).getName();
@@ -29,6 +45,17 @@ class Mocks {
         return feedList;
     }
 
+    /**
+     * Creates a FeedList mock which knows it's name, sorting rules, show visited status,
+     * and contains Feed objects.
+     *
+     * @param name                  The name of the FeedList.
+     * @param sortingRules          The sorting rules of the FeedList
+     * @param showVisitedStatus     The show visited status of the FeedList
+     * @param feeds                 An ArrayList of Feeds to be added to the FeedList.
+     * @return                      A FeedList which knows it's name, sorting rules, show visited
+     *                              status, and contains Feed objects.
+     */
     static FeedList createFeedListMock(String name, String sortingRules, boolean showVisitedStatus,
                                        ArrayList<Feed> feeds) {
         ArrayList<Item> items = new ArrayList<>();
@@ -50,6 +77,13 @@ class Mocks {
         return feedList;
     }
 
+    /**
+     * Creates an ArrayList of FeedList mocks which is to imitate a FeedList created by the
+     * Configuration containing FeedLists, Feed, and Item mocks.
+     *
+     * @return  An ArrayList of FeedList objects which should imitate something created by the
+     *          Configuration.
+     */
     static ArrayList<FeedList> createFullConfiguration() {
         // Create Items
         ArrayList<Item> items1 = new ArrayList<>();
@@ -105,7 +139,12 @@ class Mocks {
         return feedLists;
     }
 
-    static DatabaseAccessObjectSQLite createDatabaseAccessObjectMock() {
+    /**
+     * Creates a DatabaseAccessObjectSQLite mock.
+     *
+     * @return  A DatabaseAccessObjectSQLite mock.
+     */
+    static DatabaseAccessObjectSQLite createDatabaseAccessObjectSQLiteMock() {
         DatabaseAccessObjectSQLite dao = mock(DatabaseAccessObjectSQLite.class);
 
         try {

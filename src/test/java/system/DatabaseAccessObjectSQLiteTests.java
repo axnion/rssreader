@@ -22,6 +22,8 @@ import static org.mockito.Mockito.*;
 /**
  * Class DatabaseAccessObjectSQLiteTests
  *
+ * This is the test class for the DatabaseAccessObjectSQLite class.
+ *
  * @author Axel Nilsson (axnion)
  */
 public class DatabaseAccessObjectSQLiteTests {
@@ -31,12 +33,19 @@ public class DatabaseAccessObjectSQLiteTests {
             .getPath();
     private String path = "";
 
+    /**
+     * Test preparations. Creates a new DatabaseAccessObjectSQLite object and calls
+     * createExampleDatabase method before every test.
+     */
     @Before
     public void createObject() {
         dao = new DatabaseAccessObjectSQLite();
         createExampleDatabase();
     }
 
+    /**
+     * Test cleanup. Removes any databases created during a test.
+     */
     @After
     public void removeDatabase() {
         File tempDatabase = new File("temp.sqlite");
@@ -49,25 +58,58 @@ public class DatabaseAccessObjectSQLiteTests {
         }
     }
 
+    /**
+     * Name: Create DAO without path
+     * Unit: DatabaseAccessObjectSQLite()
+     *
+     * Creates a DatabaseAccessObjectSQLite object without giving constructor an argument. The path
+     * of the object should be the default "temp.sqlite".
+     */
     @Test
     public void createDAOWithoutPath() {
         dao = new DatabaseAccessObjectSQLite();
         assertEquals("temp.sqlite", dao.getPath());
     }
 
+    /**
+     * Name: Create DAO with path
+     * Unit: DatabaseAccessObjectSQLite(String)
+     *
+     * Creates a DatabaseAccessObjectSQLite object while giving constructor an argument. The path of
+     * the object should be set to the same as the argument.
+     */
     @Test
     public void createDAOWithPath() {
         dao = new DatabaseAccessObjectSQLite("path/to/database");
         assertEquals("path/to/database", dao.getPath());
     }
 
+    /**
+     * Name: Accessors and mutators
+     * Unit: getPath(), getLastSaved(), setPath(String), setLastSaved(Date)
+     *
+     * Checks the values created by the constructor and then uses the mutator methods and then
+     * checks the fields again to see if the mutators had the correct effect.
+     */
     @Test
     public void accessorsAndMutators() {
         assertEquals("temp.sqlite", dao.getPath());
+        assertEquals(new Date(0), dao.getLastSaved());
+
         dao.setPath("path/to/database");
+        Date newDate = new Date();
+        dao.setLastSaved(newDate);
+
         assertEquals("path/to/database", dao.getPath());
+        assertEquals(newDate, dao.getLastSaved());
     }
 
+    /**
+     * Name: Load default
+     * Unit: load()
+     *
+     * Tries to load the default database which is empty. So the returned ArrayList should be empty.
+     */
     @Test
     public void loadDefault() {
         try {
@@ -80,6 +122,13 @@ public class DatabaseAccessObjectSQLiteTests {
         }
     }
 
+    /**
+     * Name: Load database with content
+     * Unit: load()
+     *
+     * Tries to load a database which does contain content. The test then goes though the created
+     * objects and checks the values.
+     */
     @Test
     public void loadDatabaseWithContent() {
         ArrayList<FeedList> feedLists = new ArrayList<>();
@@ -140,6 +189,13 @@ public class DatabaseAccessObjectSQLiteTests {
         assertFalse(item9.isStarred());
     }
 
+    /**
+     * Name: Save default
+     * Unit: save()
+     *
+     * Tries to save an ArrayList of FeedList objects to the default database. It then compares the
+     * created database with the example database and the content has to match.
+     */
     @Test
     public void saveDefault() {
         ArrayList<FeedList> feedLists = Mocks.createFullConfiguration();
@@ -154,6 +210,13 @@ public class DatabaseAccessObjectSQLiteTests {
         assertTrue(compareFiles(new File(path), new File(resources + "exampleDatabase.sqlite")));
     }
 
+    /**
+     * Name: Save to other location
+     * Unit: save()
+     *
+     * Tries to save an ArrayList of FeedList objects to a database at path. It then compares the
+     * created database with the example database and the content has to match.
+     */
     @Test
     public void saveToOtherLocation() {
         ArrayList<FeedList> feedLists = Mocks.createFullConfiguration();
@@ -165,17 +228,23 @@ public class DatabaseAccessObjectSQLiteTests {
             dao.save(feedLists, new Date());
         }
         catch(Exception expt) {
-            expt.printStackTrace();
+            fail();
         }
 
         assertTrue(compareFiles(new File(path), new File(resources + "exampleDatabase.sqlite")));
     }
 
+    /**
+     * Name: Save last update later than Configuration
+     * Unit: save()
+     *
+     * Tries to save a Configuration but the Configurations last updated stamp is earlier than the
+     * DatabaseAccessObjectSQLite objects last saved stamp.
+     */
     @Test
     public void saveLastUpdateLaterThanConfiguration() {
         ArrayList<FeedList> feedLists = Mocks.createFullConfiguration();
         path = resources + "saveDatabaseCreated.sqlite";
-        System.out.println(path);
 
         try {
             dao.setPath(path);
@@ -183,7 +252,7 @@ public class DatabaseAccessObjectSQLiteTests {
             dao.save(feedLists, new Date(0));
         }
         catch(Exception expt) {
-            expt.printStackTrace();
+            fail();
         }
 
         assertFalse(new File(path).exists());
@@ -191,9 +260,15 @@ public class DatabaseAccessObjectSQLiteTests {
         verify(feedLists.get(1), never()).getName();
     }
 
-    public static void createExampleDatabase() {
+    /**
+     * Creates the example database used in some tests. The reason for generating the database
+     * instead of having a database saved is because the database will contain computer specific
+     * paths.
+     */
+    private static void createExampleDatabase() {
         String resources = DatabaseAccessObjectSQLite.class
-                .getResource("../../../resources/test/DatabaseAccessObjectSQLiteTestResources/").getPath();
+                .getResource("../../../resources/test/DatabaseAccessObjectSQLiteTestResources/")
+                .getPath();
 
         try {
             String pathToDatabase = resources + "exampleDatabase.sqlite";
@@ -295,6 +370,13 @@ public class DatabaseAccessObjectSQLiteTests {
         }
     }
 
+    /**
+     * Is used to compare two files.
+     *
+     * @param file1 The file we want to compare to file2
+     * @param file2 The file we want to compare to file1
+     * @return      True if file1 and file2 has the same content.
+     */
     private boolean compareFiles(File file1, File file2) {
         try {
             Scanner createdDatabaseScanner = new Scanner(file1);

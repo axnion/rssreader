@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import system.rss.*;
 import system.rss.Mocks;
-import system.rss.exceptions.ItemDoesNotExist;
+
 import system.rss.exceptions.NoXMLFileFound;
 
 import static org.junit.Assert.*;
@@ -18,23 +18,39 @@ import java.util.ArrayList;
 /**
  * Class FeedListTests
  *
+ * This is the test class for the FeedList class.
+ *
  * @author Axel Nilsson (axnion)
  */
 public class FeedListTests {
     private FeedList feedList;
 
+    /**
+     * Test preparations. Creates a new FeedList object and sets the RssParser in the FeedList
+     * object to a mock.
+     */
     @Before
     public void createObject() {
         feedList = new FeedList("MyFeedList", "DATE_DEC", true);
         feedList.setRssParser(Mocks.createRssParser());
     }
 
+    /**
+     * Name: Accessors and mutators
+     * Unit: getName(), getSortingRules(), getShowVisitedStatus(), getRssParser(), getFeeds(),
+     *       setName(String), setSortingRules(String), setShowVisitedStatus(boolean),
+     *       setRssParser(RssParser), setFeeds(ArrayList<Feed>)
+     *
+     * Checks the values created by the constructor and then uses the mutator methods and then
+     * checks the fields again to see if the mutators had the correct effect.
+     */
     @Test
     public void accessorsAndMutators() {
         // Checking values set by constructor
         assertEquals("MyFeedList", feedList.getName());
         assertEquals("DATE_DEC", feedList.getSortingRules());
         assertEquals(true, feedList.getShowVisitedStatus());
+        assertEquals(0, feedList.getFeeds().size());
 
         // Change the values using mutators
         ArrayList<Feed> feeds = new ArrayList<>();
@@ -42,23 +58,29 @@ public class FeedListTests {
                 "Description1", "http://feed-website-1.com/feed.xml", new ArrayList<>()));
         feeds.add(system.rss.Mocks.createFeedMock("FeedTitle2", "http://feed-website-2.com",
                 "Description2", "http://feed-website-2.com/feed.xml", new ArrayList<>()));
-
         RssParser rssParser = Mocks.createRssParser();
 
         feedList.setName("MyNewFeedList");
         feedList.setSortingRules("TITLE_ASC");
-        feedList.setFeeds(feeds);
-        feedList.setRssParser(rssParser);
         feedList.setShowVisitedStatus(false);
+        feedList.setRssParser(rssParser);
+        feedList.setFeeds(feeds);
 
         // Checking values set by mutators
         assertEquals("MyNewFeedList", feedList.getName());
         assertEquals("TITLE_ASC", feedList.getSortingRules());
-        assertEquals(feeds, feedList.getFeeds());
-        assertEquals(rssParser, feedList.getRssParser());
         assertEquals(false, feedList.getShowVisitedStatus());
+        assertEquals(rssParser, feedList.getRssParser());
+        assertEquals(feeds, feedList.getFeeds());
     }
 
+    /**
+     * Name: Get Feed within bounds
+     * Unit: get(int)
+     *
+     * Tries to get a Feed from the FeedList using the get method where the index is within the
+     * bounds of the FeedList.
+     */
     @Test
     public void getFeedWithinBounds() {
         addFeedMocks(false);
@@ -70,35 +92,69 @@ public class FeedListTests {
         assertEquals("http://feed-website-2.com/feed.xml", feedList.get(1).getUrlToXML());
     }
 
+    /**
+     * Name: Get Feed outside bounds
+     * Unit: get(int)
+     *
+     * Tries to get a Feed from the FeedList using the get method where the index is outside the
+     * bounds of the FeedList.
+     */
     @Test(expected = IndexOutOfBoundsException.class)
     public void getFeedOutsideBounds() {
         addFeedMocks(false);
         feedList.get(3);
     }
 
+    /**
+     * Name: Get Feed from empty FeedList
+     * Unit: get(int)
+     *
+     * Tries to get a Feed from a FeedList which does not contain any Feeds.
+     */
     @Test(expected = IndexOutOfBoundsException.class)
     public void getFeedFromEmptyFeedList() {
         feedList.get(0);
     }
 
+    /**
+     * Name: Add Feed to empty FeedList
+     * Unit: add(String)
+     *
+     * Tries to add a Feed to an empty FeedList.
+     */
     @Test
     public void addFeedToEmptyFeedList() {
         feedList.add("http://feed-website-1.com/feed.xml");
 
+        assertEquals(1, feedList.size());
         assertEquals("FeedTitle1", feedList.get(0).getTitle());
         assertEquals("http://feed-website-1.com/feed.xml", feedList.get(0).getUrlToXML());
     }
 
+    /**
+     * Name: Add Feed to FeedList
+     * Unit: add(String)
+     *
+     * Adds a Feed to a FeedList containing other Feeds but none are the same.
+     */
     @Test
-    public void addNonexistentFeed() {
+    public void addFeedToFeedList() {
+        addFeedMocks(false);
         feedList.add("http://feed-website-3.com/feed.xml");
 
-        assertEquals("FeedTitle3", feedList.get(0).getTitle());
-        assertEquals("http://feed-website-3.com/feed.xml", feedList.get(0).getUrlToXML());
+        assertEquals(3, feedList.size());
+        assertEquals("FeedTitle3", feedList.get(2).getTitle());
+        assertEquals("http://feed-website-3.com/feed.xml", feedList.get(2).getUrlToXML());
     }
 
+    /**
+     * Name: Add Feed to FeedList which already has same Feed
+     * Unit: add(String)
+     *
+     * Adds a Feed to a FeedList which already contains a Feed with the same identifier.
+     */
     @Test(expected = FeedAlreadyExists.class)
-    public void addExistingFeed() {
+    public void addFeedToFeedListWhichAlreadyHasSameFeed() {
         addFeedMocks(false);
         feedList.add("http://feed-website-1.com/feed.xml");
 
@@ -109,11 +165,23 @@ public class FeedListTests {
         assertEquals("http://feed-website-2.com/feed.xml", feedList.get(1).getUrlToXML());
     }
 
+    /**
+     * Name: Add Feed where Feed where not found
+     * Unit: add(String)
+     *
+     * Adds a Feed to a FeedList, but the url to the xml does not lead to an xml file.
+     */
     @Test(expected = NoXMLFileFound.class)
     public void addFeedWhereFeedWhereNotFound() {
         feedList.add("http://feed-website-4.com/feed.xml");
     }
 
+    /**
+     * Name: Remove existing Feed
+     * Unit: remove(String)
+     *
+     * Tries to remove an existing Feed from FeedList.
+     */
     @Test
     public void removeExistingFeed() {
         addFeedMocks(false);
@@ -125,6 +193,12 @@ public class FeedListTests {
         assertEquals("http://feed-website-2.com/feed.xml", feedList.get(0).getUrlToXML());
     }
 
+    /**
+     * Name: Remove nonexistent Feed
+     * Unit: remove(String)
+     *
+     * Tries to remove a nonexisten Feed from a FeedList.
+     */
     @Test(expected = FeedDoesNotExist.class)
     public void removeNonexistentFeed() {
         addFeedMocks(false);
@@ -138,20 +212,38 @@ public class FeedListTests {
         assertEquals("http://feed-website-2.com/feed.xml", feedList.get(1).getUrlToXML());
     }
 
+    /**
+     * Name: Remove Feed from empty FeedList
+     * Unit: remove(String)
+     *
+     * Tries to remove a Feed from an empty FeedList.
+     */
     @Test(expected = FeedDoesNotExist.class)
     public void removeFeedFromEmptyFeedList() {
         feedList.remove("http://feed-website-1.com/feed.xml");
         assertEquals(0, feedList.size());
     }
 
+    /**
+     * Name: Update FeedList without Feeds
+     * Unit: update()
+     *
+     * Tries to update a FeedList which does not contain any Feed objects.
+     */
     @Test
-    public void updateFeedListNoFeeds() {
+    public void updateFeedListWithoutFeeds() {
         boolean updateStatus = feedList.update();
         assertFalse(updateStatus);
     }
 
+    /**
+     * Name: Update FeedList with nothing to update
+     * Unit: update()
+     *
+     * Tires to update a FeedList where none of the Feeds have anything to update.
+     */
     @Test
-    public void updateFeedListNoUpdate() {
+    public void updateFeedListWithNothingToUpdate() {
         ArrayList<Feed> feedMocks = addFeedMocks(false);
         RssParser rssParserMock = Mocks.createRssParser();
 
@@ -164,6 +256,12 @@ public class FeedListTests {
         assertFalse(updateStatus);
     }
 
+    /**
+     * Name: Update FeedList single update
+     * Unit: update()
+     *
+     * Tries to update a FeedList where one Feed has something to update and another one does not.
+     */
     @Test
     public void updateFeedListSingleUpdate() {
         ArrayList<Feed> feedMocks = addFeedMocks(false);
@@ -178,6 +276,12 @@ public class FeedListTests {
         assertTrue(updateStatus);
     }
 
+    /**
+     * Name: Update FeedList multiple updates
+     * Unit: update()
+     *
+     * Tries to update a FeedList where two Feeds has something to update.
+     */
     @Test
     public void updateFeedListMultipleUpdates() {
         ArrayList<Feed> feedMocks = addFeedMocks(false);
@@ -192,6 +296,13 @@ public class FeedListTests {
         assertTrue(updateStatus);
     }
 
+    /**
+     * Name: Get all Items default sorting rules
+     * Unit: getAllItems()
+     *
+     * Gets all Items from FeedList without setting the sortingRules so it's the default which is
+     * the same as date descending.
+     */
     @Test
     public void getAllItemsDefaultSortingRules() {
         addFeedMocks(true);
@@ -208,6 +319,12 @@ public class FeedListTests {
         assertEquals("1420113600000", Long.toString(items.get(7).getDate().getTime()));
     }
 
+    /**
+     * Name: Get all Items sorted by title ascending
+     * Unit: setSortingRules(String), getAllItems()
+     *
+     * Get all Items after setting the sorting to title ascending.
+     */
     @Test
     public void getAllItemsSortedByTitleAscending() {
         addFeedMocks(true);
@@ -225,6 +342,12 @@ public class FeedListTests {
         assertEquals("Treason", items.get(7).getTitle());
     }
 
+    /**
+     * Name: Get all Items sorted by title descending
+     * Unit: setSortingRules(String), getAllItems()
+     *
+     * Get all Items after setting the sorting to title descending.
+     */
     @Test
     public void getAllItemsSortedByTitleDescending() {
         addFeedMocks(true);
@@ -242,6 +365,12 @@ public class FeedListTests {
         assertEquals("Alignment", items.get(7).getTitle());
     }
 
+    /**
+     * Name: Get all Items sorted by date ascending
+     * Unit: setSortingRules(String), getAllItems()
+     *
+     * Get all Items after setting the sorting to date ascending.
+     */
     @Test
     public void getAllItemsSortedByDateAscending() {
         addFeedMocks(true);
@@ -259,6 +388,12 @@ public class FeedListTests {
         assertEquals("1454328000000", Long.toString(items.get(7).getDate().getTime()));
     }
 
+    /**
+     * Name: Get all Items sorted by date descending
+     * Unit: setSortingRules(String), getAllItems()
+     *
+     * Get all Items after setting the sorting to date descending.
+     */
     @Test
     public void getAllItemsSortedByDateDescending() {
         addFeedMocks(true);
@@ -276,12 +411,24 @@ public class FeedListTests {
         assertEquals("1420113600000", Long.toString(items.get(7).getDate().getTime()));
     }
 
+    /**
+     * Name: Get all Items from empty FeedList
+     * Unit: getAllItems()
+     *
+     * Tires to get all Items from an empty FeedList.
+     */
     @Test
     public void getAllItemsFromEmptyFeedList() {
         ArrayList<Item> items = feedList.getAllItems();
         assertEquals(0, items.size());
     }
 
+    /**
+     * Name: Get all Items from empty Feeds in FeedList
+     * Unit: getAllItems()
+     *
+     * Tries to get all Items from a FeedList where none of the Feeds have any Items.
+     */
     @Test
     public void getAllItemsFromEmptyFeedsInFeedList() {
         addFeedMocks(false);
@@ -289,6 +436,12 @@ public class FeedListTests {
         assertEquals(0, items.size());
     }
 
+    /**
+     * Name: Set visited on existing Feed
+     * Unit: setVisited()
+     *
+     * Tries to set the visited status of an existing Feed.
+     */
     @Test
     public void setVisitedOnExistingFeed() {
         addFeedMocks(true);
@@ -298,6 +451,12 @@ public class FeedListTests {
         verify(feedList.getFeeds().get(1), never()).setVisited(eq("item_id_1"), anyBoolean());
     }
 
+    /**
+     * Name: Set visited on nonexistent Feed
+     * Unit: setVisited()
+     *
+     * Tries to set the visited status of an nonexistent Feed.
+     */
     @Test(expected = FeedDoesNotExist.class)
     public void setVisitedOnNonexistentFeed() {
         addFeedMocks(true);
@@ -306,6 +465,12 @@ public class FeedListTests {
         verify(feedList.getFeeds().get(1), never()).setVisited(eq("item_id_1"), anyBoolean());
     }
 
+    /**
+     * Name: Set starred on existing Feed
+     * Unit: setStarred()
+     *
+     * Tries to set the starred status of an existing Feed.
+     */
     @Test
     public void setStarredOnExistingFeed() {
         addFeedMocks(true);
@@ -315,6 +480,12 @@ public class FeedListTests {
         verify(feedList.getFeeds().get(1), never()).setStarred(eq("item_id_1"), anyBoolean());
     }
 
+    /**
+     * Name: Set starred on nonexistent Feed
+     * Unit: setStarred()
+     *
+     * Tries to set the starred status of an nonexistent Feed.
+     */
     @Test(expected = FeedDoesNotExist.class)
     public void setStarredOnNonexistentFeed() {
         addFeedMocks(true);
@@ -323,6 +494,12 @@ public class FeedListTests {
         verify(feedList.getFeeds().get(1), never()).setStarred(eq("item_id_1"), anyBoolean());
     }
 
+    /**
+     * Adds Feed mocks to the FeedList
+     *
+     * @param addItems  True if the method should add Item mocks to the FeedList.
+     * @return          An ArrayList of Feed mocks.
+     */
     private ArrayList<Feed> addFeedMocks(boolean addItems) {
         ArrayList<Feed> feeds = new ArrayList<>();
         ArrayList<Item> items1 = new ArrayList<>();
