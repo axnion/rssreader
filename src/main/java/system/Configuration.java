@@ -169,6 +169,13 @@ public class Configuration {
         setLastUpdated(new Date());
     }
 
+    /**
+     * Calls the setShowVisitedStatus on a Feedlist with a name corresponding to the value of
+     * listName.,
+     *
+     * @param listName  The name of the Feedlist to be altered
+     * @param status    The new show visited status of the FeedList
+     */
     public static void setShowVisitedStatus(String listName, boolean status) {
         getFeedListByName(listName).setShowVisitedStatus(status);
         setLastUpdated(new Date());

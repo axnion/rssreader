@@ -36,17 +36,21 @@ class ItemPane extends VBox {
     private ArrayList<TextFlow> details;
     private VBox detailsContainer;
     private ContextMenu contextMenu;
+    private boolean showVisitedStatus;
 
-    ItemPane(Item item, String feedListName) {
+    ItemPane(Item item, String feedListName, boolean showVisitedStatus) {
         this.item = item;
         this.feedListName = feedListName;
+        this.showVisitedStatus = showVisitedStatus;
         detailsVisible = false;
         details = new ArrayList<>();
         detailsContainer = new VBox();
 
         setMinWidth(470);
 
-        setVisited(item.isVisited());
+        if(showVisitedStatus)
+            setVisited(item.isVisited());
+
         //createDetailsGroup(item);
         getChildren().add(createItemBar(feedListName));
         getChildren().add(detailsContainer);
@@ -188,16 +192,21 @@ class ItemPane extends VBox {
     }
 
     private void setVisited(boolean status) {
-        if(status) {
-            getStyleClass().clear();
-            getStyleClass().add("ItemPane");
+        if(showVisitedStatus) {
+            createContextMenu(status);
+            if(status) {
+                getStyleClass().clear();
+                getStyleClass().add("ItemPane");
+            }
+            else {
+                getStyleClass().clear();
+                getStyleClass().add("ItemPane");
+                getStyleClass().add("NotVisited");
+            }
         }
         else {
             getStyleClass().clear();
             getStyleClass().add("ItemPane");
-            getStyleClass().add("NotVisited");
         }
-
-        createContextMenu(status);
     }
 }

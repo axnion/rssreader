@@ -62,10 +62,7 @@ jfx {
     nativeReleaseVersion = "2.0"
     needShortcut = false
     needMenu = false
-    bundleArguments = [
-            license: MIT
-    ]
-
+    bundleArguments = null
     appName = "RSSReader" // this is used for files below "src/main/deploy", e.g. "src/main/deploy/windows/project.ico"
     additionalAppResources = "src/deploy/resources" // path to some additional resources when creating application-bundle
     secondaryLaunchers = null
@@ -79,18 +76,18 @@ jfx {
     skipSizeRecalculationForJNLP185 = false
 
     //gradle jfxGenerateKeyStore
-    keyStore = "src/main/deploy/keystore.jks"
-    keyStoreAlias = "myalias"
-    keyStorePassword = "password"
-    keyPassword = null // will default to keyStorePassword
-    keyStoreType = "jks"
-    overwriteKeyStore = false
-
-    certDomain = null // required
-    certOrgUnit = null // defaults to "none"
-    certOrg = null // required
-    certState = null // required
-    certCountry = null // required
+//    keyStore = "src/main/deploy/keystore.jks"
+//    keyStoreAlias = "myalias"
+//    keyStorePassword = "password"
+//    keyPassword = null // will default to keyStorePassword
+//    keyStoreType = "jks"
+//    overwriteKeyStore = false
+//
+//    certDomain = null // required
+//    certOrgUnit = null // defaults to "none"
+//    certOrg = null // required
+//    certState = null // required
+//    certCountry = null // required
 }
 
 jacocoTestReport {

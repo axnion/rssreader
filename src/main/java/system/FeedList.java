@@ -90,6 +90,7 @@ public class FeedList {
 
     /**
      * Returns the amount of elements in the FeedList.
+     *
      * @return  An integer describing the number of elements in the FeedList
      */
     int size() {
@@ -98,6 +99,7 @@ public class FeedList {
 
     /**
      * Calls the update method on all Feeds.
+     *
      * @return True if a Feed got updated.
      */
     boolean update() {

@@ -14,7 +14,8 @@ import java.util.Date;
 /**
  * Class DatabaseAccessObjectSQLite
  *
- * This class is used to load and save user data in the RSSReader application.
+ * This is the SQLite implementation of the DatabaseAccessObject interface. Is used to save and load
+ * data between RSSReader and SQLite databases.
  *
  * @author Axel Nilsson (axnion)
  */
@@ -144,7 +145,8 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
      *
      * @param statement     A Statement object which is connected to a database which can be used to
      *                      send queries to the database and receive the result
-     * @param feedList
+     * @param feedList      A FeedList object to which we want to add Feeds which is saved in the
+     *                      database.
      * @throws Exception    If there is any exceptions thrown by the SQLite driver this exception is
      *                      passed to the caller of this method.
      */
@@ -159,10 +161,14 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
     }
 
     /**
+     * Loads userdata about Items from the database. For each Item in a FeedList we get visited and
+     * starred status of the Item. If no match is found the method sees the Item as new and sets
+     * both statuses as false.
      *
      * @param statement     A Statement object which is connected to a database which can be used to
      *                      send queries to the database and receive the result
-     * @param feedList      
+     * @param feedList      The FeedList which holds the Feeds which holds the Items which statuses
+     *                      are to be altered.
      * @throws Exception    If there is any exceptions thrown by the SQLite driver this exception is
      *                      passed to the caller of this method.
      */
@@ -190,6 +196,18 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
     ------------------------------------ SAVE TO DATABASE ------------------------------------------
     */
 
+    /**
+     * This is the save method called to save all user generated data from an ArrayList of FeedList
+     * objects. It calls savePrep, saveFeedLists, saveFeeds, saveItems which togheter saves user
+     * data to the database.
+     *
+     * @param feedLists                 An ArrayList of FeedLists from where the method will take
+     *                                  data and insert it into a database or save file.
+     * @param lastUpdateConfiguration   A Date object describing the last time the ArrayList was
+     *                                  updated
+     * @throws Exception                If there is any exceptions thrown by the SQLite driver this
+     *                                  exception is passed to the caller of this method.
+     */
     public void save(ArrayList<FeedList> feedLists, Date lastUpdateConfiguration) throws Exception {
         if(getLastSaved().after(lastUpdateConfiguration))
             return;
@@ -210,6 +228,13 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
         setLastSaved(new Date());
     }
 
+    /**
+     * Connects to and prepares the database for saving.
+     *
+     * @return              A Connection object with a connection to the database at path.
+     * @throws Exception    If there is any exceptions thrown by the SQLite driver this exception is
+     *                      passed to the caller of this method.
+     */
     private Connection savePrep() throws Exception {
         new File(path).delete();
 
@@ -233,6 +258,14 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
         return connection;
     }
 
+    /**
+     *
+     * @param statement     A Statement object which is connected to a database which can be used to
+     *                      send queries to the database and receive the result
+     * @param feedList      A FeedList object containing the data to be saved to the database.
+     * @throws Exception    If there is any exceptions thrown by the SQLite driver this exception is
+     *                      passed to the caller of this method.
+     */
     private void saveFeedLists(Statement statement, FeedList feedList) throws Exception {
         statement.executeUpdate(
                 "CREATE TABLE IF NOT EXISTS " + feedList.getName() + " " +
@@ -247,6 +280,14 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
         );
     }
 
+    /**
+     *
+     * @param statement     A Statement object which is connected to a database which can be used to
+     *                      send queries to the database and receive the result
+     * @param feedList      A FeedList object containing the data to be saved to the database.
+     * @throws Exception    If there is any exceptions thrown by the SQLite driver this exception is
+     *                      passed to the caller of this method.
+     */
     private void saveFeeds(Statement statement, FeedList feedList) throws Exception {
         for(Feed feed : feedList.getFeeds()) {
             statement.executeUpdate(
@@ -256,6 +297,14 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
         }
     }
 
+    /**
+     *
+     * @param statement     A Statement object which is connected to a database which can be used to
+     *                      send queries to the database and receive the result
+     * @param feedList      A FeedList object containing the data to be saved to the database.
+     * @throws Exception    If there is any exceptions thrown by the SQLite driver this exception is
+     *                      passed to the caller of this method.
+     */
     private void saveItems(Statement statement, FeedList feedList) throws Exception {
         for(Item item : feedList.getAllItems()) {
             statement.executeUpdate(
@@ -270,19 +319,40 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
     ----------------------------------- ACCESSORS AND MUTATORS -------------------------------------
     */
 
+    /**
+     * Accessor method for path.
+     *
+     * @return  A String containing the path currently used in this object.
+     */
     public String getPath() {
         return path;
     }
 
+    /**
+     * Accessor method for lastSaved.
+     *
+     * @return  A Date object containing the last time this object saved to the current path.
+     */
     Date getLastSaved() {
         return lastSaved;
     }
 
+    /**
+     * Mutator method for path.
+     *
+     * @param path  A String containing the new path to be set as to path.
+     */
     public void setPath(String path) {
         this.path = path;
         setLastSaved(new Date(0));
     }
 
+    /**
+     * Mutator method for lastsaved.
+     *
+     * @param lastSavedParam    A Date object to be set as the last time this object last saved to
+     *                          current path.
+     */
     void setLastSaved(Date lastSavedParam) {
         lastSaved = lastSavedParam;
     }
