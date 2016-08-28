@@ -5,17 +5,31 @@ import java.util.ArrayList;
 /**
  * Class FeedSniffer
  *
+ * This method is (to be) used as a sniffer to search for RSS feeds on a website.
+ *
  * @author Axel Nilsson (axnion)
  */
 public class FeedSniffer {
     //private ArrayList<FeedMinimal> feeds;
     private RssParser rssParser;
 
+    /**
+     * Constructor
+     *
+     * Initializes the RssParser
+     */
     public FeedSniffer() {
         //feeds = new ArrayList<>();
         rssParser = new RssParser();
     }
 
+    /**
+     * Takes a String containing a URL to an RSS feed. In the future a URL to a website should
+     * search the html for links to an RSS feed.
+     *
+     * @param url   A String containing a link to an RSS feed.
+     * @return      An ArrayList of MinimalFeed objects with the Feeds found at url.
+     */
     public ArrayList<FeedMinimal> getFeeds(String url) {
         ArrayList<FeedMinimal> feeds = new ArrayList<>();
         feeds.add(rssParser.getMinimalFeed(url));

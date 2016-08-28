@@ -23,6 +23,8 @@ public class Feed {
 
     /**
      * Constructor
+     *
+     * Takes each arguemnts and assignes the value to the corresponding field.
      */
     Feed(String title, String link, String description, String urlToXml, ArrayList<Item> items) {
         this.title = title;
@@ -32,10 +34,24 @@ public class Feed {
         this.items = items;
     }
 
+    /**
+     * Uses getItemById to find a specific Item and then calls setVisited on the Item. Passes status
+     * as argument.
+     *
+     * @param itemId    A String containing the identifier of a specific Item.
+     * @param status    True if the user has visited the item, if not then false.
+     */
     public void setVisited(String itemId, boolean status) {
         getItemById(itemId).setVisited(status);
     }
 
+    /**
+     * Uses getItemById to find a specific Item and then calls setStarred on the Item. Passes status
+     * as argument.
+     *
+     * @param itemId    A String containing the identifier of a specific Item.
+     * @param status    True if the user has visited the item, if not then false.
+     */
     public void setStarred(String itemId, boolean status) {
         getItemById(itemId).setStarred(status);
     }
@@ -43,10 +59,11 @@ public class Feed {
     /**
      * Returns the Item object from items with a matching id to the argument passed though id
      * parameter. If no Item is found then ItemDoesNotExist exception is thrown.
+     *
      * @param id    A String containing the id of the Item the method should look for.
      * @return      An Item with an id matching the argument id.
      */
-     public Item getItemById(String id) {
+    Item getItemById(String id) {
         for(Item item : items) {
             if(item.getId().equals(id))
                 return item;

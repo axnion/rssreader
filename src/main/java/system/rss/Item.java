@@ -25,6 +25,8 @@ public class Item {
 
     /**
      * Constructor
+     *
+     * Initializes fields.
      */
     public Item() {
         title = "";
