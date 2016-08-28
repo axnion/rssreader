@@ -15,6 +15,9 @@ import static org.junit.Assert.*;
  */
 public class ItemTests {
     /**
+     * Name: Create without param
+     * Unit: Item()
+     *
      * Testing the constructor without parameters and compare the values of the fields to the
      * expected results using the accessors.
      */
@@ -30,6 +33,12 @@ public class ItemTests {
     }
 
     /**
+     * Name: Accessors and mutators
+     * Unit: getTitle(), getLink(), getDescription(), getId(), getDate(), getFeedIdentifier(),
+     *       isVisited(), isStarred(), setTitle(String), setLink(String), setDescription(String),
+     *       setId(String), setDate(String), setFeedIdentifier(String), setVisited(boolean),
+     *       setStarred(boolean)
+     *
      * Testing the accessors and mutators so we can determine if they are setting the correct values
      * and returning the same values.
      */
@@ -44,6 +53,8 @@ public class ItemTests {
         testItem.setId("a_title");
         testItem.setFeedIdentifier("my_feed");
         testItem.setDate("Mon, 01 Jan 2016 12:00:00 +0000");
+        testItem.setVisited(true);
+        testItem.setStarred(true);
 
         // Using accessors to get the values of each field.
         assertEquals(testItem.getTitle(), "A Title");
@@ -52,9 +63,14 @@ public class ItemTests {
         assertEquals(testItem.getId(), "a_title");
         assertEquals(testItem.getFeedIdentifier(), "my_feed");
         assertEquals(testItem.getDate().getTime() / 1000, 1451649600);
+        assertEquals(testItem.isVisited(), true);
+        assertEquals(testItem.isStarred(), true);
     }
 
     /**
+     * Name: Compare title equal
+     * Unit: compareTitle(Item)
+     *
      * Checks the result of comparing by title two Items with the same title. It should return a 0.
      */
     @Test
@@ -69,6 +85,9 @@ public class ItemTests {
     }
 
     /**
+     * Name: Compare title other higher
+     * Unit: compareTitle(Item)
+     *
      * Checks the result of comparing by title two Items where the other Item is later
      * alphabetically and has a higher value. The return should be smaller than 0.
      */
@@ -84,6 +103,9 @@ public class ItemTests {
     }
 
     /**
+     * Name: Compare title other lower
+     * Unit: compareTitle(Item)
+     *
      * Checks the result of comparing by title two Items where the other Item is earlier
      * alphabetically and has a smaller value. The return should be larger than 0.
      */
@@ -99,6 +121,9 @@ public class ItemTests {
     }
 
     /**
+     * Name: Compare date equal
+     * Unit: compareDate(Item)
+     *
      * Checks the result of comparing two Items by date. Both dates are the same so the returned
      * value should be 0.
      */
@@ -114,6 +139,9 @@ public class ItemTests {
     }
 
     /**
+     * Name: Compare date other year higher
+     * Unit: compareDate(Item)
+     *
      * Checks the result of comparing two Items by date. The other Items years is later than this
      * objects so the result should be smaller than 0.
      */
@@ -129,6 +157,9 @@ public class ItemTests {
     }
 
     /**
+     * Name: Compare date other month higher
+     * Unit: compareDate(Item)
+     *
      * Checks the result of comparing two Items by date. The other Items months is later than this
      * objects so the result should be smaller than 0.
      */
@@ -144,6 +175,9 @@ public class ItemTests {
     }
 
     /**
+     * Name: Compare date other day higher
+     * Unit: compareDate(Item)
+     *
      * Checks the result of comparing two Items by date. The other Items days is later than this
      * objects so the result should be smaller than 0.
      */
@@ -159,6 +193,9 @@ public class ItemTests {
     }
 
     /**
+     * Name: Compare date other hour higher
+     * Unit: compareDate(Item)
+     *
      * Checks the result of comparing two Items by date. The other Items hours is later than this
      * objects so the result should be smaller than 0.
      */
@@ -174,6 +211,9 @@ public class ItemTests {
     }
 
     /**
+     * Name: Compare date other minute higher
+     * Unit: compareDate(Item)
+     *
      * Checks the result of comparing two Items by date. The other Items minutes is later than this
      * objects so the result should be smaller than 0.
      */
@@ -189,6 +229,9 @@ public class ItemTests {
     }
 
     /**
+     * Name: Compare date other second higher
+     * Unit: compareDate(Item)
+     *
      * Checks the result of comparing two Items by date. The other Items seconds is later than this
      * objects so the result should be smaller than 0.
      */
@@ -204,6 +247,9 @@ public class ItemTests {
     }
 
     /**
+     * Name: Compare date other year lower
+     * Unit: compareDate(Item)
+     *
      * Checks the result of comparing two Items by date. The other Items years is earlier than this
      * objects so the result should be smaller than 0.
      */
@@ -219,6 +265,9 @@ public class ItemTests {
     }
 
     /**
+     * Name: Compare date other month lower
+     * Unit: compareDate(Item)
+     *
      * Checks the result of comparing two Items by date. The other Items months is earlier than this
      * objects so the result should be smaller than 0.
      */
@@ -234,6 +283,9 @@ public class ItemTests {
     }
 
     /**
+     * Name: Compare date other day lower
+     * Unit: compareDate(Item)
+     *
      * Checks the result of comparing two Items by date. The other Items days is earlier than this
      * objects so the result should be smaller than 0.
      */
@@ -249,6 +301,9 @@ public class ItemTests {
     }
 
     /**
+     * Name: Compare date other hour lower
+     * Unit: compareDate(Item)
+     *
      * Checks the result of comparing two Items by date. The other Items hours is earlier than this
      * objects so the result should be smaller than 0.
      */
@@ -264,6 +319,9 @@ public class ItemTests {
     }
 
     /**
+     * Name: Compare date other minute lower
+     * Unit: compareDate(Item)
+     *
      * Checks the result of comparing two Items by date. The other Items minutes is earlier than this
      * objects so the result should be smaller than 0.
      */
@@ -279,6 +337,9 @@ public class ItemTests {
     }
 
     /**
+     * Name: Compare date other second lower
+     * Unit: compareDate(Item)
+     *
      * Checks the result of comparing two Items by date. The other Items seconds is earlier than this
      * objects so the result should be smaller than 0.
      */
@@ -294,6 +355,9 @@ public class ItemTests {
     }
 
     /**
+     * Name: Compare months
+     * Unit: compareDate(Item)
+     *
      * Tests all the months so they have the correct values. It goes though all months and compare
      * them to the next month.
      */
@@ -348,10 +412,13 @@ public class ItemTests {
     }
 
     /**
+     * Name: Compare nonexistent months
+     * Unit: compareDate(Item)
+     *
      * Tries to set the date with a non existing month.
      */
     @Test
-    public void compareNonexistentMonth() {
+    public void compareNonexistentMonths() {
         Item testItem = new Item();
         Item other = new Item();
 

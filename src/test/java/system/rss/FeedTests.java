@@ -13,12 +13,17 @@ import java.util.ArrayList;
 /**
  * Class FeedTests
  *
+ * This is the test class for the Feed class.
+ *
  * @author Axel Nilsson (axnion)
  */
 public class FeedTests {
     private Feed feed;
     private ArrayList<Item> items;
 
+    /**
+     * Test preparation. Creates a new Feed object and adds two mock Items to the Feed.
+     */
     @Before
     public void createObject() {
         items = new ArrayList<>();
@@ -31,6 +36,10 @@ public class FeedTests {
                 "https:link-to-feed-website.com/feed.xml", items);
     }
 
+    /**
+     * Name: Set visited on existing Item
+     * Unit: setVisited(String, boolean)
+     */
     @Test
     public void setVisitedOnExistingItem() {
         feed.setVisited("item_id_1", true);
@@ -39,6 +48,10 @@ public class FeedTests {
         verify(items.get(1), never()).setVisited(anyBoolean());
     }
 
+    /**
+     * Name: Set visited on nonexistent Item
+     * Unit: setVisited(String, boolean)
+     */
     @Test(expected = ItemDoesNotExist.class)
     public void setVisitedOnNonexistantItem() {
         feed.setVisited("item_id_3", true);
@@ -46,6 +59,10 @@ public class FeedTests {
         verify(items.get(1), never()).setVisited(anyBoolean());
     }
 
+    /**
+     * Name: Set starred on existing Item
+     * Unit: setStarred(String, boolean)
+     */
     @Test
     public void setStarredOnExistingItem() {
         feed.setStarred("item_id_1", true);
@@ -54,6 +71,10 @@ public class FeedTests {
         verify(items.get(1), never()).setStarred(anyBoolean());
     }
 
+    /**
+     * Name: Set starred on nonexistent Item
+     * Unit: setStarred(String, boolean)
+     */
     @Test(expected = ItemDoesNotExist.class)
     public void setStarredOnNonexistantItem() {
         feed.setStarred("item_id_3", true);
@@ -61,6 +82,15 @@ public class FeedTests {
         verify(items.get(1), never()).setStarred(anyBoolean());
     }
 
+    /**
+     * Name: Accessors and mutators
+     * Unit: getTitle(), getLink(), getDescription(), getItems(), getUrlToXML(), setTitle(String),
+     *       setLink(String), setDescription(String), setItems(ArrayList<Item>), setUrlToXML(String)
+     *
+     * Tests the accessor and mutator methods of the Feed class. Uses mutators to assign an object
+     * and then uses accessors to return the objects and compare the returned objects to the
+     * originals.
+     */
     @Test
     public void accessorsAndMutators() {
         // Checking the values set by the constructor using accessors

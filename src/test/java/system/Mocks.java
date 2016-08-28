@@ -12,8 +12,8 @@ import static org.mockito.Mockito.doNothing;
 /**
  * Class Mocks
  *
- * This class contains static methods for creating Mocks of diffrent kinds to imitate objects in the
- * system package.
+ * This class contains static methods for creating Mocks of different kinds to imitate objects in
+ * the system package.
  *
  * @author Axel Nilsson (axnion)
  */

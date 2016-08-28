@@ -9,6 +9,8 @@ import java.util.ArrayList;
 /**
  * Class FeedSnifferTests
  *
+ * This is the test class for the FeedSniffer class.
+ *
  * @author Axel Nilsson (axnion)
  */
 public class FeedSnifferTests {
@@ -17,11 +19,21 @@ public class FeedSnifferTests {
             .getResource("../../../../resources/test/FeedSnifferTestResources/")
             .getPath();
 
+    /**
+     * Test preparation. Creates a new FeedSniffer object before each test.
+     */
     @Before
     public void createObject() {
         feedSniffer = new FeedSniffer();
     }
 
+    /**
+     * Name: Sniffer test
+     * Unit: getFeeds(String)
+     *
+     * Tries to give a url to an xml file containing an RSS feed as an argument when calling
+     * getFeeds.
+     */
     @Test
     public void snifferTest() {
         ArrayList<FeedMinimal> feeds = feedSniffer.getFeeds(resources + "exampleFeed.xml");

@@ -7,7 +7,26 @@ import java.util.Date;
 
 import static org.mockito.Mockito.*;
 
+/**
+ * Class Mocks
+ *
+ * This class contains static methods for creating Mocks of different kinds to imitate objects in
+ * the rss package.
+ *
+ * @author Axel Nilsson (axnion)
+ */
 public class Mocks {
+    /**
+     * Creates a mock of a Feed object which can return the title, link, description, url, and
+     * items.
+     *
+     * @param title The title of the Feed
+     * @param link  The link to the Feed
+     * @param desc  The description of the Feed
+     * @param url   The URL to the XML file
+     * @param items An ArrayList of Items.
+     * @return      A Feed mock which can return its title, link, description, url, and items.
+     */
     public static Feed createFeedMock(String title, String link, String desc, String url,
                                       ArrayList<Item> items) {
         Feed feed = mock(Feed.class);
@@ -24,6 +43,20 @@ public class Mocks {
         return feed;
     }
 
+    /**
+     * Creates a mock of an Item object which can return the title, link, description, date, id,
+     * visited status and starred status.
+     *
+     * @param title         The title of the Item
+     * @param link          The link to the Item
+     * @param desc          The description of the Item
+     * @param date          A Date object of the time stamp from the rs feed.
+     * @param id            The identifier of the Item
+     * @param visitedStatus The visited status of the Item
+     * @param starredStatus The starred status of the item
+     * @return              An Item mock which can return it's title, link, description, date, id,
+     *                      visited status and starred status.
+     */
     public static Item createItemMock(String title, String link, String desc,String date,
                                       String id, boolean visitedStatus, boolean starredStatus) {
         Item item = mock(Item.class);
@@ -45,6 +78,13 @@ public class Mocks {
         return item;
     }
 
+    /**
+     * Creates an RssParser mock which returns diffrent results depending on what is passed as an
+     * argument on getFeed method.
+     *
+     * @return An RssParser mock which returns diffrent results depending on the argument passed
+     * to it.
+     */
     public static RssParser createRssParser() {
         RssParser rssParser = mock(RssParser.class);
 

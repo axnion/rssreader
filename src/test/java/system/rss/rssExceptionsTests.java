@@ -12,6 +12,10 @@ import static org.junit.Assert.*;
  * @author Axel Nilsson (axnion)
  */
 public class rssExceptionsTests {
+    /**
+     * Name: Item does not exist test
+     * Unit: ItemDoesNotExist()
+     */
     @Test
     public void ItemDoesNotExistTest() {
         try {
@@ -30,6 +34,10 @@ public class rssExceptionsTests {
         }
     }
 
+    /**
+     * Name: No XML file found test
+     * Unit: NoXMLFileFound()
+     */
     @Test
     public void NoXMLFileFoundTest() {
         try {
