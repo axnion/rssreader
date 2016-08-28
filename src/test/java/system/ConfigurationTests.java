@@ -30,7 +30,9 @@ public class ConfigurationTests {
 
     /**
      * Name: Accessors and Mutators
-     * Unit: getFeedLists(), setFeedLists()
+     * Unit: getFeedLists(), getDao(), getLastUpdated(), getUpdatePeriod(), getAutoSavePeriod(),
+     *       setFeedLists(ArrayList<FeedList>), setDao(DatabaseAccessObject), setLastUpdated(Date),
+     *       setUpdatePeriod(int), setAutoSavePeriod(int)
      *
      * Tests the accessor and mutator methods of the Configuration class. Uses mutators to assign
      * an object and then uses accessors to return the objects and compare the returned objects to
@@ -65,7 +67,7 @@ public class ConfigurationTests {
 
     /**
      * Name: Add FeedList to empty Configuration
-     * Unit: addFeedList()
+     * Unit: addFeedList(String)
      *
      * Adds a FeedList to a Configuration not containing any other FeedLists.
      */
@@ -77,7 +79,7 @@ public class ConfigurationTests {
 
     /**
      * Name: Add FeedList to Configuration with existing FeedList
-     * Unit: addFeedList()
+     * Unit: addFeedList(String)
      *
      * Adds a FeedList to a Configuration that already contains other FeedLists.
      */
@@ -95,7 +97,7 @@ public class ConfigurationTests {
 
     /**
      * Name: Add identical FeedList to Configuration
-     * Unit: addFeedList()
+     * Unit: addFeedList(String)
      *
      * Adds a FeedList to a Configuration that already contains a FeedList with the same identifier.
      */
@@ -118,7 +120,7 @@ public class ConfigurationTests {
      * Tries to remove a FeedList that does exist in the Configuration.
      */
     @Test
-    public void removeExistingFeedList() {
+    public void removeExistingFeedList(String) {
         ArrayList<FeedList> feedLists = new ArrayList<>();
         feedLists.add(Mocks.createFeedListMock("FeedList1"));
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
@@ -132,7 +134,7 @@ public class ConfigurationTests {
 
     /**
      * Name: Remove nonexistent FeedList
-     * Unit: removeFeedList()
+     * Unit: removeFeedList(String)
      *
      * Tries to remove a FeedList from the Configuration that does not exist. Should throw
      * FeedListDoesNotExist exception and none of the existing feeds should ge removed.
@@ -153,7 +155,7 @@ public class ConfigurationTests {
 
     /**
      * Name: Remove FeedList from empty Configuration
-     * Unit: removeFeedList()
+     * Unit: removeFeedList(String)
      *
      * Tries to remove a FeedList from a Configuration without any FeedLists. Should throw a
      * FeedListDoesNotExist exception.
@@ -165,7 +167,7 @@ public class ConfigurationTests {
 
     /**
      * Name: Add Feed to FeedList
-     * Unit: addFeed()
+     * Unit: addFeed(String, String)
      *
      * Tests to add a Feed to an existing FeedList. Checks so the add method is called on the
      * correct FeedList.
@@ -189,7 +191,7 @@ public class ConfigurationTests {
 
     /**
      * Name: Add Feed to nonexistent FeedList
-     * Unit: addFeed()
+     * Unit: addFeed(String, String)
      *
      * Tests trying to add a Feed to a FeedList that does not exist in the Configuration. A
      * FeedListDoesNotExist exception should be thrown and add method should never be called on
@@ -213,7 +215,7 @@ public class ConfigurationTests {
 
     /**
      * Name: Remove Feed from FeedList
-     * Unit: removeFeed()
+     * Unit: removeFeed(String, String)
      *
      * Tries to remove an existing Feed from existing FeedList.
      */
@@ -236,7 +238,7 @@ public class ConfigurationTests {
 
     /**
      * Name: Remove Feed from nonexistent FeedList
-     * Unit: removeFeed()
+     * Unit: removeFeed(String, String)
      *
      * Tries to remove a Feed From a FeedList that does not exist. Should throw a
      * FeedListDoesNotExist exception.
@@ -258,8 +260,14 @@ public class ConfigurationTests {
         verify(feedLists.get(1), never()).remove(any());
     }
 
+    /**
+     * Name: Start Feed updater test
+     * Unit: startFeedUpdater()
+     *
+     * Starts the UpdaterThread and checks so the mocks get's updated correctly.
+     */
     @Test
-    public void updateTest() {
+    public void startFeedUpdaterTest() {
         ArrayList<FeedList> feedLists = new ArrayList<>();
         feedLists.add(Mocks.createFeedListMock("FeedList1", true));
         feedLists.add(Mocks.createFeedListMock("FeedList2", false));
@@ -288,7 +296,7 @@ public class ConfigurationTests {
 
     /**
      * Name: Get existing FeedList by name
-     * Unit: getFeedListByName()
+     * Unit: getFeedListByName(String)
      *
      * Tries to get an existing FeedList from the Configuration by name.
      */
@@ -304,7 +312,7 @@ public class ConfigurationTests {
 
     /**
      * Name: Get nonexistent FeedList by name
-     * Unit: getFeedListByName()
+     * Unit: getFeedListByName(String)
      *
      * Tries to get a FeedList that does not exist in the Configuration by name. Should result in a
      * FeedListDoesNotExist exception being thrown.
@@ -321,7 +329,7 @@ public class ConfigurationTests {
 
     /**
      * Name: Get FeedList by name from empty Configuration
-     * Unit: getFeedListByName()
+     * Unit: getFeedListByName(String)
      *
      * Tries to get a FeedList from an empty Configuration by name. Should result in
      * FeedListDoesNotExist being thrown.
@@ -333,7 +341,7 @@ public class ConfigurationTests {
 
     /**
      * Name: Get all Items from existing FeedList
-     * Unit: getAllItemsFromFeedList()
+     * Unit: getAllItemsFromFeedList(String)
      *
      * Tries to get all Item objects from a specific existing FeedList. Should only call getAllItems
      * on the correct FeedList.
@@ -353,7 +361,7 @@ public class ConfigurationTests {
 
     /**
      * Name: Get all Items from nonexistent FeedList
-     * Unit: getAllItemsFromFeedList()
+     * Unit: getAllItemsFromFeedList(String)
      *
      * Tries to get all Item objects from a specific FeedList which does not exist in the
      * Configuration. getAllItems should not be called on any of the FeedLists.
@@ -373,7 +381,7 @@ public class ConfigurationTests {
 
     /**
      * Name: Get all Feeds from existing FeedList
-     * Unit: getAllFeedsFromFeedList()
+     * Unit: getAllFeedsFromFeedList(String)
      *
      * Tries to get all Feed objects from a specified FeedList. Should only call getAllItems on the
      * correct FeedList.
@@ -393,7 +401,7 @@ public class ConfigurationTests {
 
     /**
      * Name: Get all Feeds from FeedList
-     * Unit: getAllFeedsFromFeedList()
+     * Unit: getAllFeedsFromFeedList(String)
      *
      * Tries to get all Feed objects from a specific FeedList which does not exist in the
      * Configuration. getFeeds should not be called on any of the FeedLists.
@@ -413,7 +421,7 @@ public class ConfigurationTests {
 
     /**
      * Name: Set sorting rules on existing FeedList
-     * Unit: setSortingRules()
+     * Unit: setSortingRules(String, String)
      *
      * Tries to set the sorting rules of an existing FeedList. Should call setSortingRules with
      * correct argument on the correct FeedList.
@@ -433,7 +441,7 @@ public class ConfigurationTests {
 
     /**
      * Name: Set sorting rules on nonexistent FeedList
-     * Unit: setSortingRules()
+     * Unit: setSortingRules(String, String)
      *
      * Tries to set sorting rules on a FeedList which does not exist. setSortingRules should not be
      * called on any FeedLists.
@@ -451,6 +459,13 @@ public class ConfigurationTests {
         verify(feedLists.get(1), never()).setSortingRules(anyString());
     }
 
+    /**
+     * Name: Set show visited status on existing FeedList
+     * Unit: setShowVisitedStatus(String, boolean)
+     *
+     * Calls the method to change the show visited status on several mocks which exist. Method calls
+     * are then verified.
+     */
     @Test
     public void setShowVisitedStatusOnExistingFeedList() {
         ArrayList<FeedList> feedLists = new ArrayList<>();
@@ -468,26 +483,28 @@ public class ConfigurationTests {
         verify(feedLists.get(1), never()).setShowVisitedStatus(eq(false));
     }
 
-    @Test
+    /**
+     * Name: Set show visited status on nonexistent FeedList
+     * Unit: setShowVisitedStatus(String, boolean)
+     *
+     * Tries to change the show visited status on a FeedList which does not exist.
+     */
+    @Test(expected = FeedListDoesNotExist.class)
     public void setShowVisitedStatusOnNonexistentFeedList() {
         ArrayList<FeedList> feedLists = new ArrayList<>();
         feedLists.add(Mocks.createFeedListMock("FeedList1"));
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
 
         Configuration.setFeedLists(feedLists);
-        Configuration.setShowVisitedStatus("FeedList1", false);
-        Configuration.setShowVisitedStatus("FeedList1", true);
-        Configuration.setShowVisitedStatus("FeedList2", true);
+        Configuration.setShowVisitedStatus("FeedList3", false);
 
-        verify(feedLists.get(0), times(1)).setShowVisitedStatus(true);
-        verify(feedLists.get(0), times(1)).setShowVisitedStatus(false);
-        verify(feedLists.get(1), times(1)).setShowVisitedStatus(eq(true));
-        verify(feedLists.get(1), never()).setShowVisitedStatus(eq(false));
+        verify(feedLists.get(0), never()).setShowVisitedStatus(eq(anyBoolean()));
+        verify(feedLists.get(1), never()).setShowVisitedStatus(eq(anyBoolean()));
     }
 
     /**
      * Name: Set visited status on Item from nonexistent FeedList
-     * Unit: setVisited()
+     * Unit: setVisited(String, String, String, boolean)
      *
      * Tries to call setVisited on a specific title and sent specific argument to the method.
      * setVisited should only be called on the correct FeedList with the correct arguments.
@@ -507,9 +524,9 @@ public class ConfigurationTests {
 
     /**
      * Name: Set visited status on Item from nonexistent FeedList
-     * Unit: setVisited()
+     * Unit: setVisited(String, String, String, boolean)
      *
-     *
+     * Tries to change the visited status of an Item from a FeedList which does not exist.
      */
     @Test(expected = FeedListDoesNotExist.class)
     public void setVisitedStatusOnItemFromNonexistentFeedList() {
@@ -526,7 +543,10 @@ public class ConfigurationTests {
 
     /**
      * Name: Set starred status on Item from existing FeedList
-     * Unit: setStarred()
+     * Unit: setStarred(String, String, String, boolean)
+     *
+     * Tries to change the starred status of an Item which is contained in a FeedList which does
+     * exist.
      */
     @Test
     public void setStarredStatusOnItemFromExistingFeedList() {
@@ -543,7 +563,9 @@ public class ConfigurationTests {
 
     /**
      * Name: Set starred status on Item from nonexistent FeedList
-     * Unit: setStarred()
+     * Unit: setStarred(String, String, String, boolean)
+     *
+     * Tries to change the starred status of an Item from a FeedList which does not exist.
      */
     @Test(expected = FeedListDoesNotExist.class)
     public void setStarredStatusOnItemFromNonexistentFeedList() {
@@ -558,8 +580,14 @@ public class ConfigurationTests {
         verify(feedLists.get(1), never()).setStarred(anyString(), anyString(), anyBoolean());
     }
 
+    /**
+     * Name: Reset test
+     * Unit: reset()
+     *
+     * Runs the reset method and checks so setPath("temp.sqlite") and load() is called on dao.
+     */
     @Test
-    public void newDatabaseTest() {
+    public void resetTest() {
         Date currentDate = new Date();
 
         ArrayList<FeedList> feedLists = new ArrayList<>();
@@ -575,7 +603,7 @@ public class ConfigurationTests {
         try {
             Configuration.reset();
             assertTrue(currentDate.before(Configuration.getLastUpdated()));
-            verify(dao, times(1)).setPath("temp.db");
+            verify(dao, times(1)).setPath("temp.sqlite");
             verify(dao, times(1)).load();
         }
         catch(Exception expt) {
@@ -584,6 +612,12 @@ public class ConfigurationTests {
         }
     }
 
+    /**
+     * Name: Save database test
+     * Unit: save()
+     *
+     * Checks so dao.save is called when save method is called.
+     */
     @Test
     public void saveDatabaseTest() {
         DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectMock();
@@ -599,6 +633,12 @@ public class ConfigurationTests {
         }
     }
 
+    /**
+     * Name: Save As Database Test
+     * Unit: save(String)
+     *
+     * Checks so setPath and save is called when save with a String argument is called.
+     */
     @Test
     public void saveAsDatabaseTest() {
         DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectMock();
@@ -606,8 +646,8 @@ public class ConfigurationTests {
 
         try {
             Configuration.save("new/path/to/save/database");
-            verify(dao, times(1)).save(any(), any(Date.class));
             verify(dao, times(1)).setPath("new/path/to/save/database");
+            verify(dao, times(1)).save(any(), any(Date.class));
         }
         catch(Exception expt) {
             expt.printStackTrace();
@@ -615,6 +655,12 @@ public class ConfigurationTests {
         }
     }
 
+    /**
+     * Name: Load database test
+     * Unit: load(String)
+     *
+     * Checks so setPath and load is called when load is called.
+     */
     @Test
     public void loadDatabaseTest() {
         Date currentDate = new Date();

@@ -237,7 +237,7 @@ public class Configuration {
      * @throws Exception Problems with database.
      */
     public static void reset() throws Exception {
-        dao.setPath("temp.db");
+        dao.setPath("temp.sqlite");
         feedLists = dao.load();
         lastUpdated = new Date();
     }
@@ -337,7 +337,7 @@ public class Configuration {
      *
      * @param newDao A DatabaseAccessObjectSQLite to be set as the new dao.
      */
-    static void setDao(DatabaseAccessObjectSQLite newDao) {
+    static void setDao(DatabaseAccessObject newDao) {
         dao = newDao;
     }
 
