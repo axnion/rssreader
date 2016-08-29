@@ -227,8 +227,8 @@ class MenuFeedList extends VBox{
 
         addFeedButton.setOnAction(event -> showAddFeedMenu());
         removeFeedListButton.setOnAction(event -> App.removeFeedList(feedList.getName()));
-        showVisitedStatus.setOnAction(event -> Configuration.setShowVisitedStatus(feedList.getName(),
-                showVisitedStatus.isSelected()));
+        showVisitedStatus.setOnAction(event -> Configuration.setShowVisitedStatus(feedList
+                        .getName(), showVisitedStatus.isSelected()));
     }
 
     String getName() {

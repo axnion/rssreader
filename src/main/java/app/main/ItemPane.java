@@ -48,8 +48,7 @@ class ItemPane extends VBox {
 
         setMinWidth(470);
 
-        if(showVisitedStatus)
-            setVisited(item.isVisited());
+        setVisited(item.isVisited());
 
         //createDetailsGroup(item);
         getChildren().add(createItemBar(feedListName));
@@ -99,20 +98,22 @@ class ItemPane extends VBox {
     private void createContextMenu(boolean visited) {
         contextMenu = new ContextMenu();
 
-        MenuItem changeVisited;
-        if(visited)
-            changeVisited = new MenuItem("Set to not visited");
-        else
-            changeVisited = new MenuItem("Set to visited");
+        if(showVisitedStatus) {
+            MenuItem changeVisited;
+            if(visited)
+                changeVisited = new MenuItem("Set to not visited");
+            else
+                changeVisited = new MenuItem("Set to visited");
 
-        changeVisited.setOnAction(event -> {
-            setVisited(!visited);
-            Configuration.setVisited(feedListName, item.getFeedIdentifier(), item.getId(),
-                    !visited);
-        });
+            changeVisited.setOnAction(event -> {
+                setVisited(!visited);
+                Configuration.setVisited(feedListName, item.getFeedIdentifier(), item.getId(),
+                        !visited);
+            });
 
-        contextMenu.getItems().clear();
-        contextMenu.getItems().add(changeVisited);
+            contextMenu.getItems().clear();
+            contextMenu.getItems().add(changeVisited);
+        }
 
         setOnMouseClicked(event -> {
             if(event.getButton().equals(MouseButton.SECONDARY)) {
@@ -192,21 +193,14 @@ class ItemPane extends VBox {
     }
 
     private void setVisited(boolean status) {
+        getStyleClass().clear();
+        getStyleClass().add("ItemPane");
+
         if(showVisitedStatus) {
             createContextMenu(status);
-            if(status) {
-                getStyleClass().clear();
-                getStyleClass().add("ItemPane");
-            }
-            else {
-                getStyleClass().clear();
-                getStyleClass().add("ItemPane");
+
+            if(!status)
                 getStyleClass().add("NotVisited");
-            }
-        }
-        else {
-            getStyleClass().clear();
-            getStyleClass().add("ItemPane");
         }
     }
 }

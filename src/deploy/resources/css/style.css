@@ -13,21 +13,22 @@
 .ItemPane {
     -fx-background-color: #282C2C;
     -fx-padding: 5px;
-    -fx-border-color: #393F3F;
+    -fx-border-color: #515555 #515555 #515555 #282C2C;
     -fx-border-style: solid;
-    -fx-border-width: 3 1 0 0;
+    -fx-border-width: 0 0 2 5;
 }
 
 .ItemPane:hover {
-    -fx-background-color: #313535;
+    -fx-background-color: #494f4f;
+    -fx-border-color: #515555 #515555 #515555 #515555;
 }
 
 .NotVisited {
-    -fx-background-color: #d65e15;
+    -fx-border-color: #515555 #515555 #515555 #d65e15;
 }
 
 .NotVisited:hover {
-    -fx-background-color: #d6875a;
+    -fx-border-color: #515555 #515555 #515555 #d6875a;
 }
 
 .SideMenu {
