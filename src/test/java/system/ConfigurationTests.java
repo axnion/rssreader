@@ -273,12 +273,12 @@ public class ConfigurationTests {
 
     /**
      * Name: Start Feed updater test
-     * Unit: startFeedUpdater()
+     * Unit: startFeedUpdater(), stopFeedUpdater()
      *
      * Starts the UpdaterThread and checks so the mocks get's updated correctly.
      */
     @Test
-    public void startFeedUpdaterTest() {
+    public void feedUpdaterTest() {
         ArrayList<FeedList> feedLists = new ArrayList<>();
         feedLists.add(Mocks.createFeedListMock("FeedList1", true));
         feedLists.add(Mocks.createFeedListMock("FeedList2", false));
@@ -303,6 +303,9 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList1", false));
         feedLists.add(Mocks.createFeedListMock("FeedList2", false));
         Configuration.setFeedLists(feedLists);
+
+        Configuration.stopFeedUpdater();
+        assertTrue(Configuration.executorService.isShutdown());
     }
 
     /**

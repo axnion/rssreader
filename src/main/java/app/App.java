@@ -85,7 +85,7 @@ public class App extends Application {
 
         primaryStage.setOnCloseRequest(event -> {
             Platform.exit();
-            System.exit(0);
+            Configuration.stopFeedUpdater();
         });
     }
 

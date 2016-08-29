@@ -74,6 +74,19 @@ public class FeedListTests {
         assertEquals(feeds, feedList.getFeeds());
     }
 
+
+    @Test
+    public void setShowVisitedStatus() {
+        addFeedMocks(true);
+
+        feedList.setShowVisitedStatus(false);
+
+        ArrayList<Item> items = feedList.getAllItems();
+
+        for(Item item : items) {
+            verify(item, times(1)).setVisited(true);
+        }
+    }
     /**
      * Name: Get Feed within bounds
      * Unit: get(int)

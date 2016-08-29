@@ -327,10 +327,12 @@ public class FeedList {
      */
     void setShowVisitedStatus(boolean showVisitedStatusParam) {
         showVisitedStatus = showVisitedStatusParam;
-        ArrayList<Item> items = getAllItems();
 
-        for(Item item : items) {
-            item.setVisited(true);
+        if(!showVisitedStatus) {
+            ArrayList<Item> items = getAllItems();
+            for(Item item : items) {
+                item.setVisited(true);
+            }
         }
     }
 
