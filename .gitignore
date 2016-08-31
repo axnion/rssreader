@@ -4,5 +4,6 @@ build/
 gradle/
 temp.db
 temp.sqlite
+temp.json
 gradlew
 gradlew.bat

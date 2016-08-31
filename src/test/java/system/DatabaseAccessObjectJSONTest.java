@@ -29,16 +29,18 @@ public class DatabaseAccessObjectJSONTest {
 
     @Test
     public void saveConfiguration() {
-        ArrayList<FeedList> feedLists = new ArrayList<>();
-        RssParser rssParser = new RssParser();
+//        ArrayList<FeedList> feedLists = new ArrayList<>();
+//        RssParser rssParser = new RssParser();
+//
+//        feedLists.add(new FeedList("FeedList1", "DATE_DEC", true));
+//        feedLists.add(new FeedList("FeedList2", "TITLE_ASC", true));
+//
+//        feedLists.get(0).add(resources + "feed1.xml");
+//        feedLists.get(0).add(resources + "feed2.xml");
+//        feedLists.get(1).add(resources + "feed3.xml");
+//        feedLists.get(1).add(resources + "feed4.xml");
 
-        feedLists.add(new FeedList("FeedList1", "DATE_DEC", true));
-        feedLists.add(new FeedList("FeedList2", "TITLE_ASC", true));
-
-        feedLists.get(0).add(resources + "feed1.xml");
-        feedLists.get(0).add(resources + "feed2.xml");
-        feedLists.get(1).add(resources + "feed3.xml");
-        feedLists.get(1).add(resources + "feed4.xml");
+        ArrayList<FeedList> feedLists = Mocks.createFullConfiguration();
 
         try {
             dao.save(feedLists, new Date());

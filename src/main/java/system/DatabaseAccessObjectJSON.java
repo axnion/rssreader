@@ -3,11 +3,15 @@ package system;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import system.rss.Feed;
+import system.rss.Item;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class DatabaseAccessObjectJSON
@@ -35,9 +39,54 @@ class DatabaseAccessObjectJSON implements DatabaseAccessObject {
 
     public void save(ArrayList<FeedList> feedLists, Date configurationLastUpdated)
             throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        ObjectWriter writer = objectMapper.writer(new DefaultPrettyPrinter());
-        writer.writeValue(new File(path), feedLists);
+        Map[] feedListMaps = new Map[feedLists.size()];
+
+        for(int i = 0; i < feedLists.size(); i++) {
+            feedListMaps[i] = createFeedListMap(feedLists.get(i));
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+        writer.writeValue(new File(path), feedListMaps);
+    }
+
+    private Map<String, Object> createFeedListMap(FeedList feedList) {
+        Map[] feedMaps = new Map[feedList.getFeeds().size()];
+
+        for(int i = 0; i < feedList.getFeeds().size(); i++) {
+            feedMaps[i] = createFeedMap(feedList.getFeeds().get(i));
+        }
+
+        Map<String, Object> feedListMap = new HashMap<>();
+        feedListMap.put("name", feedList.getName());
+        feedListMap.put("sortingRules", feedList.getSortingRules());
+        feedListMap.put("showVisitedStatus", feedList.getShowVisitedStatus());
+        feedListMap.put("feeds", feedMaps);
+
+        return feedListMap;
+    }
+
+    private Map<String, Object> createFeedMap(Feed feed) {
+        Map[] itemMaps = new Map[feed.getItems().size()];
+
+        for(int i = 0; i < feed.getItems().size(); i++) {
+            itemMaps[i] = createItemMap(feed.getItems().get(i));
+        }
+
+        Map<String, Object> feedMap = new HashMap<>();
+        feedMap.put("urlToXML", feed.getUrlToXML());
+        feedMap.put("items", itemMaps);
+
+        return feedMap;
+    }
+
+    private Map<String, Object> createItemMap(Item item) {
+        Map<String, Object> itemMap = new HashMap<>();
+        itemMap.put("id", item.getId());
+        itemMap.put("visited", item.isVisited());
+        itemMap.put("starred", item.isStarred());
+
+        return itemMap;
     }
 
     /*
