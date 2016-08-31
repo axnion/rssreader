@@ -119,15 +119,10 @@ public class Configuration {
         }, 0, updatePeriod, TimeUnit.SECONDS);
     }
 
-    public static void stopFeedUpdater() {
-        try {
-            executorService.shutdown();
-            executorService.awaitTermination(5, TimeUnit.SECONDS);
-            executorService.shutdownNow();
-        }
-        catch(InterruptedException expt) {
-            expt.printStackTrace();
-        }
+    public static void stopFeedUpdater() throws InterruptedException {
+        executorService.shutdown();
+        executorService.awaitTermination(5, TimeUnit.SECONDS);
+        executorService.shutdownNow();
     }
 
     /**

@@ -85,7 +85,13 @@ public class App extends Application {
 
         primaryStage.setOnCloseRequest(event -> {
             Platform.exit();
-            Configuration.stopFeedUpdater();
+            try {
+                Configuration.stopFeedUpdater();
+            }
+            catch(InterruptedException expt) {
+                expt.printStackTrace();
+
+            }
         });
     }
 

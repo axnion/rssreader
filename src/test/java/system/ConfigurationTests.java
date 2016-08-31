@@ -289,7 +289,7 @@ public class ConfigurationTests {
         Configuration.startFeedUpdater();
 
         try {
-            Thread.sleep(5000);
+            Thread.sleep(10000);
         }
         catch(InterruptedException expt) {
             expt.printStackTrace();
@@ -304,8 +304,13 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2", false));
         Configuration.setFeedLists(feedLists);
 
-        Configuration.stopFeedUpdater();
-        assertTrue(Configuration.executorService.isShutdown());
+        try {
+            Configuration.stopFeedUpdater();
+            assertTrue(Configuration.executorService.isShutdown());
+        }
+        catch(InterruptedException expt) {
+            fail();
+        }
     }
 
     /**
