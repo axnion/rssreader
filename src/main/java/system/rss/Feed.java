@@ -1,5 +1,6 @@
 package system.rss;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import system.rss.exceptions.ItemDoesNotExist;
 
 import java.util.ArrayList;
@@ -15,11 +16,11 @@ import java.util.ArrayList;
  * @author Axel Nilsson (axnion)
  */
 public class Feed {
-    private String title;           // The title of the feed
-    private String link;            // Link to the feeds website
-    private String description;     // A description about the feed
-    private String urlToXML;        // The URL to the XML file, used when updating the feed
-    private ArrayList<Item> items;  // An array holding the items in the feed
+    @JsonProperty("title") private String title;           // The title of the feed
+    @JsonProperty("link") private String link;            // Link to the feeds website
+    @JsonProperty("description") private String description;     // A description about the feed
+    @JsonProperty("urlToXML") private String urlToXML;        // The URL to the XML file, used when updating the feed
+    @JsonProperty("items") private ArrayList<Item> items;  // An array holding the items in the feed
 
     /**
      * Constructor

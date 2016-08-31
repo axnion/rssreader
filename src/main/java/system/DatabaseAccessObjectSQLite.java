@@ -39,10 +39,10 @@ class DatabaseAccessObjectSQLite implements DatabaseAccessObject{
      * Takes the argument passed though pathParam and assigns it's value to path and calls the init
      * method.
      *
-     * @param pathParam The path to the database this object will load from and save to.
+     * @param path The path to the database this object will load from and save to.
      */
-    DatabaseAccessObjectSQLite(String pathParam) {
-        path = pathParam;
+    DatabaseAccessObjectSQLite(String path) {
+        this.path = path;
         lastSaved = new Date(0);
     }
 
