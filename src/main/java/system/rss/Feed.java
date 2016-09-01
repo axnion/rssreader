@@ -16,11 +16,11 @@ import java.util.ArrayList;
  * @author Axel Nilsson (axnion)
  */
 public class Feed {
-    @JsonProperty("title") private String title;           // The title of the feed
-    @JsonProperty("link") private String link;            // Link to the feeds website
-    @JsonProperty("description") private String description;     // A description about the feed
-    @JsonProperty("urlToXML") private String urlToXML;        // The URL to the XML file, used when updating the feed
-    @JsonProperty("items") private ArrayList<Item> items;  // An array holding the items in the feed
+    private String title;           // The title of the feed
+    private String link;            // Link to the feeds website
+    private String description;     // A description about the feed
+    private String urlToXML;        // The URL to the XML file, used when updating the feed
+    private ArrayList<Item> items;  // An array holding the items in the feed
 
     /**
      * Constructor
@@ -64,7 +64,7 @@ public class Feed {
      * @param id    A String containing the id of the Item the method should look for.
      * @return      An Item with an id matching the argument id.
      */
-    Item getItemById(String id) {
+    public Item getItemById(String id) {
         for(Item item : items) {
             if(item.getId().equals(id))
                 return item;

@@ -1,6 +1,7 @@
 package system;
 
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import system.rss.Feed;
@@ -8,10 +9,7 @@ import system.rss.Item;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Class DatabaseAccessObjectJSON
@@ -27,14 +25,52 @@ class DatabaseAccessObjectJSON implements DatabaseAccessObject {
         lastSaved = new Date(0);
     }
 
-    DatabaseAccessObjectJSON(String path) {
-        this.path = path;
-        lastSaved = new Date(0);
+    public ArrayList<FeedList> load() throws IOException {
+        ArrayList<FeedList> feedLists = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        JsonNode node = objectMapper.readTree(new File(path));
+
+        for(int i = 0; i < node.size(); i++) {
+            String name = node.get(i).get("name").textValue();
+            String sortingRules = node.get(i).get("sortingRules").textValue();
+            boolean showVisitedStatus = node.get(i).get("showVisitedStatus").booleanValue();
+
+            FeedList feedList = new FeedList(name, sortingRules, showVisitedStatus);
+            loadFeeds(node.get(i).get("feeds"), feedList);
+            feedLists.add(feedList);
+        }
+
+        return feedLists;
     }
 
-    public ArrayList<FeedList> load() {
-        ArrayList<FeedList> feedLists = new ArrayList<>();
-        return feedLists;
+    private void loadFeeds(JsonNode node, FeedList feedList) {
+        for(int i = 0; i < node.size(); i++) {
+            feedList.add(node.get(i).get("urlToXML").textValue());
+            loadItems(node.get(i).get("items"), feedList.get(feedList.size() - 1));
+        }
+    }
+
+    private void loadItems(JsonNode node, Feed feed) {
+        ArrayList<Item> items = feed.getItems();
+        boolean found;
+
+        for(Item item : items) {
+            found = false;
+            for(int i = 0; i < node.size(); i++) {
+                if(item.getId().equals(node.get(i).get("id").textValue())) {
+                    item.setVisited(node.get(i).get("visited").booleanValue());
+                    item.setStarred(node.get(i).get("starred").booleanValue());
+                    found = true;
+                    break;
+                }
+            }
+
+            if(!found) {
+                item.setVisited(false);
+                item.setStarred(false);
+            }
+        }
     }
 
     public void save(ArrayList<FeedList> feedLists, Date configurationLastUpdated)

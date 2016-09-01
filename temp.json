@@ -1,9 +1,0 @@
-[ {
-  "name" : "FeedList1",
-  "sortingRules" : "DATE_DEC",
-  "showVisitedStatus" : true
-}, {
-  "name" : "FeedList2",
-  "sortingRules" : "TITLE_ASC",
-  "showVisitedStatus" : true
-} ]

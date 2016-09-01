@@ -1,0 +1,55 @@
+[ {
+  "sortingRules" : "DATE_DEC",
+  "name" : "FeedList1",
+  "feeds" : [ {
+    "urlToXML" : "https://feed.com/feed1.xml",
+    "items" : [ {
+      "starred" : false,
+      "visited" : false,
+      "id" : "item1"
+    }, {
+      "starred" : true,
+      "visited" : false,
+      "id" : "item2"
+    } ]
+  }, {
+    "urlToXML" : "https://feed.com/feed2.xml",
+    "items" : [ {
+      "starred" : true,
+      "visited" : true,
+      "id" : "item3"
+    }, {
+      "starred" : false,
+      "visited" : true,
+      "id" : "item4"
+    } ]
+  } ],
+  "showVisitedStatus" : true
+}, {
+  "sortingRules" : "TITLE_ASC",
+  "name" : "FeedList2",
+  "feeds" : [ {
+    "urlToXML" : "https://feed.com/feed3.xml",
+    "items" : [ {
+      "starred" : false,
+      "visited" : true,
+      "id" : "item5"
+    }, {
+      "starred" : true,
+      "visited" : true,
+      "id" : "item6"
+    } ]
+  }, {
+    "urlToXML" : "https://feed.com/feed4.xml",
+    "items" : [ {
+      "starred" : true,
+      "visited" : false,
+      "id" : "item7"
+    }, {
+      "starred" : false,
+      "visited" : false,
+      "id" : "item8"
+    } ]
+  } ],
+  "showVisitedStatus" : false
+} ]

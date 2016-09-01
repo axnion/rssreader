@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class Configuration {
     private static ArrayList<FeedList> feedLists = new ArrayList<>();
-    private static DatabaseAccessObject dao = new DatabaseAccessObjectSQLite();
+    private static DatabaseAccessObject dao = new DatabaseAccessObjectJSON();
     private static Date lastUpdated = new Date();
     private static int updatePeriod = 5;
     private static int autoSavePeriod = 60;

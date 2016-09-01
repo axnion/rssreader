@@ -198,7 +198,7 @@ public class DatabaseAccessObjectSQLiteTests {
      */
     @Test
     public void saveDefault() {
-        ArrayList<FeedList> feedLists = Mocks.createFullConfiguration();
+        ArrayList<FeedList> feedLists = Mocks.createFullConfigurationWithExistingFeeds();
 
         try {
             dao.save(feedLists, new Date());
@@ -219,7 +219,7 @@ public class DatabaseAccessObjectSQLiteTests {
      */
     @Test
     public void saveToOtherLocation() {
-        ArrayList<FeedList> feedLists = Mocks.createFullConfiguration();
+        ArrayList<FeedList> feedLists = Mocks.createFullConfigurationWithExistingFeeds();
         path = resources + "saveDatabaseCreated.sqlite";
         System.out.println(path);
 
@@ -243,7 +243,7 @@ public class DatabaseAccessObjectSQLiteTests {
      */
     @Test
     public void saveLastUpdateLaterThanConfiguration() {
-        ArrayList<FeedList> feedLists = Mocks.createFullConfiguration();
+        ArrayList<FeedList> feedLists = Mocks.createFullConfigurationWithExistingFeeds();
         path = resources + "saveDatabaseCreated.sqlite";
 
         try {

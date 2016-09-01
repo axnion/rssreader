@@ -1,0 +1,21 @@
+<rss>
+    <channel>
+        <title>feed1</title>
+        <description>feed1desc</description>
+        <link>http://feed1.com</link>
+        <item>
+            <title>item1</title>
+            <description>item1desc</description>
+            <link>http://feed1.com/item1</link>
+            <pubDate>Fri, 01 Jan 2016 12:00:00 +0000</pubDate>
+            <guid>item1</guid>
+        </item>
+        <item>
+            <title>item2</title>
+            <description>item2desc</description>
+            <link>http://feed1.com/item2</link>
+            <pubDate>Fri, 01 Jan 2016 12:00:00 +0000</pubDate>
+            <guid>item2</guid>
+        </item>
+    </channel>
+</rss>

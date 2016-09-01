@@ -1,0 +1,55 @@
+[ {
+  "sortingRules" : "DATE_DEC",
+  "name" : "FeedList1",
+  "feeds" : [ {
+    "urlToXML" : "/home/axnion/Development/rssreader/build/resources/test/DatabaseAccessObjectSQLiteTestResources/feed1.xml",
+    "items" : [ {
+      "starred" : false,
+      "visited" : false,
+      "id" : "item1"
+    }, {
+      "starred" : true,
+      "visited" : false,
+      "id" : "item2"
+    } ]
+  }, {
+    "urlToXML" : "/home/axnion/Development/rssreader/build/resources/test/DatabaseAccessObjectSQLiteTestResources/feed2.xml",
+    "items" : [ {
+      "starred" : true,
+      "visited" : true,
+      "id" : "item3"
+    }, {
+      "starred" : false,
+      "visited" : true,
+      "id" : "item4"
+    } ]
+  } ],
+  "showVisitedStatus" : true
+}, {
+  "sortingRules" : "TITLE_ASC",
+  "name" : "FeedList2",
+  "feeds" : [ {
+    "urlToXML" : "/home/axnion/Development/rssreader/build/resources/test/DatabaseAccessObjectSQLiteTestResources/feed3.xml",
+    "items" : [ {
+      "starred" : false,
+      "visited" : true,
+      "id" : "item5"
+    }, {
+      "starred" : true,
+      "visited" : true,
+      "id" : "item6"
+    } ]
+  }, {
+    "urlToXML" : "/home/axnion/Development/rssreader/build/resources/test/DatabaseAccessObjectSQLiteTestResources/feed4.xml",
+    "items" : [ {
+      "starred" : true,
+      "visited" : false,
+      "id" : "item7"
+    }, {
+      "starred" : false,
+      "visited" : false,
+      "id" : "item8"
+    } ]
+  } ],
+  "showVisitedStatus" : false
+} ]

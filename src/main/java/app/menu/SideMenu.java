@@ -87,9 +87,9 @@ public class SideMenu extends VBox {
         saveAsBtn.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save configuration");
-            fileChooser.setInitialFileName("newConfiguration.db");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("SQLite",
-                    "*.db"));
+            fileChooser.setInitialFileName("newConfiguration.json");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON",
+                    "*.json"));
             File savedFile = fileChooser.showSaveDialog(null);
 
             if(savedFile != null) {
@@ -108,8 +108,8 @@ public class SideMenu extends VBox {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Load configuration");
             fileChooser.setInitialFileName("~");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("SQLite",
-                    "*.db"));
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON",
+                    "*.json"));
             File loadedFile = fileChooser.showOpenDialog(null);
 
             if(loadedFile != null) {
