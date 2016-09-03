@@ -1,6 +1,6 @@
 package app.menu;
 
-import app.App;
+import app.RSSReader;
 import app.misc.ClickButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import javafx.scene.control.Label;
@@ -118,7 +118,7 @@ class TreeView extends VBox {
         addFeedListInput.setOnKeyPressed(event -> {
             if(event.getCode().equals(KeyCode.ENTER)) {
                 try {
-                    App.addFeedList(addFeedListInput.getText());
+                    RSSReader.addFeedList(addFeedListInput.getText());
                     getChildren().remove(errMessage);
                     getChildren().remove(addFeedListInput);
                     addFeedListInput = null;

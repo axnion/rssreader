@@ -1,6 +1,6 @@
 package app.menu;
 
-import app.App;
+import app.RSSReader;
 import app.misc.ToggleIconButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import javafx.animation.KeyFrame;
@@ -11,7 +11,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
-import system.Configuration;
 
 import java.io.File;
 
@@ -69,13 +68,13 @@ public class SideMenu extends VBox {
 
         Button newBtn = new Button("New");
         newBtn.getStyleClass().add("CustomButton");
-        newBtn.setOnAction(event -> App.newConfiguration());
+        newBtn.setOnAction(event -> RSSReader.newConfiguration());
 
         Button saveBtn = new Button("Save");
         saveBtn.getStyleClass().add("CustomButton");
         saveBtn.setOnAction(event -> {
             try {
-                App.saveConfiguration();
+                RSSReader.saveConfiguration();
             }
             catch(Exception expt) {
                 expt.printStackTrace();
@@ -94,7 +93,7 @@ public class SideMenu extends VBox {
 
             if(savedFile != null) {
                 try {
-                    App.saveConfiguration(savedFile.getAbsolutePath());
+                    RSSReader.saveConfiguration(savedFile.getAbsolutePath());
                 }
                 catch(Exception expt) {
                     expt.printStackTrace();
@@ -113,7 +112,7 @@ public class SideMenu extends VBox {
             File loadedFile = fileChooser.showOpenDialog(null);
 
             if(loadedFile != null) {
-                App.loadConfiguration(loadedFile.getAbsolutePath());
+                RSSReader.loadConfiguration(loadedFile.getAbsolutePath());
             }
         });
 

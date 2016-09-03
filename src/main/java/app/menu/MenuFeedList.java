@@ -1,11 +1,9 @@
 package app.menu;
 
-import app.App;
+import app.RSSReader;
 import app.misc.ClickButton;
 import app.misc.ToggleIconButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -217,16 +215,16 @@ class MenuFeedList extends VBox{
 
         titlePane.setOnMouseClicked(event -> {
             if(event.getButton().equals(MouseButton.SECONDARY)) {
-                if(App.openContextMenu != null)
-                    App.openContextMenu.hide();
+                if(RSSReader.openContextMenu != null)
+                    RSSReader.openContextMenu.hide();
 
-                rightClickMenu.show(App.wrapper, event.getScreenX(), event.getScreenY());
-                App.openContextMenu = rightClickMenu;
+                rightClickMenu.show(RSSReader.wrapper, event.getScreenX(), event.getScreenY());
+                RSSReader.openContextMenu = rightClickMenu;
             }
         });
 
         addFeedButton.setOnAction(event -> showAddFeedMenu());
-        removeFeedListButton.setOnAction(event -> App.removeFeedList(feedList.getName()));
+        removeFeedListButton.setOnAction(event -> RSSReader.removeFeedList(feedList.getName()));
         showVisitedStatus.setOnAction(event -> Configuration.setShowVisitedStatus(feedList
                         .getName(), showVisitedStatus.isSelected()));
     }
@@ -245,7 +243,7 @@ class MenuFeedList extends VBox{
                     "Add feed to feedlist");
             button.setOnMouseClicked(event -> {
                 if(event.getButton().equals(MouseButton.PRIMARY)) {
-                    App.addFeed(feed.urlToXml, feedList.getName());
+                    RSSReader.addFeed(feed.urlToXml, feedList.getName());
                     newFeedContainer.getChildren().remove(this);
                     if(newFeedContainer.getChildren().size() == 0) {
                         hideAddFeedMenu();

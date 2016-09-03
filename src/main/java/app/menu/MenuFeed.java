@@ -1,6 +1,6 @@
 package app.menu;
 
-import app.App;
+import app.RSSReader;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
@@ -38,7 +38,7 @@ class MenuFeed extends VBox{
         MenuItem deleteFeed = new MenuItem("Delete feed");
 
         deleteFeed.setOnAction(event -> {
-            App.removeFeed(feed.getUrlToXML(), feedListName);
+            RSSReader.removeFeed(feed.getUrlToXML(), feedListName);
         });
 
         rightClickMenu.getItems().add(showDetails);
@@ -46,11 +46,11 @@ class MenuFeed extends VBox{
 
         setOnMouseClicked(event -> {
             if(event.getButton().equals(MouseButton.SECONDARY)) {
-                if(App.openContextMenu != null)
-                    App.openContextMenu.hide();
+                if(RSSReader.openContextMenu != null)
+                    RSSReader.openContextMenu.hide();
 
-                rightClickMenu.show(App.wrapper, event.getScreenX(), event.getScreenY());
-                App.openContextMenu = rightClickMenu;
+                rightClickMenu.show(RSSReader.wrapper, event.getScreenX(), event.getScreenY());
+                RSSReader.openContextMenu = rightClickMenu;
             }
         });
     }

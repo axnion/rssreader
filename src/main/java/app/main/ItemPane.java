@@ -1,6 +1,6 @@
 package app.main;
 
-import app.App;
+import app.RSSReader;
 import app.misc.ClickButton;
 import app.misc.ToggleColorButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
@@ -66,7 +66,7 @@ class ItemPane extends VBox {
         titleContainer.setOnMouseClicked(event -> {
             if(event.getButton().equals(MouseButton.PRIMARY)) {
                 setVisited(true);
-                App.openLink(item.getLink());
+                RSSReader.openLink(item.getLink());
                 Configuration.setVisited(feedListName, item.getFeedIdentifier(), item.getId(),
                         true);
             }
@@ -117,11 +117,11 @@ class ItemPane extends VBox {
 
         setOnMouseClicked(event -> {
             if(event.getButton().equals(MouseButton.SECONDARY)) {
-                if(App.openContextMenu != null)
-                    App.openContextMenu.hide();
+                if(RSSReader.openContextMenu != null)
+                    RSSReader.openContextMenu.hide();
 
-                contextMenu.show(App.wrapper, event.getScreenX(), event.getScreenY());
-                App.openContextMenu = contextMenu;
+                contextMenu.show(RSSReader.wrapper, event.getScreenX(), event.getScreenY());
+                RSSReader.openContextMenu = contextMenu;
             }
         });
     }

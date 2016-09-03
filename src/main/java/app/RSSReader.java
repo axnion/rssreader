@@ -19,11 +19,11 @@ import javafx.util.Duration;
 import system.Configuration;
 
 /**
- * Class App
+ * Class RSSReader
  *
  * @author Axel Nilsson (axnion)
  */
-public class App extends Application {
+public class RSSReader extends Application {
     public static Wrapper wrapper;
     public static ContextMenu openContextMenu;
     private static HBox messageBox;
@@ -60,7 +60,7 @@ public class App extends Application {
         primaryStage.setMinWidth(300);
         primaryStage.setMinHeight(300);
         primaryStage.setTitle("RSSReader");
-        primaryStage.getIcons().add(new Image("file:img/icon.png"));
+        primaryStage.getIcons().add(new Image("file:RSSReader.png"));
         primaryStage.setScene(primaryScene);
         primaryStage.show();
 
