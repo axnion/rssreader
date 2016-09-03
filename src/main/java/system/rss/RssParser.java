@@ -156,8 +156,13 @@ public class RssParser {
     private String getDescription(Element channel) {
         Node node = channel.getElementsByTagName("description").item(0);
 
-        if(node.getParentNode().getNodeName().equals("channel")) {
-            return node.getFirstChild().getNodeValue();
+        try {
+            if(node.getParentNode().getNodeName().equals("channel")) {
+                return node.getFirstChild().getNodeValue();
+            }
+        }
+        catch(NullPointerException expt) {
+            expt.printStackTrace();
         }
 
         return "";

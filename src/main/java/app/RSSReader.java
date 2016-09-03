@@ -18,6 +18,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import system.Configuration;
 
+import static java.lang.System.exit;
+
 /**
  * Class RSSReader
  *
@@ -84,14 +86,9 @@ public class RSSReader extends Application {
         Configuration.startFeedUpdater();
 
         primaryStage.setOnCloseRequest(event -> {
+            Configuration.stopFeedUpdater();
             Platform.exit();
-            try {
-                Configuration.stopFeedUpdater();
-            }
-            catch(InterruptedException expt) {
-                expt.printStackTrace();
-
-            }
+            exit(0);
         });
     }
 

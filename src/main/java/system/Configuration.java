@@ -32,7 +32,8 @@ public class Configuration {
     private static Date lastUpdated = new Date();
     private static int updatePeriod = 5;
     private static int autoSavePeriod = 60;
-    static ScheduledExecutorService executorService;
+    private static RunnableUpdater runnableUpdater;
+    private static Thread updaterThread;
 
     /**
      * Creates and adds a new FeedList object with the name specified though the listName parameter.
@@ -100,28 +101,20 @@ public class Configuration {
      * is updated to current time.
      */
     public static void startFeedUpdater() {
-        executorService = Executors.newSingleThreadScheduledExecutor();
-        executorService.scheduleAtFixedRate(new Thread() {
-            public void run() {
-                Thread.currentThread().setName("UpdaterThread");
-                boolean updated = false;
-                for(FeedList feedList : feedLists) {
-                    if(feedList.update())
-                        updated = true;
-                }
-
-                if(updated) {
-                    Configuration.setLastUpdated(new Date());
-                    System.out.println("Update: Configuration");
-                }
-            }
-        }, 0, updatePeriod, TimeUnit.SECONDS);
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        runnableUpdater = new RunnableUpdater();
+        updaterThread = new Thread(runnableUpdater);
+        executorService.scheduleAtFixedRate(updaterThread, 0, updatePeriod, TimeUnit.SECONDS);
     }
 
-    public static void stopFeedUpdater() throws InterruptedException {
-        executorService.shutdown();
-        executorService.awaitTermination(5, TimeUnit.SECONDS);
-        executorService.shutdownNow();
+    public static void stopFeedUpdater() {
+        try {
+            runnableUpdater.terminate();
+            updaterThread.join();
+        }
+        catch(InterruptedException expt) {
+            expt.printStackTrace();
+        }
     }
 
     /**
