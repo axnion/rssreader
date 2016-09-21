@@ -3,7 +3,7 @@ version '2.0'
 
 buildscript {
     dependencies {
-        classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.5.2'
+        classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.7.0'
     }
 
     repositories {
@@ -28,14 +28,14 @@ dependencies {
 
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.1'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.1'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.8.1'
+//    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.8.1'
 
-    compile 'de.dynamicfiles.projects.gradle.plugins:javafx-gradle-plugin:8.5.2'
+    compile 'de.dynamicfiles.projects.gradle.plugins:javafx-gradle-plugin:8.7.0'
     compile 'de.jensd:fontawesomefx-commons:8.11'
     compile 'de.jensd:fontawesomefx-controls:8.11'
     compile 'de.jensd:fontawesomefx-materialicons:2.1-2'
-    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.8.11.2'
-    compile group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
+//    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.8.11.2'
+//    compile group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
     compile 'org.jsoup:jsoup:1.7.2'
 }
 
@@ -78,6 +78,7 @@ jfx {
     secondaryLaunchers = null
     fileAssociations = null // List<Map<String, Object>>
     noBlobSigning = false // when using bundler "jnlp", you can choose to NOT use blob signing
+    copyAdditionalAppResourcesToJar = true
 
     skipNativeLauncherWorkaround124 = false
     skipNativeLauncherWorkaround167 = false
