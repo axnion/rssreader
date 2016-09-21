@@ -18,6 +18,9 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import system.Configuration;
 
+import java.io.IOException;
+import java.util.Set;
+
 import static java.lang.System.exit;
 
 /**
@@ -71,25 +74,21 @@ public class RSSReader extends Application {
         guiUpdater.setCycleCount(Animation.INDEFINITE);
         guiUpdater.play();
 
-        Timeline autoSave = new Timeline(new KeyFrame(Duration.seconds(
-                Configuration.getAutoSavePeriod()), event -> {
-            try {
-                Configuration.save();
-            }
-            catch(Exception expt) {
-                expt.printStackTrace();
-            }
-        }));
-        autoSave.setCycleCount(Animation.INDEFINITE);
-        autoSave.play();
-
-        Configuration.startFeedUpdater();
-
-        primaryStage.setOnCloseRequest(event -> {
-            Configuration.stopFeedUpdater();
-            Platform.exit();
-            exit(0);
-        });
+        Timeline timeline = new Timeline();
+        timeline.getKeyFrames().add(new KeyFrame(
+                Duration.seconds(Configuration.getUpdatePeriod()),
+                event -> Configuration.update()
+        ));
+        timeline.getKeyFrames().add(new KeyFrame(
+                Duration.seconds(Configuration.getAutoSavePeriod()),
+                event -> {
+                    try {
+                        Configuration.save();
+                    } catch(Exception expt) {
+                        showMessage("Autosave failed");
+                    }
+                }
+        ));
     }
 
     public static void addFeedList(String listName) {

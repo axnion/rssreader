@@ -4,11 +4,14 @@ import app.RSSReader;
 import app.misc.ClickButton;
 import app.misc.ToggleColorButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -60,7 +63,20 @@ class ItemPane extends VBox {
 
         Text itemTitle = new Text(item.getTitle());
         itemTitle.setFill(Color.WHITE);
-        itemTitle.setWrappingWidth(440);
+
+        itemBar.widthProperty().addListener(event -> {
+            Text cutTitle = new Text();
+            cutTitle.setText(item.getTitle());
+
+            while(cutTitle.getLayoutBounds().getWidth() >= itemBar.getLayoutBounds().getWidth() - 50) {
+                String title = cutTitle.getText().substring(1, cutTitle.getText().length() - 10)
+                        + "...";
+
+                cutTitle.setText(title);
+            }
+
+            itemTitle.setText(cutTitle.getText());
+        });
 
         VBox titleContainer = new VBox(itemTitle);
         titleContainer.setOnMouseClicked(event -> {
@@ -84,13 +100,13 @@ class ItemPane extends VBox {
             }
         });
 
-        ClickButton detailsButton = new ClickButton(MaterialIcon.MORE_VERT, "MenuButton", "30px",
-                "Show details");
-        detailsButton.setOnMouseClicked(event -> showHideDetails());
+//        ClickButton detailsButton = new ClickButton(MaterialIcon.MORE_VERT, "MenuButton", "30px",
+//                "Show details");
+//        detailsButton.setOnMouseClicked(event -> showHideDetails());
 
         Node titleNode = titleContainer;
         itemBar.setHgrow(titleNode, Priority.ALWAYS);
-        itemBar.getChildren().addAll(titleNode, starredButton, detailsButton);
+        itemBar.getChildren().addAll(titleNode, starredButton);
 
         return itemBar;
     }
