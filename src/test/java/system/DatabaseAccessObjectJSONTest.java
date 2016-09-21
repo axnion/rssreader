@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
  */
 public class DatabaseAccessObjectJSONTest {
     private DatabaseAccessObjectJSON dao;
-    private String resources = DatabaseAccessObjectSQLite.class
+    private String resources = DatabaseAccessObject.class
             .getResource("../../../resources/test/DatabaseAccessObjectJSONTestResources/")
             .getPath();
     private ArrayList<String> urlsToCreatedFiles = new ArrayList<>();
