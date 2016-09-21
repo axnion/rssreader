@@ -18,6 +18,7 @@ public class Feed {
     private String title;           // The title of the feed
     private String link;            // Link to the feeds website
     private String description;     // A description about the feed
+    private String image;
     private String urlToXML;        // The URL to the XML file, used when updating the feed
     private ArrayList<Item> items;  // An array holding the items in the feed
 
@@ -26,10 +27,12 @@ public class Feed {
      *
      * Takes each arguemnts and assignes the value to the corresponding field.
      */
-    Feed(String title, String link, String description, String urlToXml, ArrayList<Item> items) {
+    Feed(String title, String link, String description, String image, String urlToXml,
+         ArrayList<Item> items) {
         this.title = title;
         this.link = link;
         this.description = description;
+        this.image = image;
         this.urlToXML = urlToXml;
         this.items = items;
     }
@@ -96,6 +99,10 @@ public class Feed {
         return description;
     }
 
+    public String getImage() {
+        return image;
+    }
+
     /**
      * @return An ArrayList of Item objects that represents the items in the feed
      */
@@ -132,6 +139,10 @@ public class Feed {
      */
     void setDescription(String description) {
         this.description = description;
+    }
+
+    void setImage(String image) {
+        this.image = image;
     }
 
     /**

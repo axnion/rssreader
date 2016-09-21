@@ -36,9 +36,10 @@ public class RssParser {
         String title = getTitle(channel);
         String link = getLink(channel);
         String description = getDescription(channel);
+        String image = getImage(channel);
         ArrayList<Item> items = getItems(channel, url);
 
-        return new Feed(title, link, description,url, items);
+        return new Feed(title, link, description, image, url, items);
     }
 
     FeedMinimal getMinimalFeed(String url) {
@@ -62,6 +63,7 @@ public class RssParser {
         feed.setTitle(getTitle(channel));
         feed.setLink(getLink(channel));
         feed.setDescription(getDescription(channel));
+        feed.setImage(getImage(channel));
 
         boolean newItemStatus;
         ArrayList<Item> oldItems = feed.getItems();
@@ -154,17 +156,34 @@ public class RssParser {
      */
     private String getDescription(Element channel) {
         Node node = channel.getElementsByTagName("description").item(0);
+        String description = "No description";
 
         try {
             if(node.getParentNode().getNodeName().equals("channel")) {
-                return node.getFirstChild().getNodeValue();
+                description = node.getFirstChild().getNodeValue();
             }
         }
         catch(NullPointerException expt) {
-            expt.printStackTrace();
+            return description;
         }
 
-        return "";
+        return description;
+    }
+
+    private String getImage(Element channel) {
+        Node node = channel.getElementsByTagName("image").item(0);
+        String image = "file:img/default_feed.png";
+
+        try {
+            if(node.getParentNode().getNodeName().equals("channel")) {
+                image = node.getFirstChild().getFirstChild().getNodeValue();
+            }
+        }
+        catch(NullPointerException expt) {
+            return image;
+        }
+
+        return image;
     }
 
     /**

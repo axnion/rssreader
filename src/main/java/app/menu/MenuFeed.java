@@ -3,7 +3,10 @@ package app.menu;
 import app.RSSReader;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import system.rss.Feed;
@@ -23,12 +26,34 @@ class MenuFeed extends VBox{
 
         createContextMenu();
 
+        Image image;
+
+        try {
+            image = new Image(feed.getImage());
+        }
+        catch (IllegalArgumentException expt) {
+            image = new Image("file:img/default_feed.png");
+        }
+
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(50);
+        imageView.setFitWidth(50);
+
         getStyleClass().add("MenuFeed");
-        Text title = new Text(feed.getTitle());
-        title.setWrappingWidth(400);
+
+
+        String titleStr = feed.getTitle();
+        if(titleStr.length() >= 50) {
+            titleStr = titleStr.substring(0, 50);
+        }
+        Text title = new Text(titleStr);
         title.getStyleClass().add("MenuFeedTitle");
 
-        getChildren().add(title);
+        HBox container = new HBox();
+        container.getChildren().add(imageView);
+        container.getChildren().add(title);
+
+        getChildren().add(container);
     }
 
     private void createContextMenu() {

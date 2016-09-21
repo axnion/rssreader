@@ -1,17 +1,14 @@
 package app.main;
 
 import app.RSSReader;
-import app.misc.ClickButton;
 import app.misc.ToggleColorButton;
 import de.jensd.fx.glyphs.materialicons.MaterialIcon;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -62,21 +59,28 @@ class ItemPane extends VBox {
         HBox itemBar = new HBox();
 
         Text itemTitle = new Text(item.getTitle());
+
+        if(item.getTitle().length() >= 50) {
+            itemTitle = new Text(item.getTitle().substring(0, 50) + "...");
+        }
+
         itemTitle.setFill(Color.WHITE);
 
-        itemBar.widthProperty().addListener(event -> {
-            Text cutTitle = new Text();
-            cutTitle.setText(item.getTitle());
 
-            while(cutTitle.getLayoutBounds().getWidth() >= itemBar.getLayoutBounds().getWidth() - 50) {
-                String title = cutTitle.getText().substring(1, cutTitle.getText().length() - 10)
-                        + "...";
-
-                cutTitle.setText(title);
-            }
-
-            itemTitle.setText(cutTitle.getText());
-        });
+//        itemBar.widthProperty().addListener(event -> {
+//            Text cutTitle = new Text();
+//            cutTitle.setText(item.getTitle());
+//
+//            while(cutTitle.getLayoutBounds().getWidth() >=
+//                    itemBar.getLayoutBounds().getWidth() - 100) {
+//                String title = cutTitle.getText().substring(1, cutTitle.getText().length() - 10)
+//                        + "...";
+//
+//                cutTitle.setText(title);
+//            }
+//
+//            itemTitle.setText(cutTitle.getText());
+//        });
 
         VBox titleContainer = new VBox(itemTitle);
         titleContainer.setOnMouseClicked(event -> {
@@ -99,10 +103,6 @@ class ItemPane extends VBox {
                         starredButton.getCurrentStatus());
             }
         });
-
-//        ClickButton detailsButton = new ClickButton(MaterialIcon.MORE_VERT, "MenuButton", "30px",
-//                "Show details");
-//        detailsButton.setOnMouseClicked(event -> showHideDetails());
 
         Node titleNode = titleContainer;
         itemBar.setHgrow(titleNode, Priority.ALWAYS);
@@ -127,8 +127,11 @@ class ItemPane extends VBox {
                         !visited);
             });
 
+            MenuItem showDetails = new MenuItem("Show Details");
+            showDetails.setOnAction(event -> showHideDetails());
             contextMenu.getItems().clear();
             contextMenu.getItems().add(changeVisited);
+            contextMenu.getItems().add(showDetails);
         }
 
         setOnMouseClicked(event -> {
