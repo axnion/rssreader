@@ -30,14 +30,14 @@ If you are not using an IDE with Gradle support you can install Gradle to be use
 
 ## Dependencies
 ### Application dependencies
-**JavaFX-Gradle-Plugin** https://github.com/FibreFoX/javafx-gradle-plugin Version: 8.7.0
-**FontawesomeFX** https://bitbucket.org/Jerady/fontawesomefx Version: 8.11
-**Apache Commons IO** https://commons.apache.org/proper/commons-io/ Version: 1.3.2
-**Jsoup** Link: https://jsoup.org/ Version: 1.7.2
+**JavaFX-Gradle-Plugin** https://github.com/FibreFoX/javafx-gradle-plugin Version: 8.7.0<br>
+**FontawesomeFX** https://bitbucket.org/Jerady/fontawesomefx Version: 8.11<br>
+**Apache Commons IO** https://commons.apache.org/proper/commons-io/ Version: 1.3.2<br>
+**Jsoup** Link: https://jsoup.org/ Version: 1.7.2<br>
 
 ### Testing dependencies
-**JUnit** http://junit.org sVersion: 4.12
-**Mockito** http://mockito.org/ Version: 1.10.19
+**JUnit** http://junit.org sVersion: 4.12<br>
+**Mockito** http://mockito.org/ Version: 1.10.19<br>
 
 ## Gradle Tasks
 When using Gradle the user will run tasks to preform what they want done. Here are some examples on tasks that I use often when working on this project, the command you have to run if you are using Gradle standalone and a short description on what the task does. When using standalone Gradle you'll have to be in the root directory for the project.
