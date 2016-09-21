@@ -33,7 +33,6 @@ public class RssParser {
      */
     public Feed getFeed(String url) {
         Element channel = getChannelElement(url);
-
         String title = getTitle(channel);
         String link = getLink(channel);
         String description = getDescription(channel);

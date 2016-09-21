@@ -1,6 +1,5 @@
 package system.rss;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import system.rss.exceptions.ItemDoesNotExist;
 
 import java.util.ArrayList;

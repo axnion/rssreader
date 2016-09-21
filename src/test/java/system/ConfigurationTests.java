@@ -60,7 +60,7 @@ public class ConfigurationTests {
         ArrayList<FeedList> feedLists = new ArrayList<>();
         feedLists.add(Mocks.createFeedListMock("FeedList1"));
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
-        DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectSQLiteMock();
+        DatabaseAccessObject dao = Mocks.createDatabaseAccessObjectSQLiteMock();
         Configuration.setDao(dao);
         Date currentDate = new Date();
 
@@ -304,13 +304,8 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2", false));
         Configuration.setFeedLists(feedLists);
 
-        try {
-            Configuration.stopFeedUpdater();
-            assertTrue(Configuration.executorService.isShutdown());
-        }
-        catch(InterruptedException expt) {
-            fail();
-        }
+        Configuration.stopFeedUpdater();
+        assertTrue(Configuration.getUpdaterThread().isAlive());
     }
 
     /**
@@ -614,7 +609,7 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
         Configuration.setFeedLists(feedLists);
 
-        DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectSQLiteMock();
+        DatabaseAccessObject dao = Mocks.createDatabaseAccessObjectSQLiteMock();
         Configuration.setDao(dao);
 
         assertEquals(2, Configuration.getFeedLists().size());
@@ -639,7 +634,7 @@ public class ConfigurationTests {
      */
     @Test
     public void saveDatabaseTest() {
-        DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectSQLiteMock();
+        DatabaseAccessObject dao = Mocks.createDatabaseAccessObjectSQLiteMock();
         Configuration.setDao(dao);
 
         try {
@@ -660,7 +655,7 @@ public class ConfigurationTests {
      */
     @Test
     public void saveAsDatabaseTest() {
-        DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectSQLiteMock();
+        DatabaseAccessObject dao = Mocks.createDatabaseAccessObjectSQLiteMock();
         Configuration.setDao(dao);
 
         try {
@@ -689,7 +684,7 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
         Configuration.setFeedLists(feedLists);
 
-        DatabaseAccessObjectSQLite dao = Mocks.createDatabaseAccessObjectSQLiteMock();
+        DatabaseAccessObject dao = Mocks.createDatabaseAccessObjectSQLiteMock();
         Configuration.setDao(dao);
 
         assertEquals(2, Configuration.getFeedLists().size());

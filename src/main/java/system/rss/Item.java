@@ -140,7 +140,7 @@ public class Item {
      * @param title The new String we want assigned to title
      */
     void setTitle(String title) {
-        this.title = title;
+        this.title = title.replace("\n", "");
     }
 
     /**

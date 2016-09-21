@@ -7,9 +7,7 @@ import system.rss.Item;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.Timer;
 
 /**
  * Class Configuration
@@ -30,10 +28,10 @@ public class Configuration {
     private static ArrayList<FeedList> feedLists = new ArrayList<>();
     private static DatabaseAccessObject dao = new DatabaseAccessObjectJSON();
     private static Date lastUpdated = new Date();
-    private static int updatePeriod = 5;
-    private static int autoSavePeriod = 60;
-    private static RunnableUpdater runnableUpdater;
-    private static Thread updaterThread;
+    private static int updatePeriod = 360000;
+    private static int autoSavePeriod = 360000;
+    private static Timer updateTimer;
+    private static Timer autoSaveTimer;
 
     /**
      * Creates and adds a new FeedList object with the name specified though the listName parameter.
@@ -94,26 +92,60 @@ public class Configuration {
         lastUpdated = new Date();
     }
 
-    /**
-     * Starts a new Thread called UpdaterThread that checks for updates to the Feed objects. This
-     * thread is run periodically and the wait is specified in updatePeriod field. The thread calls
-     * the update method on each FeedList in feedLists and if any updates are found the lastUpdated
-     * is updated to current time.
-     */
-    public static void startFeedUpdater() {
-        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-        runnableUpdater = new RunnableUpdater();
-        updaterThread = new Thread(runnableUpdater);
-        executorService.scheduleAtFixedRate(updaterThread, 0, updatePeriod, TimeUnit.SECONDS);
-    }
+//    /**
+//     * Starts a new Thread called UpdaterThread that checks for updates to the Feed objects. This
+//     * thread is run periodically and the wait is specified in updatePeriod field. The thread calls
+//     * the update method on each FeedList in feedLists and if any updates are found the lastUpdated
+//     * is updated to current time.
+//     */
+//    public static void startFeedUpdater() {
+//        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+//        runnableUpdater = new RunnableUpdater();
+//        updaterThread = new Thread(runnableUpdater);
+//        executorService.scheduleAtFixedRate(updaterThread, 0, updatePeriod, TimeUnit.SECONDS);
+//    }
+//
+//    public static void stopFeedUpdater() {
+//        try {
+//            runnableUpdater.terminate();
+//            updaterThread.join();
+//        }
+//        catch(InterruptedException expt) {
+//            expt.printStackTrace();
+//        }
+//    }
 
-    public static void stopFeedUpdater() {
-        try {
-            runnableUpdater.terminate();
-            updaterThread.join();
+//    public static void startFeedListUpdater() {
+//        updateTimer = new Timer();
+//        updateTimer.schedule(new FeedListUpdateTask(), 0, updatePeriod);
+//    }
+//
+//    public static void stopFeedListUpdater() {
+//        updateTimer.cancel();
+//    }
+//
+//    public static void startAutoSave() {
+//        autoSaveTimer = new Timer();
+//        autoSaveTimer.schedule(new AutoSaveTask(), 0, autoSavePeriod);
+//    }
+//
+//    public static void stopAutoSave() {
+//        autoSaveTimer.cancel();
+//    }
+
+    public static void update() {
+        boolean updated = false;
+
+        System.out.println("UpdaterThread running");
+
+        for(FeedList feedList : Configuration.getFeedLists()) {
+            if(feedList.update())
+                updated = true;
         }
-        catch(InterruptedException expt) {
-            expt.printStackTrace();
+
+        if(updated) {
+            Configuration.setLastUpdated(new Date());
+            System.out.println("Update: Configuration");
         }
     }
 
