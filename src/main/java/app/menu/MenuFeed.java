@@ -2,6 +2,7 @@ package app.menu;
 
 import app.RSSReader;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,15 +37,14 @@ class MenuFeed extends VBox{
         }
 
         ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(50);
-        imageView.setFitWidth(50);
+        imageView.setFitHeight(30);
+        imageView.setFitWidth(30);
 
         getStyleClass().add("MenuFeed");
 
-
         String titleStr = feed.getTitle();
         if(titleStr.length() >= 50) {
-            titleStr = titleStr.substring(0, 50);
+            titleStr = titleStr.substring(0, 50) + "...";
         }
         Text title = new Text(titleStr);
         title.getStyleClass().add("MenuFeedTitle");
@@ -61,6 +61,14 @@ class MenuFeed extends VBox{
 
         MenuItem showDetails = new MenuItem("Show details");
         MenuItem deleteFeed = new MenuItem("Delete feed");
+
+//        Menu move = new Menu("Move");
+//        MenuItem moveDown = new MenuItem("Move Down");
+//        MenuItem moveUp = new MenuItem("Move Up");
+//
+//        moveDown.setOnAction(event -> {
+//
+//        });
 
         deleteFeed.setOnAction(event -> {
             RSSReader.removeFeed(feed.getUrlToXML(), feedListName);

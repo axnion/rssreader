@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -24,32 +25,38 @@ import java.util.ArrayList;
  */
 class TreeView extends VBox {
     private VBox treeViewContainer;
-    private TextField addFeedListInput;
-    private Text errMessage;
+    private HBox topBar;
+    private TextField inputBar;
+    private Text errorMessage;
     private ArrayList<MenuFeedList> menuFeedLists;
+    private ClickButton addFeedListButton;
 
     TreeView() {
-        BorderPane topBar = new BorderPane();
+        topBar = new HBox();
+        inputBar = null;
 
-        Label header = new Label("Feedlists");
-        header.setFont(Font.font(20));
-        header.setTextFill(Color.WHITE);
+        errorMessage = new Text();
+        errorMessage.setFill(Color.RED);
 
-        ClickButton addFeedListButton = new ClickButton(MaterialIcon.ADD, "MenuButton", "30px",
-                "Add feed list");
-        addFeedListButton.setOnMouseClicked(event -> showAddFeedListTextField());
+        addFeedListButton = new ClickButton(MaterialIcon.ADD,
+                "MenuButton", "30px", "Add feed list");
+        addFeedListButton.setOnMouseClicked(event -> {
+            if(inputBar == null) {
+                showAddFeedListInput();
+            }
+            else {
+                hideAddFeedListInput();
+            }
+        });
 
         treeViewContainer = new VBox();
-        addFeedListInput = null;
         menuFeedLists = new ArrayList<>();
-
-        getStyleClass().add("SideMenuItem");
-
-        topBar.setLeft(header);
-        topBar.setRight(addFeedListButton);
+        topBar.getChildren().add(addFeedListButton);
 
         getChildren().add(topBar);
+        getChildren().add(errorMessage);
         getChildren().add(treeViewContainer);
+        getStyleClass().add("SideMenuItem");
     }
 
     void addFeedList(String listName) {
@@ -96,46 +103,34 @@ class TreeView extends VBox {
         treeViewContainer.getChildren().addAll(menuFeedLists);
     }
 
-    void closeAll() {
-        getChildren().remove(addFeedListInput);
-        addFeedListInput = null;
-        getChildren().remove(errMessage);
-
-        for(MenuFeedList list : menuFeedLists) {
-            list.hideAddFeedMenu();
-            list.hideFeeds();
-        }
-    }
-
-    private void showAddFeedListTextField() {
-        if(addFeedListInput != null) {
-            return;
-        }
-
-        errMessage = new Text();
-        errMessage.setFill(Color.RED);
-        addFeedListInput = new TextField();
-        addFeedListInput.setOnKeyPressed(event -> {
+    private void showAddFeedListInput() {
+        inputBar = new TextField();
+        inputBar.setMinWidth(350);
+        inputBar.setMaxWidth(350);
+        inputBar.setOnKeyPressed(event -> {
             if(event.getCode().equals(KeyCode.ENTER)) {
                 try {
-                    RSSReader.addFeedList(addFeedListInput.getText());
-                    getChildren().remove(errMessage);
-                    getChildren().remove(addFeedListInput);
-                    addFeedListInput = null;
+                    RSSReader.addFeedList(inputBar.getText());
+                    hideAddFeedListInput();
                     updateFeedList();
                 }
                 catch(FeedListAlreadyExists err) {
-                    errMessage.setText("A list with that name already exists");
+                    errorMessage.setText("A list with that name already exists");
                 }
             }
             else if(event.getCode().equals(KeyCode.ESCAPE)) {
-                getChildren().remove(errMessage);
-                getChildren().remove(addFeedListInput);
-                addFeedListInput = null;
+                hideAddFeedListInput();
             }
         });
 
-        getChildren().add(addFeedListInput);
-        getChildren().add(errMessage);
+        topBar.getChildren().add(inputBar);
+        addFeedListButton.setRotate(45);
+    }
+
+    private void hideAddFeedListInput() {
+        topBar.getChildren().remove(inputBar);
+        inputBar = null;
+        addFeedListButton.setRotate(0);
+        errorMessage.setText("");
     }
 }

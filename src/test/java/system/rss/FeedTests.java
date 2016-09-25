@@ -33,7 +33,7 @@ public class FeedTests {
                 "1451649600000", "item_id_2", false, false));
 
         feed = new Feed("FeedTitle", "http://www.link-to-feed-website.com", "Description",
-                "https:link-to-feed-website.com/feed.xml", items);
+                "image.png", "https:link-to-feed-website.com/feed.xml", items);
     }
 
     /**

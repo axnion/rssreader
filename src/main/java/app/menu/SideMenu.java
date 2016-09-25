@@ -133,7 +133,6 @@ public class SideMenu extends VBox {
         else {
             visible = true;
             increment = 1;
-            treeView.closeAll();
         }
 
         treeView.setVisible(visible);

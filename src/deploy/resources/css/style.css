@@ -54,7 +54,8 @@
 }
 
 .MenuFeed {
-
+    -fx-alignment: bottom-right;
+    -fx-text-alignment: right;
 }
 
 .scroll-pane > .viewport {
@@ -89,6 +90,8 @@
 
 .MenuFeedTitle {
     -fx-fill: white;
+    -fx-alignment: bottom-right;
+    -fx-text-alignment: right;
 }
 
 .DetailsLable {
