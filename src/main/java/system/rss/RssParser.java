@@ -32,14 +32,24 @@ public class RssParser {
      * @return      A Feed representing the content of the feed from the XML file at url.
      */
     public Feed getFeed(String url) {
-        Element channel = getChannelElement(url);
-        String title = getTitle(channel);
-        String link = getLink(channel);
-        String description = getDescription(channel);
-        String image = getImage(channel);
-        ArrayList<Item> items = getItems(channel, url);
+        Feed feed;
 
-        return new Feed(title, link, description, image, url, items);
+        try {
+            Element channel = getChannelElement(url);
+            String title = getTitle(channel);
+            String link = getLink(channel);
+            String description = getDescription(channel);
+            String image = getImage(channel);
+            ArrayList<Item> items = getItems(channel, url);
+
+            feed = new Feed(title, link, description, image, url, items);
+        }
+        catch(NoXMLFileFound expt) {
+            expt.printStackTrace();
+            feed = new Feed(url);
+        }
+
+        return feed;
     }
 
     FeedMinimal getMinimalFeed(String url) {

@@ -25,7 +25,23 @@ public class Feed {
     /**
      * Constructor
      *
-     * Takes each arguemnts and assignes the value to the corresponding field.
+     * Takes each arguments and assigns the value to the corresponding field.
+     */
+    Feed(String urlToXml) {
+        this.urlToXML = urlToXml;
+
+        this.title = "Unknown";
+        this.link = "Unknown";
+        this.description = "Unknown";
+        this.image = "";
+        this.urlToXML = urlToXml;
+        this.items = new ArrayList<>();
+    }
+
+    /**
+     * Constructor
+     *
+     * Takes each arguments and assigns the value to the corresponding field.
      */
     Feed(String title, String link, String description, String image, String urlToXml,
          ArrayList<Item> items) {
