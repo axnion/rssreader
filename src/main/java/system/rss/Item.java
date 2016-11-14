@@ -3,6 +3,7 @@ package system.rss;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Class Item
@@ -176,7 +177,8 @@ public class Item {
      * @param date The new String we want assigned to date
      */
     void setDate(String date) {
-        SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
+        SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z",
+                Locale.ENGLISH);
         try {
             this.date = format.parse(date);
             this.date.setTime(this.date.getTime());
