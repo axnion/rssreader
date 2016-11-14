@@ -89,6 +89,8 @@ public class RSSReader extends Application {
                     }
                 }
         ));
+
+        Configuration.loadDefaultSettings();
     }
 
     public static void addFeedList(String listName) {

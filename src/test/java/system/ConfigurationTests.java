@@ -42,7 +42,7 @@ public class ConfigurationTests {
     /**
      * Name: Accessors and Mutators
      * Unit: getFeedLists(), getDao(), getLastUpdated(), getUpdatePeriod(), getAutoSavePeriod(),
-     *       setFeedLists(ArrayList<FeedList>), setDao(DatabaseAccessObject), setLastUpdated(Date),
+     *       setFeedLists(ArrayList<FeedList>), setDao(DataAccessObject), setLastUpdated(Date),
      *       setUpdatePeriod(int), setAutoSavePeriod(int)
      *
      * Tests the accessor and mutator methods of the Configuration class. Uses mutators to assign
@@ -60,7 +60,7 @@ public class ConfigurationTests {
         ArrayList<FeedList> feedLists = new ArrayList<>();
         feedLists.add(Mocks.createFeedListMock("FeedList1"));
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
-        DatabaseAccessObject dao = Mocks.createDatabaseAccessObjectSQLiteMock();
+        DataAccessObject dao = Mocks.createDatabaseAccessObjectSQLiteMock();
         Configuration.setDao(dao);
         Date currentDate = new Date();
 
@@ -609,7 +609,7 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
         Configuration.setFeedLists(feedLists);
 
-        DatabaseAccessObject dao = Mocks.createDatabaseAccessObjectSQLiteMock();
+        DataAccessObject dao = Mocks.createDatabaseAccessObjectSQLiteMock();
         Configuration.setDao(dao);
 
         assertEquals(2, Configuration.getFeedLists().size());
@@ -634,7 +634,7 @@ public class ConfigurationTests {
      */
     @Test
     public void saveDatabaseTest() {
-        DatabaseAccessObject dao = Mocks.createDatabaseAccessObjectSQLiteMock();
+        DataAccessObject dao = Mocks.createDatabaseAccessObjectSQLiteMock();
         Configuration.setDao(dao);
 
         try {
@@ -655,7 +655,7 @@ public class ConfigurationTests {
      */
     @Test
     public void saveAsDatabaseTest() {
-        DatabaseAccessObject dao = Mocks.createDatabaseAccessObjectSQLiteMock();
+        DataAccessObject dao = Mocks.createDatabaseAccessObjectSQLiteMock();
         Configuration.setDao(dao);
 
         try {
@@ -684,7 +684,7 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
         Configuration.setFeedLists(feedLists);
 
-        DatabaseAccessObject dao = Mocks.createDatabaseAccessObjectSQLiteMock();
+        DataAccessObject dao = Mocks.createDatabaseAccessObjectSQLiteMock();
         Configuration.setDao(dao);
 
         assertEquals(2, Configuration.getFeedLists().size());

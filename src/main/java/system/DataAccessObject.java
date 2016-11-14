@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Interface DatabaseAccessObject
+ * Interface DataAccessObject
  *
- * This interface describes what fundamental methods a DatabaseAccessObject should have.
+ * This interface describes what fundamental methods a DataAccessObject should have.
  *
  * @author Axel Nilsson (axnion)
  */
-interface DatabaseAccessObject {
+interface DataAccessObject {
 
     /**
      * Loads from current database and returns the result as an ArrayList containing FeedLists.

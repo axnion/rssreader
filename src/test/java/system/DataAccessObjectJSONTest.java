@@ -14,13 +14,13 @@ import java.util.Date;
 import static org.junit.Assert.*;
 
 /**
- * Class DatabaseAccessObjectJSONTest
+ * Class DataAccessObjectJSONTest
  *
  * @author Axel Nilsson (axnion)
  */
-public class DatabaseAccessObjectJSONTest {
-    private DatabaseAccessObjectJSON dao;
-    private String resources = DatabaseAccessObject.class
+public class DataAccessObjectJSONTest {
+    private DataAccessObjectJSON dao;
+    private String resources = DataAccessObject.class
             .getResource("../../../resources/test/DatabaseAccessObjectJSONTestResources/")
             .getPath();
     private ArrayList<String> urlsToCreatedFiles = new ArrayList<>();
@@ -28,7 +28,7 @@ public class DatabaseAccessObjectJSONTest {
 
     @Before
     public void createObject() {
-        dao = new DatabaseAccessObjectJSON();
+        dao = new DataAccessObjectJSON();
         createExampleFile();
     }
 

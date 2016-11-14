@@ -1,10 +1,13 @@
 package system;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import system.rss.Feed;
 import system.exceptions.FeedListAlreadyExists;
 import system.exceptions.FeedListDoesNotExist;
 import system.rss.Item;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
@@ -26,12 +29,24 @@ import java.util.Timer;
  */
 public class Configuration {
     private static ArrayList<FeedList> feedLists = new ArrayList<>();
-    private static DatabaseAccessObject dao = new DatabaseAccessObjectJSON();
+    private static DataAccessObject dao = new DataAccessObjectJSON();
     private static Date lastUpdated = new Date();
     private static int updatePeriod = 360000;
     private static int autoSavePeriod = 360000;
     private static Timer updateTimer;
     private static Timer autoSaveTimer;
+
+    public static void loadDefaultSettings() {
+        System.out.println("Loading default settings");
+
+        try {
+            JsonNode node = new ObjectMapper().readTree(new File("settings.json"));
+            Configuration.load(node.get("defaultSaveFile").asText());
+        }
+        catch(Exception expt) {
+            expt.printStackTrace();
+        }
+    }
 
     /**
      * Creates and adds a new FeedList object with the name specified though the listName parameter.
@@ -322,7 +337,7 @@ public class Configuration {
      *
      * @return The DatabaseAccessObjectSQLite currently used in Configuration.
      */
-    static DatabaseAccessObject getDao() {
+    static DataAccessObject getDao() {
         return dao;
     }
 
@@ -367,7 +382,7 @@ public class Configuration {
      *
      * @param newDao A DatabaseAccessObjectSQLite to be set as the new dao.
      */
-    static void setDao(DatabaseAccessObject newDao) {
+    static void setDao(DataAccessObject newDao) {
         dao = newDao;
     }
 

@@ -12,15 +12,15 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Class DatabaseAccessObjectJSON
+ * Class DataAccessObjectJSON
  *
  * @author Axel Nilsson (axnion)
  */
-class DatabaseAccessObjectJSON implements DatabaseAccessObject {
+class DataAccessObjectJSON implements DataAccessObject {
     private String path;
     private Date lastSaved;
 
-    DatabaseAccessObjectJSON() {
+    DataAccessObjectJSON() {
         path = "temp.json";
         lastSaved = new Date(0);
     }

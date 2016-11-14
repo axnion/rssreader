@@ -45,7 +45,6 @@ public class RssParser {
             feed = new Feed(title, link, description, image, url, items);
         }
         catch(NoXMLFileFound expt) {
-            expt.printStackTrace();
             feed = new Feed(url);
         }
 

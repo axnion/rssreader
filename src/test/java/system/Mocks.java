@@ -111,7 +111,7 @@ class Mocks {
                 "1451649600", "item8", false, false));
 
         // Create Feeds
-        String path = DatabaseAccessObject.class
+        String path = DataAccessObject.class
                 .getResource("../../../resources/test/DatabaseAccessObjectSQLiteTestResources/")
                 .getPath();
 
@@ -198,8 +198,8 @@ class Mocks {
      *
      * @return  A DatabaseAccessObjectSQLite mock.
      */
-    static DatabaseAccessObject createDatabaseAccessObjectSQLiteMock() {
-        DatabaseAccessObject dao = mock(DatabaseAccessObject.class);
+    static DataAccessObject createDatabaseAccessObjectSQLiteMock() {
+        DataAccessObject dao = mock(DataAccessObject.class);
 
         try {
             doNothing().when(dao).setPath(anyString());
