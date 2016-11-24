@@ -55,9 +55,15 @@ public class RssParserTests {
      *
      * Reads an XML file which does not exist.
      */
-    @Test(expected = NoXMLFileFound.class)
+    @Test
     public void readNonexistentFeed() {
-        rssParser.getFeed("/ThisFileShouldNotExist.xml");
+        Feed feed = rssParser.getFeed("/ThisFileShouldNotExist.xml");
+        assertEquals("Unknown", feed.getTitle());
+        assertEquals("Unknown", feed.getLink());
+        assertEquals("Unknown", feed.getDescription());
+        assertEquals("", feed.getImage());
+        assertEquals("/ThisFileShouldNotExist.xml", feed.getUrlToXML());
+        assertEquals(0, feed.getItems().size());
     }
 
     /**

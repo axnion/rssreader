@@ -198,7 +198,7 @@ class Mocks {
      *
      * @return  A DatabaseAccessObjectSQLite mock.
      */
-    static DataAccessObject createDatabaseAccessObjectSQLiteMock() {
+    static DataAccessObject createDatabaseAccessObjectMock() {
         DataAccessObject dao = mock(DataAccessObject.class);
 
         try {

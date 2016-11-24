@@ -60,7 +60,7 @@ public class ConfigurationTests {
         ArrayList<FeedList> feedLists = new ArrayList<>();
         feedLists.add(Mocks.createFeedListMock("FeedList1"));
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
-        DataAccessObject dao = Mocks.createDatabaseAccessObjectSQLiteMock();
+        DataAccessObject dao = Mocks.createDatabaseAccessObjectMock();
         Configuration.setDao(dao);
         Date currentDate = new Date();
 
@@ -609,7 +609,7 @@ public class ConfigurationTests {
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
         Configuration.setFeedLists(feedLists);
 
-        DataAccessObject dao = Mocks.createDatabaseAccessObjectSQLiteMock();
+        DataAccessObject dao = Mocks.createDatabaseAccessObjectMock();
         Configuration.setDao(dao);
 
         assertEquals(2, Configuration.getFeedLists().size());
@@ -634,7 +634,7 @@ public class ConfigurationTests {
      */
     @Test
     public void saveDatabaseTest() {
-        DataAccessObject dao = Mocks.createDatabaseAccessObjectSQLiteMock();
+        DataAccessObject dao = Mocks.createDatabaseAccessObjectMock();
         Configuration.setDao(dao);
 
         try {
@@ -655,7 +655,7 @@ public class ConfigurationTests {
      */
     @Test
     public void saveAsDatabaseTest() {
-        DataAccessObject dao = Mocks.createDatabaseAccessObjectSQLiteMock();
+        DataAccessObject dao = Mocks.createDatabaseAccessObjectMock();
         Configuration.setDao(dao);
 
         try {
@@ -677,21 +677,18 @@ public class ConfigurationTests {
      */
     @Test
     public void loadDatabaseTest() {
-        Date currentDate = new Date();
-
         ArrayList<FeedList> feedLists = new ArrayList<>();
         feedLists.add(Mocks.createFeedListMock("FeedList1"));
         feedLists.add(Mocks.createFeedListMock("FeedList2"));
         Configuration.setFeedLists(feedLists);
 
-        DataAccessObject dao = Mocks.createDatabaseAccessObjectSQLiteMock();
+        DataAccessObject dao = Mocks.createDatabaseAccessObjectMock();
         Configuration.setDao(dao);
 
         assertEquals(2, Configuration.getFeedLists().size());
 
         try {
             Configuration.load("path/to/database");
-            assertTrue(currentDate.before(Configuration.getLastUpdated()));
             verify(dao, times(1)).setPath("path/to/database");
             verify(dao, times(1)).load();
         }
